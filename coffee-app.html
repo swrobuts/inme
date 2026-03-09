@@ -2,905 +2,1077 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <title>Störungsanalyse — INME Lab</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Service App – JURA × THWS</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:    #0A0A0A;
+      --dark:     #1C1C1E;
+      --gray-900: #1D1D1F;
+      --gray-700: #3D3D3F;
+      --gray-500: #6E6E73;
+      --gray-300: #D1D1D6;
+      --gray-100: #F5F5F7;
+      --white:    #FFFFFF;
+      --accent:   #DC2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      font-weight: 400;
-      font-size: 15px;
-      color: #1C1C1C;
-      background: #FFFFFF;
-      max-width: 480px;
-      margin: 0 auto;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+      background: var(--gray-100);
+      color: var(--gray-700);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── App Shell ── */
+    #app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
     }
 
     /* ── Header ── */
-    .app-header {
-      position: fixed; top: 0; left: 50%; transform: translateX(-50%);
-      width: 100%; max-width: 480px;
-      height: 56px;
-      background: #1C1C1C;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 20px;
+    header {
+      background: var(--dark);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
       z-index: 100;
+      flex-shrink: 0;
     }
-    .app-header .brand {
-      font-size: 11px; font-weight: 300; letter-spacing: 0.2em;
-      color: #FFFFFF; text-transform: uppercase;
+
+    .header-left { width: 40px; }
+
+    .header-center { text-align: center; }
+
+    .header-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.02em;
     }
-    .app-header .section-title {
-      font-size: 11px; font-weight: 300; letter-spacing: 0.15em;
-      color: rgba(255,255,255,0.45); text-transform: uppercase;
+
+    .header-subtitle {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .header-right {
+      width: 40px;
+      text-align: right;
+    }
+
+    .btn-back {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      color: var(--gray-300);
+      transition: color 0.15s;
+    }
+    .btn-back:hover { color: var(--white); }
+
+    .lang-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
     }
 
     /* ── Screens ── */
-    .screen { display: none; padding-top: 56px; min-height: 100vh; }
-    .screen.active { display: block; }
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      padding: 32px 24px;
+      animation: fadeIn 0.2s ease;
+    }
+    .screen.active { display: flex; }
 
-    /* ── Dividers & Labels ── */
-    hr.divider {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Typography ── */
+    .label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 8px;
+    }
+    .label.accent { color: var(--accent); }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.01em;
+    }
+
+    .body-text {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      color: var(--gray-700);
+    }
+
+    /* ── Dividers ── */
+    .divider {
       border: none;
-      border-top: 1px solid #E8E8E8;
-      margin: 0;
-    }
-    .section-label {
-      font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
-      color: #999; text-transform: uppercase;
-      padding: 24px 20px 12px;
-      display: block;
+      border-top: 1px solid var(--gray-300);
+      margin: 28px 0;
     }
 
-    /* ── Hero ── */
-    .hero-wrap { position: relative; }
-    .hero-img {
-      width: 100%; height: 220px; object-fit: cover;
-      display: block;
-      background: #2A2A2A;
-    }
-    .hero-img-fallback {
-      width: 100%; height: 220px;
-      background: #1C1C1C;
-      display: flex; align-items: flex-end;
-    }
-    .hero-overlay {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
-      padding: 20px;
-    }
-    .hero-overlay .model-label {
-      font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
-      color: rgba(255,255,255,0.6); font-weight: 300;
-      display: block; margin-bottom: 4px;
-    }
-    .hero-overlay .model-name {
-      font-size: 20px; font-weight: 300; color: #FFFFFF; letter-spacing: 0.05em;
+    .divider-accent {
+      border: none;
+      border-top: 2px solid var(--accent);
+      width: 48px;
+      margin: 0 0 28px 0;
     }
 
     /* ── Upload Zone ── */
     .upload-zone {
-      border: 1px solid #D0D0D0;
-      margin: 0 20px;
-      padding: 40px 20px;
-      text-align: center;
+      border: 1.5px dashed var(--gray-300);
+      background: var(--gray-100);
       cursor: pointer;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 28px;
       position: relative;
+      overflow: hidden;
     }
-    .upload-zone:hover { border-color: #1C1C1C; }
-    .upload-zone.dragover { border-color: #1C1C1C; background: #F8F8F8; }
-    .upload-zone svg { opacity: 0.25; margin-bottom: 14px; }
-    .upload-zone p.hint { font-size: 13px; color: #999; font-weight: 300; line-height: 1.5; }
-    .upload-zone p.hint strong { font-weight: 400; color: #555; }
-    #fileInput { display: none; }
+    .upload-zone:hover,
+    .upload-zone.dragover {
+      border-color: var(--black);
+      background: #EFEFEF;
+    }
 
-    /* Preview inside upload zone */
-    .upload-preview {
-      width: 100%; max-height: 200px; object-fit: contain;
-      display: none;
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .upload-zone-inner {
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .upload-icon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .upload-zone-text {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      margin-bottom: 4px;
+    }
+
+    .upload-zone-hint {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+
+    /* ── Preview ── */
+    .upload-preview { display: none; position: relative; }
+    .upload-preview img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .upload-preview-remove {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--dark);
       border: none;
+      cursor: pointer;
+      padding: 6px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      z-index: 3;
+    }
+
+    /* ── Or Divider ── */
+    .or-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .or-divider-line { flex: 1; border-top: 1px solid var(--gray-300); }
+    .or-divider-text { font-size: 0.75rem; color: var(--gray-500); letter-spacing: 0.04em; }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 24px; }
+
+    .form-field {
+      border: none;
+      border-bottom: 1px solid var(--gray-300);
+      border-radius: 0;
+      padding: 12px 0;
+      font-size: 1rem;
+      font-family: inherit;
+      background: transparent;
+      width: 100%;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .form-field:focus { border-bottom-color: var(--black); }
+
+    select.form-field {
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236E6E73' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 24px;
+      cursor: pointer;
+    }
+
+    /* ── API Key Collapsible ── */
+    .api-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gray-300);
+      cursor: pointer;
+    }
+    .api-toggle-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+    }
+    .api-toggle svg { transition: transform 0.2s; }
+    .api-toggle.open svg { transform: rotate(180deg); }
+    .api-field {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .api-field.open { max-height: 80px; }
+    .api-field .form-field {
+      font-size: 0.8125rem;
+      letter-spacing: 0.02em;
+      margin-top: 4px;
     }
 
     /* ── Buttons ── */
     .btn-primary {
-      display: block; width: calc(100% - 40px); margin: 16px 20px;
-      padding: 16px;
-      background: #1C1C1C; color: #FFFFFF;
-      border: none; border-radius: 0;
-      font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
-      text-transform: uppercase; font-family: inherit;
-      cursor: pointer; transition: background 0.2s;
+      display: block;
+      width: 100%;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: 0;
+      padding: 18px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s;
     }
-    .btn-primary:hover { background: #333; }
-    .btn-primary:disabled { background: #C8C8C8; color: #888; cursor: not-allowed; }
+    .btn-primary:hover { background: var(--gray-900); }
+    .btn-primary:disabled {
+      background: var(--gray-300);
+      color: var(--gray-500);
+      cursor: not-allowed;
+    }
 
-    .btn-secondary {
-      display: block; width: calc(100% - 40px); margin: 8px 20px;
-      padding: 15px;
-      background: transparent; color: #1C1C1C;
-      border: 1px solid #1C1C1C; border-radius: 0;
-      font-size: 11px; font-weight: 500; letter-spacing: 0.18em;
-      text-transform: uppercase; font-family: inherit;
-      cursor: pointer; transition: all 0.2s;
+    .btn-outline {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+      border-radius: 0;
+      padding: 16px 24px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, color 0.15s;
     }
-    .btn-secondary:hover { background: #1C1C1C; color: #FFFFFF; }
+    .btn-outline:hover { background: var(--accent); color: var(--white); }
 
     .btn-text {
       display: block;
-      text-align: center;
-      padding: 12px 20px;
-      font-size: 13px; font-weight: 300; color: #888;
-      cursor: pointer; background: none; border: none;
-      font-family: inherit; letter-spacing: 0.04em;
-      text-decoration: underline; text-underline-offset: 3px;
-    }
-    .btn-text:hover { color: #1C1C1C; }
-
-    /* ── Fields ── */
-    .field { margin: 0 20px 20px; }
-    .field label {
-      font-size: 10px; letter-spacing: 0.15em; color: #999;
-      text-transform: uppercase; display: block; margin-bottom: 8px;
-    }
-    .field select, .field input {
       width: 100%;
-      border: none; border-bottom: 1px solid #D0D0D0;
-      padding: 8px 0;
-      font-size: 14px; font-family: inherit; font-weight: 400;
-      background: transparent; color: #1C1C1C;
-      outline: none; border-radius: 0;
-      -webkit-appearance: none; appearance: none;
+      background: none;
+      border: none;
+      padding: 16px 0;
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--gray-500);
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 0.02em;
+      transition: color 0.15s;
     }
-    .field select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 2px center; padding-right: 20px; }
-    .field select:focus, .field input:focus { border-bottom-color: #1C1C1C; }
-    .field .hint-text { font-size: 12px; color: #BBB; margin-top: 6px; font-weight: 300; }
+    .btn-text:hover { color: var(--gray-700); }
 
-    /* ── Loading Screen ── */
-    .loading-container {
-      padding: 60px 20px;
-      display: flex; flex-direction: column; align-items: center;
-    }
-    .loading-img-wrap {
-      width: 100%; max-width: 280px;
-      border: 1px solid #E0E0E0;
-      margin-bottom: 40px;
-      overflow: hidden;
-    }
-    .loading-img {
-      width: 100%; height: 160px; object-fit: cover; display: block;
-      background: #F0F0F0;
-    }
-    .progress-wrap { width: 100%; margin-bottom: 20px; }
-    .progress-line { height: 1px; background: #E0E0E0; position: relative; overflow: hidden; }
-    .progress-line::after {
-      content: '';
-      position: absolute; top: 0; left: 0; height: 1px;
-      width: 40%; background: #1C1C1C;
-      animation: slide 1.4s ease-in-out infinite alternate;
-    }
-    @keyframes slide { from { left: 0; } to { left: 60%; } }
-    .loading-text { font-size: 14px; font-weight: 300; color: #888; margin-bottom: 8px; }
-    .loading-sub { font-size: 11px; color: #CCC; letter-spacing: 0.08em; }
-
-    /* ── Diagnosis ── */
-    .diagnosis-img {
-      width: 100%; height: 220px; object-fit: cover; display: block;
-      background: #F0F0F0;
-    }
-
-    .diagnosis-header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 20px;
-      border-bottom: 1px solid #E8E8E8;
-    }
-    .diagnosis-title { font-size: 18px; font-weight: 300; line-height: 1.3; }
-    .severity-badge {
-      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
-      padding: 4px 8px; font-weight: 500; white-space: nowrap; margin-left: 12px;
+    /* ── Photo Heroes ── */
+    .photo-hero {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
       flex-shrink: 0;
     }
-    .severity-critical { color: #8B1A1A; border: 1px solid #8B1A1A; }
-    .severity-warning   { color: #7A6020; border: 1px solid #7A6020; }
-    .severity-info      { color: #2A5A2A; border: 1px solid #2A5A2A; }
-
-    .meta-row {
-      display: flex; justify-content: space-between; align-items: baseline;
-      padding: 13px 20px;
-      border-bottom: 1px solid #F0F0F0;
-      font-size: 13px;
+    .photo-hero-lg {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      flex-shrink: 0;
     }
-    .meta-row .label { color: #999; font-weight: 300; }
-    .meta-row .value { font-weight: 400; text-align: right; }
 
-    .steps { padding: 20px; }
-    .steps-label {
-      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-      color: #999; margin-bottom: 18px; display: block; font-weight: 500;
+    /* ── Loading ── */
+    .loading-bar-wrap {
+      height: 2px;
+      background: var(--gray-300);
+      width: 100%;
+      overflow: hidden;
+      margin: 24px 0;
     }
-    .step { display: flex; gap: 16px; margin-bottom: 18px; align-items: flex-start; }
-    .step-num {
-      font-size: 11px; font-weight: 300; color: #CCC;
-      min-width: 20px; padding-top: 2px; font-variant-numeric: tabular-nums;
+    .loading-bar {
+      height: 2px;
+      background: var(--accent);
+      animation: loadBar 1.5s ease-in-out infinite;
     }
-    .step-text { font-size: 14px; font-weight: 300; line-height: 1.55; color: #333; }
+    @keyframes loadBar {
+      0%   { width: 0%;   opacity: 1; }
+      50%  { width: 70%;  opacity: 1; }
+      100% { width: 100%; opacity: 0; }
+    }
 
-    /* ── Error Screen ── */
-    .error-container { padding: 40px 20px; }
-    .error-header {
-      border-top: 1px solid #E8E8E8;
-      border-bottom: 1px solid #E8E8E8;
-      padding: 20px 0;
+    .loading-status {
+      font-size: 0.875rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    .demo-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      border: 1px solid var(--gray-300);
+      padding: 3px 8px;
+      margin-top: 16px;
+    }
+
+    /* ── Solution List ── */
+    .solution-list { list-style: none; }
+    .solution-list li {
+      display: flex;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-300);
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+    .solution-list li:last-child { border-bottom: none; }
+    .solution-num {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gray-500);
+      min-width: 20px;
+      padding-top: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Product Card ── */
+    .product-card {
+      border: 1px solid var(--gray-300);
+      padding: 20px;
       margin-bottom: 28px;
     }
-    .error-title { font-size: 16px; font-weight: 400; letter-spacing: 0.03em; }
-    .error-body { font-size: 14px; font-weight: 300; color: #555; line-height: 1.6; margin-bottom: 24px; }
-    .error-list { list-style: none; }
-    .error-list li {
-      font-size: 14px; font-weight: 300; color: #555;
-      padding: 8px 0;
-      border-bottom: 1px solid #F5F5F5;
-      display: flex; align-items: center; gap: 12px;
+    .product-card-inner {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
     }
-    .error-list li::before { content: '—'; color: #CCC; font-weight: 300; flex-shrink: 0; }
-
-    /* ── Shop ── */
-    .shop-product { padding: 32px 20px 0; }
-    .product-img-wrap {
-      width: 140px; height: 140px;
-      border: 1px solid #E8E8E8;
-      margin: 0 auto 24px;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
+    .product-thumb {
+      width: 80px;
+      height: 80px;
+      background: var(--gray-100);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .product-img {
-      width: 120px; height: 120px; object-fit: contain;
+    .product-info { flex: 1; }
+    .product-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 4px;
+      line-height: 1.3;
     }
-    .product-name { font-size: 20px; font-weight: 300; margin-bottom: 4px; }
-    .product-sku { font-size: 12px; color: #999; margin-bottom: 14px; letter-spacing: 0.04em; }
-    .product-desc { font-size: 14px; font-weight: 300; color: #555; line-height: 1.65; margin-bottom: 24px; }
-    .product-meta { border-top: 1px solid #E8E8E8; padding-top: 18px; }
-    .product-price-row {
-      display: flex; justify-content: space-between; align-items: baseline;
-      margin-bottom: 10px; font-size: 14px;
+    .product-sku {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
     }
-    .product-price-row .label { color: #999; font-weight: 300; }
-    .product-price-row .price { font-weight: 500; font-size: 17px; }
-    .availability {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; color: #2A5A2A; font-weight: 300;
+    .product-price {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--black);
+      letter-spacing: -0.02em;
     }
-    .availability::before { content: '●'; font-size: 8px; line-height: 1; }
-    .availability.out { color: #8B1A1A; }
-    .availability.out::before { color: #8B1A1A; }
-
-    .shop-footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 11px; color: #BBB; letter-spacing: 0.06em;
-      font-weight: 300;
+    .product-shipping {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      margin-top: 2px;
     }
 
     /* ── Confirmation ── */
-    .confirm-hero { position: relative; }
-    .confirm-hero-img {
-      width: 100%; height: 200px; object-fit: cover; display: block;
-      background: #2A2A2A;
-      filter: brightness(0.6);
+    .meta-item { margin-bottom: 20px; }
+    .meta-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-top: 4px;
     }
-    .confirm-body { padding: 32px 20px 0; }
-    .confirm-ordertitle {
-      font-size: 13px; font-weight: 300; letter-spacing: 0.18em;
-      text-transform: uppercase; color: #999; margin-bottom: 6px;
-    }
-    .confirm-headline { font-size: 22px; font-weight: 300; margin-bottom: 4px; line-height: 1.3; }
-    .confirm-ordernr { font-size: 13px; font-weight: 400; color: #888; margin-bottom: 8px; }
-    .confirm-delivery { font-size: 14px; font-weight: 300; color: #555; line-height: 1.6; margin-bottom: 24px; }
-    .confirm-steps { border-top: 1px solid #E8E8E8; padding-top: 24px; }
-    .confirm-steps-label {
-      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
-      color: #999; margin-bottom: 18px; display: block; font-weight: 500;
+    .meta-value.mono {
+      font-family: 'SF Mono', 'Courier New', monospace;
+      font-size: 0.9375rem;
+      letter-spacing: 0.05em;
     }
 
-    /* ── Spacing helpers ── */
-    .spacer-16 { height: 16px; }
-    .spacer-24 { height: 24px; }
-    .spacer-32 { height: 32px; }
-    .pad-20 { padding: 0 20px; }
+    /* ── Error Screen ── */
+    .error-bar {
+      height: 2px;
+      width: 48px;
+      background: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    /* ── Spacer ── */
+    .spacer { flex: 1; }
+
+    .bottom-actions { padding-top: 16px; }
+
+    @media (max-width: 390px) {
+      h1 { font-size: 1.75rem; }
+    }
   </style>
 </head>
 <body>
+<div id="app">
 
-<!-- ═══════════════════════════════════════════════════════
-     HEADER (fixed, shared)
-════════════════════════════════════════════════════════ -->
-<header class="app-header" id="appHeader">
-  <span class="brand">INME Lab</span>
-  <span class="section-title" id="headerSection">Störungsanalyse</span>
-</header>
+  <!-- HEADER -->
+  <header>
+    <div class="header-left">
+      <button class="btn-back" id="backBtn" style="display:none" onclick="goBack()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+      </button>
+    </div>
+    <div class="header-center">
+      <div class="header-title">Service App</div>
+      <div class="header-subtitle">JURA &times; THWS</div>
+    </div>
+    <div class="header-right">
+      <span class="lang-badge">DE</span>
+    </div>
+  </header>
 
-<!-- ═══════════════════════════════════════════════════════
-     SCREEN 1 — Upload / Start
-════════════════════════════════════════════════════════ -->
-<section class="screen active" id="screen-upload">
+  <!-- ══════════════════════════════
+       SCREEN 1 – Störung erfassen
+  ══════════════════════════════ -->
+  <div class="screen active" id="screen1">
 
-  <!-- Hero -->
-  <div class="hero-wrap">
-    <img class="hero-img" src="images/hero-kaffeemaschine.jpg"
-         alt="Kaffeevollautomat"
-         onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';">
-    <div id="heroFallback" class="hero-img-fallback" style="display:none;"></div>
-    <div class="hero-overlay">
-      <span class="model-label">Modell</span>
-      <span class="model-name" id="heroModelName">JURA E8</span>
+    <div class="label">Störung melden</div>
+    <h1>Foto der Störung<br>hochladen</h1>
+
+    <div style="margin-top: 32px;"></div>
+
+    <!-- Upload Zone -->
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)">
+      <div class="upload-zone-inner" id="uploadZoneContent">
+        <div class="upload-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6E6E73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+        </div>
+        <div class="upload-zone-text">Foto hochladen</div>
+        <div class="upload-zone-hint">JPG, PNG, HEIC</div>
+      </div>
+      <div class="upload-preview" id="uploadPreview">
+        <img id="previewImg" src="" alt="Vorschau">
+        <button class="upload-preview-remove" onclick="removePhoto(event)">Entfernen</button>
+      </div>
+    </div>
+
+    <div class="or-divider">
+      <div class="or-divider-line"></div>
+      <span class="or-divider-text">oder</span>
+      <div class="or-divider-line"></div>
+    </div>
+
+    <!-- Maschinentyp -->
+    <div class="form-group">
+      <div class="label">Maschinentyp</div>
+      <select class="form-field" id="machineType">
+        <option value="">Maschine auswählen</option>
+        <option value="jura-e8">Jura E8</option>
+        <option value="jura-s8">Jura S8</option>
+        <option value="delonghi">De'Longhi Magnifica</option>
+        <option value="krups">Krups EA8180</option>
+        <option value="other">Andere</option>
+      </select>
+    </div>
+
+    <!-- API Key -->
+    <div class="form-group">
+      <div class="api-toggle" id="apiToggle" onclick="toggleApi()">
+        <span class="api-toggle-label">Gemini API Key (optional)</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6E6E73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </div>
+      <div class="api-field" id="apiField">
+        <input type="password" class="form-field" id="apiKey" placeholder="Falls vorhanden…" autocomplete="off">
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="bottom-actions">
+      <button class="btn-primary" id="diagnoseBtn" onclick="startDiagnosis()" disabled>
+        Diagnose starten
+      </button>
     </div>
   </div>
 
-  <div class="spacer-24"></div>
+  <!-- ══════════════════════════════
+       SCREEN 2 – Analyse läuft
+  ══════════════════════════════ -->
+  <div class="screen" id="screen2">
+    <img class="photo-hero" id="loadingPhoto" src="" alt="">
 
-  <!-- Section label -->
-  <span class="section-label">Störung erfassen</span>
+    <hr class="divider">
 
-  <!-- Subtitle -->
-  <p style="padding: 0 20px 20px; font-size: 14px; font-weight: 300; color: #666; line-height: 1.6;">
-    Fotografieren Sie das betroffene Bauteil.<br>
-    Unsere KI analysiert den Zustand.
-  </p>
+    <div class="label">Analyse</div>
+    <h2>KI-Diagnose läuft</h2>
 
-  <!-- Upload Zone -->
-  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M16 22V10M10 16l6-6 6 6" stroke="#1C1C1C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M6 24a4 4 0 01-4-4v-2a4 4 0 014-4h1M26 24a4 4 0 004-4v-2a4 4 0 00-4-4h-1" stroke="#1C1C1C" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-    <p class="hint"><strong>Bild auswählen</strong><br>oder hierher ziehen</p>
-    <img class="upload-preview" id="uploadPreview" alt="Vorschau">
-  </div>
-  <input type="file" id="fileInput" accept="image/*" capture="environment">
-
-  <div class="spacer-24"></div>
-  <hr class="divider">
-
-  <!-- Model Selection -->
-  <div class="spacer-16"></div>
-  <div class="field">
-    <label for="modelSelect">Maschinenmodell</label>
-    <select id="modelSelect" onchange="updateHeroModel()">
-      <option value="JURA E8">JURA E8</option>
-      <option value="JURA S8">JURA S8</option>
-      <option value="De'Longhi Magnifica">De'Longhi Magnifica</option>
-      <option value="De'Longhi Eletta">De'Longhi Eletta</option>
-      <option value="Krups EA8108">Krups EA8108</option>
-      <option value="Siemens EQ.9">Siemens EQ.9</option>
-    </select>
-  </div>
-
-  <!-- API Key -->
-  <div class="field">
-    <label for="apiKeyInput">Gemini API Key&ensp;·&ensp;optional</label>
-    <input type="password" id="apiKeyInput" placeholder="AIza...">
-    <p class="hint-text">Ohne Key: Demo-Modus aktiv</p>
-  </div>
-
-  <div class="spacer-8" style="height:8px;"></div>
-
-  <!-- CTA -->
-  <button class="btn-primary" id="analyzeBtn" disabled onclick="startAnalysis()">
-    Störung analysieren
-  </button>
-
-  <div class="spacer-32"></div>
-
-</section>
-
-<!-- ═══════════════════════════════════════════════════════
-     SCREEN 2 — Analyse läuft
-════════════════════════════════════════════════════════ -->
-<section class="screen" id="screen-loading">
-  <div class="loading-container">
-    <div class="loading-img-wrap">
-      <img class="loading-img" id="loadingPreview" alt="Wird analysiert">
+    <div class="loading-bar-wrap">
+      <div class="loading-bar"></div>
     </div>
-    <div class="progress-wrap">
-      <div class="progress-line"></div>
-    </div>
-    <p class="loading-text">Analysiere Bild ...</p>
-    <p class="loading-sub">Powered by Gemini Vision</p>
-  </div>
-</section>
 
-<!-- ═══════════════════════════════════════════════════════
-     SCREEN 3 — Diagnose-Ergebnis
-════════════════════════════════════════════════════════ -->
-<section class="screen" id="screen-diagnosis">
-
-  <img class="diagnosis-img" id="diagnosisImg" src="" alt="Analysiertes Bauteil">
-
-  <div class="diagnosis-header">
-    <div class="diagnosis-title" id="diagnosisProblem">Kalkablagerung im Brühsystem</div>
-    <div class="severity-badge severity-critical" id="severityBadge">Kritisch</div>
-  </div>
-
-  <div class="meta-row">
-    <span class="label">Schweregrad</span>
-    <span class="value" id="metaSeverity">Hoch</span>
-  </div>
-  <div class="meta-row">
-    <span class="label">Erkanntes Bauteil</span>
-    <span class="value" id="metaComponent">Heizsystem</span>
-  </div>
-  <div class="meta-row" id="errorCodeRow">
-    <span class="label">Fehlercode</span>
-    <span class="value" id="metaErrorCode">E4</span>
-  </div>
-
-  <hr class="divider">
-
-  <div class="steps">
-    <span class="steps-label">Empfohlene Maßnahme</span>
-    <div id="solutionSteps"></div>
-  </div>
-
-  <hr class="divider">
-  <div class="spacer-16"></div>
-
-  <button class="btn-primary" id="orderPartBtn" onclick="showScreen('screen-shop')">
-    Ersatzteil bestellen
-  </button>
-  <button class="btn-secondary" onclick="resetApp()">Neue Analyse</button>
-
-  <div class="spacer-32"></div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════
-     SCREEN 4 — Fehler / Kein Kaffeemaschinenbauteil
-════════════════════════════════════════════════════════ -->
-<section class="screen" id="screen-error">
-  <div class="error-container">
-    <div class="error-header">
-      <div class="error-title">Analyse fehlgeschlagen</div>
-    </div>
-    <p class="error-body">
-      Das hochgeladene Bild zeigt kein erkennbares Kaffeemaschinenbauteil.
+    <p class="loading-status" id="loadingStatus">
+      Gemini Vision analysiert<br>das hochgeladene Bild…
     </p>
-    <p class="error-body">
-      Bitte laden Sie ein Foto eines der folgenden Bauteile hoch:
-    </p>
-    <ul class="error-list">
-      <li>Brühgruppe</li>
-      <li>Mahlwerk</li>
-      <li>Heizsystem</li>
-      <li>Display</li>
-      <li>Wassertank</li>
-      <li>Dampfdüse</li>
-    </ul>
 
-    <div class="spacer-32"></div>
-    <button class="btn-primary" onclick="resetApp()">Erneut versuchen</button>
+    <div id="demoBadge" style="display:none;">
+      <span class="demo-badge">Demo-Modus: Simulierte KI-Diagnose</span>
+    </div>
   </div>
-</section>
 
-<!-- ═══════════════════════════════════════════════════════
-     SCREEN 5 — Ersatzteilshop
-════════════════════════════════════════════════════════ -->
-<section class="screen" id="screen-shop">
+  <!-- ══════════════════════════════
+       SCREEN 3 – Diagnose
+  ══════════════════════════════ -->
+  <div class="screen" id="screen3" style="padding: 0;">
+    <img class="photo-hero-lg" id="diagnosisPhoto" src="" alt="">
 
-  <span class="section-label">Empfohlenes Ersatzteil</span>
-  <hr class="divider">
+    <div style="padding: 32px 24px; flex: 1; display: flex; flex-direction: column;">
 
-  <div class="shop-product">
-    <div class="product-img-wrap">
-      <!-- Product icon SVG placeholder -->
-      <svg id="productIconSvg" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="20" y="15" width="40" height="50" rx="2" stroke="#1C1C1C" stroke-width="1.5"/>
-        <circle cx="40" cy="40" r="12" stroke="#1C1C1C" stroke-width="1.5"/>
-        <circle cx="40" cy="40" r="4" fill="#1C1C1C"/>
-        <path d="M20 28h40" stroke="#1C1C1C" stroke-width="1"/>
-        <path d="M20 52h40" stroke="#1C1C1C" stroke-width="1"/>
+      <div class="label accent">Fehlerdiagnose</div>
+      <h1 id="diagnosisTitle">Entkalkung erforderlich</h1>
+
+      <hr class="divider">
+
+      <div class="label">Ursache</div>
+      <p class="body-text" id="diagnosisUrsache"></p>
+
+      <hr class="divider">
+
+      <div class="label">Lösungsweg</div>
+      <ol class="solution-list" id="solutionList"></ol>
+
+      <hr class="divider">
+
+      <h3 style="margin-bottom: 16px;">Ersatzteil benötigt?</h3>
+      <button class="btn-outline" onclick="goToShop()">Zum Service-Shop &rarr;</button>
+
+      <div class="bottom-actions">
+        <button class="btn-text" onclick="resetApp()">Neue Störung melden</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 4 – Shop
+  ══════════════════════════════ -->
+  <div class="screen" id="screen4">
+    <div class="label">Service-Shop</div>
+    <h1>Empfohlenes<br>Ersatzteil</h1>
+
+    <div style="margin-top: 28px;"></div>
+
+    <div class="product-card">
+      <div class="product-card-inner">
+        <div class="product-thumb">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#D1D1D6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+            <line x1="6" y1="1" x2="6" y2="4"/>
+            <line x1="10" y1="1" x2="10" y2="4"/>
+            <line x1="14" y1="1" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <div class="product-info">
+          <div class="product-name" id="shopName">Entkalker Jura 3-Pack</div>
+          <div class="product-sku" id="shopSku">Art.-Nr. JU-ENT-003</div>
+          <div class="product-price" id="shopPrice">&euro;&nbsp;12,90</div>
+          <div class="product-shipping">Inkl. MwSt., versandkostenfrei</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="label">Lieferzeit</div>
+      <div class="body-text" style="padding: 8px 0; border-bottom: 1px solid var(--gray-300);">2–3 Werktage</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="form-group">
+      <div class="label">Name</div>
+      <input type="text" class="form-field" id="orderName" placeholder="Vor- und Nachname" autocomplete="name">
+    </div>
+    <div class="form-group">
+      <div class="label">E-Mail</div>
+      <input type="email" class="form-field" id="orderEmail" placeholder="ihre@email.de" autocomplete="email">
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="bottom-actions">
+      <button class="btn-primary" onclick="placeOrder()">Jetzt bestellen</button>
+      <button class="btn-text" onclick="resetApp()">Weiter ohne Kauf</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN 5 – Bestätigung
+  ══════════════════════════════ -->
+  <div class="screen" id="screen5">
+    <div class="divider-accent"></div>
+
+    <div style="margin-bottom: 16px;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
       </svg>
     </div>
 
-    <div class="product-name" id="shopPartName">JURA Entkalker</div>
-    <div class="product-sku" id="shopPartSku">Artikel-Nr. 64553 · Für alle JURA Modelle</div>
-    <p class="product-desc" id="shopPartDesc">
-      Entkalkt schonend und gründlich. 3 Tabs für 3 Entkalkungsvorgänge.
-    </p>
+    <h1 style="margin-bottom: 12px;">Bestellung<br>erfolgreich.</h1>
+    <p class="body-text">Eine Bestätigung wurde an<br>Ihre E-Mail gesendet.</p>
 
-    <div class="product-meta">
-      <div class="product-price-row">
-        <span class="label">Preis</span>
-        <span class="price" id="shopPartPrice">12,90 €</span>
-      </div>
-      <div class="product-price-row" style="margin-top: 8px;">
-        <span class="label">Verfügbarkeit</span>
-        <span class="availability" id="shopAvailability">Auf Lager</span>
+    <hr class="divider">
+
+    <div class="meta-item">
+      <div class="label">Bestellnummer</div>
+      <div class="meta-value mono" id="orderNumber">INME-2026-0847</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Lieferzeit</div>
+      <div class="meta-value">2–3 Werktage</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Produkt</div>
+      <div class="meta-value" id="confirmProduct"></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="bottom-actions">
+      <button class="btn-outline" onclick="resetApp()">Neue Störung melden</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
+       SCREEN ERROR
+  ══════════════════════════════ -->
+  <div class="screen" id="screenError" style="padding: 0;">
+    <img class="photo-hero-lg" id="errorPhoto" src="" alt="">
+
+    <div style="padding: 32px 24px; flex: 1; display: flex; flex-direction: column;">
+      <div class="error-bar"></div>
+      <div class="label accent">Erkennung fehlgeschlagen</div>
+      <h1 style="margin-bottom: 16px;">Kein Kaffeemaschinen&shy;teil erkannt.</h1>
+      <p class="body-text">
+        Das hochgeladene Bild enthält kein identifizierbares Bauteil einer Kaffeemaschine.
+      </p>
+
+      <div class="spacer"></div>
+
+      <div class="bottom-actions">
+        <button class="btn-primary" onclick="resetApp()">Anderes Foto wählen</button>
       </div>
     </div>
   </div>
 
-  <div class="spacer-24"></div>
-  <button class="btn-primary" onclick="placeOrder()">In den Warenkorb</button>
-  <button class="btn-text" onclick="resetApp()">Weitere Produkte anzeigen</button>
+</div><!-- /#app -->
 
-  <hr class="divider" style="margin-top: 24px;">
-  <div class="shop-footer">Sicherer Kauf&ensp;·&ensp;30 Tage Rückgabe</div>
-  <div class="spacer-32"></div>
-
-</section>
-
-<!-- ═══════════════════════════════════════════════════════
-     SCREEN 6 — Bestellbestätigung
-════════════════════════════════════════════════════════ -->
-<section class="screen" id="screen-confirm">
-
-  <div class="confirm-hero">
-    <img class="confirm-hero-img" src="images/hero-kaffeemaschine.jpg"
-         alt="Kaffeevollautomat"
-         onerror="this.style.background='#2A2A2A'; this.style.display='block';">
-  </div>
-
-  <div class="confirm-body">
-    <div class="confirm-ordertitle">Vielen Dank für Ihre Bestellung</div>
-    <div class="confirm-headline">Bestellung aufgegeben</div>
-    <div class="confirm-ordernr" id="confirmOrderNr">Bestellnummer: #24-00847</div>
-    <p class="confirm-delivery">
-      Das Ersatzteil wird innerhalb von 1–3 Werktagen geliefert.
-    </p>
-
-    <div class="confirm-steps">
-      <span class="confirm-steps-label">Was jetzt?</span>
-      <div class="step">
-        <span class="step-num">1.</span>
-        <span class="step-text">Warten bis das Ersatzteil eintrifft</span>
-      </div>
-      <div class="step">
-        <span class="step-num">2.</span>
-        <span class="step-text">Einbauanleitung herunterladen</span>
-      </div>
-      <div class="step">
-        <span class="step-num">3.</span>
-        <span class="step-text">Maschine in Betrieb nehmen</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="spacer-32"></div>
-  <button class="btn-secondary" onclick="resetApp()">Neue Störung melden</button>
-  <div class="spacer-32"></div>
-
-</section>
-
-<!-- ═══════════════════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════════════════════ -->
 <script>
-// ── State ────────────────────────────────────────────────
-let uploadedFile = null;
-let uploadedBase64 = null;
-let currentDiagnosis = null;
-
-// ── Mock Data ────────────────────────────────────────────
-const MOCK_DIAGNOSES = [
-  {
-    is_coffee_machine: true,
-    component: 'heating',
-    problem: 'Starke Kalkablagerungen im Heizsystem',
-    severity: 'critical',
-    error_code: 'E4',
-    solution_steps: [
-      'Entkalkungsprogramm über das Menü starten',
-      'JURA Entkalker-Tablette in Wassertank geben',
-      'Wassertank mit 1 Liter frischem Wasser füllen',
-      'Programm vollständig durchlaufen lassen (ca. 30 Min.)'
-    ],
-    spare_part_needed: true,
-    spare_part: 'JURA Entkalker 3er-Pack'
-  },
-  {
-    is_coffee_machine: true,
-    component: 'grinder',
-    problem: 'Mahlwerk verstopft – Fremdkörper oder verklumpter Kaffee',
-    severity: 'warning',
-    error_code: null,
-    solution_steps: [
-      'Kaffeebohnenbehälter vollständig leeren',
-      'Bohnenbehälter mit warmem Wasser reinigen',
-      'Mahlwerk mit Reinigungstablette durchlaufen lassen',
-      'Bei Weiterbestehen: Mahlwerk ausbauen und prüfen'
-    ],
-    spare_part_needed: false,
-    spare_part: null
-  },
-  {
-    is_coffee_machine: true,
-    component: 'brew_group',
-    problem: 'Brühgruppe defekt – kein Kaffeedurchfluss',
-    severity: 'critical',
-    error_code: null,
-    solution_steps: [
-      'Brühgruppe durch Seitenöffnung entnehmen',
-      'Unter fließendem Wasser reinigen',
-      'Dichtungen auf Beschädigungen prüfen',
-      'Bei Beschädigung: Brühgruppe ersetzen'
-    ],
-    spare_part_needed: true,
-    spare_part: 'Brühgruppe Komplett'
-  }
-];
-
-const COMPONENT_LABELS = {
-  brew_group: 'Brühgruppe',
-  grinder:    'Mahlwerk',
-  heating:    'Brühgruppe / Heizsystem',
-  display:    'Display / Steuerung',
-  tank:       'Wassertank',
-  steam:      'Dampfdüse',
-  seal:       'Dichtungssystem',
-  unknown:    'Unbekanntes Bauteil'
-};
-
-const SEVERITY_LABELS = {
-  critical: 'Hoch',
-  warning:  'Mittel',
-  info:     'Gering'
-};
-
-const ERSATZTEILE = {
-  'JURA Entkalker 3er-Pack':     { artikelnr: '64553', preis: 12.90, lagernd: true,  desc: 'Entkalkt schonend und gründlich. 3 Tabs für 3 Entkalkungsvorgänge.' },
-  'Brühgruppe Komplett':         { artikelnr: '67007', preis: 89.00, lagernd: true,  desc: 'Original-Ersatzbrühgruppe. Passend für alle JURA Modelle mit Standardbrühgruppe.' },
-  'Pumpe VibraFoam 15 Bar':      { artikelnr: '68555', preis: 45.00, lagernd: true,  desc: 'Originalpumpe 15 Bar. Für gleichbleibend hohen Brühdruck.' },
-  'Dampfventil Set':             { artikelnr: '68821', preis: 28.90, lagernd: false, desc: 'Dampfventil inkl. Dichtungsring. Ersetzt das Originalventil vollständig.' },
-  'Mahlwerk-Reinigungsset':      { artikelnr: '25045', preis: 18.50, lagernd: true,  desc: '6 Reinigungstabletten für optimale Mahlwerkpflege. Entfernt Kaffeeöle.' },
-  'O-Ring Dichtungsset 10-tlg.': { artikelnr: '60958', preis:  8.50, lagernd: true,  desc: 'Komplettes Dichtungsset. Beendet Leckagen an allen Verbindungsstellen.' },
-};
-
-const DEFAULT_PART = {
-  name:      'JURA Entkalker 3er-Pack',
-  artikelnr: '64553',
-  preis:     12.90,
-  lagernd:   true,
-  desc:      'Entkalkt schonend und gründlich. 3 Tabs für 3 Entkalkungsvorgänge.'
-};
-
-// ── Screen Navigation ────────────────────────────────────
-const SECTION_TITLES = {
-  'screen-upload':    'Störungsanalyse',
-  'screen-loading':   'Analysiere ...',
-  'screen-diagnosis': 'Diagnose',
-  'screen-error':     'Fehler',
-  'screen-shop':      'Ersatzteile',
-  'screen-confirm':   'Bestellbestätigung'
-};
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.getElementById('headerSection').textContent = SECTION_TITLES[id] || '';
-  window.scrollTo(0, 0);
-}
-
-// ── Model Name in Hero ───────────────────────────────────
-function updateHeroModel() {
-  const sel = document.getElementById('modelSelect');
-  document.getElementById('heroModelName').textContent = sel.value;
-}
-
-// ── File Upload ──────────────────────────────────────────
-const fileInput = document.getElementById('fileInput');
-const uploadZone = document.getElementById('uploadZone');
-const uploadPreview = document.getElementById('uploadPreview');
-const analyzeBtn = document.getElementById('analyzeBtn');
-
-fileInput.addEventListener('change', function() {
-  if (this.files && this.files[0]) handleFile(this.files[0]);
-});
-
-uploadZone.addEventListener('dragover', e => {
-  e.preventDefault();
-  uploadZone.classList.add('dragover');
-});
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-uploadZone.addEventListener('drop', e => {
-  e.preventDefault();
-  uploadZone.classList.remove('dragover');
-  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
-});
-
-function handleFile(file) {
-  uploadedFile = file;
-  const reader = new FileReader();
-  reader.onload = e => {
-    uploadedBase64 = e.target.result.split(',')[1];
-    // Show preview
-    uploadPreview.src = e.target.result;
-    uploadPreview.style.display = 'block';
-    uploadZone.querySelector('svg').style.display = 'none';
-    uploadZone.querySelector('.hint').style.display = 'none';
-    uploadPreview.style.maxHeight = '200px';
-    uploadPreview.style.width = '100%';
-    uploadPreview.style.objectFit = 'contain';
-    analyzeBtn.disabled = false;
+  // ── Diagnose-Daten ──
+  const DIAGNOSE = {
+    kalk: {
+      label: 'Entkalkung erforderlich',
+      ursache: 'Kalkablagerungen im Heizsystem beeinträchtigen den Wasserdurchfluss und reduzieren die Heizleistung.',
+      loesung: [
+        'Entkalker vorbereiten (Jura-Tablette in Wassertank)',
+        'Entkalkungsprogramm starten (Taste 5 Sek. halten)',
+        'Programm abwarten (ca. 25 Minuten)',
+        'Tank spülen und neu befüllen'
+      ],
+      ersatzteil: 'Entkalker Jura 3-Pack',
+      artikelnummer: 'JU-ENT-003',
+      preis: 12.90
+    },
+    mahlwerk: {
+      label: 'Mahlwerk blockiert',
+      ursache: 'Das Mahlwerk ist durch Kaffeeöl-Rückstände oder Fremdkörper blockiert.',
+      loesung: [
+        'Bohnenbehälter leeren',
+        'Mahlwerk-Reinigungstablette einlegen',
+        'Reinigungsprogramm starten',
+        'Mahlwerk auf Fremdkörper prüfen'
+      ],
+      ersatzteil: 'Mahlwerk-Reinigungsset',
+      artikelnummer: 'JU-MHL-011',
+      preis: 18.50
+    },
+    bruehgruppe: {
+      label: 'Brühgruppe defekt',
+      ursache: 'Die Brühgruppe ist verstopft oder das Dichtungssystem ist undicht.',
+      loesung: [
+        'Brühgruppe entnehmen (Hebel links)',
+        'Unter fließendem Wasser reinigen',
+        'Dichtungen auf Risse prüfen',
+        'Einsetzen und Testlauf starten'
+      ],
+      ersatzteil: 'Brühgruppen-Dichtungsset',
+      artikelnummer: 'JU-BRH-007',
+      preis: 8.50
+    },
+    dampf: {
+      label: 'Dampfventil verstopft',
+      ursache: 'Milchrückstände oder Kalk blockieren die Dampfdüse.',
+      loesung: [
+        'Dampfdüse abschrauben',
+        'In Entkalkungslösung einlegen (30 Min.)',
+        'Mit Nadel freispülen',
+        'Wieder einschrauben und testen'
+      ],
+      ersatzteil: 'Dampfventil komplett',
+      artikelnummer: 'JU-DMP-019',
+      preis: 28.90
+    },
+    pumpe: {
+      label: 'Pumpe defekt',
+      ursache: 'Die Vibrationspumpe erzeugt keinen ausreichenden Wasserdruck.',
+      loesung: [
+        'Wassertank auf Füllstand prüfen',
+        'Zu- und Ableitungen auf Blockagen prüfen',
+        'Professionellen Service kontaktieren',
+        'Austausch der Vibrationspumpe empfohlen'
+      ],
+      ersatzteil: 'Pumpe VibraFoam 15 Bar',
+      artikelnummer: 'JU-PMP-034',
+      preis: 45.00
+    }
   };
-  reader.readAsDataURL(file);
-}
 
-// ── Analysis ─────────────────────────────────────────────
-async function startAnalysis() {
-  if (!uploadedBase64) return;
+  // ── App-State ──
+  let photoURL   = null;
+  let photoB64   = null;
+  let diagnosis  = null;
+  let isDemoMode = false;
 
-  showScreen('screen-loading');
-  document.getElementById('loadingPreview').src = 'data:image/jpeg;base64,' + uploadedBase64;
+  // ── Navigation ──
+  const backMap = {
+    screen2:     'screen1',
+    screen3:     'screen1',
+    screen4:     'screen3',
+    screen5:     'screen1',
+    screenError: 'screen1'
+  };
 
-  const apiKey = document.getElementById('apiKeyInput').value.trim();
-
-  if (apiKey) {
-    try {
-      const result = await callGeminiAPI(apiKey, uploadedBase64);
-      handleDiagnosis(result);
-    } catch (err) {
-      console.error('API error:', err);
-      // Fallback to mock on API error
-      handleDiagnosis(getRandomMock());
-    }
-  } else {
-    // Demo mode — simulate delay
-    await delay(2000);
-    handleDiagnosis(getRandomMock());
-  }
-}
-
-async function callGeminiAPI(apiKey, base64Image) {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            { text: `You are a coffee machine service technician AI. Analyze this image.
-
-Is this an image of a coffee machine or coffee machine component?
-If YES: identify the problem. Return JSON:
-{
-  "is_coffee_machine": true,
-  "component": "brew_group|grinder|heating|display|tank|steam|seal|unknown",
-  "problem": "short description in German",
-  "severity": "critical|warning|info",
-  "error_code": "E4|E5|E6|null",
-  "solution_steps": ["Step 1", "Step 2", "Step 3"],
-  "spare_part_needed": true|false,
-  "spare_part": "product name or null"
-}
-
-If NO (not a coffee machine): Return JSON:
-{ "is_coffee_machine": false }
-
-Return ONLY the JSON, no other text.` },
-            { inline_data: { mime_type: 'image/jpeg', data: base64Image } }
-          ]
-        }],
-        generationConfig: { temperature: 0.2, maxOutputTokens: 600 }
-      })
-    }
-  );
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  const data = await response.json();
-  const text = data.candidates[0].content.parts[0].text.trim();
-  const jsonStr = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-  return JSON.parse(jsonStr);
-}
-
-function getRandomMock() {
-  return MOCK_DIAGNOSES[Math.floor(Math.random() * MOCK_DIAGNOSES.length)];
-}
-
-function handleDiagnosis(diagnosis) {
-  currentDiagnosis = diagnosis;
-
-  if (!diagnosis.is_coffee_machine) {
-    showScreen('screen-error');
-    return;
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('backBtn').style.display = backMap[id] ? 'flex' : 'none';
+    window.scrollTo(0, 0);
   }
 
-  // Fill diagnosis screen
-  document.getElementById('diagnosisImg').src = 'data:image/jpeg;base64,' + uploadedBase64;
-  document.getElementById('diagnosisProblem').textContent = diagnosis.problem;
-
-  // Severity
-  const badge = document.getElementById('severityBadge');
-  badge.className = 'severity-badge';
-  if (diagnosis.severity === 'critical') {
-    badge.classList.add('severity-critical');
-    badge.textContent = 'Kritisch';
-  } else if (diagnosis.severity === 'warning') {
-    badge.classList.add('severity-warning');
-    badge.textContent = 'Warnung';
-  } else {
-    badge.classList.add('severity-info');
-    badge.textContent = 'Hinweis';
+  function goBack() {
+    const cur = document.querySelector('.screen.active')?.id;
+    if (cur && backMap[cur]) showScreen(backMap[cur]);
   }
 
-  document.getElementById('metaSeverity').textContent = SEVERITY_LABELS[diagnosis.severity] || diagnosis.severity;
-  document.getElementById('metaComponent').textContent = COMPONENT_LABELS[diagnosis.component] || diagnosis.component;
-
-  const errorRow = document.getElementById('errorCodeRow');
-  if (diagnosis.error_code && diagnosis.error_code !== 'null') {
-    document.getElementById('metaErrorCode').textContent = diagnosis.error_code;
-    errorRow.style.display = 'flex';
-  } else {
-    errorRow.style.display = 'none';
+  function resetApp() {
+    photoURL = null;
+    photoB64 = null;
+    diagnosis = null;
+    document.getElementById('fileInput').value = '';
+    document.getElementById('machineType').value = '';
+    document.getElementById('apiKey').value = '';
+    document.getElementById('orderName').value = '';
+    document.getElementById('orderEmail').value = '';
+    showContent(true);
+    updateDiagnoseBtn();
+    showScreen('screen1');
   }
 
-  // Steps
-  const stepsEl = document.getElementById('solutionSteps');
-  stepsEl.innerHTML = '';
-  (diagnosis.solution_steps || []).forEach((s, i) => {
-    stepsEl.innerHTML += `
-      <div class="step">
-        <span class="step-num">${i + 1}.</span>
-        <span class="step-text">${s}</span>
-      </div>`;
+  // ── File Handling ──
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (file) loadPhoto(file);
+  }
+
+  function loadPhoto(file) {
+    photoURL = URL.createObjectURL(file);
+    document.getElementById('previewImg').src = photoURL;
+    showContent(false);
+    updateDiagnoseBtn();
+
+    const reader = new FileReader();
+    reader.onload = ev => { photoB64 = ev.target.result.split(',')[1]; };
+    reader.readAsDataURL(file);
+  }
+
+  function removePhoto(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    photoURL = null;
+    photoB64 = null;
+    document.getElementById('fileInput').value = '';
+    showContent(true);
+    updateDiagnoseBtn();
+  }
+
+  function showContent(empty) {
+    document.getElementById('uploadZoneContent').style.display = empty ? '' : 'none';
+    document.getElementById('uploadPreview').style.display    = empty ? 'none' : 'block';
+  }
+
+  // Drag & Drop
+  const zone = document.getElementById('uploadZone');
+  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('dragover'); });
+  zone.addEventListener('dragleave', ()  => zone.classList.remove('dragover'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if (f && f.type.startsWith('image/')) loadPhoto(f);
   });
 
-  // Order button
-  const orderBtn = document.getElementById('orderPartBtn');
-  if (diagnosis.spare_part_needed && diagnosis.spare_part) {
-    orderBtn.style.display = 'block';
-    fillShopScreen(diagnosis.spare_part);
-  } else {
-    orderBtn.style.display = 'none';
+  function updateDiagnoseBtn() {
+    document.getElementById('diagnoseBtn').disabled = !photoURL;
   }
 
-  showScreen('screen-diagnosis');
-}
-
-// ── Shop ─────────────────────────────────────────────────
-function fillShopScreen(partName) {
-  const part = ERSATZTEILE[partName] || DEFAULT_PART;
-  const actualName = ERSATZTEILE[partName] ? partName : DEFAULT_PART.name;
-
-  document.getElementById('shopPartName').textContent = actualName;
-  document.getElementById('shopPartSku').textContent = `Artikel-Nr. ${part.artikelnr} · Für alle JURA Modelle`;
-  document.getElementById('shopPartDesc').textContent = part.desc;
-  document.getElementById('shopPartPrice').textContent = part.preis.toFixed(2).replace('.', ',') + ' €';
-
-  const avail = document.getElementById('shopAvailability');
-  if (part.lagernd) {
-    avail.textContent = 'Auf Lager';
-    avail.className = 'availability';
-  } else {
-    avail.textContent = 'Nicht auf Lager';
-    avail.className = 'availability out';
+  // ── API Key Collapsible ──
+  function toggleApi() {
+    document.getElementById('apiToggle').classList.toggle('open');
+    document.getElementById('apiField').classList.toggle('open');
   }
+
+  // ── Diagnose ──
+  async function startDiagnosis() {
+    if (!photoURL) return;
+
+    const apiKey = document.getElementById('apiKey').value.trim();
+    isDemoMode = !apiKey;
+
+    document.getElementById('loadingPhoto').src = photoURL;
+    document.getElementById('demoBadge').style.display  = isDemoMode ? 'block' : 'none';
+    document.getElementById('loadingStatus').innerHTML  = isDemoMode
+      ? 'Analysiere Störungsbild…'
+      : 'Gemini Vision analysiert<br>das hochgeladene Bild…';
+    showScreen('screen2');
+
+    try {
+      const result = apiKey
+        ? await analyzeWithGemini(apiKey, photoB64)
+        : await mockAnalysis();
+      handleResult(result);
+    } catch (err) {
+      console.error(err);
+      handleResult(await mockAnalysis());
+    }
+  }
+
+  function handleResult(result) {
+    if (!result.is_coffee_machine) {
+      document.getElementById('errorPhoto').src = photoURL;
+      showScreen('screenError');
+      return;
+    }
+    const key = (result.problem_type && DIAGNOSE[result.problem_type])
+      ? result.problem_type
+      : randomKey();
+    diagnosis = DIAGNOSE[key];
+    renderDiagnosis(diagnosis);
+    showScreen('screen3');
+  }
+
+  function renderDiagnosis(d) {
+    document.getElementById('diagnosisPhoto').src      = photoURL;
+    document.getElementById('diagnosisTitle').textContent  = d.label;
+    document.getElementById('diagnosisUrsache').textContent = d.ursache;
+
+    const list = document.getElementById('solutionList');
+    list.innerHTML = '';
+    d.loesung.forEach((step, i) => {
+      const li = document.createElement('li');
+      const num = document.createElement('span');
+      num.className = 'solution-num';
+      num.textContent = String(i + 1).padStart(2, '0');
+      const txt = document.createElement('span');
+      txt.textContent = step;
+      li.appendChild(num);
+      li.appendChild(txt);
+      list.appendChild(li);
+    });
+  }
+
+  // ── Shop ──
+  function goToShop() {
+    if (!diagnosis) return;
+    document.getElementById('shopName').textContent  = diagnosis.ersatzteil;
+    document.getElementById('shopSku').textContent   = `Art.-Nr. ${diagnosis.artikelnummer}`;
+    document.getElementById('shopPrice').textContent =
+      `\u20AC\u00A0${diagnosis.preis.toFixed(2).replace('.', ',')}`;
+    showScreen('screen4');
+  }
+
+  function placeOrder() {
+    const name  = document.getElementById('orderName').value.trim();
+    const email = document.getElementById('orderEmail').value.trim();
+    if (!name || !email) {
+      (name ? document.getElementById('orderEmail') : document.getElementById('orderName')).focus();
+      return;
+    }
+    const num = `INME-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 9000) + 1000)}`;
+    document.getElementById('orderNumber').textContent  = num;
+    document.getElementById('confirmProduct').textContent = diagnosis?.ersatzteil || '';
+    showScreen('screen5');
+  }
+
+  // ── Gemini API ──
+  async function analyzeWithGemini(apiKey, base64Image) {
+    const prompt = `Analyze this image carefully.
+
+First: Is this an image of a coffee machine, coffee maker, or a component/part of one?
+
+If NO: Return exactly: {"is_coffee_machine": false}
+
+If YES: Identify the problem and return:
+{
+  "is_coffee_machine": true,
+  "problem_type": "kalk|mahlwerk|bruehgruppe|dampf|pumpe|other",
+  "confidence": "high|medium|low",
+  "problem_description": "Brief description in German"
 }
 
-// ── Order ────────────────────────────────────────────────
-function placeOrder() {
-  const orderNr = '#' + (Math.floor(Math.random() * 90000) + 10000);
-  document.getElementById('confirmOrderNr').textContent = 'Bestellnummer: ' + orderNr;
-  showScreen('screen-confirm');
-}
+Return ONLY valid JSON, no markdown, no explanation.`;
 
-// ── Reset ─────────────────────────────────────────────────
-function resetApp() {
-  uploadedFile = null;
-  uploadedBase64 = null;
-  currentDiagnosis = null;
-  uploadPreview.style.display = 'none';
-  uploadZone.querySelector('svg').style.display = 'block';
-  uploadZone.querySelector('.hint').style.display = 'block';
-  fileInput.value = '';
-  analyzeBtn.disabled = true;
-  showScreen('screen-upload');
-}
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [
+            { text: prompt },
+            { inline_data: { mime_type: 'image/jpeg', data: base64Image } }
+          ]}],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 200 }
+        })
+      }
+    );
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    return JSON.parse(text.replace(/```json\n?|\n?```/g, '').trim());
+  }
 
-// ── Utility ──────────────────────────────────────────────
-function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+  // ── Mock ──
+  async function mockAnalysis() {
+    await new Promise(r => setTimeout(r, 2200));
+    if (Math.random() < 0.1) return { is_coffee_machine: false };
+    return { is_coffee_machine: true, problem_type: randomKey() };
+  }
+
+  function randomKey() {
+    const keys = Object.keys(DIAGNOSE);
+    return keys[Math.floor(Math.random() * keys.length)];
+  }
 </script>
-
 </body>
 </html>
