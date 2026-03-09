@@ -125,10 +125,8 @@
 
     /* Navbar */
     .navbar {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
       height: 56px;
       background: white;
       border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 8px rgba(0,0,0,0.05);
@@ -164,13 +162,14 @@
     .hero {
       background: #DC2626;
       position: relative;
-      min-height: auto;
+      min-height: calc(var(--vh, 100vh) - 186px);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-top: 120px;
-      padding-bottom: 80px;
+      padding: 3rem 1.5rem 3.5rem;
+      box-sizing: border-box;
     }
+    /* 186px = quote(30) + navbar(56) + stats(80) + puffer(20) */
 
     .hero-content {
       position: relative;
@@ -601,6 +600,13 @@
   </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
+  <script>
+    function setVH() {
+      document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
+    }
+    setVH();
+    window.addEventListener('resize', setVH);
+  </script>
 </head>
 <body>
   <div id="root"></div>
@@ -630,7 +636,8 @@
         // Stats
         statLabs: "Labs",
         statUseCase: "Use Case",
-        statTech: "Tech Stack",
+        statTech: "HTML · CSS · JS · Py",
+        statTechLabel: "Supabase",
         statLang: "KI-Analyse",
         statLangLabel: "Gemini Vision",
 
@@ -716,7 +723,8 @@
         // Stats
         statLabs: "Labs",
         statUseCase: "Use Case",
-        statTech: "Tech Stack",
+        statTech: "HTML · CSS · JS · Py",
+        statTechLabel: "Supabase",
         statLang: "AI Analysis",
         statLangLabel: "Gemini Vision",
 
@@ -792,6 +800,21 @@
 
       return (
         <div data-lang={lang}>
+          {/* Jony Ive Quote – ganz oben */}
+          <div style={{
+            background: '#1A1A1A',
+            padding: '0.6rem 2rem',
+            textAlign: 'center',
+            fontSize: '0.82rem',
+            color: 'rgba(255,255,255,0.65)',
+            fontStyle: 'italic',
+            letterSpacing: '0.02em',
+            lineHeight: 1.4
+          }}>
+            <span>»True simplicity is derived from so much more than the absence of clutter.«</span>
+            <span style={{ fontStyle: 'normal', fontWeight: 700, color: 'rgba(255,255,255,0.9)', marginLeft: '0.5rem' }}>— Jony Ive</span>
+          </div>
+
           {/* Navbar */}
           <nav className="navbar">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -832,8 +855,11 @@
             </div>
           </nav>
 
+          {/* Hero + Stats = one viewport (DAV-Pattern) */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+
           {/* Hero */}
-          <section className="hero" style={{background: heroColor}}>
+          <section className="hero" style={{ background: heroColor, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className="hero-content">
               <span className="hero-tag" style={{borderColor: heroBadgeBorder, color: heroTextMuted}}>{t.heroTag}</span>
               <div className="hero-eyebrow" style={{color: heroTextMuted}}>{t.heroEyebrow}</div>
@@ -861,7 +887,7 @@
             </div>
           </section>
 
-          {/* Stats Banderole */}
+          {/* Stats Banderole – anchored at bottom of viewport */}
           <div className="stats-bar">
             <div className="stats-grid">
               <div className="stat-item">
@@ -882,27 +908,7 @@
               </div>
             </div>
           </div>
-
-          {/* Jony Ive Quote Strip */}
-          <div style={{
-            background: '#F9FAFB',
-            borderTop: '1px solid #E5E7EB',
-            borderBottom: '1px solid #E5E7EB',
-            padding: '1.25rem 3rem',
-            textAlign: 'center'
-          }}>
-            <span style={{
-              fontStyle: 'italic',
-              fontSize: '0.95rem',
-              color: '#6B7280',
-              letterSpacing: '0.01em'
-            }}>
-              {lang === 'de' ? '»True simplicity is derived from so much more than the absence of clutter.«' : '»True simplicity is derived from so much more than the absence of clutter.«'}
-              <span style={{ fontStyle: 'normal', fontWeight: 600, color: '#B91C1C', marginLeft: '0.5rem' }}>
-                — Jony Ive
-              </span>
-            </span>
-          </div>
+          </div>{/* end viewport wrapper */}
 
           {/* Labs Grid */}
           <section className="labs-section" id="labs">
