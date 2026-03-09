@@ -309,7 +309,7 @@
           ['2. Diagnose suchen', 'Handbuch suchen', '"Wo ist das nochmal?"', '😕 Suchend', 'Handbuch (fehlt)'],
           ['3. Google-Suche', 'Smartphone raus', '"Mal schauen ob ich was finde"', '😐 Neutral', 'Smartphone, Google'],
           ['4. App nutzen', 'INME App öffnen', '"Das sieht einfach aus"', '😊 Neugierig', 'App: Screen 1'],
-          ['5. Symptome eingeben', 'Foto + Checkboxes', '"Einfach zu bedienen"', '😊 Zufrieden', 'App: Diagnose'],
+          ['5. Foto hochladen', 'Foto aufnehmen + KI starten', '"Einfach zu bedienen"', '😊 Zufrieden', 'App: KI-Analyse'],
           ['6. Lösung lesen', 'Entkalker-Anleitung', '"Perfekt, das kann ich"', '😊 Erleichtert', 'App: Lösung'],
           ['7. Ersatzteil bestellen', 'Direkt im Shop', '"Super, alles an einem Ort"', '😄 Begeistert', 'App: Shop'],
           ['8. Problem gelöst', 'Maschine läuft wieder', '"Ich bin gut"', '😄 Stolz', 'Maschine'],
@@ -322,7 +322,7 @@
         s6Intro: 'Format: "Als [Rolle] möchte ich [Aktion], damit [Nutzen]."',
         s6Stories: [
           { num: 'US-01', text: ['Als ', 'Wartungstechniker', ' möchte ich eine Störung fotografieren können, damit das System automatisch eine Diagnose erstellt.'] },
-          { num: 'US-02', text: ['Als ', 'Techniker', ' möchte ich Symptome per Checkbox auswählen, damit die Diagnose präziser ist.'] },
+          { num: 'US-02', text: ['Als ', 'Techniker', ' möchte ich ein Foto der defekten Maschine hochladen, damit die KI automatisch eine Diagnose erstellt.'] },
           { num: 'US-03', text: ['Als ', 'Techniker', ' möchte ich eine Schritt-für-Schritt-Reparaturanleitung sehen, damit ich keine Fehler mache.'] },
           { num: 'US-04', text: ['Als ', 'Techniker', ' möchte ich Ersatzteile direkt aus der Diagnose bestellen, damit ich Zeit spare.'] },
           { num: 'US-05', text: ['Als ', 'Serviceleiter', ' möchte ich alle gemeldeten Störungen im Dashboard sehen, damit ich den Überblick behalte.'] },
@@ -331,31 +331,40 @@
         // IA
         s7Title: 'Information Architecture',
         s7Subtitle: 'Welche Screens braucht die App? (Sitemap)',
-        s7Note: 'Wir halten die IA bewusst einfach – 4 Screens, 1 Flow.',
+        s7Note: 'Wir halten die IA bewusst einfach – 5 Screens, 1 Flow.',
 
         // Wireframes
         s8Title: 'Wireframes',
-        s8Intro: 'Lo-Fi Wireframe: Screen 1 – Störung melden',
+        s8Intro: 'Lo-Fi Wireframe: Screen 1 – Foto-Upload (5-Screen-App)',
         s8Wire: `┌─────────────────────┐
-│  ◀  Störung melden  │   ← Header mit Back-Navigation
+│  ☕ STÖRUNGSMELDER  │   ← Home-Screen
 │─────────────────────│
+│  [Kaffeemaschinen-  │
+│   Foto (Hero)]      │
 │                     │
+│  Was stimmt mit     │
+│  Ihrer Maschine     │
+│  nicht?             │
+│                     │
+│  [STÖRUNG ANALYSIEREN]  ← CTA → Screen 1
+└─────────────────────┘
+
+┌─────────────────────┐
+│ ●──○──○──○  1/4    │   ← Progress Bar
+│─────────────────────│
 │  ┌───────────────┐  │
-│  │   FOTO    │  │   ← Foto-Upload Button (prominent)
-│  │   aufnehmen  │  │
+│  │   📷 Foto    │  │   ← Drag & Drop Upload
+│  │   hochladen  │  │
 │  └───────────────┘  │
+│  [🖼][🖼][🖼][🖼][🖼] │   ← 5 Testbild-Thumbnails
 │                     │
 │  Maschinentyp:      │   ← Dropdown
 │  [▼ Jura E8      ] │
 │                     │
-│  Symptome wählen:   │   ← Checkboxes
-│  ☐ Kein Kaffee     │
-│  ☐ Fehlermeldung   │
-│  ☐ Wasserleck      │
-│  ☐ Geräusche       │
-│  ☐ Dampf fehlt     │
+│  Gemini API Key:    │   ← Optional
+│  [________________] │
 │                     │
-│  [ Diagnose starten ] │   ← Primary CTA
+│  [ DIAGNOSE STARTEN ] │   ← Primary CTA
 └─────────────────────┘`,
         s8Tip: 'Papierprototypen können in 15 Minuten mit Post-its gebaut werden!',
 
@@ -571,7 +580,7 @@
           ['2. Look for diagnosis', 'Search for manual', '"Where is it again?"', '😕 Searching', 'Manual (missing)'],
           ['3. Google search', 'Pulls out smartphone', '"Let\'s see if I can find something"', '😐 Neutral', 'Smartphone, Google'],
           ['4. Use app', 'Opens INME app', '"That looks simple"', '😊 Curious', 'App: Screen 1'],
-          ['5. Enter symptoms', 'Photo + checkboxes', '"Easy to use"', '😊 Satisfied', 'App: Diagnosis'],
+          ['5. Upload photo', 'Take photo + start AI', '"Easy to use"', '😊 Satisfied', 'App: AI Analysis'],
           ['6. Read solution', 'Descaling instructions', '"Perfect, I can do this"', '😊 Relieved', 'App: Solution'],
           ['7. Order spare part', 'Directly in shop', '"Great, everything in one place"', '😄 Enthusiastic', 'App: Shop'],
           ['8. Problem solved', 'Machine running again', '"I\'m good"', '😄 Proud', 'Machine'],
@@ -583,7 +592,7 @@
         s6Intro: 'Format: "As a [role] I want to [action] so that [benefit]."',
         s6Stories: [
           { num: 'US-01', text: ['As a ', 'maintenance technician', ' I want to photograph a fault so that the system automatically creates a diagnosis.'] },
-          { num: 'US-02', text: ['As a ', 'technician', ' I want to select symptoms via checkboxes so that the diagnosis is more precise.'] },
+          { num: 'US-02', text: ['As a ', 'technician', ' I want to upload a photo of the faulty machine so that the AI automatically creates a diagnosis.'] },
           { num: 'US-03', text: ['As a ', 'technician', ' I want to see a step-by-step repair guide so that I don\'t make mistakes.'] },
           { num: 'US-04', text: ['As a ', 'technician', ' I want to order spare parts directly from the diagnosis so that I save time.'] },
           { num: 'US-05', text: ['As a ', 'service manager', ' I want to see all reported faults in the dashboard so that I maintain an overview.'] },
@@ -591,30 +600,38 @@
 
         s7Title: 'Information Architecture',
         s7Subtitle: 'Which screens does the app need? (Sitemap)',
-        s7Note: 'We keep the IA deliberately simple – 4 screens, 1 flow.',
+        s7Note: 'We keep the IA deliberately simple – 5 screens, 1 flow.',
 
         s8Title: 'Wireframes',
-        s8Intro: 'Lo-Fi Wireframe: Screen 1 – Report Fault',
+        s8Intro: 'Lo-Fi Wireframe: Screen 1 – Photo Upload (5-screen app)',
         s8Wire: `┌─────────────────────┐
-│  ◀  Report Fault    │   ← Header with back navigation
+│  ☕ FAULT REPORTER  │   ← Home Screen
 │─────────────────────│
+│  [Coffee machine    │
+│   photo (hero)]     │
 │                     │
+│  What is wrong with │
+│  your machine?      │
+│                     │
+│  [ANALYSE FAULT]    │   ← CTA → Screen 1
+└─────────────────────┘
+
+┌─────────────────────┐
+│ ●──○──○──○  1/4    │   ← Progress Bar
+│─────────────────────│
 │  ┌───────────────┐  │
-│  │   TAKE    │  │   ← Photo upload button (prominent)
-│  │    PHOTO     │  │
+│  │   📷 Upload  │  │   ← Drag & Drop Upload
+│  │    photo     │  │
 │  └───────────────┘  │
+│  [🖼][🖼][🖼][🖼][🖼] │   ← 5 sample thumbnails
 │                     │
 │  Machine type:      │   ← Dropdown
 │  [▼ Jura E8      ] │
 │                     │
-│  Select symptoms:   │   ← Checkboxes
-│  ☐ No coffee       │
-│  ☐ Error message   │
-│  ☐ Water leak      │
-│  ☐ Noises          │
-│  ☐ No steam        │
+│  Gemini API Key:    │   ← Optional
+│  [________________] │
 │                     │
-│  [ Start diagnosis  ] │   ← Primary CTA
+│  [ START DIAGNOSIS  ] │   ← Primary CTA
 └─────────────────────┘`,
         s8Tip: 'Paper prototypes can be built in 15 minutes with Post-its!',
 
