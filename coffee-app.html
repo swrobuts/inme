@@ -1277,7 +1277,7 @@ If YES: Identify the problem and return:
 Return ONLY valid JSON, no markdown, no explanation.`;
 
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1308,45 +1308,24 @@ Return ONLY valid JSON, no markdown, no explanation.`;
   }
 
 
-  function handleFileObj(file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const preview = document.getElementById('uploadPreview');
-      const img = document.getElementById('previewImg');
-      const content = document.getElementById('uploadZoneContent');
-      img.src = e.target.result;
-      preview.style.display = 'block';
-      content.style.display = 'none';
-      currentFile = file;
-      currentDataUrl = e.target.result;
-      document.getElementById('diagnoseBtn').disabled = false;
-      document.getElementById('diagnoseBtn').style.opacity = '1';
-    };
-    reader.readAsDataURL(file);
-  }
+  // handleFileObj: entfernt – loadPhoto() übernimmt alle File-Handling-Logik
 
   function loadSampleImage(url, thumbEl) {
-    // Alle Selects zurücksetzen
     document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('selected'));
     if (thumbEl) thumbEl.classList.add('selected');
     fetch(url)
       .then(r => r.blob())
       .then(blob => {
         const file = new File([blob], url.split('/').pop(), { type: 'image/jpeg' });
-        handleFileObj(file);
+        loadPhoto(file);   // ← setzt photoURL + photoB64 korrekt
       })
       .catch(() => {
-        // Fallback: img direkt als src setzen
-        const preview = document.getElementById('uploadPreview');
-        const img = document.getElementById('previewImg');
-        const content = document.getElementById('uploadZoneContent');
-        img.src = url;
-        preview.style.display = 'block';
-        content.style.display = 'none';
-        currentFile = null;
-        currentDataUrl = url;
-        document.getElementById('diagnoseBtn').disabled = false;
-        document.getElementById('diagnoseBtn').style.opacity = '1';
+        // Fallback: URL direkt setzen, B64 wird null → Demo-Modus greift
+        photoURL = url;
+        photoB64 = null;
+        document.getElementById('previewImg').src = url;
+        showContent(false);
+        updateDiagnoseBtn();
       });
   }
 
