@@ -2079,6 +2079,23 @@ async function kameraOeffnen() {
             </div>
 
             {/* ── Footer ── */}
+          {/* ── Zusammenfassung ── */}
+          <section id="zusammenfassung" className="section-block">
+            <h2>{lang === 'de' ? 'Zusammenfassung' : 'Summary'}</h2>
+            <div className="bauhaus-accent-line" />
+            <ul style={{ paddingLeft: '1.5rem', lineHeight: '2', fontSize: '0.95rem' }}>
+              {lang === 'de' ? (
+                <>
+                  <li>Supabase bietet Backend-as-a-Service mit PostgreSQL, Auth und Realtime-Events</li> <li>CodePen ermöglicht schnelles Prototyping ohne lokales Setup</li> <li>Die Kombination aus Supabase + CodePen ist ideal für interaktive Web-Apps</li> <li>Next Steps: Eigene Projekte umsetzen, Auth erweitern, Supabase Functions nutzen</li>
+                </>
+              ) : (
+                <>
+                  <li>Supabase provides Backend-as-a-Service with PostgreSQL, Auth, and Realtime events</li> <li>CodePen enables rapid prototyping without local setup</li> <li>The Supabase + CodePen combination is ideal for interactive web apps</li> <li>Next steps: Build your own projects, extend auth, use Supabase Functions</li>
+                </>
+              )}
+            </ul>
+          </section>
+
             <footer style={{borderTop:'1px solid #e5e7eb', marginTop:'3rem', padding:'1.5rem 0', textAlign:'center', fontSize:'0.8rem', color:'#9ca3af'}}>
               INME Lab · THWS Business School · Prof. Dr. Robert Butscher
             </footer>
