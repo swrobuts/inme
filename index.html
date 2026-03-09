@@ -126,7 +126,7 @@
     /* Navbar */
     .navbar {
       position: fixed;
-      top: 0;
+      top: 32px;
       left: 0;
       right: 0;
       height: 56px;
@@ -169,7 +169,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-top: 56px;
+      padding-top: 88px;
       padding-bottom: 6rem;
     }
 
@@ -576,6 +576,7 @@
         badge3: "Prof. Dr. Robert Butscher",
         ctaLabs: "Zu den Labs →",
         ctaGithub: "GitHub →",
+        banderole: "Sommersemester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg",
 
         // Stats
         statLabs: "Labs",
@@ -665,6 +666,7 @@
         badge3: "Prof. Dr. Robert Butscher",
         ctaLabs: "To the Labs →",
         ctaGithub: "GitHub →",
+        banderole: "Sommersemester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg",
 
         // Stats
         statLabs: "Labs",
@@ -742,10 +744,33 @@
 
     function App() {
       const [lang, setLang] = useState('de');
+      const heroColor = lang === 'en' ? '#F7CC00' : '#DC2626';
+      const heroTextColor = lang === 'en' ? '#1A1A1A' : 'white';
+      const heroTextMuted = lang === 'en' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.75)';
+      const heroBadgeBorder = lang === 'en' ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.4)';
       const t = translations[lang];
 
       return (
         <div>
+          {/* Banderole */}
+          <div style={{
+            background: '#1A1A1A',
+            color: 'rgba(255,255,255,0.75)',
+            fontSize: '0.72rem',
+            fontWeight: 500,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            padding: '8px 24px',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 200
+          }}>
+            {lang === 'de' ? 'Sommersemester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg' : 'Summer Semester 2026 · Bachelor Media Management · THWS Business School Würzburg'}
+          </div>
+
           {/* Navbar */}
           <nav className="navbar">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -787,27 +812,26 @@
           </nav>
 
           {/* Hero */}
-          <section className="hero">
-            <div className="geo-circle"></div>
-            <div className="geo-square"></div>
+          <section className="hero" style={{background: heroColor}}>
             <div className="hero-content">
-              <span className="hero-tag">{t.heroTag}</span>
-              <div className="hero-eyebrow">{t.heroEyebrow}</div>
-              <h1 className="hero-title">{t.heroTitle}</h1>
-              <div className="hero-subtitle">{t.heroSubtitle}</div>
-              <p className="hero-desc">{t.heroDesc}</p>
+              <span className="hero-tag" style={{borderColor: heroBadgeBorder, color: heroTextMuted}}>{t.heroTag}</span>
+              <div className="hero-eyebrow" style={{color: heroTextMuted}}>{t.heroEyebrow}</div>
+              <h1 className="hero-title" style={{color: heroTextColor}}>{t.heroTitle}</h1>
+              <div className="hero-subtitle" style={{color: heroTextMuted}}>{t.heroSubtitle}</div>
+              <p className="hero-desc" style={{color: heroTextMuted}}>{t.heroDesc}</p>
               <div className="course-badges">
-                <span className="course-badge">{t.badge1}</span>
-                <span className="course-badge">{t.badge2}</span>
-                <span className="course-badge">{t.badge3}</span>
+                <span className="course-badge" style={{borderColor: heroBadgeBorder, color: heroTextMuted}}>{t.badge1}</span>
+                <span className="course-badge" style={{borderColor: heroBadgeBorder, color: heroTextMuted}}>{t.badge2}</span>
+                <span className="course-badge" style={{borderColor: heroBadgeBorder, color: heroTextMuted}}>{t.badge3}</span>
               </div>
               <div className="cta-row">
-                <a href="#labs" className="btn-primary">{t.ctaLabs}</a>
+                <a href="#labs" className="btn-primary" style={{background: heroTextColor, color: heroColor}}>{t.ctaLabs}</a>
                 <a
                   href="https://github.com/swrobuts/inme"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline-white"
+                  style={{color: heroTextColor, borderColor: heroBadgeBorder}}
                 >
                   {t.ctaGithub}
                 </a>
