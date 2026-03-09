@@ -33,7 +33,6 @@
     }
 
     body {
-      padding-bottom: 36px;
       font-family: 'Space Grotesk', sans-serif;
       background: #FFFFFF;
       color: var(--dark);
@@ -165,12 +164,12 @@
     .hero {
       background: #DC2626;
       position: relative;
-      min-height: 100vh;
+      min-height: auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-top: 56px;
-      padding-bottom: 6rem;
+      padding-top: 120px;
+      padding-bottom: 80px;
     }
 
     .hero-content {
@@ -311,9 +310,10 @@
 
     /* Stats bar */
     .stats-bar {
-      background: white;
-      border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 8px rgba(0,0,0,0.05);
-      padding: 2rem 2rem;
+      background: #F9FAFB;
+      border-top: 3px solid #DC2626;
+      border-bottom: 1px solid #E5E7EB;
+      padding: 2.5rem 2rem;
     }
 
     .stats-grid {
@@ -334,16 +334,20 @@
     .stat-value {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 2.75rem;
+      font-size: 3.5rem;
       color: #B91C1C;
       line-height: 1;
+      letter-spacing: -0.02em;
       margin-bottom: 0.25rem;
     }
 
     .stat-label {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: #6B7280;
-      font-weight: 500;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 0.35rem;
     }
 
     /* Labs section */
@@ -768,25 +772,6 @@
 
       return (
         <div data-lang={lang}>
-          {/* Banderole */}
-          <div style={{
-            background: '#1A1A1A',
-            color: 'rgba(255,255,255,0.75)',
-            fontSize: '0.72rem',
-            fontWeight: 500,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            padding: '8px 24px',
-            position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            zIndex: 9999
-          }}>
-            {lang === 'de' ? 'Sommersemester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg' : 'Summer Semester 2026 · Bachelor Media Management · THWS Business School Würzburg'}
-          </div>
-
           {/* Navbar */}
           <nav className="navbar">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
