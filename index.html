@@ -170,6 +170,7 @@
       align-items: center;
       justify-content: center;
       padding-top: 56px;
+      padding-bottom: 6rem;
     }
 
     .hero-content {
@@ -194,12 +195,23 @@
       margin-bottom: 1.5rem;
     }
 
+    
+    .hero-eyebrow {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 1rem;
+    }
+
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 4rem;
+      font-size: 6.5rem;
       color: white;
-      line-height: 1;
+      line-height: 0.95;
       margin-bottom: 0.5rem;
     }
 
@@ -207,14 +219,16 @@
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
       font-size: 2rem;
-      color: #B91C1C;
+      color: rgba(255,255,255,0.75);
       margin-bottom: 1.25rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
     }
 
     .hero-desc {
-      color: rgba(255,255,255,0.85);
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
+      color: rgba(255,255,255,0.88);
+      font-size: 1.25rem;
+      margin-bottom: 2.5rem;
     }
 
     .course-badges {
@@ -345,7 +359,18 @@
     }
 
     @media (max-width: 600px) {
-      .hero-title { font-size: 2.5rem; }
+      
+    .hero-eyebrow {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title { font-size: 2.5rem; }
       .hero-subtitle { font-size: 1.4rem; }
       .labs-grid {
         grid-template-columns: 1fr;
@@ -543,8 +568,9 @@
         // Hero
         heroTag: "THWS Business School",
         heroTitle: "INME Lab",
-        heroSubtitle: "Interaktive Medien",
-        heroDesc: "Companion Site für den Kurs INME · THWS Business School",
+        heroEyebrow: "Interaktive Medien",
+        heroSubtitle: "Design · Prototyping · Code",
+        heroDesc: "Die Companion-Site zum Kurs · THWS Business School · Bachelor Medienmanagement",
         badge1: "Bachelor Medienmanagement",
         badge2: "Sommersemester 2026",
         badge3: "Prof. Dr. Robert Butscher",
@@ -631,8 +657,9 @@
         // Hero
         heroTag: "THWS Business School",
         heroTitle: "INME Lab",
-        heroSubtitle: "Interactive Media",
-        heroDesc: "Companion site for the INME course · THWS Business School",
+        heroEyebrow: "Interactive Media",
+        heroSubtitle: "Design · Prototyping · Code",
+        heroDesc: "Companion site for the INME course · THWS Business School · Bachelor Media Management",
         badge1: "Bachelor Media Management",
         badge2: "Summer Semester 2026",
         badge3: "Prof. Dr. Robert Butscher",
@@ -765,6 +792,7 @@
             <div className="geo-square"></div>
             <div className="hero-content">
               <span className="hero-tag">{t.heroTag}</span>
+              <div className="hero-eyebrow">{t.heroEyebrow}</div>
               <h1 className="hero-title">{t.heroTitle}</h1>
               <div className="hero-subtitle">{t.heroSubtitle}</div>
               <p className="hero-desc">{t.heroDesc}</p>
