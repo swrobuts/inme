@@ -458,40 +458,96 @@ function SectionBauhaus({ lang }) {
   const t = {
     de: {
       title: 'Das Bauhaus',
-      historyTitle: 'Geschichte',
+
+      // ── Rahmung: Bewusste Wahl ──────────────────────────────────────
+      choiceLabel: 'BEWUSSTE WAHL',
+      choiceIntro: 'Bauhaus ist ein Designprinzip unter vielen – wir haben es für diesen Kurs bewusst gewählt.',
+      otherSchools: [
+        { name: 'Material Design',  org: 'Google, 2014',      note: 'Elevation, Schatten, Bewegung' },
+        { name: 'Human Interface',  org: 'Apple, 1987',       note: 'Direkte Manipulation, Metaphern' },
+        { name: 'Swiss Style',      org: 'Müller-Brockmann',  note: 'Typografie, Grid, Sachlichkeit' },
+        { name: 'Skeuomorphismus',  org: 'frühe UIs',         note: 'Realitätsnachahmung, Textur' },
+        { name: 'Flat Design',      org: 'Microsoft/Apple',   note: 'Flache Flächen, keine Tiefe' },
+      ],
+      whyTitle: 'Warum wir uns für Bauhaus entschieden haben',
+      reasons: [
+        { num: '01', title: 'Digitale Direktübertragbarkeit', text: 'Bauhaus-Prinzipien (Raster, Primärfarben, Geometrie) lassen sich 1:1 in CSS und Komponentensysteme übersetzen – ohne Interpretationsspielraum.' },
+        { num: '02', title: 'Lernbarkeit durch klare Regeln', text: 'Das Bauhaus liefert konkrete, erlernbare Regeln: Primärfarben, geometrische Grundformen, serifenlose Typo. Für Einsteiger besser als intuitive Designschemas.' },
+        { num: '03', title: 'Zeitlosigkeit', text: 'Ein Plakat von Herbert Bayer (1923) wirkt heute noch frisch. Bauhaus-Design altert nicht – weil es auf Prinzipien statt auf Trends basiert.' },
+        { num: '04', title: 'Industrielle Denkweise = Web-Denkweise', text: 'Das Bauhaus dachte immer in Serie, Reproduzierbarkeit und Skalierung. Komponenten, Design-Tokens, Atomic Design – das ist Bauhaus in modernem Gewand.' },
+        { num: '05', title: 'Interdisziplinarität', text: 'Das Bauhaus vereinte Architektur, Produktdesign, Bühnenbild, Werbung und Typografie. Medienmanagement ist ähnlich interdisziplinär – Bauhaus liefert das gemeinsame Vokabular.' },
+      ],
+
+      // ── Architektur-Kontext ─────────────────────────────────────────
+      archTitle: 'Das Bauhaus war zuerst Architekturschule',
+      archText: 'Walter Gropius gründete das Bauhaus 1919 nicht als Grafikdesign-Schule, sondern als Gesamtkunst-Werkschule, deren Krönung die Architektur sein sollte. Das ikonische Schulgebäude in Dessau (1926) ist sein eigenes Manifest: Stahl, Glas, klare Kubatur – kein historisches Ornament. Die Architektur lehrte, was später in jede Disziplin einfloss: Funktion bestimmt Form, nicht umgekehrt.',
+      archCaption: 'Bauhaus Dessau (1926), Walter Gropius. Heute UNESCO-Weltkulturerbe.',
+      archCaption2: 'Treppenhausturm, Bauhaus Dessau. Glas als strukturelles Element.',
+
+      // ── Geschichte ──────────────────────────────────────────────────
+      historyTitle: 'Geschichte & Stationen',
       history: [
-        { year: '1919', text: 'Gründung in Weimar durch Walter Gropius' },
-        { year: '1925', text: 'Umzug nach Dessau – Blütezeit beginnt' },
-        { year: '1933', text: 'Schließung durch die Nationalsozialisten' },
+        { year: '1919', text: 'Gründung in Weimar durch Walter Gropius – Ziel: Kunst und Handwerk vereinen' },
+        { year: '1923', text: 'Ausstellung "Kunst und Technik – Eine neue Einheit" – erstes öffentliches Manifest' },
+        { year: '1925', text: 'Umzug nach Dessau – Neubau des ikonischen Schulgebäudes (Gropius)' },
+        { year: '1928', text: 'Hannes Meyer übernimmt Leitung – stärker sozialistisch geprägt' },
+        { year: '1930', text: 'Ludwig Mies van der Rohe wird Direktor – radikale Strenge' },
+        { year: '1933', text: 'Schließung durch die Nationalsozialisten – viele Meister emigrieren in die USA' },
+        { year: 'heute', text: 'Bauhaus-Stiftung Dessau, UNESCO-Weltkulturerbe, globaler Einfluss auf Design' },
       ],
       philTitle: 'Philosophie',
-      philText: 'Das Bauhaus vereinte Kunst und Handwerk zum „Gesamtkunstwerk". Das Prinzip: Reduktion auf das Wesentliche. Kein Ornament ohne Funktion.',
+      philText: 'Das Bauhaus vereinte Kunst und Handwerk zum „Gesamtkunstwerk". Das Prinzip: Reduktion auf das Wesentliche. Kein Ornament ohne Funktion. Die Schule lehrte keine Stile, sondern Denkweisen.',
       principlesTitle: 'Kernprinzipien',
       principles: [
         { icon: '◯△□', label: 'Geometrisch', text: 'Kreis, Dreieck, Quadrat als Grundformen aller Gestaltung' },
-        { icon: '🔴🟡🔵', label: 'Primary Colors', text: 'Rot, Gelb, Blau als Basis – rein und unmittelbar' },
+        { icon: 'RGB', label: 'Primärfarben', text: 'Rot, Gelb, Blau als Basis – rein und unmittelbar' },
         { icon: 'Aa', label: 'Typografie', text: 'Klare, serifenlose Schriften: Futura, DIN, Helvetica' },
-        { icon: '', label: 'Funktionalität', text: 'Form folgt Funktion – kein Ornament, alles hat Zweck' },
+        { icon: 'f(x)', label: 'Funktionalität', text: 'Form folgt Funktion – kein Ornament, alles hat Zweck' },
       ],
       conceptText: 'Das Bauhaus hat modernes Design geprägt: IKEA, Apple, Google – alle basieren auf Bauhaus-Prinzipien.',
       compositionLabel: 'Bauhaus-Komposition (pure CSS)',
     },
     en: {
       title: 'The Bauhaus',
-      historyTitle: 'History',
+      choiceLabel: 'CONSCIOUS CHOICE',
+      choiceIntro: 'Bauhaus is one design principle among many – we chose it deliberately for this course.',
+      otherSchools: [
+        { name: 'Material Design',  org: 'Google, 2014',      note: 'Elevation, shadow, motion' },
+        { name: 'Human Interface',  org: 'Apple, 1987',       note: 'Direct manipulation, metaphors' },
+        { name: 'Swiss Style',      org: 'Müller-Brockmann',  note: 'Typography, grid, objectivity' },
+        { name: 'Skeuomorphism',    org: 'early UIs',         note: 'Reality imitation, texture' },
+        { name: 'Flat Design',      org: 'Microsoft/Apple',   note: 'Flat surfaces, no depth' },
+      ],
+      whyTitle: 'Why we chose Bauhaus',
+      reasons: [
+        { num: '01', title: 'Direct Digital Transferability', text: 'Bauhaus principles (grid, primary colors, geometry) translate 1:1 into CSS and component systems – with no interpretation gap.' },
+        { num: '02', title: 'Learnable Clear Rules', text: 'Bauhaus delivers concrete, learnable rules: primary colors, geometric shapes, sans-serif type. More accessible for beginners than intuitive design schemas.' },
+        { num: '03', title: 'Timelessness', text: 'A poster by Herbert Bayer (1923) looks fresh today. Bauhaus design does not age – because it is based on principles, not trends.' },
+        { num: '04', title: 'Industrial Thinking = Web Thinking', text: 'Bauhaus always thought in series, reproducibility, and scalability. Components, design tokens, atomic design – all Bauhaus in modern form.' },
+        { num: '05', title: 'Interdisciplinarity', text: 'Bauhaus united architecture, product design, stage design, advertising, and typography. Media management is similarly interdisciplinary – Bauhaus provides the shared vocabulary.' },
+      ],
+      archTitle: 'Bauhaus was first an architecture school',
+      archText: 'Walter Gropius founded the Bauhaus in 1919 not as a graphic design school, but as a total-art craft school whose crown was to be architecture. The iconic school building in Dessau (1926) is its own manifesto: steel, glass, clear cubature – no historical ornament. Architecture taught what later flowed into every discipline: function determines form, not the other way around.',
+      archCaption: 'Bauhaus Dessau (1926), Walter Gropius. Today a UNESCO World Heritage Site.',
+      archCaption2: 'Staircase tower, Bauhaus Dessau. Glass as a structural element.',
+      historyTitle: 'History & Locations',
       history: [
-        { year: '1919', text: 'Founded in Weimar by Walter Gropius' },
-        { year: '1925', text: 'Moved to Dessau – golden age begins' },
-        { year: '1933', text: 'Closed by the National Socialists' },
+        { year: '1919', text: 'Founded in Weimar by Walter Gropius – goal: unite art and craft' },
+        { year: '1923', text: 'Exhibition "Art and Technology – A New Unity" – first public manifesto' },
+        { year: '1925', text: 'Move to Dessau – construction of the iconic school building (Gropius)' },
+        { year: '1928', text: 'Hannes Meyer takes over – more socialist in orientation' },
+        { year: '1930', text: 'Ludwig Mies van der Rohe becomes director – radical austerity' },
+        { year: '1933', text: 'Closed by the Nazis – many masters emigrate to the USA' },
+        { year: 'today', text: 'Bauhaus Foundation Dessau, UNESCO World Heritage, global design influence' },
       ],
       philTitle: 'Philosophy',
-      philText: 'The Bauhaus united art and craft into a "Gesamtkunstwerk" (total work of art). The principle: reduction to the essentials. No ornament without function.',
+      philText: 'The Bauhaus united art and craft into a "Gesamtkunstwerk". The principle: reduction to the essentials. No ornament without function. The school taught not styles, but ways of thinking.',
       principlesTitle: 'Core Principles',
       principles: [
         { icon: '◯△□', label: 'Geometric', text: 'Circle, triangle, square as the basic forms of all design' },
-        { icon: '🔴🟡🔵', label: 'Primary Colors', text: 'Red, yellow, blue as the basis – pure and immediate' },
+        { icon: 'RGB', label: 'Primary Colors', text: 'Red, yellow, blue as the basis – pure and immediate' },
         { icon: 'Aa', label: 'Typography', text: 'Clean sans-serif typefaces: Futura, DIN, Helvetica' },
-        { icon: '', label: 'Functionality', text: 'Form follows function – no ornament, everything has purpose' },
+        { icon: 'f(x)', label: 'Functionality', text: 'Form follows function – no ornament, everything has purpose' },
       ],
       conceptText: 'The Bauhaus shaped modern design: IKEA, Apple, Google – all based on Bauhaus principles.',
       compositionLabel: 'Bauhaus Composition (pure CSS)',
@@ -503,41 +559,99 @@ function SectionBauhaus({ lang }) {
       <h2 className="section-title">{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
-      <div className="grid-2" style={{marginBottom:'1.5rem'}}>
+      {/* ── Bewusste Wahl – Einrahmung ────────────────────────────── */}
+      <div style={{border:'2px solid #1A1A1A',padding:'1.25rem 1.5rem',marginBottom:'2rem',background:'#FAFAFA'}}>
+        <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'0.72rem',letterSpacing:'0.14em',color:'var(--primary)',marginBottom:'0.5rem'}}>{c.choiceLabel}</div>
+        <p style={{fontSize:'1rem',fontWeight:600,margin:0,lineHeight:1.5}}>{c.choiceIntro}</p>
+        <div style={{display:'flex',flexWrap:'wrap',gap:'0.5rem',marginTop:'1rem'}}>
+          {c.otherSchools.map((s,i) => (
+            <div key={i} style={{border:'1px solid #E5E7EB',padding:'0.4rem 0.75rem',background:'white',fontSize:'0.8rem'}}>
+              <span style={{fontWeight:700,fontFamily:"'Space Grotesk',sans-serif"}}>{s.name}</span>
+              <span style={{color:'#6B7280',marginLeft:'0.4rem'}}>{s.org}</span>
+              <div style={{fontSize:'0.72rem',color:'#9CA3AF',marginTop:'0.1rem'}}>{s.note}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Warum Bauhaus? – 5 Gründe ────────────────────────────── */}
+      <h3 style={{marginBottom:'1rem'}}>{c.whyTitle}</h3>
+      <div style={{display:'flex',flexDirection:'column',gap:'0.75rem',marginBottom:'2.5rem'}}>
+        {c.reasons.map((r,i) => (
+          <div key={i} style={{display:'flex',gap:'1.25rem',alignItems:'flex-start',borderLeft:'3px solid var(--primary)',paddingLeft:'1rem',paddingTop:'0.1rem',paddingBottom:'0.1rem'}}>
+            <span style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:900,fontSize:'1.5rem',color:'var(--primary)',lineHeight:1,minWidth:'2.5rem',opacity:0.18,userSelect:'none'}}>{r.num}</span>
+            <div>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:'0.95rem',marginBottom:'0.2rem'}}>{r.title}</div>
+              <div style={{fontSize:'0.88rem',color:'#374151',lineHeight:1.6}}>{r.text}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Architektur-Ursprung ──────────────────────────────────── */}
+      <h3 style={{marginBottom:'0.75rem'}}>{c.archTitle}</h3>
+      <div className="grid-2" style={{marginBottom:'2rem',gap:'1.5rem',alignItems:'start'}}>
         <div>
-          <h3 style={{marginBottom:'0.75rem'}}>{c.historyTitle}</h3>
-          <div style={{display:'flex',flexDirection:'column',gap:'0.5rem'}}>
+          <p style={{fontSize:'0.95rem',lineHeight:1.7,marginBottom:'1rem'}}>{c.archText}</p>
+          <div style={{display:'flex',gap:'0.5rem',marginTop:'0.5rem'}}>
+            <div style={{flex:1}}>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Bauhaus-Dessau.JPG/640px-Bauhaus-Dessau.JPG"
+                alt="Bauhaus Dessau"
+                style={{width:'100%',display:'block',border:'1px solid #E5E7EB'}}
+                onError={(e) => { e.target.style.display='none'; }}
+              />
+              <div style={{fontSize:'0.7rem',color:'#9CA3AF',marginTop:'0.3rem',lineHeight:1.4}}>{c.archCaption}</div>
+            </div>
+            <div style={{flex:1}}>
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Bauhaus_Dessau_Treppenhaus.jpg/640px-Bauhaus_Dessau_Treppenhaus.jpg"
+                alt="Bauhaus Dessau Treppenhaus"
+                style={{width:'100%',display:'block',border:'1px solid #E5E7EB'}}
+                onError={(e) => { e.target.style.display='none'; }}
+              />
+              <div style={{fontSize:'0.7rem',color:'#9CA3AF',marginTop:'0.3rem',lineHeight:1.4}}>{c.archCaption2}</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h4 style={{marginBottom:'0.75rem',fontFamily:"'Space Grotesk',sans-serif"}}>{c.historyTitle}</h4>
+          <div style={{display:'flex',flexDirection:'column',gap:'0.6rem'}}>
             {c.history.map((h,i) => (
               <div key={i} style={{display:'flex',gap:'1rem',alignItems:'flex-start'}}>
-                <span style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,color:'var(--primary)',minWidth:'40px',fontSize:'0.9rem'}}>{h.year}</span>
-                <span style={{fontSize:'0.95rem'}}>{h.text}</span>
+                <span style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,color:'var(--primary)',minWidth:'46px',fontSize:'0.82rem',flexShrink:0}}>{h.year}</span>
+                <span style={{fontSize:'0.88rem',lineHeight:1.5}}>{h.text}</span>
               </div>
             ))}
           </div>
 
-          <h3 style={{marginTop:'1.5rem',marginBottom:'0.5rem'}}>{c.philTitle}</h3>
-          <p style={{fontSize:'0.95rem',lineHeight:1.6}}>{c.philText}</p>
-        </div>
-
-        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
-          <div className="bauhaus-composition">
-            <div className="bh-circle" />
-            <div className="bh-triangle" />
-            <div className="bh-square" />
+          <div style={{marginTop:'1.5rem'}}>
+            <h4 style={{marginBottom:'0.5rem',fontFamily:"'Space Grotesk',sans-serif"}}>{c.philTitle}</h4>
+            <p style={{fontSize:'0.9rem',lineHeight:1.65,color:'#374151'}}>{c.philText}</p>
           </div>
-          <div style={{fontSize:'0.75rem',color:'#6b7280',fontStyle:'italic'}}>{c.compositionLabel}</div>
         </div>
       </div>
 
+      {/* ── Kernprinzipien ───────────────────────────────────────── */}
       <h3 style={{marginBottom:'0.75rem'}}>{c.principlesTitle}</h3>
       <div className="grid-4" style={{marginBottom:'1.5rem'}}>
         {c.principles.map((p,i) => (
           <div key={i} className="bauhaus-card" style={{textAlign:'center'}}>
-            <div style={{fontSize:'1.5rem',marginBottom:'0.5rem'}}>{p.icon}</div>
-            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:'0.9rem',marginBottom:'0.4rem',color:'var(--primary)'}}>{p.label}</div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:900,fontSize:'1.25rem',marginBottom:'0.5rem',color:'var(--primary)',letterSpacing:'-0.02em'}}>{p.icon}</div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:'0.9rem',marginBottom:'0.4rem'}}>{p.label}</div>
             <div style={{fontSize:'0.8rem',color:'#4b5563',lineHeight:1.5}}>{p.text}</div>
           </div>
         ))}
+      </div>
+
+      <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'0.5rem',marginBottom:'1.5rem'}}>
+        <div className="bauhaus-composition">
+          <div className="bh-circle" />
+          <div className="bh-triangle" />
+          <div className="bh-square" />
+        </div>
+        <div style={{fontSize:'0.75rem',color:'#6b7280'}}>{c.compositionLabel}</div>
       </div>
 
       <div className="concept-box">
