@@ -1207,6 +1207,7 @@
     if (!result.is_coffee_machine) {
       document.getElementById('errorPhoto').src = photoURL;
       showScreen('screenError');
+      showProgress(0);
       return;
     }
     const key = (result.problem_type && DIAGNOSE[result.problem_type])
@@ -1215,6 +1216,7 @@
     diagnosis = DIAGNOSE[key];
     renderDiagnosis(diagnosis);
     showScreen('screen3');
+    showProgress(3);
   }
 
   function renderDiagnosis(d) {
@@ -1245,6 +1247,7 @@
     document.getElementById('shopPrice').textContent =
       `\u20AC\u00A0${diagnosis.preis.toFixed(2).replace('.', ',')}`;
     showScreen('screen4');
+    showProgress(4);
   }
 
   function placeOrder() {
