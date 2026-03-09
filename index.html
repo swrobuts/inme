@@ -162,7 +162,7 @@
     .hero {
       background: #DC2626;
       position: relative;
-      min-height: calc(var(--vh, 100vh) - 186px);
+      min-height: calc(var(--vh, 100vh) - 156px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -597,6 +597,110 @@
     [data-lang="en"] .use-case-badge { background: #1A1A1A; }
     [data-lang="en"] .use-case-accent { background: #1A1A1A; }
 
+
+    /* ── Jony Ive Quote Section ── */
+    .quote-section {
+      background: #FAFAFA;
+      padding: 5rem 2rem;
+      border-top: 1px solid #E5E7EB;
+      border-bottom: 1px solid #E5E7EB;
+      overflow: hidden;
+    }
+    .quote-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+    }
+    .quote-portrait {
+      flex-shrink: 0;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid #E5E7EB;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+    }
+    .quote-portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .quote-text-block {
+      flex: 1;
+      position: relative;
+    }
+    .quote-mark {
+      position: absolute;
+      top: -2rem;
+      left: -1.5rem;
+      font-size: 8rem;
+      font-family: 'Georgia', serif;
+      line-height: 1;
+      color: #DC2626;
+      opacity: 0.10;
+      font-weight: 900;
+      pointer-events: none;
+      user-select: none;
+    }
+    [data-lang="en"] .quote-mark { color: #1A1A1A; }
+    .quote-body {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      line-height: 1.75;
+      color: #374151;
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1.5rem;
+    }
+    .quote-attribution {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .quote-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #DC2626;
+      letter-spacing: 0.02em;
+    }
+    [data-lang="en"] .quote-name { color: #1A1A1A; }
+    .quote-role {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      color: #9CA3AF;
+      font-weight: 500;
+    }
+    /* Scroll-Reveal Animation */
+    .quote-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .quote-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .quote-reveal-delay {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+    }
+    .quote-reveal-delay.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 640px) {
+      .quote-inner { flex-direction: column; gap: 2rem; text-align: center; }
+      .quote-mark { left: 0; }
+      .quote-attribution { align-items: center; }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
@@ -800,21 +904,6 @@
 
       return (
         <div data-lang={lang}>
-          {/* Jony Ive Quote – ganz oben */}
-          <div style={{
-            background: '#1A1A1A',
-            padding: '0.6rem 2rem',
-            textAlign: 'center',
-            fontSize: '0.82rem',
-            color: 'rgba(255,255,255,0.65)',
-            fontStyle: 'italic',
-            letterSpacing: '0.02em',
-            lineHeight: 1.4
-          }}>
-            <span>»True simplicity is derived from so much more than the absence of clutter.«</span>
-            <span style={{ fontStyle: 'normal', fontWeight: 700, color: 'rgba(255,255,255,0.9)', marginLeft: '0.5rem' }}>— Jony Ive</span>
-          </div>
-
           {/* Navbar */}
           <nav className="navbar">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -910,6 +999,41 @@
           </div>
           </div>{/* end viewport wrapper */}
 
+          {/* Jony Ive Quote Section */}
+          <section className="quote-section">
+            <div className="quote-inner">
+              <div className="quote-reveal">
+                <div className="quote-portrait">
+                  <img
+                    src="images/jony-ive.jpg"
+                    alt="Jonathan Ive"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.parentElement.style.background = '#F3F4F6';
+                      e.target.parentElement.innerHTML = '<div style={display:"flex",alignItems:"center",justifyContent:"center",width:"100%",height:"100%",fontSize:"4rem",color:"#9CA3AF"}>JI</div>';
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="quote-text-block quote-reveal-delay">
+                <div className="quote-mark">&#8220;</div>
+                <p className="quote-body">
+                  I think there is a profound and enduring beauty in simplicity; in clarity, in efficiency. True simplicity is derived from so much more than just the absence of clutter and ornamentation. It's about bringing order to complexity.
+                </p>
+                <div className="quote-attribution">
+                  <span className="quote-name">— Jonathan Ive</span>
+                  <span className="quote-role">
+                    {lang === 'de'
+                      ? 'Ehemaliger Chief Design Officer, Apple Inc.'
+                      : 'Former Chief Design Officer, Apple Inc.'
+                    }
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
           {/* Labs Grid */}
           <section className="labs-section" id="labs">
             <div className="section-header">
@@ -995,6 +1119,29 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
+  </script>
+
+  <script>
+    (function() {
+      function initReveal() {
+        const items = document.querySelectorAll('.quote-reveal, .quote-reveal-delay');
+        if (!items.length) return;
+        const obs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              obs.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        items.forEach(function(el) { obs.observe(el); });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initReveal);
+      } else {
+        setTimeout(initReveal, 500);
+      }
+    })();
   </script>
 </body>
 </html>
