@@ -866,7 +866,7 @@
   
     /* ── Bonus Card ── */
     .bonus-card {
-      grid-column: span 2;
+      grid-column: span 3;
       border: 1.5px dashed var(--gray-400, #9CA3AF);
       padding: 28px 24px 0;
       display: flex;
@@ -936,6 +936,59 @@
     [data-lang="en"] .btn-bonus-link:hover { color: #1A1A1A; }
     @media (max-width: 640px) {
       .bonus-card { grid-column: span 1; }
+    }
+
+  
+    .bonus-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .bonus-why {
+      font-size: 0.7rem;
+      color: #6B7280;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .bonus-criteria {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .bonus-criteria li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .bonus-crit-num {
+      flex-shrink: 0;
+      width: 18px; height: 18px;
+      background: #1A1A1A;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .bonus-crit-text strong {
+      display: block;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      margin-bottom: 1px;
+    }
+    .bonus-crit-text span {
+      font-size: 0.65rem;
+      color: #6B7280;
+      line-height: 1.45;
+    }
+    @media (max-width: 640px) {
+      .bonus-card { grid-column: span 1; }
+      .bonus-inner { grid-template-columns: 1fr; }
     }
 
   </style>
@@ -1322,15 +1375,63 @@
               {/* ── Bonus: Project Phil ── */}
               <div className="bonus-card">
                 <span className="bonus-badge">{lang === 'en' ? 'Bonus Project' : 'Bonus-Projekt'}</span>
-                <div className="bonus-title">Project Phil</div>
-                <div className="bonus-subtitle">{lang === 'en' ? 'AI Knowledge System' : 'KI-Wissenssystem'}</div>
-                <div className="bonus-highlights">
-                  <span className="bonus-chip">ChromaDB</span>
-                  <span className="bonus-chip">Knowledge Graph</span>
-                  <span className="bonus-chip">OWL · RDF · SPARQL</span>
-                  <span className="bonus-chip">RAG-Pipeline</span>
-                  <span className="bonus-chip">{lang === 'en' ? 'Local LLM' : 'Lokales LLM'}</span>
-                  <span className="bonus-chip">{lang === 'en' ? 'Interactive UI' : 'Interaktive UI'}</span>
+                <div className="bonus-inner">
+                  {/* Links: Titel + Chips */}
+                  <div>
+                    <div className="bonus-title">Project Phil</div>
+                    <div className="bonus-subtitle">{lang === 'en' ? 'AI Knowledge System' : 'KI-Wissenssystem'}</div>
+                    <p className="bonus-why">
+                      {lang === 'en'
+                        ? 'Phil meets all HCI criteria for a highly interactive system: multimodal input, real-time processing, continuous feedback, and adaptive agent behaviour.'
+                        : 'Phil erfüllt alle HCI-Kriterien eines hochgradig interaktiven Systems: multimodale Eingabe, Echtzeit-Verarbeitung, kontinuierliches Feedback und adaptives Agentenverhalten.'}
+                    </p>
+                    <div className="bonus-highlights">
+                      <span className="bonus-chip">ChromaDB</span>
+                      <span className="bonus-chip">Knowledge Graph</span>
+                      <span className="bonus-chip">OWL · RDF · SPARQL</span>
+                      <span className="bonus-chip">RAG-Pipeline</span>
+                      <span className="bonus-chip">{lang === 'en' ? 'Local LLM' : 'Lokales LLM'}</span>
+                      <span className="bonus-chip">{lang === 'en' ? 'Interactive UI' : 'Interaktive UI'}</span>
+                    </div>
+                  </div>
+                  {/* Rechts: 5 HCI-Kriterien */}
+                  <ul className="bonus-criteria">
+                    <li>
+                      <div className="bonus-crit-num">1</div>
+                      <div className="bonus-crit-text">
+                        <strong>{lang === 'en' ? 'Multimodal Input' : 'Multimodale Eingabe'}</strong>
+                        <span>{lang === 'en' ? 'Voice + GUI/display interactions + implicit touch – real interfaces, not one-way output.' : 'Sprache als primärer Input, GUI-Interaktionen und Touch – reale Schnittstellen, kein Einweg-Output.'}</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="bonus-crit-num">2</div>
+                      <div className="bonus-crit-text">
+                        <strong>{lang === 'en' ? 'Perception–Action Loop' : 'Wahrnehmungs-Handlungs-Kreislauf'}</strong>
+                        <span>{lang === 'en' ? 'User sets goals → Phil reacts → user refines → Phil adapts. Continuous dialogue, not one-shot output.' : 'Nutzer formuliert Ziele → Phil reagiert → Nutzer konkretisiert → System passt sich an.'}</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="bonus-crit-num">3</div>
+                      <div className="bonus-crit-text">
+                        <strong>{lang === 'en' ? 'Real-Time Behaviour Control' : 'Echtzeit-Steuerung'}</strong>
+                        <span>{lang === 'en' ? 'Inputs steer research, calendar and output in real time – the system visibly "works" along each query.' : 'Anfragen steuern Recherche, Kalender und Ablauf in Echtzeit – das System "arbeitet" sichtbar.'}</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="bonus-crit-num">4</div>
+                      <div className="bonus-crit-text">
+                        <strong>{lang === 'en' ? 'Multimodal Feedback' : 'Systemseitiges Feedback'}</strong>
+                        <span>{lang === 'en' ? 'Visual output (charts, maps, animations), spoken responses by Phil, dynamic screen transitions.' : 'Grafiken, Karten, Diagramme, Animationen – plus sprachliches Feedback durch den Agenten.'}</span>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="bonus-crit-num">5</div>
+                      <div className="bonus-crit-text">
+                        <strong>{lang === 'en' ? 'Adaptive Agent Behaviour' : 'Adaptives Agentenverhalten'}</strong>
+                        <span>{lang === 'en' ? 'Phil researches, summarises, coordinates appointments – proactive and context-sensitive beyond pure UI reaction.' : 'Phil recherchiert, koordiniert Termine, agiert proaktiv und kontextsensitiv – nicht nur UI-Reaktion.'}</span>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
                 <a href="https://swrobuts.github.io/bigdata/" target="_blank" rel="noopener" className="btn-bonus-link">
                   <span>{lang === 'en' ? 'Explore Project Phil →' : 'Zum Projekt →'}</span>
