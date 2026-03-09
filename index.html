@@ -7,7 +7,7 @@
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css" rel="stylesheet">
@@ -207,7 +207,7 @@
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 6.5rem;
+      font-size: 8rem;
       color: white;
       line-height: 0.95;
       margin-bottom: 0.5rem;
@@ -230,13 +230,8 @@
     }
 
     
-    .hero-course {
-      font-size: 1rem;
-      font-weight: 600;
-      white-space: nowrap;
-      margin-top: 0.25rem;
-      margin-bottom: 2rem;
-    }
+    .hero-course { display: none; }  /* entfernt – Info steht im Badge-Block */
+    .course-badges { margin-top: 1.25rem; margin-bottom: 2rem; }
 
     .course-badges {
       display: flex;
@@ -379,11 +374,11 @@
     }
 
     .labs-grid {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      gap: 2rem;
     }
 
     @media (max-width: 900px) {
@@ -404,7 +399,7 @@
       margin-bottom: 1rem;
     }
 
-    .hero-title { font-size: 2.5rem; }
+    .hero-title { font-size: 3rem; }
       .hero-subtitle { font-size: 1.4rem; }
       .labs-grid {
         grid-template-columns: 1fr;
@@ -422,11 +417,12 @@
       border-left: 4px solid #B91C1C;
       border-radius: 0;
       background: white;
-      padding: 1.5rem;
+      padding: 2rem 1.75rem;
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.9rem;
+      min-height: 200px;
     }
 
     .lab-num-badge {
@@ -448,6 +444,7 @@
       font-size: 1rem;
       color: #B91C1C;
       margin-bottom: 0.1rem;
+      padding-right: 2.5rem;
     }
 
     .lab-subtitle {
@@ -630,31 +627,28 @@
     }
     .quote-text-block {
       flex: 1;
-      position: relative;
     }
     .quote-mark {
-      position: absolute;
-      top: -2rem;
-      left: -1.5rem;
-      font-size: 8rem;
-      font-family: 'Georgia', serif;
+      display: block;
+      font-size: 3.5rem;
+      font-family: 'EB Garamond', Georgia, serif;
       line-height: 1;
       color: #DC2626;
-      opacity: 0.10;
-      font-weight: 900;
-      pointer-events: none;
+      opacity: 0.85;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.05em;
       user-select: none;
     }
     [data-lang="en"] .quote-mark { color: #1A1A1A; }
     .quote-body {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem;
-      line-height: 1.75;
-      color: #374151;
-      font-style: italic;
-      position: relative;
-      z-index: 1;
-      margin-bottom: 1.5rem;
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.35rem;
+      line-height: 1.8;
+      color: #1A1A1A;
+      font-style: normal;
+      font-weight: 400;
+      margin-bottom: 1.75rem;
     }
     .quote-attribution {
       display: flex;
@@ -681,14 +675,14 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .quote-reveal {
-      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: fadeSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
       animation-timeline: view();
-      animation-range: entry 0% entry 35%;
+      animation-range: entry 0% entry 18%;
     }
     .quote-reveal-delay {
-      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+      animation: fadeSlideUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
       animation-timeline: view();
-      animation-range: entry 0% entry 35%;
+      animation-range: entry 0% entry 18%;
     }
     /* Fallback für Browser ohne animation-timeline */
     @supports not (animation-timeline: view()) {
