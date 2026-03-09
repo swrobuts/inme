@@ -310,14 +310,30 @@
 
     /* Stats bar */
     .stats-bar {
-      background: #1A1A1A;
-      padding: 1.75rem 3rem;
-      width: 100%;
+      background: white;
+      box-shadow: 0 -1px 0 rgba(185,28,28,0.08), 0 4px 20px rgba(0,0,0,0.05);
     }
-    .stats-bar .stat-value { color: white; }
-    .stats-bar .stat-label { color: rgba(255,255,255,0.5); }
-    .stats-bar .stat-divider { background: rgba(255,255,255,0.12); }
-    [data-lang="en"] .stats-bar .stat-value { color: #F7CC00; }
+    .stats-bar .stat-item {
+      text-align: center;
+      padding: 1.75rem 1.5rem;
+      position: relative;
+    }
+    .stats-bar .stat-item + .stat-item::before {
+      content: '';
+      position: absolute; left: 0; top: 25%; height: 50%;
+      width: 1px; background: rgba(185,28,28,0.12);
+    }
+    .stats-bar .stat-value {
+      font-size: 2.75rem; font-weight: 900;
+      color: #DC2626; line-height: 1;
+    }
+    .stats-bar .stat-label {
+      font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: #B91C1C; margin-top: 0.4rem;
+    }
+    [data-lang="en"] .stats-bar .stat-value { color: #1A1A1A; }
+    [data-lang="en"] .stats-bar .stat-label { color: #6B7280; }
 
     .stats-grid {
       max-width: 900px;
@@ -337,10 +353,9 @@
     .stat-value {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 3.5rem;
+      font-size: 2.75rem;
       color: #B91C1C;
       line-height: 1;
-      letter-spacing: -0.02em;
       margin-bottom: 0.25rem;
     }
 
@@ -853,22 +868,40 @@
                 <div className="stat-value">6</div>
                 <div className="stat-label">{t.statLabs}</div>
               </div>
-              <div className="stat-divider"></div>
               <div className="stat-item">
                 <div className="stat-value">1</div>
                 <div className="stat-label">{t.statUseCase}</div>
               </div>
-              <div className="stat-divider"></div>
               <div className="stat-item">
-                <div className="stat-value" style={{ fontSize: '1.4rem' }}>{t.statTech}</div>
-                <div className="stat-label">{t.statTech}</div>
+                <div className="stat-value" style={{ fontSize: '1rem', letterSpacing: '0.02em', fontWeight: 900 }}>{t.statTech}</div>
+                <div className="stat-label">{t.statTechLabel}</div>
               </div>
-              <div className="stat-divider"></div>
               <div className="stat-item">
                 <div className="stat-value">{t.statLang}</div>
                 <div className="stat-label">{t.statLangLabel}</div>
               </div>
             </div>
+          </div>
+
+          {/* Jony Ive Quote Strip */}
+          <div style={{
+            background: '#F9FAFB',
+            borderTop: '1px solid #E5E7EB',
+            borderBottom: '1px solid #E5E7EB',
+            padding: '1.25rem 3rem',
+            textAlign: 'center'
+          }}>
+            <span style={{
+              fontStyle: 'italic',
+              fontSize: '0.95rem',
+              color: '#6B7280',
+              letterSpacing: '0.01em'
+            }}>
+              {lang === 'de' ? '»True simplicity is derived from so much more than the absence of clutter.«' : '»True simplicity is derived from so much more than the absence of clutter.«'}
+              <span style={{ fontStyle: 'normal', fontWeight: 600, color: '#B91C1C', marginLeft: '0.5rem' }}>
+                — Jony Ive
+              </span>
+            </span>
           </div>
 
           {/* Labs Grid */}
