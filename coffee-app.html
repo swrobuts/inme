@@ -516,6 +516,153 @@
     @media (max-width: 390px) {
       h1 { font-size: 1.75rem; }
     }
+
+    /* ── Screen 0 (Home) ── */
+    .home-hero {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+      flex-shrink: 0;
+    }
+    .home-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 28px 0;
+    }
+    .home-app-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .home-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .home-desc {
+      font-size: 0.95rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .home-faults {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .home-fault-chip {
+      border: 1px solid var(--gray-300);
+      padding: 8px 12px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: var(--gray-100);
+      transition: border-color 0.15s;
+    }
+    .home-fault-chip:hover { border-color: var(--gray-700); }
+    .home-fault-chip svg { flex-shrink: 0; }
+
+    /* ── Sample Images Grid ── */
+    .sample-section {
+      margin-top: 24px;
+    }
+    .sample-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 10px;
+    }
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+    .sample-thumb {
+      position: relative;
+      aspect-ratio: 1;
+      cursor: pointer;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .sample-thumb:hover { border-color: var(--gray-700); }
+    .sample-thumb.selected { border-color: var(--accent); }
+    .sample-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .sample-thumb-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.65);
+      color: #fff;
+      font-size: 0.55rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 4px;
+      text-align: center;
+    }
+
+    /* ── Progress Steps ── */
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 10px 0 0;
+    }
+    .progress-step {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--gray-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--gray-500);
+      background: var(--white);
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+    .progress-step.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .progress-step.done {
+      border-color: var(--gray-700);
+      background: var(--gray-700);
+      color: var(--white);
+    }
+    .progress-line {
+      flex: 1;
+      height: 2px;
+      background: var(--gray-300);
+      max-width: 40px;
+    }
+    .progress-line.done { background: var(--gray-700); }
+
   </style>
 </head>
 <body>
@@ -533,6 +680,15 @@
     <div class="header-center">
       <div class="header-title">Service App</div>
       <div class="header-subtitle">JURA &times; THWS</div>
+      <div class="progress-bar" id="progressBar" style="display:none">
+        <div class="progress-step done" id="ps1">1</div>
+        <div class="progress-line done" id="pl1"></div>
+        <div class="progress-step active" id="ps2">2</div>
+        <div class="progress-line" id="pl2"></div>
+        <div class="progress-step" id="ps3">3</div>
+        <div class="progress-line" id="pl3"></div>
+        <div class="progress-step" id="ps4">4</div>
+      </div>
     </div>
     <div class="header-right">
       <span class="lang-badge">DE</span>
@@ -540,9 +696,30 @@
   </header>
 
   <!-- ══════════════════════════════
+       SCREEN 0 – Home / Start
+  ══════════════════════════════ -->
+  <div class="screen active" id="screen0">
+    <img class="home-hero" src="images/hero-kaffeemaschine.jpg" alt="Kaffeevollautomat" onerror="this.style.display='none'">
+    <div class="home-content">
+      <div class="home-app-tag">KI-Störungsdiagnose</div>
+      <h1 class="home-title">Was stimmt mit Ihrer Maschine nicht?</h1>
+      <p class="home-desc">Foto der Störung hochladen – unsere KI analysiert das Problem und schlägt Lösungen vor.</p>
+      <div class="spacer"></div>
+    </div>
+    <div class="bottom-actions">
+      <button class="btn-primary" onclick="showScreen('screen1'); showProgress(1);">
+        Störung analysieren
+      </button>
+      <p style="text-align:center; font-size:0.78rem; color:var(--gray-500); margin-top:12px;">
+        Kein Foto? Testbild aus Bildergalerie wählen
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════
        SCREEN 1 – Störung erfassen
   ══════════════════════════════ -->
-  <div class="screen active" id="screen1">
+  <div class="screen" id="screen1">
 
     <div class="label">Störung melden</div>
     <h1>Foto der Störung<br>hochladen</h1>
@@ -572,6 +749,33 @@
       <div class="or-divider-line"></div>
       <span class="or-divider-text">oder</span>
       <div class="or-divider-line"></div>
+    </div>
+
+    <!-- Testbilder -->
+    <div class="sample-section">
+      <div class="sample-label">Testbilder (Demo)</div>
+      <div class="sample-grid">
+        <div class="sample-thumb" onclick="loadSampleImage('images/test-kalk-closeup.jpg', this)" title="Kalkrückstände">
+          <img src="images/test-kalk-closeup.jpg" alt="Kalk">
+          <div class="sample-thumb-label">Kalk</div>
+        </div>
+        <div class="sample-thumb" onclick="loadSampleImage('images/test-grinder-stuck.jpg', this)" title="Mahlwerk blockiert">
+          <img src="images/test-grinder-stuck.jpg" alt="Mahlwerk">
+          <div class="sample-thumb-label">Mahlwerk</div>
+        </div>
+        <div class="sample-thumb" onclick="loadSampleImage('images/test-error-e4.jpg', this)" title="Fehlercode E4">
+          <img src="images/test-error-e4.jpg" alt="E4">
+          <div class="sample-thumb-label">Fehler E4</div>
+        </div>
+        <div class="sample-thumb" onclick="loadSampleImage('images/test-leak-internal.jpg', this)" title="Wasserleck">
+          <img src="images/test-leak-internal.jpg" alt="Leck">
+          <div class="sample-thumb-label">Leck</div>
+        </div>
+        <div class="sample-thumb" onclick="loadSampleImage('images/test-steam-clog.jpg', this)" title="Dampflanze verstopft">
+          <img src="images/test-steam-clog.jpg" alt="Dampf">
+          <div class="sample-thumb-label">Dampf</div>
+        </div>
+      </div>
     </div>
 
     <!-- Maschinentyp -->
@@ -859,6 +1063,7 @@
   const backMap = {
     screen2:     'screen1',
     screen3:     'screen1',
+    screen1:     'screen0',
     screen4:     'screen3',
     screen5:     'screen1',
     screenError: 'screen1'
@@ -1073,6 +1278,63 @@ Return ONLY valid JSON, no markdown, no explanation.`;
     const keys = Object.keys(DIAGNOSE);
     return keys[Math.floor(Math.random() * keys.length)];
   }
+
+
+  function handleFileObj(file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const preview = document.getElementById('uploadPreview');
+      const img = document.getElementById('previewImg');
+      const content = document.getElementById('uploadZoneContent');
+      img.src = e.target.result;
+      preview.style.display = 'block';
+      content.style.display = 'none';
+      currentFile = file;
+      currentDataUrl = e.target.result;
+      document.getElementById('diagnoseBtn').disabled = false;
+      document.getElementById('diagnoseBtn').style.opacity = '1';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function loadSampleImage(url, thumbEl) {
+    // Alle Selects zurücksetzen
+    document.querySelectorAll('.sample-thumb').forEach(t => t.classList.remove('selected'));
+    if (thumbEl) thumbEl.classList.add('selected');
+    fetch(url)
+      .then(r => r.blob())
+      .then(blob => {
+        const file = new File([blob], url.split('/').pop(), { type: 'image/jpeg' });
+        handleFileObj(file);
+      })
+      .catch(() => {
+        // Fallback: img direkt als src setzen
+        const preview = document.getElementById('uploadPreview');
+        const img = document.getElementById('previewImg');
+        const content = document.getElementById('uploadZoneContent');
+        img.src = url;
+        preview.style.display = 'block';
+        content.style.display = 'none';
+        currentFile = null;
+        currentDataUrl = url;
+        document.getElementById('diagnoseBtn').disabled = false;
+        document.getElementById('diagnoseBtn').style.opacity = '1';
+      });
+  }
+
+  function showProgress(step) {
+    const bar = document.getElementById('progressBar');
+    bar.style.display = 'flex';
+    const steps = [1,2,3,4];
+    steps.forEach(s => {
+      const el = document.getElementById('ps' + s);
+      const line = document.getElementById('pl' + s);
+      if (!el) return;
+      el.className = 'progress-step' + (s < step ? ' done' : s === step ? ' active' : '');
+      if (line) line.className = 'progress-line' + (s < step ? ' done' : '');
+    });
+  }
+
 </script>
 </body>
 </html>
