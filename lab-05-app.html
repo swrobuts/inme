@@ -676,6 +676,12 @@
     .ps-line.done { background: var(--gray-700); }
 
   </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    #map-confirm { width: 100%; height: 220px; border: 1px solid var(--gray-200); margin-top: 12px; }
+    .confirm-address { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; padding: 10px 0; border-bottom: 1px solid var(--gray-200); }
+  </style>
 </head>
 <body>
 <div id="app">
@@ -931,13 +937,46 @@
 
     <hr class="divider">
 
+    <!-- Kontakt -->
     <div class="form-group">
       <div class="label">Name</div>
       <input type="text" class="form-field" id="orderName" placeholder="Vor- und Nachname" autocomplete="name">
     </div>
     <div class="form-group">
+      <div class="label">Telefon</div>
+      <input type="tel" class="form-field" id="orderPhone" placeholder="+49 " autocomplete="tel">
+    </div>
+    <div class="form-group">
       <div class="label">E-Mail</div>
       <input type="email" class="form-field" id="orderEmail" placeholder="ihre@email.de" autocomplete="email">
+    </div>
+
+    <hr class="divider">
+
+    <!-- Lieferadresse -->
+    <div class="label" style="margin-bottom:12px;">Lieferadresse</div>
+
+    <div class="form-group">
+      <div class="label">Straße</div>
+      <input type="text" class="form-field" id="orderStreet" placeholder="Musterstraße" autocomplete="address-line1">
+    </div>
+    <div style="display:grid;grid-template-columns:90px 1fr;gap:12px;">
+      <div class="form-group">
+        <div class="label">Nr.</div>
+        <input type="text" class="form-field" id="orderHouseNr" placeholder="12a" autocomplete="address-line2">
+      </div>
+      <div class="form-group">
+        <div class="label">PLZ</div>
+        <input type="text" class="form-field" id="orderZip" placeholder="97070" autocomplete="postal-code">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="label">Ort</div>
+      <input type="text" class="form-field" id="orderCity" placeholder="Würzburg" autocomplete="address-level2">
+    </div>
+    <div class="form-group">
+      <div class="label">Land</div>
+      <input type="text" class="form-field" id="orderCountry" value="Deutschland" autocomplete="country-name">
     </div>
 
     <div class="spacer"></div>
@@ -976,6 +1015,11 @@
     <div class="meta-item">
       <div class="label">Produkt</div>
       <div class="meta-value" id="confirmProduct"></div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Lieferadresse</div>
+      <div class="confirm-address" id="confirmAddress">–</div>
+      <div id="map-confirm"></div>
     </div>
 
     <div class="spacer"></div>
@@ -1118,8 +1162,15 @@
     document.getElementById('fileInput').value = '';
     document.getElementById('machineType').value = '';
     document.getElementById('apiKey').value = '';
-    document.getElementById('orderName').value = '';
+    document.getElementById('orderName').value  = '';
+    document.getElementById('orderPhone').value = '';
     document.getElementById('orderEmail').value = '';
+    document.getElementById('orderStreet').value  = '';
+    document.getElementById('orderHouseNr').value = '';
+    document.getElementById('orderZip').value     = '';
+    document.getElementById('orderCity').value    = '';
+    document.getElementById('orderCountry').value = 'Deutschland';
+    if (_leafletMap) { _leafletMap.remove(); _leafletMap = null; }
     showContent(true);
     updateDiagnoseBtn();
     showScreen('screen1');
@@ -1250,17 +1301,76 @@
     showProgress(4);
   }
 
+  let _leafletMap = null;
+
   function placeOrder() {
-    const name  = document.getElementById('orderName').value.trim();
-    const email = document.getElementById('orderEmail').value.trim();
-    if (!name || !email) {
-      (name ? document.getElementById('orderEmail') : document.getElementById('orderName')).focus();
-      return;
+    const name    = document.getElementById('orderName').value.trim();
+    const phone   = document.getElementById('orderPhone').value.trim();
+    const email   = document.getElementById('orderEmail').value.trim();
+    const street  = document.getElementById('orderStreet').value.trim();
+    const houseNr = document.getElementById('orderHouseNr').value.trim();
+    const zip     = document.getElementById('orderZip').value.trim();
+    const city    = document.getElementById('orderCity').value.trim();
+    const country = document.getElementById('orderCountry').value.trim() || 'Deutschland';
+
+    // Pflichtfelder prüfen
+    const required = [
+      [name,   'orderName'],
+      [email,  'orderEmail'],
+      [street, 'orderStreet'],
+      [zip,    'orderZip'],
+      [city,   'orderCity'],
+    ];
+    for (const [val, id] of required) {
+      if (!val) { document.getElementById(id).focus(); return; }
     }
+
     const num = `INME-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 9000) + 1000)}`;
-    document.getElementById('orderNumber').textContent  = num;
+    document.getElementById('orderNumber').textContent    = num;
     document.getElementById('confirmProduct').textContent = diagnosis?.ersatzteil || '';
+
+    // Lieferadresse anzeigen
+    const addrLine = `${street} ${houseNr}, ${zip} ${city}, ${country}`;
+    document.getElementById('confirmAddress').textContent = addrLine;
+
     showScreen('screen5');
+    showProgress(4);
+
+    // Karte initialisieren (nach kurzem Delay für DOM-Render)
+    setTimeout(() => {
+      if (_leafletMap) { _leafletMap.remove(); _leafletMap = null; }
+      const mapEl = document.getElementById('map-confirm');
+      if (!mapEl) return;
+
+      // Nominatim Geocoding
+      const query = encodeURIComponent(`${street} ${houseNr}, ${zip} ${city}, ${country}`);
+      fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`)
+        .then(r => r.json())
+        .then(data => {
+          let lat = 49.7983, lon = 9.9377; // Fallback: Würzburg
+          if (data && data[0]) {
+            lat = parseFloat(data[0].lat);
+            lon = parseFloat(data[0].lon);
+          }
+          _leafletMap = L.map('map-confirm', { zoomControl: true, scrollWheelZoom: false });
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(_leafletMap);
+          _leafletMap.setView([lat, lon], 15);
+          L.marker([lat, lon])
+            .addTo(_leafletMap)
+            .bindPopup(`<strong>${diagnosis?.ersatzteil || 'Ersatzteil'}</strong><br>${addrLine}`)
+            .openPopup();
+        })
+        .catch(() => {
+          // Fallback ohne Geocoding: Würzburg
+          _leafletMap = L.map('map-confirm', { zoomControl: true, scrollWheelZoom: false });
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+          }).addTo(_leafletMap);
+          _leafletMap.setView([49.7983, 9.9377], 13);
+        });
+    }, 300);
   }
 
   // ── Gemini API ──
