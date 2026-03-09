@@ -1129,6 +1129,7 @@
 
         function App() {
       const [lang, setLang] = useState(() => localStorage.getItem('inme-lang') || (urlLang === 'en' ? 'en' : 'de'));
+      const persistLang = (l) => { setLang(l); localStorage.setItem('inme-lang', l); };
       const [activeSection, setActiveSection] = useState('ueberblick');
       const tr = t[lang];
 

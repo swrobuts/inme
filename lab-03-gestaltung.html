@@ -1584,6 +1584,7 @@ function BottomNav({ lang }) {
 // ─── APP ───
 function App() {
   const [lang, setLang] = useState(() => localStorage.getItem('inme-lang') || (urlLang === 'en' ? 'en' : 'de'));
+      const persistLang = (l) => { setLang(l); localStorage.setItem('inme-lang', l); };
   const [activeId, setActiveId] = useState('ueberblick');
 
   useEffect(() => {

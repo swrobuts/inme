@@ -1200,6 +1200,7 @@
 
     function App() {
       const [lang, setLang] = useState(() => localStorage.getItem('inme-lang') || 'de');
+      const persistLang = (l) => { setLang(l); localStorage.setItem('inme-lang', l); };
 
       // Quote-Sektion: Scroll-Reveal via IntersectionObserver
       useEffect(() => {
