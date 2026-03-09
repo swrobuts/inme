@@ -622,46 +622,59 @@
       text-align: center;
     }
 
-    /* ── Progress Steps ── */
-    .progress-bar {
-      display: flex;
+    /* ── Progress Strip (unter Header, eigene Zeile) ── */
+    .progress-strip {
+      display: none;
       align-items: center;
-      justify-content: center;
+      padding: 10px 24px 8px;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-300);
       gap: 0;
-      padding: 10px 0 0;
+      flex-shrink: 0;
     }
-    .progress-step {
-      width: 24px;
-      height: 24px;
+    .progress-strip.visible { display: flex; }
+
+    .ps-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      min-width: 54px;
+    }
+    .ps-num {
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 2px solid var(--gray-300);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.65rem;
+      font-size: 0.78rem;
       font-weight: 700;
       color: var(--gray-500);
       background: var(--white);
-      position: relative;
-      z-index: 1;
-      flex-shrink: 0;
     }
-    .progress-step.active {
-      border-color: var(--accent);
-      color: var(--accent);
+    .ps-label {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      white-space: nowrap;
     }
-    .progress-step.done {
-      border-color: var(--gray-700);
-      background: var(--gray-700);
-      color: var(--white);
-    }
-    .progress-line {
+    .ps-item.active .ps-num  { border-color: var(--accent); color: var(--accent); }
+    .ps-item.active .ps-label { color: var(--gray-900); }
+    .ps-item.done   .ps-num  { border-color: var(--gray-700); background: var(--gray-700); color: var(--white); }
+    .ps-item.done   .ps-label { color: var(--gray-900); }
+
+    .ps-line {
       flex: 1;
-      height: 2px;
+      height: 1px;
       background: var(--gray-300);
-      max-width: 40px;
+      margin-bottom: 18px; /* aligned with circle centers */
     }
-    .progress-line.done { background: var(--gray-700); }
+    .ps-line.done { background: var(--gray-700); }
 
   </style>
 </head>
@@ -680,20 +693,35 @@
     <div class="header-center">
       <div class="header-title">Service App</div>
       <div class="header-subtitle">Frisia &times; THWS</div>
-      <div class="progress-bar" id="progressBar" style="display:none">
-        <div class="progress-step done" id="ps1">1</div>
-        <div class="progress-line done" id="pl1"></div>
-        <div class="progress-step active" id="ps2">2</div>
-        <div class="progress-line" id="pl2"></div>
-        <div class="progress-step" id="ps3">3</div>
-        <div class="progress-line" id="pl3"></div>
-        <div class="progress-step" id="ps4">4</div>
-      </div>
     </div>
     <div class="header-right">
       <span class="lang-badge">DE</span>
     </div>
   </header>
+
+
+  <!-- PROGRESS STRIP – eigene Zeile unter dem Header mit Labels -->
+  <div class="progress-strip" id="progressBar">
+    <div class="ps-item" id="ps1">
+      <div class="ps-num">1</div>
+      <div class="ps-label">Foto</div>
+    </div>
+    <div class="ps-line" id="pl1"></div>
+    <div class="ps-item" id="ps2">
+      <div class="ps-num">2</div>
+      <div class="ps-label">Analyse</div>
+    </div>
+    <div class="ps-line" id="pl2"></div>
+    <div class="ps-item" id="ps3">
+      <div class="ps-num">3</div>
+      <div class="ps-label">Diagnose</div>
+    </div>
+    <div class="ps-line" id="pl3"></div>
+    <div class="ps-item" id="ps4">
+      <div class="ps-num">4</div>
+      <div class="ps-label">Bestellung</div>
+    </div>
+  </div>
 
   <!-- ══════════════════════════════
        SCREEN 0 – Home / Start
@@ -1330,8 +1358,8 @@ Return ONLY valid JSON, no markdown, no explanation.`;
       const el = document.getElementById('ps' + s);
       const line = document.getElementById('pl' + s);
       if (!el) return;
-      el.className = 'progress-step' + (s < step ? ' done' : s === step ? ' active' : '');
-      if (line) line.className = 'progress-line' + (s < step ? ' done' : '');
+      el.className = 'ps-item' + (s < step ? ' done' : s === step ? ' active' : '');
+      if (line) line.className = 'ps-line' + (s < step ? ' done' : '');
     });
   }
 
