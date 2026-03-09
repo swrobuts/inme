@@ -578,22 +578,58 @@
     img { border-radius: 8px; }
 
     
-    /* EN: Mango-Modus – alles Rote wird Dunkel */
-    [data-lang="en"] .stat-value { color: #1A1A1A; }
-    [data-lang="en"] h2 { color: #1A1A1A; }
+    /* ═══════════════════════════════════════════
+       EN MANGO MODE – vollständige Farbumschaltung
+       DE = Rot (#DC2626) | EN = Mango (#F7CC00) mit Dunkel
+       ═══════════════════════════════════════════ */
+
+    /* Texte + Links */
+    [data-lang="en"] h2,
     [data-lang="en"] h3 { color: #1A1A1A; }
     [data-lang="en"] a { color: #1A1A1A; }
-    [data-lang="en"] .labs-title { color: #1A1A1A; }
-    [data-lang="en"] .labs-title::after { background: #1A1A1A; }
+
+    /* Stats-Banderole */
+    [data-lang="en"] .stats-bar .stat-value { color: #1A1A1A; }
+    [data-lang="en"] .stats-bar .stat-label { color: #6B7280; }
+    [data-lang="en"] .stat-value { color: #1A1A1A; }
+    [data-lang="en"] .stats-bar .stat-item + .stat-item::before { background: rgba(0,0,0,0.12); }
+
+    /* Bauhaus-Elemente */
+    [data-lang="en"] .bauhaus-accent-line { background: #F7CC00; }
+    [data-lang="en"] .bauhaus-badge { background: #1A1A1A; color: #F7CC00; }
+    [data-lang="en"] .bauhaus-badge-red { background: #1A1A1A; }
+
+    /* Lab-Kacheln */
+    [data-lang="en"] .lab-card { border-left-color: #F7CC00; }
+    [data-lang="en"] .lab-num-badge { color: #1A1A1A; }
+    [data-lang="en"] .lab-title,
+    [data-lang="en"] .lab-link,
+    [data-lang="en"] .lab-number { color: #1A1A1A; }
     [data-lang="en"] .lab-number { background: #1A1A1A; color: #F7CC00; }
-    [data-lang="en"] .lab-link { color: #1A1A1A; }
-    [data-lang="en"] .lab-title { color: #1A1A1A; }
+    [data-lang="en"] .btn-lab-link { color: #1A1A1A; }
+    [data-lang="en"] .btn-lab-link:hover { color: #333; }
+
+    /* CTA-Buttons */
     [data-lang="en"] .btn-primary { background: #1A1A1A !important; border-color: #1A1A1A !important; color: #F7CC00 !important; }
     [data-lang="en"] .btn-primary:hover { background: #333 !important; border-color: #333 !important; }
+    [data-lang="en"] .btn-outline-white { color: #1A1A1A; border-color: rgba(0,0,0,0.35); }
+    [data-lang="en"] .btn-outline-white:hover { background: rgba(0,0,0,0.06); color: #1A1A1A; }
+
+    /* Language-Toggle */
     [data-lang="en"] .lang-btn.active { background: #1A1A1A; color: #F7CC00; border-color: #1A1A1A; }
+
+    /* Use-Case-Sektion */
+    [data-lang="en"] .usecase-section { background: #1A1A1A; }
+    [data-lang="en"] .use-case-badge { background: #F7CC00; color: #1A1A1A; }
+    [data-lang="en"] .use-case-accent { background: #F7CC00; }
     [data-lang="en"] .section-accent { background: #1A1A1A; }
-    [data-lang="en"] .use-case-badge { background: #1A1A1A; }
-    [data-lang="en"] .use-case-accent { background: #1A1A1A; }
+
+    /* Footer */
+    [data-lang="en"] .footer { background: #1A1A1A; }
+    [data-lang="en"] .footer-sep { background: #F7CC00; }
+
+    /* Quote Section */
+    [data-lang="en"] .quote-name { color: #1A1A1A; }
 
 
     /* ── Jony Ive Quote Section ── */
@@ -897,7 +933,7 @@
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontWeight: 800,
                 fontSize: '1.15rem',
-                color: '#B91C1C',
+                color: lang === 'en' ? '#1A1A1A' : '#B91C1C',
                 letterSpacing: '-0.01em'
               }}>
                 INME Lab
