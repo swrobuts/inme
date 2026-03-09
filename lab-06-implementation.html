@@ -1848,7 +1848,7 @@ async function kameraOeffnen() {
 
     // ─── Main App ─────────────────────────────────────────────────────────────
     function App() {
-      const [lang, setLang] = useState(urlLang === 'en' ? 'en' : 'de');
+      const [lang, setLang] = useState(() => localStorage.getItem('inme-lang') || (urlLang === 'en' ? 'en' : 'de'));
       const t = T[lang];
 
       return (
@@ -1862,11 +1862,11 @@ async function kameraOeffnen() {
             <div style={{ display: 'flex', gap: '0.25rem' }}>
               <button
                 className={'lang-btn' + (lang === 'de' ? ' active' : '')}
-                onClick={() => setLang('de')}
+                onClick={() => persistLang('de')}
               >DE</button>
               <button
                 className={'lang-btn' + (lang === 'en' ? ' active' : '')}
-                onClick={() => setLang('en')}
+                onClick={() => persistLang('en')}
               >EN</button>
             </div>
           </header>

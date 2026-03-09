@@ -1128,7 +1128,7 @@
     }
 
         function App() {
-      const [lang, setLang] = useState(urlLang === 'en' ? 'en' : 'de');
+      const [lang, setLang] = useState(() => localStorage.getItem('inme-lang') || (urlLang === 'en' ? 'en' : 'de'));
       const [activeSection, setActiveSection] = useState('ueberblick');
       const tr = t[lang];
 
@@ -1168,8 +1168,8 @@
               <a href="index.html" className="header-back">{tr.backLink}</a>
             </div>
             <div style={{ display: 'flex', gap: '0.4rem' }}>
-              <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => setLang('de')}>DE</button>
-              <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+              <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => persistLang('de')}>DE</button>
+              <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => persistLang('en')}>EN</button>
             </div>
           </header>
 

@@ -1062,7 +1062,7 @@
     };
 
     function App() {
-      const [lang, setLang] = useState('de');
+      const [lang, setLang] = useState(() => localStorage.getItem('inme-lang') || 'de');
 
       // Quote-Sektion: Scroll-Reveal via IntersectionObserver
       useEffect(() => {
@@ -1116,14 +1116,14 @@
             <div style={{ display: 'flex', gap: '0.35rem' }}>
               <button
                 className={`lang-btn${lang === 'de' ? ' active' : ''}`}
-                onClick={() => setLang('de')}
+                onClick={() => persistLang('de')}
                 aria-label="Deutsch"
               >
                 DE
               </button>
               <button
                 className={`lang-btn${lang === 'en' ? ' active' : ''}`}
-                onClick={() => setLang('en')}
+                onClick={() => persistLang('en')}
                 aria-label="English"
               >
                 EN
