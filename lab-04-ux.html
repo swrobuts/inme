@@ -1006,7 +1006,115 @@
     }
 
     // ─── Main App ─────────────────────────────────────────────────────────────
-    function App() {
+
+
+    
+    // ─── SVG Wireframes (static, dangerouslySetInnerHTML) ────────────────────
+    function WireframeScreens({ lang }) {
+      const isEN = lang === 'en';
+
+      const svgScreen0 = `<svg width="220" height="390" viewBox="0 0 220 390" xmlns="http://www.w3.org/2000/svg" style="display:block;border:2px solid #1A1A1A;background:white">
+  <!-- Status bar -->
+  <rect x="0" y="0" width="220" height="24" fill="#1A1A1A"/>
+  <text x="110" y="15" text-anchor="middle" fill="white" font-size="8" font-family="Space Grotesk,sans-serif" font-weight="700">${isEN ? 'ERROR REPORTER' : 'STÖRUNGSMELDER'}</text>
+  <text x="110" y="22" text-anchor="middle" fill="#6B7280" font-size="6" font-family="monospace">Screen 0 – ${isEN ? 'Home' : 'Start'}</text>
+  <!-- Hero image placeholder -->
+  <rect x="0" y="24" width="220" height="110" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="0" y1="24" x2="220" y2="134" stroke="#D1D5DB" stroke-width="1"/>
+  <line x1="220" y1="24" x2="0" y2="134" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="110" y="83" text-anchor="middle" fill="#9CA3AF" font-size="8" font-family="monospace">[${isEN ? 'Coffee Machine Photo' : 'Kaffeemaschinen-Foto'}]</text>
+  <!-- Label -->
+  <text x="110" y="152" text-anchor="middle" fill="#9CA3AF" font-size="7" font-family="Space Grotesk,sans-serif" letter-spacing="1">${isEN ? 'AI-POWERED DIAGNOSIS' : 'KI-GESTÜTZTE DIAGNOSE'}</text>
+  <!-- Question -->
+  <text x="110" y="172" text-anchor="middle" fill="#1A1A1A" font-size="11" font-family="Space Grotesk,sans-serif" font-weight="600">${isEN ? 'What is wrong with' : 'Was stimmt mit Ihrer'}</text>
+  <text x="110" y="188" text-anchor="middle" fill="#1A1A1A" font-size="11" font-family="Space Grotesk,sans-serif" font-weight="600">${isEN ? 'your machine?' : 'Maschine nicht?'}</text>
+  <!-- Divider -->
+  <line x1="20" y1="205" x2="200" y2="205" stroke="#E5E7EB" stroke-width="1"/>
+  <!-- CTA button -->
+  <rect x="16" y="215" width="188" height="34" fill="#1A1A1A"/>
+  <text x="110" y="236" text-anchor="middle" fill="white" font-size="8" font-family="Space Grotesk,sans-serif" font-weight="800" letter-spacing="1.5">${isEN ? 'ANALYSE ERROR' : 'STÖRUNG ANALYSIEREN'}</text>
+  <!-- Arrow annotation -->
+  <text x="110" y="268" text-anchor="middle" fill="#DC2626" font-size="7" font-family="monospace">→ ${isEN ? 'leads to Screen 1' : 'führt zu Screen 1'}</text>
+  <!-- Bottom nav note -->
+  <rect x="0" y="366" width="220" height="24" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="110" y="381" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">${isEN ? 'Hero screen · Primary CTA' : 'Hero-Screen · Primärer CTA'}</text>
+</svg>`;
+
+      const svgScreen1 = `<svg width="220" height="390" viewBox="0 0 220 390" xmlns="http://www.w3.org/2000/svg" style="display:block;border:2px solid #1A1A1A;background:white">
+  <!-- Header bar -->
+  <rect x="0" y="0" width="220" height="30" fill="#1A1A1A"/>
+  <text x="110" y="14" text-anchor="middle" fill="white" font-size="8" font-family="Space Grotesk,sans-serif" font-weight="700">${isEN ? 'ERROR REPORTER' : 'STÖRUNGSMELDER'}</text>
+  <text x="110" y="24" text-anchor="middle" fill="#6B7280" font-size="6" font-family="monospace">Frisia × THWS</text>
+  <!-- Progress: 4 circles -->
+  <circle cx="54" cy="44" r="8" fill="#1A1A1A" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text x="54" y="47" text-anchor="middle" fill="white" font-size="7" font-weight="700">1</text>
+  <line x1="63" y1="44" x2="85" y2="44" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="94" cy="44" r="8" fill="white" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text x="94" y="47" text-anchor="middle" fill="#1A1A1A" font-size="7">2</text>
+  <line x1="103" y1="44" x2="125" y2="44" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="134" cy="44" r="8" fill="white" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text x="134" y="47" text-anchor="middle" fill="#1A1A1A" font-size="7">3</text>
+  <line x1="143" y1="44" x2="165" y2="44" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="174" cy="44" r="8" fill="white" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text x="174" y="47" text-anchor="middle" fill="#1A1A1A" font-size="7">4</text>
+  <line x1="0" y1="58" x2="220" y2="58" stroke="#E5E7EB" stroke-width="1"/>
+  <!-- Upload zone -->
+  <rect x="12" y="66" width="196" height="64" fill="#FAFAFA" stroke="#9CA3AF" stroke-width="1" stroke-dasharray="5,3"/>
+  <rect x="100" y="78" width="20" height="15" rx="2" fill="none" stroke="#9CA3AF" stroke-width="1.5"/>
+  <circle cx="110" cy="85" r="4.5" fill="none" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="110" y="112" text-anchor="middle" fill="#9CA3AF" font-size="7" font-family="Space Grotesk,sans-serif">${isEN ? 'Upload photo' : 'Foto hochladen'}</text>
+  <text x="110" y="122" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">JPG · PNG · HEIC</text>
+  <!-- OR divider -->
+  <line x1="20" y1="140" x2="90" y2="140" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="110" y="144" text-anchor="middle" fill="#9CA3AF" font-size="7">— ${isEN ? 'or' : 'oder'} —</text>
+  <line x1="130" y1="140" x2="200" y2="140" stroke="#E5E7EB" stroke-width="1"/>
+  <!-- 5 thumbnails -->
+  <rect x="12" y="150" width="33" height="26" fill="#E5E7EB" stroke="#1A1A1A" stroke-width="2"/>
+  <rect x="48" y="150" width="33" height="26" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1"/>
+  <rect x="84" y="150" width="33" height="26" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1"/>
+  <rect x="120" y="150" width="33" height="26" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1"/>
+  <rect x="156" y="150" width="33" height="26" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="28" y="167" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">1</text>
+  <text x="64" y="167" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">2</text>
+  <text x="100" y="167" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">3</text>
+  <text x="136" y="167" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">4</text>
+  <text x="172" y="167" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">5</text>
+  <!-- Machine dropdown -->
+  <line x1="12" y1="186" x2="208" y2="186" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="16" y="199" fill="#1A1A1A" font-size="8" font-family="Space Grotesk,sans-serif">${isEN ? 'Select machine type' : 'Maschinentyp auswählen'}</text>
+  <polygon points="194,195 200,195 197,200" fill="#9CA3AF"/>
+  <line x1="12" y1="206" x2="208" y2="206" stroke="#E5E7EB" stroke-width="1"/>
+  <!-- API key -->
+  <line x1="12" y1="222" x2="208" y2="222" stroke="#E5E7EB" stroke-width="1"/>
+  <text x="16" y="235" fill="#9CA3AF" font-size="7" font-family="Space Grotesk,sans-serif">${isEN ? 'Gemini API Key (optional)' : 'Gemini API Key (optional)'}</text>
+  <polygon points="194,230 200,230 197,236" fill="#9CA3AF"/>
+  <line x1="12" y1="242" x2="208" y2="242" stroke="#E5E7EB" stroke-width="1"/>
+  <!-- CTA button -->
+  <rect x="12" y="258" width="196" height="30" fill="#9CA3AF"/>
+  <text x="110" y="277" text-anchor="middle" fill="white" font-size="8" font-family="Space Grotesk,sans-serif" font-weight="800" letter-spacing="1">${isEN ? 'START DIAGNOSIS' : 'DIAGNOSE STARTEN'}</text>
+  <!-- Note -->
+  <text x="110" y="382" text-anchor="middle" fill="#9CA3AF" font-size="6" font-family="monospace">${isEN ? 'Drag Drop · 5 test imgs · Dropdown' : 'Drag Drop · 5 Testbilder · Dropdown'}</text>
+</svg>`;
+
+      return (
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+          <div>
+            <div style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9ca3af', marginBottom: '6px', fontFamily: 'Space Grotesk, sans-serif' }}>
+              {isEN ? 'Screen 0 – Home' : 'Screen 0 – Home'}
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: svgScreen0 }} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9ca3af', marginBottom: '6px', fontFamily: 'Space Grotesk, sans-serif' }}>
+              {isEN ? 'Screen 1 – Photo Upload' : 'Screen 1 – Foto-Upload'}
+            </div>
+            <div dangerouslySetInnerHTML={{ __html: svgScreen1 }} />
+          </div>
+        </div>
+      );
+    }
+
+        function App() {
       const [lang, setLang] = useState('de');
       const [activeSection, setActiveSection] = useState('ueberblick');
       const tr = t[lang];
@@ -1248,7 +1356,7 @@
               <h2>{tr.s8Title}</h2>
               <div className="bauhaus-accent-line"></div>
               <p style={{ color: '#555', marginBottom: '0.75rem' }}>{tr.s8Intro}</p>
-              <CodeBlock code={tr.s8Wire} lang={lang} />
+              <WireframeScreens lang={lang} />
               <div className="tip-box" style={{ marginTop: '1rem' }}>
                 <strong></strong>{tr.s8Tip}
               </div>
