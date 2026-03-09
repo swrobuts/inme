@@ -126,7 +126,7 @@
     /* Navbar */
     .navbar {
       position: fixed;
-      top: 32px;
+      top: 0;
       left: 0;
       right: 0;
       height: 56px;
@@ -169,7 +169,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-top: 88px;
+      padding-top: 56px;
       padding-bottom: 6rem;
     }
 
@@ -229,6 +229,15 @@
       color: rgba(255,255,255,0.88);
       font-size: 1.25rem;
       margin-bottom: 2.5rem;
+    }
+
+    
+    .hero-course {
+      font-size: 1rem;
+      font-weight: 600;
+      white-space: nowrap;
+      margin-top: 0.25rem;
+      margin-bottom: 2rem;
     }
 
     .course-badges {
@@ -570,7 +579,8 @@
         heroTitle: "INME Lab",
         heroEyebrow: "Interaktive Medien",
         heroSubtitle: "Design · Prototyping · Code",
-        heroDesc: "Die Companion-Site zum Kurs · THWS Business School · Bachelor Medienmanagement",
+        heroDesc: "Die Companion-Site zum Kurs \"Interaktive Medien\"",
+        heroCourse: "Bachelor Medienmanagement (BMM)",
         badge1: "Bachelor Medienmanagement",
         badge2: "Sommersemester 2026",
         badge3: "Prof. Dr. Robert Butscher",
@@ -660,7 +670,8 @@
         heroTitle: "INME Lab",
         heroEyebrow: "Interactive Media",
         heroSubtitle: "Design · Prototyping · Code",
-        heroDesc: "Companion site for the INME course · THWS Business School · Bachelor Media Management",
+        heroDesc: "Companion site for the course \"Interactive Media\"",
+        heroCourse: "Bachelor Media Management (BMM)",
         badge1: "Bachelor Media Management",
         badge2: "Summer Semester 2026",
         badge3: "Prof. Dr. Robert Butscher",
@@ -763,7 +774,7 @@
             textAlign: 'center',
             padding: '8px 24px',
             position: 'fixed',
-            top: 0,
+            bottom: 0,
             left: 0,
             right: 0,
             zIndex: 200
@@ -819,6 +830,7 @@
               <h1 className="hero-title" style={{color: heroTextColor}}>{t.heroTitle}</h1>
               <div className="hero-subtitle" style={{color: heroTextMuted}}>{t.heroSubtitle}</div>
               <p className="hero-desc" style={{color: heroTextMuted}}>{t.heroDesc}</p>
+              <p className="hero-course" style={{color: heroTextMuted}}>{t.heroCourse}</p>
               <div className="course-badges">
                 <span className="course-badge" style={{borderColor: heroBadgeBorder, color: heroTextMuted}}>{t.badge1}</span>
                 <span className="course-badge" style={{borderColor: heroBadgeBorder, color: heroTextMuted}}>{t.badge2}</span>
