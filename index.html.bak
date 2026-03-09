@@ -600,7 +600,7 @@
             title: "Use Case: Kaffeevollautomat",
             subtitle: "Use Case: Coffee Machine",
             desc: "Von der Idee bis zum Prototyp. Design Thinking in der Praxis.",
-            link: "coffee-app.html",
+            link: "lab-05-usecase.html",
           },
           {
             num: "06",
@@ -618,7 +618,7 @@
         useCaseBadge: "USE CASE",
         useCaseTitle: "Der Use Case: Kaffeevollautomat-Störungsmelder",
         useCaseDesc: "Von der Erstidee bis zur lauffähigen Web-App – schrittweise entwickelt nach dem Design Thinking Prozess. Bauhaus-Gestaltungsprinzipien als roter Faden.",
-        useCaseBtn: "Live-Demo testen →",
+        useCaseBtn: "Zum Use Case →",
 
         // Footer
         footerText: "THWS Business School · INME · Prof. Dr. Robert Butscher · 2026",
@@ -688,7 +688,7 @@
             title: "Use Case: Coffee Machine",
             subtitle: "Use Case: Kaffeevollautomat",
             desc: "From idea to prototype. Design Thinking in practice.",
-            link: "coffee-app.html",
+            link: "lab-05-usecase.html",
           },
           {
             num: "06",
@@ -858,7 +858,7 @@
                   <h2 className="usecase-title" style={{ color: 'white' }}>{t.useCaseTitle}</h2>
                   <div className="bauhaus-accent-line" style={{ marginBottom: '1.5rem' }}></div>
                   <p className="usecase-desc">{t.useCaseDesc}</p>
-                  <a href="coffee-app.html" className="btn-primary">{t.useCaseBtn}</a>
+                  <a href="lab-05-usecase.html" className="btn-primary">{t.useCaseBtn}</a>
                 </div>
               </div>
             </div>
