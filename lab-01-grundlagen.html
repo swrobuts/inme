@@ -27,10 +27,10 @@
     /* Bauhaus */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
     .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
-    .bauhaus-badge { background: #1A1A1A; color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
+    .bauhaus-badge { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
 
     /* Code */
-    .code-block { background: #1A1A1A; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.85rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; }
+    .code-block { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.85rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; }
     .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
     .copy-btn:hover { background: #D97706; }
 
@@ -50,7 +50,7 @@
     /* Layout */
     .header {
       position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 100;
-      background: white; border-bottom: 2px solid #1A1A1A;
+      background: white; border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 8px rgba(0,0,0,0.05);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 1.5rem;
     }
@@ -59,13 +59,13 @@
     .header-back { font-size: 0.85rem; color: #555; text-decoration: none; font-weight: 500; }
     .header-back:hover { color: #B91C1C; }
     .lang-btn { border: 2px solid #1A1A1A; background: white; padding: 0.2rem 0.6rem; font-size: 0.78rem; font-weight: 700; cursor: pointer; border-radius: 0; letter-spacing: 0.05em; }
-    .lang-btn.active { background: #1A1A1A; color: white; }
+    .lang-btn.active { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; }
     .lang-btn:hover:not(.active) { background: #f5f5f5; }
 
     .sidebar {
       position: fixed; top: 56px; left: 0; width: 260px;
       height: calc(100vh - 56px); overflow-y: auto;
-      border-right: 2px solid #1A1A1A; background: white;
+      border-right: 1px solid #E5E7EB; background: white;
       padding: 1.5rem 0;
     }
     .sidebar-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #888; padding: 0 1.25rem; margin-bottom: 0.75rem; }
@@ -87,7 +87,7 @@
 
     /* Tables */
     table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
-    th { background: #1A1A1A; color: white; padding: 0.65rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; }
+    th { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; padding: 0.65rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; }
     td { padding: 0.6rem 1rem; border-bottom: 1px solid #e5e7eb; }
     tr:nth-child(even) td { background: #f9fafb; }
     tr:hover td { background: rgba(185,28,28,0.03); }
@@ -123,7 +123,7 @@
     /* Nav bottom */
     .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
     .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
-    .nav-btn:hover { background: #1A1A1A; color: white; }
+    .nav-btn:hover { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: white; }
     .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
     .nav-btn.primary:hover { background: #991b1b; border-color: #991b1b; }
 
@@ -139,7 +139,19 @@
       .sidebar { display: none; }
       .main-content { margin-left: 0; padding-left: 1.25rem; padding-right: 1.25rem; }
     }
-  </style>
+  
+    /* v2.0 Modern Upgrades */
+    a { color: var(--primary); }
+    button { transition: all 0.2s ease; }
+    button:hover { opacity: 0.85; transform: translateY(-1px); }
+    .sidebar-item { border-radius: 6px; margin: 2px 8px; }
+    .code-block { border-radius: 8px; }
+    .tip-box, .challenge-box, .info-box, .concept-box { border-radius: 8px; }
+    img { border-radius: 8px; }
+
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
 </head>
 <body>
   <div id="root"></div>

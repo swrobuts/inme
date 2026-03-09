@@ -45,10 +45,10 @@
     .header-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--primary); text-decoration: none; }
     .header-right { display: flex; align-items: center; gap: 1rem; }
     .back-link { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--dark); text-decoration: none; border: 2px solid var(--dark); padding: 0.3rem 0.75rem; }
-    .back-link:hover { background: var(--dark); color: white; }
+    .back-link:hover { background: var(--primary); color: white; opacity: 0.9; }
     .lang-toggle { display: flex; border: 2px solid var(--dark); overflow: hidden; }
     .lang-btn { background: white; border: none; padding: 0.3rem 0.6rem; font-size: 0.8rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; cursor: pointer; color: var(--dark); }
-    .lang-btn.active { background: var(--dark); color: white; }
+    .lang-btn.active { background: var(--primary); color: white; opacity: 0.9; }
 
     /* ─── SIDEBAR ─── */
     .sidebar {
@@ -76,7 +76,7 @@
     /* ─── DESIGN SYSTEM CLASSES ─── */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
     .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
-    .code-block { background: #1A1A1A; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
+    .code-block { background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
     .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; font-family: 'Space Grotesk', sans-serif; }
     .copy-btn:hover { background: white; }
     .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
@@ -95,7 +95,7 @@
 
     /* ─── BADGE ─── */
     .badge { display: inline-block; border-radius: 0; font-weight: 700; font-size: 0.75rem; font-family: 'Space Grotesk', sans-serif; padding: 0.25rem 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .badge-dark { background: var(--dark); color: white; }
+    .badge-dark { background: var(--primary); color: white; opacity: 0.9; }
     .badge-red { background: var(--primary); color: white; }
     .badge-yellow { background: var(--accent); color: var(--dark); }
     .badge-green { background: #16A34A; color: white; }
@@ -150,7 +150,7 @@
     /* ─── BOTTOM NAV ─── */
     .bottom-nav { border-top: 2px solid var(--dark); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; gap: 1rem; flex-wrap: wrap; }
     .bottom-nav-btn { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--dark); text-decoration: none; border: 2px solid var(--dark); padding: 0.6rem 1.2rem; display: inline-block; }
-    .bottom-nav-btn:hover { background: var(--dark); color: white; }
+    .bottom-nav-btn:hover { background: var(--primary); color: white; opacity: 0.9; }
     .bottom-nav-btn.primary { background: var(--primary); border-color: var(--primary); color: white; }
     .bottom-nav-btn.primary:hover { background: #991b1b; }
 
@@ -163,7 +163,19 @@
       .type-row { flex-direction: column; gap: 0.25rem; }
       .type-meta { min-width: unset; }
     }
-  </style>
+  
+    /* v2.0 Modern Upgrades */
+    a { color: var(--primary); }
+    button { transition: all 0.2s ease; }
+    button:hover { opacity: 0.85; transform: translateY(-1px); }
+    .sidebar-item { border-radius: 6px; margin: 2px 8px; }
+    .code-block { border-radius: 8px; }
+    .tip-box, .challenge-box, .info-box, .concept-box { border-radius: 8px; }
+    img { border-radius: 8px; }
+
+    </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
 </head>
 <body>
 <div id="root"></div>
