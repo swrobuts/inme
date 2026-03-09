@@ -93,7 +93,7 @@
     tr:hover td { background: rgba(185,28,28,0.03); }
 
     /* Nav bottom */
-    .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .nav-bottom { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; padding: 1.5rem 0; }
     .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
     .nav-btn:hover { background: #DC2626; color: white; }
     .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
@@ -295,9 +295,11 @@
     [data-lang="en"] .diff-high { background: #1A1A1A !important; }
     [data-lang="en"] .checklist-item.done::before { color: #F7CC00 !important; }
 
-    /* Lernziele box EN overrides */
-    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00 !important; }
-    [data-lang="en"] .lernziele-heading { color: #F7CC00 !important; }
+    /* Lernziele (#9 + #16) */
+    .lernziele-heading { color: #DC2626; }
+    [data-lang="en"] .lernziele-heading { color: #1A1A1A !important; }
+    .lernziele-box { background: #FEF2F2; border-left: 4px solid #DC2626; border-radius: 0; padding: 1rem 1.25rem; margin: 1rem 0; }
+    [data-lang="en"] .lernziele-box { border-left-color: #1A1A1A !important; }
 
     /* Inline-Style Overrides via RGB-Matching (React rendert hex → rgb) */
     /* rgb(185,28,28) = #B91C1C | rgb(220,38,38) = #DC2626 */
@@ -340,6 +342,7 @@
           { href: '#codepen-anleitung', label: 'CodePen Anleitung' },
           { href: '#erweiterungen',     label: 'Erweiterungsideen' },
           { href: '#quiz',              label: 'Quiz' },
+          { href: '#zusammenfassung',   label: 'Zusammenfassung' },
         ],
 
         // Section 1
@@ -500,6 +503,16 @@
         ],
         quizScoreLabel: (n, t) => `Ergebnis: ${n} von ${t} richtig`,
 
+        // Section 11 – Zusammenfassung
+        summaryTitle: 'Zusammenfassung',
+        summaryItems: [
+          'Supabase als Open-Source Backend (PostgreSQL, Auth, Storage)',
+          'CodePen als schneller Prototyping-Workflow',
+          'Realtime-Events mit on() Listener',
+          'Row Level Security für Datensicherheit',
+          'Nächste Schritte: Eigene Projekte, Edge Functions, Auth',
+        ],
+
         // Nav
         navPrev: '← Lab 05: Use Case',
         navOverview: '← Zurück zur Übersicht',
@@ -520,6 +533,7 @@
           { href: '#codepen-anleitung', label: 'CodePen Guide' },
           { href: '#erweiterungen',     label: 'Extensions' },
           { href: '#quiz',              label: 'Quiz' },
+          { href: '#zusammenfassung',   label: 'Summary' },
         ],
 
         // Section 1
@@ -679,6 +693,16 @@
           },
         ],
         quizScoreLabel: (n, t) => `Score: ${n} of ${t} correct`,
+
+        // Section 11 – Summary
+        summaryTitle: 'Summary',
+        summaryItems: [
+          'Supabase as open-source backend (PostgreSQL, Auth, Storage)',
+          'CodePen for rapid prototyping workflow',
+          'Realtime events with on() listener',
+          'Row Level Security for data protection',
+          'Next steps: Own projects, Edge Functions, Auth',
+        ],
 
         // Nav
         navPrev: '← Lab 05: Use Case',
@@ -1794,7 +1818,7 @@ async function kameraOeffnen() {
 
       return (
         <nav className="sidebar">
-          <div className="sidebar-title">NAVIGATION</div>
+          <div className="sidebar-title">{lang === 'de' ? 'INHALT' : 'CONTENTS'}</div>
           {nav.map(n => (
             <a
               key={n.href}
@@ -1842,15 +1866,15 @@ async function kameraOeffnen() {
 
             {/* ── Section 1: Überblick ── */}
             <section id="ueberblick" className="section-block">
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
-                <span className="bauhaus-badge">{lang === 'de' ? 'ÜBERBLICK' : 'OVERVIEW'}</span>
-                <span className="bauhaus-badge" style={{ background: '#1A1A1A' }}>{t.s1BadgeDuration}</span>
+              <div style={{display:'flex', alignItems:'center', gap:'0.75rem', marginBottom:'0.5rem'}}>
+                <span className="bauhaus-badge">LAB 06</span>
+                <span style={{fontSize:'0.75rem', color:'#888', fontWeight:600}}>{lang === 'de' ? 'CA. 90 MIN' : 'CA. 90 MIN'}</span>
               </div>
               <div className="bauhaus-accent-line" />
               <h2>{t.s1Title}</h2>
 
-              <div className="lernziele-box" style={{ marginTop: '1.25rem', marginBottom: '1.5rem', background: '#F9FAFB', borderLeft: '4px solid #DC2626', padding: '1.5rem', borderRadius: 0 }}>
-                <h3 className="lernziele-heading" style={{ color: '#DC2626', marginTop: 0, marginBottom: '0.75rem' }}>{t.s1GoalsTitle}</h3>
+              <div className="lernziele-box" style={{ marginTop: '1.25rem', marginBottom: '1.5rem', padding: '1.5rem' }}>
+                <h3 className="lernziele-heading" style={{ marginTop: 0, marginBottom: '0.75rem' }}>{t.s1GoalsTitle}</h3>
                 <ul style={{ paddingLeft: '1.25rem', lineHeight: '2' }}>
                   {t.s1Goals.map((g, i) => <li key={i}>{g}</li>)}
                 </ul>
@@ -2050,7 +2074,7 @@ async function kameraOeffnen() {
             </section>
 
             {/* ── Bottom Navigation ── */}
-            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'1.5rem 0'}}>
+            <div className="nav-bottom">
               <a href="lab-05-usecase.html" className="nav-btn">{t.navPrev}</a>
             </div>
 

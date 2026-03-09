@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 05 – Use Case: Kaffeevollautomat-Störungsmelder | INME Lab</title>
+  <title>Lab 05 – Use Case: Kaffeevollautomat | INME Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -346,11 +346,11 @@
 
     /* Lernziele (#9 + #16) */
     .lernziele-heading { color: #DC2626; }
-    [data-lang="en"] .lernziele-heading { color: #F7CC00 !important; }
-    .lernziele-box { background: #F9FAFB; border-left: 4px solid #DC2626; border-radius: 0; padding: 1rem 1.25rem; margin: 1rem 0; }
+    [data-lang="en"] .lernziele-heading { color: #1A1A1A !important; }
+    .lernziele-box { background: #FEF2F2; border-left: 4px solid #DC2626; border-radius: 0; padding: 1rem 1.25rem; margin: 1rem 0; }
     .lernziele-box .lernziele-heading { color: #DC2626; }
-    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00 !important; }
-    [data-lang="en"] .lernziele-box .lernziele-heading { color: #F7CC00 !important; }
+    [data-lang="en"] .lernziele-box { border-left-color: #1A1A1A !important; }
+    [data-lang="en"] .lernziele-box .lernziele-heading { color: #1A1A1A !important; }
 
     /* Lab-05/06 spezifisch */
     [data-lang="en"] .flow-arrow { background: #1A1A1A !important; color: white !important; }
@@ -1090,7 +1090,7 @@ SCREEN 1 – FOTO-UPLOAD
 
           {/* ── Sidebar ── */}
           <nav className="sidebar">
-            <div className="sidebar-title">NAVIGATION</div>
+            <div className="sidebar-title">{lang === 'de' ? 'INHALT' : 'CONTENTS'}</div>
             {t.nav.map(item => (
               <a
                 key={item.href}
@@ -1376,8 +1376,8 @@ SCREEN 1 – FOTO-UPLOAD
             </div>
 
             {/* ── Footer ── */}
-            <footer style={{borderTop:'1px solid #e5e7eb',marginTop:'3rem',padding:'1.5rem 0',textAlign:'center',fontSize:'0.8rem',color:'#9ca3af'}}>
-              INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+            <footer style={{borderTop:'1px solid #e5e7eb',marginTop:'3rem',padding:'1.5rem 0',textAlign:'center',fontSize:'0.75rem',color:'#9ca3af'}}>
+              © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
             </footer>
 
           </main>

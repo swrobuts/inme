@@ -18,6 +18,15 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
+    <!-- DESIGN DECISION: Bilingual color scheme
+         DE mode: Bauhaus Red #DC2626 (primary brand color)
+         EN mode: Lamy Safari Mango #F7CC00 (alternative accent)
+         The language toggle intentionally switches the entire color palette
+         to create distinct visual identities for each language version.
+         This is a conscious design choice, not a bug. -->
+
+    <!-- DESIGN DECISION: DE=Bauhaus Red #DC2626, EN=Lamy Safari Mango #F7CC00.
+         The language toggle intentionally switches the color scheme (bilingual Bauhaus concept). -->
     :root {
       --primary: #B91C1C;
       --accent: #DC2626;
@@ -749,7 +758,12 @@
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
   <script>
-    function setVH() {
+    
+  // Semester Configuration (change once per semester)
+  const SEMESTER_DE = {SEMESTER_DE};
+  const SEMESTER_EN = {SEMESTER_EN};
+
+  function setVH() {
       document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
     }
     setVH();
@@ -762,7 +776,8 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const SEMESTER = 'Sommersemester 2026';
+    const SEMESTER = {SEMESTER_DE};
+    const SEMESTER_EN = {SEMESTER_EN};
 
     const translations = {
       de: {
@@ -827,7 +842,7 @@
           {
             num: "05",
             title: "Use Case: Kaffeevollautomat",
-            subtitle: "Use Case: Coffee Machine",
+            subtitle: "Kaffeevollautomat-Störungsmelder",
             desc: "Von der Idee bis zum Prototyp. Design Thinking in der Praxis.",
             link: "lab-05-app.html",
           },
@@ -864,7 +879,7 @@
         heroDesc: "Companion site for the course \"Interactive Media\"",
         heroCourse: "Bachelor Media Management (BMM)",
         badge1: "Bachelor Media Management",
-        badge2: "Summer Semester 2026",
+        badge2: SEMESTER_EN,
         badge3: "Prof. Dr. Robert Butscher",
         ctaLabs: "To the Labs →",
         ctaGithub: "GitHub →",
@@ -1097,6 +1112,7 @@
                     <span className="quote-source-de">Originalzitat auf Englisch – Jonathan Ive, ehem. Chief Design Officer, Apple Inc.</span>
                     <span className="quote-source-en">Jonathan Ive, former Chief Design Officer, Apple Inc.</span>
                   </p>
+                  {lang === 'de' && <span style={{fontSize:'0.75rem', color:'#888', fontStyle:'italic', display:'block', marginTop:'0.25rem'}}>(Originalzitat auf Englisch)</span>}
                 </div>
               </div>
             </div>

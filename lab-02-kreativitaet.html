@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 02 – Kreativtechniken &amp; Design Thinking | INME Lab</title>
+  <title>Lab 02 – Kreativtechniken & Design Thinking | INME Lab</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -236,7 +236,7 @@
     }
 
     .content-inner {
-      max-width: 860px;
+      max-width: 960px;
       padding: 2rem 2.5rem 4rem;
     }
 
@@ -487,41 +487,6 @@
       .em-center { grid-column: 1; }
     }
 
-    /* ── Page hero ── */
-    .page-hero {
-      background: #DC2626;
-      padding: 3rem 2.5rem 2.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .page-hero::after {
-      content: '';
-      position: absolute;
-      right: -60px; top: -60px;
-      width: 260px; height: 260px;
-      background: #B91C1C;
-      opacity: 0.18;
-      border-radius: 0;
-    }
-
-    .page-hero-inner { position: relative; z-index: 1; }
-
-    .page-hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 800;
-      font-size: 2.25rem;
-      color: white;
-      margin: 0.75rem 0 0.5rem;
-      line-height: 1.15;
-    }
-
-    .page-hero-sub {
-      color: rgba(255,255,255,0.7);
-      font-size: 1rem;
-      margin-top: 0.5rem;
-    }
-
     /* Figma steps */
     .figma-steps { counter-reset: figma-counter; list-style: none; padding: 0; margin: 1.25rem 0; }
 
@@ -684,10 +649,12 @@
     [data-lang="en"] .screen-card h3 { color: #1A1A1A !important; }
 
     /* Lab-02 spezifisch */
-    [data-lang="en"] .lernziele-heading { color: #F7CC00 !important; }
-    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00 !important; }
-    [data-lang="en"] .summary-heading { color: #F7CC00 !important; }
-    [data-lang="en"] .summary-box { border-left-color: #F7CC00 !important; }
+    .lernziele-heading { color: #DC2626; }
+    .lernziele-box { background: #FEF2F2; border-left: 4px solid #DC2626; }
+    [data-lang="en"] .lernziele-heading { color: #1A1A1A !important; }
+    [data-lang="en"] .lernziele-box { border-left-color: #1A1A1A !important; }
+    [data-lang="en"] .summary-heading { color: #1A1A1A !important; }
+    [data-lang="en"] .summary-box { border-left-color: #1A1A1A !important; }
     [data-lang="en"] .phase-num { background: #1A1A1A !important; color: #F7CC00 !important; }
     [data-lang="en"] .figma-steps li::before { background: #DC2626 !important; color: white !important; }
     [data-lang="en"] .method-card h3 { color: #1A1A1A !important; }
@@ -859,16 +826,17 @@
       }, []);
 
       const navLinks = [
-        { id: 'ueberblick',    label: t.nav_ueberblick },
+        { id: 'ueberblick',      label: t.nav_ueberblick },
         { id: 'design-thinking', label: t.nav_designthinking },
-        { id: 'empathize',    label: t.nav_empathize },
-        { id: 'define',       label: t.nav_define },
-        { id: 'ideate',       label: t.nav_ideate },
-        { id: 'prototype',    label: t.nav_prototype },
-        { id: 'test',         label: t.nav_test },
-        { id: 'uebung',       label: t.nav_uebung },
-        { id: 'quiz',         label: t.nav_quiz },
-        { id: 'figma',        label: t.nav_figma },
+        { id: 'empathize',       label: t.nav_empathize },
+        { id: 'define',          label: t.nav_define },
+        { id: 'ideate',          label: t.nav_ideate },
+        { id: 'prototype',       label: t.nav_prototype },
+        { id: 'test',            label: t.nav_test },
+        { id: 'uebung',          label: t.nav_uebung },
+        { id: 'quiz',            label: t.nav_quiz },
+        { id: 'figma',           label: t.nav_figma },
+        { id: 'zusammenfassung', label: t.nav_zusammenfassung },
       ];
 
       const personaTemplate = `## Persona: [Name], [Alter]
@@ -903,7 +871,7 @@
 
           {/* ── Sidebar ── */}
           <aside className="sidebar">
-            <div className="sidebar-label">NAVIGATION</div>
+            <div className="sidebar-title">{t.sidebarNav}</div>
             {navLinks.map(l => (
               <a
                 key={l.id}
@@ -931,8 +899,8 @@
                 <div className="concept-box">
                   <p style={{ fontWeight: 700, fontSize: '1rem' }}>{t.s1_tagline}</p>
                 </div>
-                <h3 className="lernziele-heading" style={{ color: '#DC2626', marginBottom: '0.5rem', marginTop: '1.25rem' }}>{t.s1_lernziele}</h3>
-                <div className="lernziele-box" style={{ background: '#F9FAFB', borderLeft: '4px solid #DC2626', padding: '1rem 1.25rem', marginTop: '0.5rem' }}>
+                <h3 className="lernziele-heading" style={{ marginBottom: '0.5rem', marginTop: '1.25rem' }} style="color: #DC2626">{t.s1_lernziele}</h3>
+                <div className="lernziele-box" style={{ padding: '1rem 1.25rem', marginTop: '0.5rem' }}>
                   <ul style={{ paddingLeft: '1.25rem', lineHeight: '1.9', fontSize: '0.95rem' }}>
                     {t.s1_lernziele_list.map((item, i) => <li key={i}>{item}</li>)}
                   </ul>
@@ -1188,31 +1156,18 @@
                 </div>
               </section>
 
-            </div>{/* /content-inner */}
+              {/* ── #zusammenfassung ── */}
+              <section id="zusammenfassung" data-section="zusammenfassung" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s_summary_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <div className="summary-box" style={{ padding: '1.25rem 1.5rem', borderLeft: '4px solid #DC2626', background: '#FEF2F2', marginTop: '1rem' }}>
+                  <ul style={{ listStyle: 'disc', paddingLeft: '1.5rem', color: '#374151', lineHeight: '1.9', fontSize: '0.95rem' }}>
+                    {t.s_summary_list.map((item, i) => <li key={i}>{item}</li>)}
+                  </ul>
+                </div>
+              </section>
 
-            {/* ── Zusammenfassung ── */}
-            <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#F9FAFB', borderLeft: '4px solid #DC2626' }} className="summary-box">
-              <h3 className="summary-heading" style={{ color: '#DC2626', marginBottom: '1rem', fontSize: '1rem', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-                {lang === 'de' ? 'Zusammenfassung' : 'Summary'}
-              </h3>
-              <ul style={{ listStyle: 'disc', paddingLeft: '1.5rem', color: '#374151', lineHeight: '1.8' }}>
-                {lang === 'de' ? (
-                  <>
-                    <li>Design Thinking als menschenzentrierter Innovationsprozess</li>
-                    <li>5 Phasen: Empathize → Define → Ideate → Prototype → Test</li>
-                    <li>Kreativtechniken gezielt einsetzen: Brainstorming, SCAMPER, How Might We</li>
-                    <li>Divergentes und konvergentes Denken im Wechsel</li>
-                  </>
-                ) : (
-                  <>
-                    <li>Design Thinking as human-centered innovation process</li>
-                    <li>5 phases: Empathize → Define → Ideate → Prototype → Test</li>
-                    <li>Using creativity techniques: Brainstorming, SCAMPER, How Might We</li>
-                    <li>Alternating divergent and convergent thinking</li>
-                  </>
-                )}
-              </ul>
-            </div>
+            </div>{/* /content-inner */}
 
             {/* ── Bottom Navigation ── */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 0' }}>
@@ -1220,8 +1175,8 @@
               <a href="lab-03-gestaltung.html" className="lab-nav-btn primary">{t.nav_next} →</a>
             </div>
 
-            <footer style={{ borderTop: '1px solid #e5e7eb', marginTop: '3rem', padding: '1.5rem 0', textAlign: 'center', fontSize: '0.8rem', color: '#9ca3af' }}>
-              INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+            <footer style={{ borderTop: '1px solid #e5e7eb', marginTop: '3rem', padding: '1.5rem 0', textAlign: 'center', fontSize: '0.75rem', color: '#9ca3af' }}>
+              © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
             </footer>
 
           </main>
@@ -1234,6 +1189,7 @@
     ════════════════════════════════════════ */
     const de = {
       backLabel: 'Übersicht',
+      sidebarNav: 'Inhalt',
       heroBadgeTime: 'ca. 60 Min',
       heroTitle: 'Kreativtechniken & Design Thinking',
       heroSub: 'Lab 02 · INME · THWS Business School',
@@ -1248,6 +1204,7 @@
       nav_uebung:         'Use Case starten',
       nav_quiz:           'Quiz',
       nav_figma:          'Figma Quickstart',
+      nav_zusammenfassung: 'Zusammenfassung',
 
       challenge_label: 'Übung',
 
@@ -1446,6 +1403,16 @@
       s10_info: 'Figma Community hat tausende kostenlose Templates. Suche nach "Coffee App" oder "Maintenance App" für Inspiration.',
       s10_lab4_hint: 'In Lab 04 tauchen wir tiefer in Figma ein – Komponenten, Auto Layout und interaktive Prototypen.',
 
+      /* Zusammenfassung */
+      s_summary_title: 'Zusammenfassung',
+      s_summary_list: [
+        'Design Thinking: 5 Phasen (Empathize, Define, Ideate, Prototype, Test)',
+        'Kreativtechniken: Brainstorming, How Might We, Crazy 8s',
+        'Sketchnotes als visuelle Kommunikation',
+        'Kreativität ist eine erlernbare Kompetenz',
+        'Iteration statt Perfektion – früh scheitern, früh lernen',
+      ],
+
       /* Nav */
       nav_prev: 'Lab 01: Grundlagen',
       nav_next: 'Weiter: Lab 03 – Gestaltung',
@@ -1453,6 +1420,7 @@
 
     const en = {
       backLabel: 'Overview',
+      sidebarNav: 'Contents',
       heroBadgeTime: 'approx. 60 min',
       heroTitle: 'Creativity Techniques & Design Thinking',
       heroSub: 'Lab 02 · INME · THWS Business School',
@@ -1467,6 +1435,7 @@
       nav_uebung:         'Start Use Case',
       nav_quiz:           'Quiz',
       nav_figma:          'Figma Quickstart',
+      nav_zusammenfassung: 'Summary',
 
       challenge_label: 'Exercise',
 
@@ -1664,6 +1633,16 @@
       ],
       s10_info: 'Figma Community has thousands of free templates. Search for "Coffee App" or "Maintenance App" for inspiration.',
       s10_lab4_hint: 'In Lab 04 we dive deeper into Figma – components, auto layout and interactive prototypes.',
+
+      /* Summary */
+      s_summary_title: 'Summary',
+      s_summary_list: [
+        'Design Thinking: 5 phases (Empathize, Define, Ideate, Prototype, Test)',
+        'Creativity techniques: Brainstorming, How Might We, Crazy 8s',
+        'Sketchnotes as visual communication',
+        'Creativity is a learnable skill',
+        'Iteration over perfection – fail fast, learn fast',
+      ],
 
       /* Nav */
       nav_prev: 'Lab 01: Foundations',

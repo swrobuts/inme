@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 03 – Gestaltungsprinzipien &amp; Bauhaus | INME Lab</title>
+  <title>Lab 03 – Gestaltungsprinzipien & Bauhaus | INME Lab</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -149,13 +149,13 @@
 
     /* ─── PAGE TITLE ─── */
     .page-title { color: #DC2626; }
-    [data-lang="en"] .page-title { color: #F7CC00; }
+    [data-lang="en"] .page-title { color: #1A1A1A !important; }
 
     /* ─── LERNZIELE ─── */
-    .lernziele-box { border-left-color: #DC2626; }
-    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00; }
+    .lernziele-box { background: #FEF2F2; border-left: 4px solid #DC2626; padding: 1.25rem 1.5rem; }
+    [data-lang="en"] .lernziele-box { border-left-color: #1A1A1A !important; }
     .lernziele-heading { color: #DC2626; }
-    [data-lang="en"] .lernziele-heading { color: #F7CC00 !important; }
+    [data-lang="en"] .lernziele-heading { color: #1A1A1A !important; }
 
     /* ─── BOTTOM NAV ─── */
     .bottom-nav { border-top: 2px solid var(--dark); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; gap: 1rem; flex-wrap: wrap; }
@@ -390,7 +390,7 @@ const SECTIONS = [
 function Sidebar({ lang, activeId }) {
   return (
     <nav className="sidebar">
-      <div className="sidebar-label">NAVIGATION</div>
+      <div className="sidebar-label">{lang === 'de' ? 'INHALT' : 'CONTENTS'}</div>
       {SECTIONS.map(s => (
         <a
           key={s.id}
@@ -446,7 +446,7 @@ function SectionUeberblick({ lang }) {
         <div style={{color:'#d1d5db',fontSize:'0.95rem'}}>{c.mottoSub}</div>
       </div>
 
-      <div className="lernziele-box" style={{background:'#F9FAFB',borderLeft:'4px solid #DC2626',padding:'1.5rem',borderRadius:0}}>
+      <div className="lernziele-box" style={{borderRadius:0}}>
         <h3 className="lernziele-heading" style={{marginBottom:'0.75rem',color:'#DC2626',fontSize:'1rem',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'}}>{c.goalsTitle}</h3>
         <ul style={{paddingLeft:'1.25rem',display:'flex',flexDirection:'column',gap:'0.4rem'}}>
           {c.goals.map((g,i) => (
@@ -1601,9 +1601,11 @@ function App() {
     <div data-lang={lang}>
       {/* HEADER */}
       <header className="site-header">
-        <a href="index.html" className="header-brand">INME Lab</a>
-        <div className="header-right">
+        <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
+          <a href="index.html" className="header-brand">INME Lab</a>
           <a href="index.html" className="back-link">← {lang === 'de' ? 'Übersicht' : 'Overview'}</a>
+        </div>
+        <div className="header-right">
           <div className="lang-toggle">
             <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => setLang('de')}>DE</button>
             <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
@@ -1643,24 +1645,26 @@ function App() {
           <SectionQuiz lang={lang} />
           <SectionUebung lang={lang} />
 
-          <section style={{marginTop:'2rem',padding:'1.5rem',background:'#F9FAFB',borderLeft:'4px solid #DC2626'}}>
+          <section id="zusammenfassung" style={{marginTop:'2rem',padding:'1.5rem',background:'#F9FAFB',borderLeft:'4px solid #DC2626'}}>
             <h3 className="lernziele-heading" style={{color:'#DC2626',marginBottom:'1rem',fontSize:'1rem',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'}}>
               {lang === 'de' ? 'Zusammenfassung' : 'Summary'}
             </h3>
             <ul style={{listStyle:'disc',paddingLeft:'1.5rem',color:'#374151',lineHeight:'1.8'}}>
               {lang === 'de' ? (
                 <>
-                  <li>Bauhaus als bewusste Designentscheidung: Klarheit, Funktion, Wiederholbarkeit</li>
-                  <li>Farbe, Typografie und Komposition als visuelle Sprache</li>
-                  <li>CSS-Design-Systeme aus Bauhaus-Prinzipien ableiten</li>
-                  <li>Gestaltgesetze als Grundlage für intuitive UI</li>
+                  <li>Bauhaus-Kernprinzipien: Form follows function</li>
+                  <li>Farbe und Typografie als Kommunikationsmittel</li>
+                  <li>Gestaltgesetze: Nähe, Ähnlichkeit, Fortsetzung, Geschlossenheit</li>
+                  <li>Bewusste Designentscheidungen basieren auf Prinzipien</li>
+                  <li>Kontrast und Hierarchie lenken die Aufmerksamkeit</li>
                 </>
               ) : (
                 <>
-                  <li>Bauhaus as deliberate design choice: clarity, function, repeatability</li>
-                  <li>Color, typography, and composition as visual language</li>
-                  <li>Deriving CSS design systems from Bauhaus principles</li>
-                  <li>Gestalt laws as foundation for intuitive UI</li>
+                  <li>Bauhaus core principles: Form follows function</li>
+                  <li>Color and typography as communication tools</li>
+                  <li>Gestalt laws: proximity, similarity, continuation, closure</li>
+                  <li>Conscious design decisions are based on principles</li>
+                  <li>Contrast and hierarchy direct attention</li>
                 </>
               )}
             </ul>
@@ -1668,8 +1672,8 @@ function App() {
 
           <BottomNav lang={lang} />
 
-          <footer style={{borderTop:'1px solid #e5e7eb',marginTop:'3rem',padding:'1.5rem 0',textAlign:'center',fontSize:'0.8rem',color:'#9ca3af'}}>
-            INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+          <footer style={{textAlign:'center',padding:'1.5rem',fontSize:'0.75rem',color:'#9ca3af',borderTop:'1px solid #e5e7eb',marginTop:'2rem'}}>
+            © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
           </footer>
         </div>
       </main>

@@ -135,10 +135,10 @@
     .score-display { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #1A1A1A; }
 
     /* Lernziele box */
-    .lernziele-box { background: #F9FAFB; border-left: 4px solid #DC2626; padding: 1.25rem 1.5rem; margin-top: 1.5rem; border-radius: 0; }
+    .lernziele-box { background: #FEF2F2; border-left: 4px solid #DC2626; padding: 1.25rem 1.5rem; margin-top: 1.5rem; border-radius: 0; }
     .lernziele-heading { color: #DC2626; margin: 0 0 0.75rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00; }
-    [data-lang="en"] .lernziele-heading { color: #F7CC00; }
+    [data-lang="en"] .lernziele-box { border-left-color: #1A1A1A !important; }
+    [data-lang="en"] .lernziele-heading { color: #1A1A1A !important; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -321,7 +321,7 @@
         labNumber: 'Lab 01',
 
         // Sidebar
-        sidebarNav: 'Navigation',
+        sidebarNav: 'Inhalt',
         nav: [
           { href: '#ueberblick',      label: 'Überblick' },
           { href: '#definition',      label: 'Was sind interaktive Medien?' },
@@ -486,7 +486,7 @@
         labNumber: 'Lab 01',
 
         // Sidebar
-        sidebarNav: 'Navigation',
+        sidebarNav: 'Contents',
         nav: [
           { href: '#ueberblick',      label: 'Overview' },
           { href: '#definition',      label: 'What are Interactive Media?' },
@@ -825,7 +825,7 @@
               <div className="bauhaus-accent-line"></div>
               <p style={{ fontSize: '1.05rem', lineHeight: '1.75', color: '#333' }}>{t.s1Intro}</p>
               <div className="lernziele-box">
-                <h3 className="lernziele-heading">{t.s1LernzieleTitle}</h3>
+                <h3 className="lernziele-heading" style="color: #DC2626">{t.s1LernzieleTitle}</h3>
                 <ul style={{ margin: 0, paddingLeft: '1.4rem', lineHeight: 2 }}>
                   {t.s1Lernziele.map((z, i) => (
                     <li key={i} style={{ color: '#333' }}>{z}</li>
@@ -998,7 +998,7 @@
           </main>
 
           <footer style={{borderTop:'1px solid #e5e7eb', marginTop:'3rem', padding:'1.5rem 0', textAlign:'center', fontSize:'0.8rem', color:'#9ca3af'}}>
-            INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+            © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
           </footer>
         </div>
       );
