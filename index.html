@@ -304,6 +304,10 @@
       border-color: white;
       color: white;
     }
+    [data-lang="en"] .btn-outline-white:hover {
+      border-color: #1A1A1A;
+      color: #1A1A1A;
+    }
 
     /* Stats bar */
     .stats-bar {
@@ -330,7 +334,7 @@
     .stat-value {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 800;
-      font-size: 2rem;
+      font-size: 2.75rem;
       color: #B91C1C;
       line-height: 1;
       margin-bottom: 0.25rem;
@@ -559,7 +563,25 @@
     .tip-box, .challenge-box, .info-box, .concept-box { border-radius: 8px; }
     img { border-radius: 8px; }
 
-    </style>
+    
+    /* EN: Mango-Modus – alles Rote wird Dunkel */
+    [data-lang="en"] .stat-value { color: #1A1A1A; }
+    [data-lang="en"] h2 { color: #1A1A1A; }
+    [data-lang="en"] h3 { color: #1A1A1A; }
+    [data-lang="en"] a { color: #1A1A1A; }
+    [data-lang="en"] .labs-title { color: #1A1A1A; }
+    [data-lang="en"] .labs-title::after { background: #1A1A1A; }
+    [data-lang="en"] .lab-number { background: #1A1A1A; color: #F7CC00; }
+    [data-lang="en"] .lab-link { color: #1A1A1A; }
+    [data-lang="en"] .lab-title { color: #1A1A1A; }
+    [data-lang="en"] .btn-primary { background: #1A1A1A !important; border-color: #1A1A1A !important; color: #F7CC00 !important; }
+    [data-lang="en"] .btn-primary:hover { background: #333 !important; border-color: #333 !important; }
+    [data-lang="en"] .lang-btn.active { background: #1A1A1A; color: #F7CC00; border-color: #1A1A1A; }
+    [data-lang="en"] .section-accent { background: #1A1A1A; }
+    [data-lang="en"] .use-case-badge { background: #1A1A1A; }
+    [data-lang="en"] .use-case-accent { background: #1A1A1A; }
+
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
 </head>
@@ -762,7 +784,7 @@
       const t = translations[lang];
 
       return (
-        <div>
+        <div data-lang={lang}>
           {/* Banderole */}
           <div style={{
             background: '#1A1A1A',
