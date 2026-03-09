@@ -323,6 +323,17 @@
     [data-lang="en"] *[style*="borderColor: rgb(185"],
     [data-lang="en"] *[style*="borderColor: rgb(220"]  { border-color: #1A1A1A !important; }
 
+  
+    [data-lang="en"] .bauhaus-accent-line { background: #F7CC00 !important; }
+  
+    [data-lang="en"] .active { color: #1A1A1A !important; border-left-color: #F7CC00 !important; }
+    [data-lang="en"] .concept-box { border-left-color: #F7CC00 !important; background: rgba(247,204,0,0.08) !important; }
+    [data-lang="en"] .filled { background: #1A1A1A !important; }
+    [data-lang="en"] .incorrect { border-color: #1A1A1A !important; }
+    [data-lang="en"] .persona-header { background: #1A1A1A !important; }
+    [data-lang="en"] .primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
+    [data-lang="en"] .root { border-color: #F7CC00 !important; }
+    [data-lang="en"] .story-num { color: #1A1A1A !important; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
@@ -333,6 +344,8 @@
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
 
+
+    const urlLang = new URLSearchParams(window.location.search).get('lang');
     // ─── Translations ─────────────────────────────────────────────────────────
     const t = {
       de: {
@@ -1115,7 +1128,7 @@
     }
 
         function App() {
-      const [lang, setLang] = useState('de');
+      const [lang, setLang] = useState(urlLang === 'en' ? 'en' : 'de');
       const [activeSection, setActiveSection] = useState('ueberblick');
       const tr = t[lang];
 

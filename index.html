@@ -502,7 +502,7 @@
       border-top-color: #B91C1C;
     }
     [data-lang="en"] .btn-lab-link { color: #1A1A1A; }
-    [data-lang="en"] .btn-lab-link:hover { background: #1A1A1A; color: #F7CC00; border-top-color: #1A1A1A; }
+    [data-lang="en"] .btn-lab-link:hover { background: #F7CC00; color: #1A1A1A; border-top-color: #F7CC00; }
 
     /* Use Case section */
     .usecase-section {
@@ -630,8 +630,7 @@
     [data-lang="en"] .lab-link,
     [data-lang="en"] .lab-number { color: #1A1A1A; }
     [data-lang="en"] .lab-number { background: #1A1A1A; color: #F7CC00; }
-    [data-lang="en"] .btn-lab-link { color: #1A1A1A; }
-    [data-lang="en"] .btn-lab-link:hover { color: #333; }
+    /* EN btn-lab-link: geregelt weiter oben – kein Duplikat */
 
     /* CTA-Buttons */
     [data-lang="en"] .btn-primary { background: #1A1A1A !important; border-color: #1A1A1A !important; color: #F7CC00 !important; }
@@ -1131,7 +1130,7 @@
                     <div className="lab-subtitle">{lab.subtitle}</div>
                   </div>
                   <p className="lab-desc">{lab.desc}</p>
-                  <a href={lab.link} className="btn-lab-link">{t.labLink}</a>
+                  <a href={lang === 'en' ? lab.link + '?lang=en' : lab.link} className="btn-lab-link">{t.labLink} →</a>
                 </div>
               ))}
             </div>
