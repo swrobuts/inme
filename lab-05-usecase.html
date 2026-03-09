@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 05 – Use Case: Kaffeevollautomat-Störungsmelder | INME</title>
+  <title>Lab 05 – Use Case: Kaffeevollautomat-Störungsmelder | INME Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -94,7 +94,7 @@
     tr:hover td { background: rgba(185,28,28,0.03); }
 
     /* Nav bottom */
-    .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .nav-bottom { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; margin-top: 2rem; }
     .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
     .nav-btn:hover { background: #DC2626; color: white; }
     .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
@@ -344,6 +344,14 @@
     [data-lang="en"] .persona-stat-label { color: #1A1A1A !important; }
     [data-lang="en"] .wireframe-label { color: #1A1A1A !important; }
 
+    /* Lernziele (#9 + #16) */
+    .lernziele-heading { color: #DC2626; }
+    [data-lang="en"] .lernziele-heading { color: #F7CC00 !important; }
+    .lernziele-box { background: #F9FAFB; border-left: 4px solid #DC2626; border-radius: 0; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .lernziele-box .lernziele-heading { color: #DC2626; }
+    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00 !important; }
+    [data-lang="en"] .lernziele-box .lernziele-heading { color: #F7CC00 !important; }
+
     /* Lab-05/06 spezifisch */
     [data-lang="en"] .flow-arrow { background: #1A1A1A !important; color: white !important; }
     [data-lang="en"] .step-number { background: #1A1A1A !important; color: #F7CC00 !important; }
@@ -394,6 +402,7 @@
 
         // Section 1
         s1BadgeLabel: 'USE CASE',
+        s1TimeLabel: '90 min',
         s1Title: 'Kaffeevollautomat-Störungsmelder',
         s1Desc: 'Ein Industrie-Wartungstechniker meldet per Smartphone eine Störung eines Kaffeevollautomaten. Das System analysiert Foto + Symptome, liefert eine Diagnose und eine Schritt-für-Schritt-Reparaturanleitung. Bei Bedarf wird der Techniker zum Ersatzteilshop weitergeleitet.',
         s1Stats: ['5 Screens', '6 Ersatzteile', 'Bauhaus Design'],
@@ -655,14 +664,14 @@
         ],
 
         // Nav
-        navPrev: '← Lab 04: UX Research',
-        navNext: 'Weiter: Lab 06 – Implementierung →',
+        navPrev: '← Zurück',
+        navNext: 'Weiter →',
       },
 
       en: {
         pageTitle: 'Lab 05 – Use Case: Coffee Machine Fault Reporter',
         labLabel: 'INME Lab',
-        backLink: '← Overview',
+        backLink: '← Back',
         nav: [
           { href: '#ueberblick',      label: 'Use Case Description' },
           { href: '#empathize',       label: 'Phase 1: Empathize' },
@@ -676,6 +685,7 @@
         ],
 
         s1BadgeLabel: 'USE CASE',
+        s1TimeLabel: '90 min',
         s1Title: 'Coffee Machine Fault Reporter',
         s1Desc: 'An industrial maintenance technician reports a coffee machine fault via smartphone. The system analyses the photo + symptoms, delivers a diagnosis and a step-by-step repair guide. If needed, the technician is redirected to the spare-parts shop.',
         s1Stats: ['5 Screens', '6 Spare Parts', 'Bauhaus Design'],
@@ -928,8 +938,8 @@
           },
         ],
 
-        navPrev: '← Lab 04: UX Research',
-        navNext: 'Next: Lab 06 – Implementation →',
+        navPrev: '← Zurück',
+        navNext: 'Weiter →',
       },
     };
 
@@ -1080,7 +1090,7 @@ SCREEN 1 – FOTO-UPLOAD
 
           {/* ── Sidebar ── */}
           <nav className="sidebar">
-            <div className="sidebar-title">Navigation</div>
+            <div className="sidebar-title">NAVIGATION</div>
             {t.nav.map(item => (
               <a
                 key={item.href}
@@ -1098,7 +1108,10 @@ SCREEN 1 – FOTO-UPLOAD
             {/* ── Section 1: Überblick ── */}
             <section id="ueberblick" className="section-block">
               <div className="hero-section">
-                <span className="bauhaus-badge">{t.s1BadgeLabel}</span>
+                <div style={{display:'flex',alignItems:'center',gap:'0.5rem',flexWrap:'wrap'}}>
+                  <span className="bauhaus-badge">{t.s1BadgeLabel}</span>
+                  <span style={{background:'rgba(255,255,255,0.15)',color:'white',padding:'0.2rem 0.7rem',fontSize:'0.7rem',fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase'}}>{t.s1TimeLabel}</span>
+                </div>
                 <h2 style={{fontFamily:'Space Grotesk',fontWeight:800,color:'#DC2626',fontSize:'1.9rem',margin:'0.75rem 0 0.5rem'}}>
                   {t.s1Title}
                 </h2>
@@ -1361,6 +1374,11 @@ SCREEN 1 – FOTO-UPLOAD
               <a href="lab-04-ux.html" className="nav-btn">{t.navPrev}</a>
               <a href="lab-06-implementation.html" className="nav-btn primary">{t.navNext}</a>
             </div>
+
+            {/* ── Footer ── */}
+            <footer style={{borderTop:'1px solid #e5e7eb',marginTop:'3rem',padding:'1.5rem 0',textAlign:'center',fontSize:'0.8rem',color:'#9ca3af'}}>
+              INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+            </footer>
 
           </main>
         </div>

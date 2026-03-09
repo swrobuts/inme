@@ -708,6 +708,19 @@
       color: #9CA3AF;
       font-weight: 500;
     }
+    /* ── Quote Source Note ── */
+    .quote-source {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 0.5rem;
+      font-weight: 400;
+    }
+    .quote-source-de { display: inline; }
+    .quote-source-en { display: none; }
+    [data-lang="en"] .quote-source-de { display: none; }
+    [data-lang="en"] .quote-source-en { display: inline; }
+
     /* ── Quote Scroll-Reveal via IntersectionObserver ── */
     /* Portrait: von links, Text: von rechts, beide fade */
     .quote-portrait-wrap {
@@ -749,6 +762,8 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
+    const SEMESTER = 'Sommersemester 2026';
+
     const translations = {
       de: {
         // Navbar
@@ -762,11 +777,11 @@
         heroDesc: "Die Companion-Site zum Kurs \"Interaktive Medien\"",
         heroCourse: "Bachelor Medienmanagement (BMM)",
         badge1: "Bachelor Medienmanagement",
-        badge2: "Sommersemester 2026",
+        badge2: SEMESTER,
         badge3: "Prof. Dr. Robert Butscher",
         ctaLabs: "Zu den Labs →",
         ctaGithub: "GitHub →",
-        banderole: "Sommersemester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg",
+        banderole: `${SEMESTER} · Bachelor Medienmanagement · THWS Business School Würzburg`,
 
         // Stats
         statLabs: "Labs",
@@ -814,7 +829,7 @@
             title: "Use Case: Kaffeevollautomat",
             subtitle: "Use Case: Coffee Machine",
             desc: "Von der Idee bis zum Prototyp. Design Thinking in der Praxis.",
-            link: "coffee-app.html",
+            link: "lab-05-app.html",
           },
           {
             num: "06",
@@ -853,7 +868,7 @@
         badge3: "Prof. Dr. Robert Butscher",
         ctaLabs: "To the Labs →",
         ctaGithub: "GitHub →",
-        banderole: "Sommersemester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg",
+        banderole: `${SEMESTER} · Bachelor Medienmanagement · THWS Business School Würzburg`,
 
         // Stats
         statLabs: "Labs",
@@ -901,7 +916,7 @@
             title: "Use Case: Coffee Machine",
             subtitle: "Use Case: Kaffeevollautomat",
             desc: "From idea to prototype. Design Thinking in practice.",
-            link: "coffee-app.html",
+            link: "lab-05-app.html",
           },
           {
             num: "06",
@@ -1078,6 +1093,10 @@
                       : 'Former Chief Design Officer, Apple Inc.'
                     }
                   </span>
+                  <p className="quote-source">
+                    <span className="quote-source-de">Originalzitat auf Englisch – Jonathan Ive, ehem. Chief Design Officer, Apple Inc.</span>
+                    <span className="quote-source-en">Jonathan Ive, former Chief Design Officer, Apple Inc.</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -1152,7 +1171,7 @@
                   <h2 className="usecase-title" style={{ color: 'white' }}>{t.useCaseTitle}</h2>
                   <div className="bauhaus-accent-line" style={{ marginBottom: '1.5rem' }}></div>
                   <p className="usecase-desc">{t.useCaseDesc}</p>
-                  <a href="coffee-app.html" className="btn-primary">{t.useCaseBtn}</a>
+                  <a href="lab-05-app.html" className="btn-primary">{t.useCaseBtn}</a>
                 </div>
               </div>
             </div>

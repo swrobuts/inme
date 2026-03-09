@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 01 – Grundlagen Interaktiver Medien | INME</title>
+  <title>Lab 01 – Grundlagen Interaktiver Medien | INME Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -121,7 +121,7 @@
     .check-icon { color: #22c55e; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
 
     /* Nav bottom */
-    .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .nav-bottom { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; margin-top: 2rem; }
     .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
     .nav-btn:hover { background: #DC2626; color: white; }
     .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
@@ -133,6 +133,12 @@
     .quiz-explanation { margin-top: 0.75rem; padding: 0.75rem 1rem; background: #f0fdf4; border-left: 3px solid #22c55e; font-size: 0.88rem; color: #166534; }
     .quiz-explanation.wrong-exp { background: #fef2f2; border-left-color: #ef4444; color: #991b1b; }
     .score-display { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #1A1A1A; }
+
+    /* Lernziele box */
+    .lernziele-box { background: #F9FAFB; border-left: 4px solid #DC2626; padding: 1.25rem 1.5rem; margin-top: 1.5rem; border-radius: 0; }
+    .lernziele-heading { color: #DC2626; margin: 0 0 0.75rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00; }
+    [data-lang="en"] .lernziele-heading { color: #F7CC00; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -818,8 +824,8 @@
               <h2 style={{ marginTop: '0.75rem' }}>{t.s1Title}</h2>
               <div className="bauhaus-accent-line"></div>
               <p style={{ fontSize: '1.05rem', lineHeight: '1.75', color: '#333' }}>{t.s1Intro}</p>
-              <div className="bauhaus-card" style={{ marginTop: '1.5rem' }}>
-                <h3 style={{ margin: '0 0 0.75rem' }}>{t.s1LernzieleTitle}</h3>
+              <div className="lernziele-box">
+                <h3 className="lernziele-heading">{t.s1LernzieleTitle}</h3>
                 <ul style={{ margin: 0, paddingLeft: '1.4rem', lineHeight: 2 }}>
                   {t.s1Lernziele.map((z, i) => (
                     <li key={i} style={{ color: '#333' }}>{z}</li>
@@ -990,6 +996,10 @@
             </section>
 
           </main>
+
+          <footer style={{borderTop:'1px solid #e5e7eb', marginTop:'3rem', padding:'1.5rem 0', textAlign:'center', fontSize:'0.8rem', color:'#9ca3af'}}>
+            INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+          </footer>
         </div>
       );
     }

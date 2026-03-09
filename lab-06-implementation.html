@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 06 – Implementierung: Supabase + CodePen | INME</title>
+  <title>Lab 06 – Implementierung: Supabase + CodePen | INME Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -295,6 +295,10 @@
     [data-lang="en"] .diff-high { background: #1A1A1A !important; }
     [data-lang="en"] .checklist-item.done::before { color: #F7CC00 !important; }
 
+    /* Lernziele box EN overrides */
+    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00 !important; }
+    [data-lang="en"] .lernziele-heading { color: #F7CC00 !important; }
+
     /* Inline-Style Overrides via RGB-Matching (React rendert hex → rgb) */
     /* rgb(185,28,28) = #B91C1C | rgb(220,38,38) = #DC2626 */
     [data-lang="en"] *[style*="color: rgb(185"] { color: #1A1A1A !important; }
@@ -504,7 +508,7 @@
       en: {
         pageTitle: 'Lab 06 – Implementation: Supabase + CodePen',
         labLabel: 'INME Lab',
-        backLink: '← Overview',
+        backLink: '← Back',
         nav: [
           { href: '#ueberblick',        label: 'Overview' },
           { href: '#tech-stack',        label: 'Tech Stack' },
@@ -1732,13 +1736,14 @@ async function kameraOeffnen() {
             const ans = answers[qi];
             return (
               <div key={qi} className="quiz-question-block">
-                <h4>{qi + 1}. {q.q}</h4>
+                <h4>Q{qi + 1}: {q.q}</h4>
                 {q.opts.map((opt, oi) => {
                   let cls = 'quiz-option';
                   if (ans !== undefined) {
                     if (oi === q.correct) cls += ' correct';
                     else if (oi === ans.chosen && !ans.correct) cls += ' wrong';
                   }
+                  const prefix = ['A)', 'B)', 'C)', 'D)'][oi];
                   return (
                     <button
                       key={oi}
@@ -1746,7 +1751,7 @@ async function kameraOeffnen() {
                       disabled={ans !== undefined}
                       onClick={() => pick(qi, oi)}
                     >
-                      {opt}
+                      {prefix} {opt}
                     </button>
                   );
                 })}
@@ -1789,7 +1794,7 @@ async function kameraOeffnen() {
 
       return (
         <nav className="sidebar">
-          <div className="sidebar-title">Lab 06</div>
+          <div className="sidebar-title">NAVIGATION</div>
           {nav.map(n => (
             <a
               key={n.href}
@@ -1837,13 +1842,15 @@ async function kameraOeffnen() {
 
             {/* ── Section 1: Überblick ── */}
             <section id="ueberblick" className="section-block">
-              <span className="bauhaus-badge">{lang === 'de' ? 'ÜBERBLICK' : 'OVERVIEW'}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                <span className="bauhaus-badge">{lang === 'de' ? 'ÜBERBLICK' : 'OVERVIEW'}</span>
+                <span className="bauhaus-badge" style={{ background: '#1A1A1A' }}>{t.s1BadgeDuration}</span>
+              </div>
               <div className="bauhaus-accent-line" />
               <h2>{t.s1Title}</h2>
-              <span className="bauhaus-badge" style={{ marginBottom: '1.5rem' }}>{t.s1BadgeDuration}</span>
 
-              <div className="bauhaus-card" style={{ marginTop: '1.25rem', marginBottom: '1.5rem' }}>
-                <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>{t.s1GoalsTitle}</h3>
+              <div className="lernziele-box" style={{ marginTop: '1.25rem', marginBottom: '1.5rem', background: '#F9FAFB', borderLeft: '4px solid #DC2626', padding: '1.5rem', borderRadius: 0 }}>
+                <h3 className="lernziele-heading" style={{ color: '#DC2626', marginTop: 0, marginBottom: '0.75rem' }}>{t.s1GoalsTitle}</h3>
                 <ul style={{ paddingLeft: '1.25rem', lineHeight: '2' }}>
                   {t.s1Goals.map((g, i) => <li key={i}>{g}</li>)}
                 </ul>
@@ -2018,11 +2025,39 @@ async function kameraOeffnen() {
               />
             </section>
 
+            {/* ── Zusammenfassung ── */}
+            <section style={{marginTop:'2rem', padding:'1.5rem', background:'#F9FAFB', borderLeft:'4px solid #DC2626'}}>
+              <h3 style={{color:'#DC2626', marginBottom:'1rem', fontSize:'1rem', fontWeight:'700', letterSpacing:'0.05em', textTransform:'uppercase'}}>
+                {lang === 'de' ? 'Zusammenfassung' : 'Summary'}
+              </h3>
+              <ul style={{listStyle:'disc', paddingLeft:'1.5rem', color:'#374151', lineHeight:'1.8'}}>
+                {lang === 'de' ? (
+                  <>
+                    <li>Supabase als serverloser Backend-as-a-Service für Echtzeitdaten</li>
+                    <li>CodePen als schnelle Prototyping-Plattform ohne Build-Tooling</li>
+                    <li>Gemini Vision API für KI-gestützte Bildanalyse</li>
+                    <li>Frontend-Backend-Integration ohne eigenen Server</li>
+                  </>
+                ) : (
+                  <>
+                    <li>Supabase as serverless Backend-as-a-Service for real-time data</li>
+                    <li>CodePen as rapid prototyping platform without build tooling</li>
+                    <li>Gemini Vision API for AI-powered image analysis</li>
+                    <li>Frontend-backend integration without own server</li>
+                  </>
+                )}
+              </ul>
+            </section>
+
             {/* ── Bottom Navigation ── */}
-            <div className="nav-bottom">
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'1.5rem 0'}}>
               <a href="lab-05-usecase.html" className="nav-btn">{t.navPrev}</a>
-              <a href="index.html" className="nav-btn">{t.navOverview}</a>
             </div>
+
+            {/* ── Footer ── */}
+            <footer style={{borderTop:'1px solid #e5e7eb', marginTop:'3rem', padding:'1.5rem 0', textAlign:'center', fontSize:'0.8rem', color:'#9ca3af'}}>
+              INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+            </footer>
 
           </main>
         </div>

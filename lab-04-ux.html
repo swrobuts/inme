@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lab 04 – UX Research &amp; Prototyping | INME</title>
+  <title>Lab 04 – UX Research &amp; Prototyping | INME Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -22,6 +22,10 @@
     h2 { color: #B91C1C; font-weight: 800; font-family: 'Space Grotesk', sans-serif; margin-top: 0; }
     h3 { color: #B91C1C; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
     h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin: 0.5rem 0; }
+    .lernziele-box { background: #F9FAFB; border-left: 4px solid #DC2626; border-radius: 0; padding: 1.5rem; margin-top: 1.25rem; }
+    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00; }
+    .lernziele-heading { color: #DC2626; }
+    [data-lang="en"] .lernziele-heading { color: #F7CC00; }
     p { line-height: 1.7; }
 
     /* Bauhaus */
@@ -152,7 +156,7 @@
     .score-display { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #1A1A1A; }
 
     /* Nav bottom */
-    .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .nav-bottom { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; margin-top: 2rem; }
     .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
     .nav-btn:hover { background: #DC2626; color: white; }
     .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
@@ -610,7 +614,7 @@
       en: {
         pageTitle: 'Lab 04 – UX Research & Prototyping',
         labLabel: 'INME Lab',
-        backLink: '← Overview',
+        backLink: '← Back',
         timeEstimate: 'approx. 75 min',
         labNumber: 'Lab 04',
         sidebarNav: 'Navigation',
@@ -961,7 +965,7 @@
           <p style={{ color: '#555', marginBottom: '1.5rem' }}>{tr.s10Intro}</p>
           {tr.s10Questions.map((q, qi) => (
             <div key={qi} className="quiz-question-block">
-              <h4>{qi + 1}. {q.q}</h4>
+              <h4>Q{qi + 1} {q.q}</h4>
               {q.options.map((opt, oi) => {
                 let cls = 'quiz-option';
                 if (submitted[qi]) {
@@ -1008,7 +1012,7 @@
       const tr = t[lang];
 
       useEffect(() => {
-        document.title = tr.pageTitle + ' | INME';
+        document.title = tr.pageTitle + ' | INME Lab';
         document.documentElement.lang = lang;
       }, [lang]);
 
@@ -1075,8 +1079,8 @@
               <div className="bauhaus-accent-line"></div>
               <p style={{ fontSize: '1.15rem', fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", color: '#1A1A1A', marginBottom: '0.5rem' }}>{tr.s1Subtitle}</p>
               <p style={{ color: '#555' }}>{tr.s1Intro}</p>
-              <div className="bauhaus-card" style={{ marginTop: '1.25rem' }}>
-                <h4 style={{ margin: '0 0 0.75rem' }}>{tr.s1LernzieleTitle}</h4>
+              <div className="lernziele-box">
+                <h4 className="lernziele-heading" style={{ margin: '0 0 0.75rem' }}>{tr.s1LernzieleTitle}</h4>
                 <ul style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: 1.85 }}>
                   {tr.s1Lernziele.map((z, i) => <li key={i} style={{ fontSize: '0.95rem' }}>{z}</li>)}
                 </ul>
@@ -1297,6 +1301,10 @@
               <a href="lab-03-gestaltung.html" className="nav-btn">{tr.navPrev}</a>
               <a href="lab-05-usecase.html" className="nav-btn primary">{tr.navNext}</a>
             </nav>
+
+            <footer style={{borderTop:'1px solid #e5e7eb', marginTop:'3rem', padding:'1.5rem 0', textAlign:'center', fontSize:'0.8rem', color:'#9ca3af'}}>
+              INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+            </footer>
 
           </main>
         </div>

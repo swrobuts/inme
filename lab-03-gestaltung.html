@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>INME Lab 03 – Gestaltungsprinzipien & Bauhaus</title>
+  <title>Lab 03 – Gestaltungsprinzipien &amp; Bauhaus | INME Lab</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
 
     /* ─── MAIN ─── */
     .main-content { margin-left: var(--sidebar-w); padding-top: calc(var(--header-h) + 16px); min-height: 100vh; }
-    .content-inner { max-width: 860px; margin: 0 auto; padding: 1.5rem 2rem 4rem; }
+    .content-inner { max-width: 960px; margin: 0 auto; padding: 1.5rem 2rem 4rem; }
 
     /* ─── DESIGN SYSTEM CLASSES ─── */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
@@ -147,6 +147,16 @@
     .quiz-pip.wrong { background: #ef4444; }
     .quiz-score-banner { border: 2px solid var(--dark); padding: 1.5rem; text-align: center; background: white; margin-top: 1.5rem; }
 
+    /* ─── PAGE TITLE ─── */
+    .page-title { color: #DC2626; }
+    [data-lang="en"] .page-title { color: #F7CC00; }
+
+    /* ─── LERNZIELE ─── */
+    .lernziele-box { border-left-color: #DC2626; }
+    [data-lang="en"] .lernziele-box { border-left-color: #F7CC00; }
+    .lernziele-heading { color: #DC2626; }
+    [data-lang="en"] .lernziele-heading { color: #F7CC00 !important; }
+
     /* ─── BOTTOM NAV ─── */
     .bottom-nav { border-top: 2px solid var(--dark); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; gap: 1rem; flex-wrap: wrap; }
     .bottom-nav-btn { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--dark); text-decoration: none; border: 2px solid var(--dark); padding: 0.6rem 1.2rem; display: inline-block; }
@@ -168,10 +178,10 @@
     a { color: var(--primary); }
     button { transition: all 0.2s ease; }
     button:hover { opacity: 0.85; transform: translateY(-1px); }
-    .sidebar-item { border-radius: 6px; margin: 2px 8px; }
-    .code-block { border-radius: 8px; }
-    .tip-box, .challenge-box, .info-box, .concept-box { border-radius: 8px; }
-    img { border-radius: 8px; }
+    .sidebar-item { border-radius: 0; margin: 2px 8px; }
+    .code-block { border-radius: 0; }
+    .tip-box, .challenge-box, .info-box, .concept-box { border-radius: 0; }
+    img { border-radius: 0; }
 
   
     /* ═══════════════════════════════════════════
@@ -380,7 +390,7 @@ const SECTIONS = [
 function Sidebar({ lang, activeId }) {
   return (
     <nav className="sidebar">
-      <div className="sidebar-label">{lang === 'de' ? 'Inhalt' : 'Contents'}</div>
+      <div className="sidebar-label">NAVIGATION</div>
       {SECTIONS.map(s => (
         <a
           key={s.id}
@@ -432,17 +442,12 @@ function SectionUeberblick({ lang }) {
       <h2 className="section-title">{c.title}</h2>
       <div className="bauhaus-accent-line" />
       <div className="bauhaus-card" style={{marginBottom: '1.5rem', background: 'var(--dark)', color: 'white', borderColor: 'var(--dark)'}}>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:'0.75rem'}}>
-          <div>
-            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'1.25rem',marginBottom:'0.4rem'}}>{c.motto}</div>
-            <div style={{color:'#d1d5db',fontSize:'0.95rem'}}>{c.mottoSub}</div>
-          </div>
-          <span className="badge badge-yellow">{c.badge}</span>
-        </div>
+        <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'1.25rem',marginBottom:'0.4rem'}}>{c.motto}</div>
+        <div style={{color:'#d1d5db',fontSize:'0.95rem'}}>{c.mottoSub}</div>
       </div>
 
-      <div className="bauhaus-card">
-        <h3 style={{marginBottom:'0.5rem'}}>{c.goalsTitle}</h3>
+      <div className="lernziele-box" style={{background:'#F9FAFB',borderLeft:'4px solid #DC2626',padding:'1.5rem',borderRadius:0}}>
+        <h3 className="lernziele-heading" style={{marginBottom:'0.75rem',color:'#DC2626',fontSize:'1rem',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'}}>{c.goalsTitle}</h3>
         <ul style={{paddingLeft:'1.25rem',display:'flex',flexDirection:'column',gap:'0.4rem'}}>
           {c.goals.map((g,i) => (
             <li key={i} style={{fontSize:'0.95rem'}}>{g}</li>
@@ -1616,8 +1621,9 @@ function App() {
           <div style={{display:'flex',alignItems:'center',gap:'0.75rem',marginBottom:'0.5rem',flexWrap:'wrap'}}>
             <span className="badge badge-dark">Lab 03</span>
             <span className="badge badge-outline">{lang === 'de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}</span>
+            <span className="badge badge-outline">{lang === 'de' ? 'ca. 60 Min' : 'approx. 60 min'}</span>
           </div>
-          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'2rem',color:'var(--dark)',marginBottom:'0.25rem'}}>
+          <h1 className="page-title" style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'2rem',color:'#DC2626',marginBottom:'0.25rem'}}>
             {lang === 'de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}
           </h1>
           <p style={{color:'#6b7280',marginBottom:'2.5rem',fontSize:'1rem'}}>
@@ -1637,7 +1643,34 @@ function App() {
           <SectionQuiz lang={lang} />
           <SectionUebung lang={lang} />
 
+          <section style={{marginTop:'2rem',padding:'1.5rem',background:'#F9FAFB',borderLeft:'4px solid #DC2626'}}>
+            <h3 className="lernziele-heading" style={{color:'#DC2626',marginBottom:'1rem',fontSize:'1rem',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'}}>
+              {lang === 'de' ? 'Zusammenfassung' : 'Summary'}
+            </h3>
+            <ul style={{listStyle:'disc',paddingLeft:'1.5rem',color:'#374151',lineHeight:'1.8'}}>
+              {lang === 'de' ? (
+                <>
+                  <li>Bauhaus als bewusste Designentscheidung: Klarheit, Funktion, Wiederholbarkeit</li>
+                  <li>Farbe, Typografie und Komposition als visuelle Sprache</li>
+                  <li>CSS-Design-Systeme aus Bauhaus-Prinzipien ableiten</li>
+                  <li>Gestaltgesetze als Grundlage für intuitive UI</li>
+                </>
+              ) : (
+                <>
+                  <li>Bauhaus as deliberate design choice: clarity, function, repeatability</li>
+                  <li>Color, typography, and composition as visual language</li>
+                  <li>Deriving CSS design systems from Bauhaus principles</li>
+                  <li>Gestalt laws as foundation for intuitive UI</li>
+                </>
+              )}
+            </ul>
+          </section>
+
           <BottomNav lang={lang} />
+
+          <footer style={{borderTop:'1px solid #e5e7eb',marginTop:'3rem',padding:'1.5rem 0',textAlign:'center',fontSize:'0.8rem',color:'#9ca3af'}}>
+            INME Lab · THWS Business School · Prof. Dr. Robert Butscher
+          </footer>
         </div>
       </main>
     </div>
