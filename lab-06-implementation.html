@@ -735,11 +735,11 @@ CREATE TABLE bestellpositionen (
 INSERT INTO ersatzteile
   (name, beschreibung, preis, kategorie, lagerbestand)
 VALUES
-  ('Entkalker Jura 3-Pack',
-   'Original Jura Entkalker, 3 Tabletten für 3 Entkalkungsvorgänge',
+  ('Entkalker Frisia 3-Pack',
+   'Original Frisia Entkalker, 3 Tabletten für 3 Entkalkungsvorgänge',
    12.90, 'Reinigung', 150),
   ('Brühgruppe Komplett',
-   'Komplette Brühgruppe als Ersatz, kompatibel mit Jura E-Serie',
+   'Komplette Brühgruppe als Ersatz, kompatibel mit Frisia E-Serie',
    89.00, 'Mechanik', 12),
   ('Dichtungsset Universal',
    '10-teiliges Dichtungsset für alle gängigen Kaffeevollautomaten',
@@ -864,11 +864,11 @@ CREATE POLICY "Bestellpositionen einfügen"
         <label>Maschinentyp</label>
         <select id="maschinentyp">
           <option value="">-- Bitte wählen --</option>
-          <option value="jura-e8">Jura E8</option>
-          <option value="jura-z10">Jura Z10</option>
-          <option value="siemens-eq6">Siemens EQ.6</option>
-          <option value="delonghi-magnifica">DeLonghi Magnifica</option>
-          <option value="philips-5400">Philips Series 5400</option>
+          <option value="frisia-e8">Frisia E8</option>
+          <option value="frisia-z10">Frisia Z10</option>
+          <option value="bavaria-eq6">Bavaria EQ.6</option>
+          <option value="saxonia-magnifica">Saxonia Magnifica</option>
+          <option value="palatia-5400">Palatia Series 5400</option>
           <option value="andere">Anderer Typ</option>
         </select>
       </div>
@@ -1266,7 +1266,7 @@ const MOCK_DIAGNOSEN = {
     ursache: 'Kalkablagerungen im Heizsystem haben den Grenzwert überschritten.',
     schwere: 'warning',
     loesung: ['Entkalker-Tablette in Wassertank geben', 'Entkalkungsprogramm starten (ca. 45 Min)', 'Mit frischem Wasser nachspülen'],
-    ersatzteil: 'Entkalker Jura 3-Pack'
+    ersatzteil: 'Entkalker Frisia 3-Pack'
   },
   bruehgruppe: {
     problem: 'Brühgruppe verstopft',
@@ -1300,8 +1300,8 @@ const MOCK_DIAGNOSEN = {
 
 // Demo-Daten für Supabase-Fallback
 const DEMO_ERSATZTEILE = [
-  { id: '1', name: 'Entkalker Jura 3-Pack', beschreibung: '3 Tabletten', preis: 12.90, kategorie: 'Reinigung' },
-  { id: '2', name: 'Brühgruppe Komplett', beschreibung: 'Für Jura E-Serie', preis: 89.00, kategorie: 'Mechanik' },
+  { id: '1', name: 'Entkalker Frisia 3-Pack', beschreibung: '3 Tabletten', preis: 12.90, kategorie: 'Reinigung' },
+  { id: '2', name: 'Brühgruppe Komplett', beschreibung: 'Für Frisia E-Serie', preis: 89.00, kategorie: 'Mechanik' },
   { id: '3', name: 'Dichtungsset Universal', beschreibung: '10-teiliges Set', preis: 8.50, kategorie: 'Dichtungen' },
   { id: '4', name: 'Pumpe VibraFoam 15 Bar', beschreibung: 'Universell kompatibel', preis: 45.00, kategorie: 'Mechanik' },
   { id: '5', name: 'Dampfventil komplett', beschreibung: 'Inkl. Dichtungen', preis: 28.90, kategorie: 'Mechanik' },
