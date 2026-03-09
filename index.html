@@ -421,11 +421,6 @@
       font-family: 'Space Grotesk', sans-serif;
     }
 
-    .lab-emoji {
-      font-size: 1.75rem;
-      line-height: 1;
-    }
-
     .lab-title {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
@@ -623,7 +618,6 @@
         labs: [
           {
             num: "01",
-            emoji: "🎯",
             title: "Grundlagen Interaktiver Medien",
             subtitle: "Foundations of Interactive Media",
             desc: "Was sind interaktive Medien? Kategorien, Eigenschaften, Relevanz.",
@@ -631,7 +625,6 @@
           },
           {
             num: "02",
-            emoji: "💡",
             title: "Kreativtechniken & Design Thinking",
             subtitle: "Creativity & Design Thinking",
             desc: "Empathize, Define, Ideate, Prototype, Test. Brainstorming, HMW.",
@@ -639,7 +632,6 @@
           },
           {
             num: "03",
-            emoji: "🎨",
             title: "Gestaltungsprinzipien & Bauhaus",
             subtitle: "Design Principles & Bauhaus",
             desc: "Farblehre, Typografie, Grid, Bauhaus-Design-Regeln.",
@@ -647,7 +639,6 @@
           },
           {
             num: "04",
-            emoji: "👥",
             title: "UX Research & Prototyping",
             subtitle: "UX Research & Prototyping",
             desc: "Personas, User Journey, Wireframes, Figma-Intro.",
@@ -655,7 +646,6 @@
           },
           {
             num: "05",
-            emoji: "☕",
             title: "Use Case: Kaffeevollautomat",
             subtitle: "Use Case: Coffee Machine",
             desc: "Von der Idee bis zum Prototyp. Design Thinking in der Praxis.",
@@ -663,7 +653,6 @@
           },
           {
             num: "06",
-            emoji: "🛠️",
             title: "Implementierung: Supabase + CodePen",
             subtitle: "Implementation: Supabase + CodePen",
             desc: "Vom Mockup zur lauffähigen Web-App.",
@@ -714,7 +703,6 @@
         labs: [
           {
             num: "01",
-            emoji: "🎯",
             title: "Foundations of Interactive Media",
             subtitle: "Grundlagen Interaktiver Medien",
             desc: "What are interactive media? Categories, properties, relevance.",
@@ -722,7 +710,6 @@
           },
           {
             num: "02",
-            emoji: "💡",
             title: "Creativity & Design Thinking",
             subtitle: "Kreativtechniken & Design Thinking",
             desc: "Empathize, Define, Ideate, Prototype, Test. Brainstorming, HMW.",
@@ -730,7 +717,6 @@
           },
           {
             num: "03",
-            emoji: "🎨",
             title: "Design Principles & Bauhaus",
             subtitle: "Gestaltungsprinzipien & Bauhaus",
             desc: "Color theory, typography, grid, Bauhaus design rules.",
@@ -738,7 +724,6 @@
           },
           {
             num: "04",
-            emoji: "👥",
             title: "UX Research & Prototyping",
             subtitle: "UX Research & Prototyping",
             desc: "Personas, user journey, wireframes, Figma intro.",
@@ -746,7 +731,6 @@
           },
           {
             num: "05",
-            emoji: "☕",
             title: "Use Case: Coffee Machine",
             subtitle: "Use Case: Kaffeevollautomat",
             desc: "From idea to prototype. Design Thinking in practice.",
@@ -754,7 +738,6 @@
           },
           {
             num: "06",
-            emoji: "🛠️",
             title: "Implementation: Supabase + CodePen",
             subtitle: "Implementierung: Supabase + CodePen",
             desc: "From mockup to a working web app.",
@@ -908,7 +891,6 @@
               {t.labs.map((lab) => (
                 <div key={lab.num} className="lab-card">
                   <span className="lab-num-badge">{lab.num}</span>
-                  <div className="lab-emoji">{lab.emoji}</div>
                   <div>
                     <div className="lab-title">{lab.title}</div>
                     <div className="lab-subtitle">{lab.subtitle}</div>
