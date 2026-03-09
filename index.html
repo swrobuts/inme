@@ -1250,29 +1250,16 @@
           <section className="usecase-section">
             <div className="usecase-inner">
               <div className="usecase-cols">
-                <div className="phone-frame-wrap">
-                  <div className="phone-shell">
-                    {/* Stirn: Speaker + Kamera */}
-                    <div className="phone-top-bezel">
-                      <div className="phone-speaker"></div>
-                      <div className="phone-top-row">
-                        <div className="phone-cam"></div>
-                        <div className="phone-sensor"></div>
-                      </div>
-                    </div>
-                    {/* Display */}
-                    <div className="phone-screen">
-                      <iframe
-                        src="lab-05-app.html"
-                        title="Kaffeevollautomat-Störungsmelder Demo"
-                        scrolling="no"
-                      />
-                    </div>
-                    {/* Kinn: Home-Button */}
-                    <div className="phone-bottom-bezel">
-                      <div className="phone-home-btn"></div>
-                    </div>
-                  </div>
+                <div style={{ flexShrink: 0 }}>
+                  <img
+                    src="images/app-mockup.png"
+                    alt="Kaffeevollautomat-Störungsmelder App"
+                    style={{
+                      width: '260px',
+                      display: 'block',
+                      filter: 'drop-shadow(0 24px 48px rgba(0,0,0,0.6))'
+                    }}
+                  />
                 </div>
                 <div style={{ flex: 1 }}>
                   <span className="bauhaus-badge-red">{t.useCaseBadge}</span>
