@@ -760,8 +760,9 @@
   <script>
     
   // Semester Configuration (change once per semester)
-  const SEMESTER_DE = {SEMESTER_DE};
-  const SEMESTER_EN = {SEMESTER_EN};
+  const SEMESTER_DE = 'Sommersemester 2026';
+  const SEMESTER_EN = 'Summer Semester 2026';
+  const SEMESTER = SEMESTER_DE; // Alias für Legacy-Referenzen
 
   function setVH() {
       document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
@@ -776,8 +777,6 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    const SEMESTER = {SEMESTER_DE};
-    const SEMESTER_EN = {SEMESTER_EN};
 
     const translations = {
       de: {
