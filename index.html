@@ -423,6 +423,7 @@
       flex-direction: column;
       gap: 0.5rem;
       min-height: 220px;
+      overflow: hidden;
     }
 
     .lab-num-badge {
@@ -462,33 +463,37 @@
     }
 
     .btn-lab-link {
+      display: block;
+      width: calc(100% + 3.5rem);
+      margin: auto -1.75rem -1.75rem;
+      padding: 1rem 1.75rem;
+      background: none;
+      border-top: 1px solid #E5E7EB;
       color: #B91C1C;
       font-weight: 800;
-      font-size: 0.92rem;
+      font-size: 1rem;
       text-decoration: none;
-      border-radius: 0;
-      border: none;
-      background: none;
-      cursor: pointer;
-      padding: 0 0 2px;
       font-family: 'Space Grotesk', sans-serif;
-      align-self: flex-start;
       text-transform: uppercase;
-      letter-spacing: 0.07em;
-      position: relative;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .btn-lab-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; height: 2px;
-      background: currentColor;
-      transform: scaleX(0.35);
-      transform-origin: left;
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      content: '→';
+      font-size: 1.1rem;
+      transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .btn-lab-link:hover::after { transform: scaleX(1); }
-    .btn-lab-link:hover { color: #B91C1C; opacity: 0.8; }
+    .btn-lab-link:hover {
+      background: #B91C1C;
+      color: white;
+      border-top-color: #B91C1C;
+    }
+    [data-lang="en"] .btn-lab-link { color: #1A1A1A; }
+    [data-lang="en"] .btn-lab-link:hover { background: #1A1A1A; color: #F7CC00; border-top-color: #1A1A1A; }
 
     /* Use Case section */
     .usecase-section {
@@ -820,7 +825,7 @@
           },
         ],
 
-        labLink: "Zum Lab →",
+        labLink: "Zum Lab",
 
         // Use Case section
         useCaseBadge: "USE CASE",
@@ -907,7 +912,7 @@
           },
         ],
 
-        labLink: "Go to Lab →",
+        labLink: "Go to Lab",
 
         // Use Case section
         useCaseBadge: "USE CASE",
