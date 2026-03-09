@@ -758,11 +758,9 @@
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
   <script>
-    
-  // Semester Configuration (change once per semester)
-  const SEMESTER_DE = 'Sommersemester 2026';
-  const SEMESTER_EN = 'Summer Semester 2026';
-  const SEMESTER = SEMESTER_DE; // Alias für Legacy-Referenzen
+  // ── Konfiguration – einmal pro Semester anpassen ──────────────
+  // Semester: 'Sommersemester 2026' (DE) / 'Summer Semester 2026' (EN)
+  // ──────────────────────────────────────────────────────────────
 
   function setVH() {
       document.documentElement.style.setProperty('--vh', window.innerHeight + 'px');
@@ -791,11 +789,11 @@
         heroDesc: "Die Companion-Site zum Kurs \"Interaktive Medien\"",
         heroCourse: "Bachelor Medienmanagement (BMM)",
         badge1: "Bachelor Medienmanagement",
-        badge2: SEMESTER,
+        badge2: 'Sommersemester 2026',
         badge3: "Prof. Dr. Robert Butscher",
         ctaLabs: "Zu den Labs →",
         ctaGithub: "GitHub →",
-        banderole: `${SEMESTER} · Bachelor Medienmanagement · THWS Business School Würzburg`,
+        banderole: 'Sommersemester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg',
 
         // Stats
         statLabs: "Labs",
@@ -878,11 +876,11 @@
         heroDesc: "Companion site for the course \"Interactive Media\"",
         heroCourse: "Bachelor Media Management (BMM)",
         badge1: "Bachelor Media Management",
-        badge2: SEMESTER_EN,
+        badge2: 'Summer Semester 2026',
         badge3: "Prof. Dr. Robert Butscher",
         ctaLabs: "To the Labs →",
         ctaGithub: "GitHub →",
-        banderole: `${SEMESTER} · Bachelor Medienmanagement · THWS Business School Würzburg`,
+        banderole: 'Summer Semester 2026 · Bachelor Medienmanagement · THWS Business School Würzburg',
 
         // Stats
         statLabs: "Labs",
