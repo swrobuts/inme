@@ -572,7 +572,152 @@
     .tip-box, .challenge-box, .info-box, .concept-box { border-radius: 8px; }
     img { border-radius: 8px; }
 
-    </style>
+  
+    /* ═══════════════════════════════════════════
+       EN MANGO MODE – vollständige Farbumschaltung
+       DE = Rot (#DC2626) | EN = Mango (#F7CC00)
+       ═══════════════════════════════════════════ */
+    [data-lang="en"] { --accent: #F7CC00; --primary: #1A1A1A; }
+
+    /* Texte */
+    [data-lang="en"] h1,
+    [data-lang="en"] h2,
+    [data-lang="en"] h3 { color: #1A1A1A; }
+    [data-lang="en"] a  { color: #1A1A1A; }
+
+    /* Bauhaus-Elemente */
+    [data-lang="en"] .bauhaus-accent-line { background: #F7CC00; }
+    [data-lang="en"] .section-label,
+    [data-lang="en"] .label,
+    [data-lang="en"] .section-tag  { color: #1A1A1A; border-color: #1A1A1A; }
+
+    /* Header / Navbar */
+    [data-lang="en"] .header { border-bottom-color: rgba(0,0,0,0.08); }
+    [data-lang="en"] .header-logo { color: #1A1A1A; }
+    [data-lang="en"] .lang-btn.active { background: #1A1A1A; color: #F7CC00; border-color: #1A1A1A; }
+
+    /* Sidebar / Navigation */
+    [data-lang="en"] .sidebar-link.active,
+    [data-lang="en"] .nav-link.active { color: #1A1A1A; border-left-color: #F7CC00; }
+    [data-lang="en"] .sidebar-link:hover,
+    [data-lang="en"] .nav-link:hover  { color: #1A1A1A; }
+
+    /* Karten + Akzentlinien */
+    [data-lang="en"] .card,
+    [data-lang="en"] .info-box,
+    [data-lang="en"] .phase-card,
+    [data-lang="en"] .screen-card   { border-color: rgba(0,0,0,0.12); }
+    [data-lang="en"] .screen-header { background: #1A1A1A; }
+    [data-lang="en"] .screen-num    { color: #F7CC00; }
+
+    /* Buttons */
+    [data-lang="en"] .btn-primary { background: #1A1A1A !important; color: #F7CC00 !important; border-color: #1A1A1A !important; }
+    [data-lang="en"] .btn-primary:hover { background: #333 !important; }
+
+    /* Badges + Tags */
+    [data-lang="en"] .badge,
+    [data-lang="en"] .phase-num,
+    [data-lang="en"] .step-num,
+    [data-lang="en"] .badge-red    { background: #1A1A1A !important; color: #F7CC00 !important; }
+
+    /* Tipps / Hinweis-Boxen */
+    [data-lang="en"] .tip-box { border-left-color: #F7CC00; }
+
+    /* Quiz */
+    [data-lang="en"] .quiz-option.correct { background: #f0fdf4; border-color: #16A34A; }
+    [data-lang="en"] .quiz-option.incorrect { background: #fef2f2; border-color: #DC2626; }
+
+    /* Progress / Schritte */
+    [data-lang="en"] .phase-number,
+    [data-lang="en"] .section-num,
+    [data-lang="en"] .number-badge { background: #1A1A1A; color: #F7CC00; }
+
+    /* Code-Block Copy-Button */
+    [data-lang="en"] .copy-btn { background: #1A1A1A; color: white; }
+
+    /* Spezifische Farb-Overrides */
+    [data-lang="en"] *[style*="color: #DC2626"],
+    [data-lang="en"] *[style*="color:#DC2626"],
+    [data-lang="en"] *[style*="color: #B91C1C"],
+    [data-lang="en"] *[style*="color:#B91C1C"] { color: #1A1A1A !important; }
+    [data-lang="en"] *[style*="background: #DC2626"],
+    [data-lang="en"] *[style*="background:#DC2626"],
+    [data-lang="en"] *[style*="background: #B91C1C"],
+    [data-lang="en"] *[style*="background:#B91C1C"] { background: #1A1A1A !important; }
+
+
+    /* ── Lab-spezifische EN-Overrides (Tabellen, Karten, Sidebar, Inline-Styles) ── */
+
+    /* Bauhaus-Badges */
+    [data-lang="en"] .bauhaus-badge,
+    [data-lang="en"] .bauhaus-badge-red { background: #1A1A1A !important; color: #F7CC00 !important; }
+
+    /* Tabellen-Header */
+    [data-lang="en"] th {
+      background: #1A1A1A !important;
+      color: white !important;
+    }
+
+    /* Header-Logo */
+    [data-lang="en"] .header-logo { color: #1A1A1A !important; }
+
+    /* Sidebar */
+    [data-lang="en"] .sidebar-link.active {
+      color: #1A1A1A !important;
+      border-left-color: #F7CC00 !important;
+      background: rgba(247,204,0,0.06) !important;
+    }
+    [data-lang="en"] .sidebar-link:hover { color: #1A1A1A !important; background: rgba(0,0,0,0.04) !important; }
+
+    /* Nav-Buttons */
+    [data-lang="en"] .nav-btn.primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
+    [data-lang="en"] .nav-btn:hover   { background: #1A1A1A !important; color: white !important; }
+
+    /* Karten-Überschriften */
+    [data-lang="en"] .prop-card h4,
+    [data-lang="en"] .cat-card h3,
+    [data-lang="en"] .cat-card h4,
+    [data-lang="en"] .feature-card h4,
+    [data-lang="en"] .web-gen-card .gen-label,
+    [data-lang="en"] .phase-card h3,
+    [data-lang="en"] .principle-title,
+    [data-lang="en"] .screen-card h3 { color: #1A1A1A !important; }
+
+    /* Lab-02 spezifisch */
+    [data-lang="en"] .phase-num { background: #1A1A1A !important; color: #F7CC00 !important; }
+    [data-lang="en"] .figma-steps li::before { background: #DC2626 !important; color: white !important; }
+    [data-lang="en"] .method-card h3 { color: #1A1A1A !important; }
+    [data-lang="en"] .hmw-example { border-left-color: #F7CC00 !important; }
+
+    /* Lab-03 spezifisch */
+    [data-lang="en"] .color-chip-label { color: #1A1A1A !important; }
+    [data-lang="en"] .grid-demo-item .label { color: #1A1A1A !important; }
+
+    /* Lab-04 spezifisch */
+    [data-lang="en"] .persona-stat-label { color: #1A1A1A !important; }
+    [data-lang="en"] .wireframe-label { color: #1A1A1A !important; }
+
+    /* Lab-05/06 spezifisch */
+    [data-lang="en"] .flow-arrow { background: #1A1A1A !important; color: white !important; }
+    [data-lang="en"] .step-number { background: #1A1A1A !important; color: #F7CC00 !important; }
+    [data-lang="en"] .diff-high { background: #1A1A1A !important; }
+    [data-lang="en"] .checklist-item.done::before { color: #F7CC00 !important; }
+
+    /* Inline-Style Overrides via RGB-Matching (React rendert hex → rgb) */
+    /* rgb(185,28,28) = #B91C1C | rgb(220,38,38) = #DC2626 */
+    [data-lang="en"] *[style*="color: rgb(185"] { color: #1A1A1A !important; }
+    [data-lang="en"] *[style*="color: rgb(220"] { color: #1A1A1A !important; }
+    [data-lang="en"] *[style*="color:rgb(185"]  { color: #1A1A1A !important; }
+    [data-lang="en"] *[style*="color:rgb(220"]  { color: #1A1A1A !important; }
+    [data-lang="en"] *[style*="background: rgb(185"] { background: #1A1A1A !important; }
+    [data-lang="en"] *[style*="background: rgb(220"] { background: #1A1A1A !important; }
+    [data-lang="en"] *[style*="background-color: rgb(185"] { background-color: #1A1A1A !important; }
+    [data-lang="en"] *[style*="background-color: rgb(220"] { background-color: #1A1A1A !important; }
+    [data-lang="en"] *[style*="borderLeftColor: rgb(185"] { border-left-color: #F7CC00 !important; }
+    [data-lang="en"] *[style*="borderColor: rgb(185"],
+    [data-lang="en"] *[style*="borderColor: rgb(220"]  { border-color: #1A1A1A !important; }
+
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
 </head>
@@ -732,7 +877,7 @@
 **Zitat:** "[Was würde diese Person sagen?]"`;
 
       return (
-        <div>
+        <div data-lang={lang}>
           {/* ── Navbar ── */}
           <nav className="navbar">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
