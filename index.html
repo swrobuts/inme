@@ -675,26 +675,28 @@
       color: #9CA3AF;
       font-weight: 500;
     }
-    /* Scroll-Reveal Animation */
-    .quote-reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Scroll-Reveal Animation – CSS native via @keyframes + animation-range */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .quote-reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .quote-reveal {
+      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
     }
     .quote-reveal-delay {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
-                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+      animation: fadeSlideUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
     }
-    .quote-reveal-delay.visible {
-      opacity: 1;
-      transform: translateY(0);
+    /* Fallback für Browser ohne animation-timeline */
+    @supports not (animation-timeline: view()) {
+      .quote-reveal, .quote-reveal-delay {
+        opacity: 1;
+        transform: none;
+        animation: none;
+      }
     }
     @media (max-width: 640px) {
       .quote-inner { flex-direction: column; gap: 2rem; text-align: center; }
@@ -716,7 +718,7 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState } = React;
+    const { useState, useEffect } = React;
 
     const translations = {
       de: {
@@ -896,6 +898,8 @@
 
     function App() {
       const [lang, setLang] = useState('de');
+  
+
       const heroColor = lang === 'en' ? '#F7CC00' : '#DC2626';
       const heroTextColor = lang === 'en' ? '#1A1A1A' : 'white';
       const heroTextMuted = lang === 'en' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.75)';
@@ -1119,29 +1123,6 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
-  </script>
-
-  <script>
-    (function() {
-      function initReveal() {
-        const items = document.querySelectorAll('.quote-reveal, .quote-reveal-delay');
-        if (!items.length) return;
-        const obs = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (e.isIntersecting) {
-              e.target.classList.add('visible');
-              obs.unobserve(e.target);
-            }
-          });
-        }, { threshold: 0.15 });
-        items.forEach(function(el) { obs.observe(el); });
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initReveal);
-      } else {
-        setTimeout(initReveal, 500);
-      }
-    })();
   </script>
 </body>
 </html>
