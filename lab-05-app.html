@@ -40,6 +40,9 @@
       background: linear-gradient(160deg, #DCDCE0 0%, #BCBCC0 40%, #C8C8CC 70%, #ACACB0 100%);
       border-radius: 50px;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 64px);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.7),
         inset 0 -1px 0 rgba(0,0,0,0.15),
@@ -68,6 +71,7 @@
     }
     /* Stirn */
     .phone-top {
+      flex-shrink: 0;
       height: 84px;
       display: flex;
       flex-direction: column;
@@ -99,9 +103,8 @@
     /* Screen – füllt Viewport-Höhe aus */
     .phone-screen {
       width: 390px;
-      height: calc(100vh - 84px - 86px - 80px); /* viewport - top - bottom - body-padding */
-      min-height: 480px;
-      max-height: 760px;
+      flex: 1;
+      min-height: 0; /* flex: ohne das scrollt nicht */
       margin: 0 auto;
       border-radius: 0;
       overflow-y: auto;
@@ -115,29 +118,32 @@
     .phone-screen::-webkit-scrollbar { display: none; }
     /* Kinn */
     .phone-bottom {
+      flex-shrink: 0;
       height: 86px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .phone-home {
-      width: 48px; height: 48px;
+      width: 46px; height: 46px;
       border-radius: 50%;
-      background: linear-gradient(145deg, #CCCCD0, #A4A4A8);
+      background: linear-gradient(145deg, #F0F0F2, #D8D8DA);
       box-shadow:
-        inset 0 1px 2px rgba(255,255,255,0.6),
-        inset 0 -1px 1px rgba(0,0,0,0.25),
-        0 0 0 2.5px #8C8C90,
-        0 1px 3px rgba(0,0,0,0.35);
+        inset 0 1px 2px rgba(255,255,255,0.8),
+        inset 0 -1px 1px rgba(0,0,0,0.1),
+        0 0 0 3px #6A6A70,
+        0 0 0 4.5px #C0C0C4,
+        0 2px 5px rgba(0,0,0,0.4);
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .phone-home::after {
       content: '';
-      width: 34px; height: 34px;
+      width: 32px; height: 32px;
       border-radius: 50%;
-      border: 1.5px solid #9A9A9E;
+      border: 1.5px solid #8A8A90;
+      box-shadow: inset 0 1px rgba(255,255,255,0.5);
     }
 
     /* ── App Shell ── */
@@ -1210,6 +1216,12 @@
   </div>
 
 </div><!-- /#app -->
+    </div><!-- .phone-screen -->
+    <div class="phone-bottom">
+      <div class="phone-home"></div>
+    </div>
+  </div><!-- .phone-shell -->
+</div><!-- .phone-shell-wrap -->
 
 <script>
   // ── Diagnose-Daten ──
