@@ -167,59 +167,65 @@
     }
 
     /* ── Upload Zone ── */
-    .upload-zone {
-      border: 1.5px dashed var(--gray-300);
-      background: var(--gray-100);
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      margin-bottom: 28px;
+    /* ── Photo Frame ── */
+    .photo-frame {
       position: relative;
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: var(--gray-100);
       overflow: hidden;
     }
-    .upload-zone:hover,
-    .upload-zone.dragover {
-      border-color: var(--black);
-      background: #EFEFEF;
-    }
-
-    .upload-zone input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-      z-index: 2;
-    }
-
-    .upload-zone-inner {
-      padding: 40px 24px;
-      text-align: center;
-    }
-
-    .upload-icon {
+    .photo-frame-placeholder {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      margin-bottom: 14px;
-    }
-
-    .upload-zone-text {
-      font-size: 0.9375rem;
-      font-weight: 500;
-      color: var(--gray-700);
-      margin-bottom: 4px;
-    }
-
-    .upload-zone-hint {
-      font-size: 0.75rem;
+      height: 100%;
+      gap: 10px;
       color: var(--gray-500);
     }
+    .photo-frame-placeholder-icon { opacity: 0.4; }
+    .photo-frame-placeholder-text {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    /* ── Photo Action Buttons ── */
+    .photo-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .photo-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 12px;
+      background: var(--white);
+      border: none;
+      border-top: 1px solid var(--gray-300);
+      border-bottom: 1px solid var(--gray-300);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-900);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .photo-btn:first-child { border-right: 1px solid var(--gray-300); }
+    .photo-btn:hover { background: var(--gray-900); color: var(--white); }
+    .photo-btn:hover svg { stroke: white !important; }
+    .photo-file-input { display: none; }
+
 
     /* ── Preview ── */
-    .upload-preview { display: none; position: relative; }
+    .upload-preview { display: none; position: absolute; inset: 0; }
     .upload-preview img {
       width: 100%;
-      height: 200px;
+      height: 100%;
       object-fit: cover;
       display: block;
     }
@@ -377,7 +383,7 @@
     }
     .photo-hero-lg {
       width: 100%;
-      height: 200px;
+      height: 100%;
       object-fit: cover;
       display: block;
       flex-shrink: 0;
@@ -697,7 +703,7 @@
     </div>
     <div class="header-center">
       <div class="header-title">Kaffeevollautomat-Störungsmelder</div>
-      <div class="header-subtitle">INME Lab · Lab 05</div>
+
     </div>
     <div class="header-right">
       <span class="lang-badge">DE</span>
@@ -758,24 +764,43 @@
 
     <div style="margin-top: 32px;"></div>
 
-    <!-- Upload Zone -->
-    <div class="upload-zone" id="uploadZone">
-      <input type="file" id="fileInput" accept="image/*" onchange="handleFile(event)">
-      <div class="upload-zone-inner" id="uploadZoneContent">
-        <div class="upload-icon">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6E6E73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
-          </svg>
-        </div>
-        <div class="upload-zone-text">Foto hochladen</div>
-        <div class="upload-zone-hint">JPG, PNG, HEIC</div>
+    <!-- Photo Frame -->
+    <div class="photo-frame" id="photoFrame">
+      <div class="photo-frame-placeholder" id="photoPlaceholder">
+        <svg class="photo-frame-placeholder-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#6E6E73" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        <div class="photo-frame-placeholder-text">Foto der Störung</div>
       </div>
       <div class="upload-preview" id="uploadPreview">
         <img id="previewImg" src="" alt="Vorschau">
         <button class="upload-preview-remove" onclick="removePhoto(event)">Entfernen</button>
       </div>
     </div>
+
+    <!-- Kamera + Datei wählen -->
+    <div class="photo-actions">
+      <button class="photo-btn" onclick="document.getElementById('cameraInput').click()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+        Kamera
+      </button>
+      <button class="photo-btn" onclick="document.getElementById('fileInput').click()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        Datei
+      </button>
+    </div>
+
+    <!-- Hidden Inputs -->
+    <input class="photo-file-input" type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handleFile(event)">
+    <input class="photo-file-input" type="file" id="fileInput"   accept="image/*"                       onchange="handleFile(event)">
 
     <div class="or-divider">
       <div class="or-divider-line"></div>
@@ -1204,17 +1229,17 @@
   }
 
   function showContent(empty) {
-    document.getElementById('uploadZoneContent').style.display = empty ? '' : 'none';
+    document.getElementById('photoPlaceholder').style.display = empty ? '' : 'none';
     document.getElementById('uploadPreview').style.display    = empty ? 'none' : 'block';
   }
 
-  // Drag & Drop
-  const zone = document.getElementById('uploadZone');
-  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('dragover'); });
-  zone.addEventListener('dragleave', ()  => zone.classList.remove('dragover'));
+  // Drag & Drop auf Photo-Frame
+  const zone = document.getElementById('photoFrame');
+  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.style.outline = '2px solid #0A0A0A'; });
+  zone.addEventListener('dragleave', ()  => { zone.style.outline = 'none'; });
   zone.addEventListener('drop', e => {
     e.preventDefault();
-    zone.classList.remove('dragover');
+    zone.style.outline = 'none';
     const f = e.dataTransfer.files[0];
     if (f && f.type.startsWith('image/')) loadPhoto(f);
   });
