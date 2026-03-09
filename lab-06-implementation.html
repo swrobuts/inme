@@ -12,7 +12,7 @@
   <style>
     :root {
       --primary: #B91C1C;
-      --accent: #F59E0B;
+      --accent: #DC2626;
       --dark: #1A1A1A;
       --light-bg: #FAFAFA;
       --primary-light: rgba(185,28,28,0.08);
@@ -26,16 +26,16 @@
 
     /* Bauhaus */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
-    .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
+    .bauhaus-accent-line { width: 48px; height: 4px; background: #DC2626; margin: 0.5rem 0 1rem 0; }
     .bauhaus-badge { background: #DC2626; color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
 
     /* Code */
-    .code-block { background: #DC2626; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.82rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; margin: 1rem 0; }
-    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
+    .code-block { background: #DC2626; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #DC2626; font-family: monospace; font-size: 0.82rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; margin: 1rem 0; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #1A1A1A; color: white; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
     .copy-btn:hover { background: #D97706; }
 
     /* Info boxes */
-    .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .tip-box { border-left: 4px solid #DC2626; background: #fafafa; padding: 1rem 1.25rem; margin: 1rem 0; }
     .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
     .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
     .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
@@ -111,7 +111,7 @@
     .flow-step { border: 2px solid #1A1A1A; padding: 0.85rem 1.25rem; background: white; text-align: center; min-width: 130px; }
     .flow-step .flow-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
     .flow-step .flow-label { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.82rem; color: #1A1A1A; }
-    .flow-arrow { background: #F59E0B; color: #1A1A1A; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+    .flow-arrow { background: #DC2626; color: white; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
 
     /* Setup steps */
     .setup-steps { list-style: none; padding: 0; margin: 1.5rem 0; counter-reset: step-counter; }
@@ -137,14 +137,14 @@
     .ext-card h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; margin: 0.5rem 0 0.4rem; color: #1A1A1A; }
     .ext-card p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.55; }
     .diff-badge { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 0; display: inline-block; }
-    .diff-medium { background: #F59E0B; color: #1A1A1A; }
+    .diff-medium { background: #DC2626; color: white; }
     .diff-advanced { background: #B91C1C; color: white; }
 
     /* SQL explanation list */
     .sql-explain { list-style: none; padding: 0; margin: 1rem 0; }
     .sql-explain li { padding: 0.55rem 0; border-bottom: 1px solid #e5e7eb; font-size: 0.9rem; display: flex; gap: 0.75rem; align-items: flex-start; }
     .sql-explain li:last-child { border-bottom: none; }
-    .sql-table-name { font-family: monospace; background: #DC2626; color: #F59E0B; padding: 0.1rem 0.4rem; font-size: 0.82rem; flex-shrink: 0; }
+    .sql-table-name { font-family: monospace; background: #DC2626; color: white; padding: 0.1rem 0.4rem; font-size: 0.82rem; flex-shrink: 0; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -644,10 +644,10 @@ CREATE POLICY "Bestellpositionen einfügen"
   <!-- ═══ HEADER ═══ -->
   <header class="app-header">
     <div class="header-brand">
-      ☕ <span>Störungsmelder</span>
+      <span>Störungsmelder</span>
     </div>
     <div id="cart-badge" class="cart-badge" style="display:none">
-      🛒 <span id="cart-count">0</span>
+      <span id="cart-count">0</span>
     </div>
   </header>
 
@@ -660,7 +660,7 @@ CREATE POLICY "Bestellpositionen einfügen"
       <!-- Foto-Bereich -->
       <div class="foto-area" onclick="document.getElementById('foto-input').click()">
         <div id="foto-placeholder">
-          <span class="foto-icon">📷</span>
+          <span class="foto-icon"></span>
           <span>Foto aufnehmen</span>
           <span class="foto-hint">optional</span>
         </div>
@@ -739,7 +739,7 @@ CREATE POLICY "Bestellpositionen einfügen"
 
       <div id="btn-shop-container" style="display:none">
         <button class="btn-primary btn-full" onclick="zeigeScreen(3)">
-          🛒 ERSATZTEIL BESTELLEN →
+          ERSATZTEIL BESTELLEN →
         </button>
       </div>
 
@@ -965,7 +965,7 @@ textarea { min-height: 80px; resize: vertical; }
 .loesung-steps li {
   padding: 0.6rem 0.75rem 0.6rem 2.5rem;
   border-left: 3px solid var(--warning);
-  margin-bottom: 0.5rem; background: #fffbeb;
+  margin-bottom: 0.5rem; background: #fafafa;
   position: relative;
 }
 .loesung-steps li::before {
@@ -1048,9 +1048,9 @@ let db = null;
 try {
   const { createClient } = supabase;
   db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  console.log('✅ Supabase verbunden');
+  console.log('Supabase verbunden');
 } catch (e) {
-  console.warn('⚠️ Supabase nicht konfiguriert – Demo-Modus aktiv');
+  console.warn('Supabase nicht konfiguriert – Demo-Modus aktiv');
 }
 
 // ═══════════════════════════════════════════
@@ -1280,7 +1280,7 @@ async function speichereStorung(maschinentyp, symptome, beschreibung, diagnose) 
       status: 'offen'
     });
     if (error) console.warn('Speichern fehlgeschlagen:', error.message);
-    else console.log('✅ Störung gespeichert');
+    else console.log('Störung gespeichert');
   } catch (e) {
     console.warn('Speichern übersprungen:', e.message);
   }
@@ -1310,7 +1310,7 @@ async function ladeErsatzteile() {
   document.getElementById('produkte-liste').innerHTML = sortiert.map(t =>
     '<div class="produkt-karte">' +
       '<div class="produkt-info">' +
-        '<div class="produkt-name">' + (t.name === empfohlen ? '⭐ ' : '') + t.name + '</div>' +
+        '<div class="produkt-name">' + (t.name === empfohlen ? '' : '') + t.name + '</div>' +
         '<div style="color:#6B7280;font-size:0.85rem">' + (t.beschreibung || '') + '</div>' +
         '<div class="produkt-preis">€' + Number(t.preis).toFixed(2) + '</div>' +
       '</div>' +
@@ -1434,7 +1434,7 @@ function neueStorung() {
 }
 
 // App starten
-console.log('☕ Störungsmelder geladen. Supabase:', db ? 'verbunden' : 'Demo-Modus');`;
+console.log('Störungsmelder geladen. Supabase:', db ? 'verbunden' : 'Demo-Modus');`;
 
     const CAMERA_SNIPPET = `// Kamera-Zugriff (für Screen 1)
 async function kameraOeffnen() {
@@ -1523,7 +1523,7 @@ async function kameraOeffnen() {
             <div className="score-display">
               {scoreLabel(score, questions.length)}
               {' '}
-              {score === questions.length ? '🎉' : score >= questions.length / 2 ? '👍' : '📚'}
+              {score === questions.length ? '' : score >= questions.length / 2 ? '' : '📚'}
             </div>
           )}
         </div>
@@ -1613,15 +1613,15 @@ async function kameraOeffnen() {
               <div style={{ marginBottom: '0.5rem', fontWeight: 700 }}>{t.s1FlowLabel}</div>
               <div className="flow-visual">
                 {[
-                  { icon: '🎨', label: 'Figma' },
+                  { icon: '', label: 'Figma' },
                   null,
-                  { icon: '🖥️', label: 'HTML/CSS/JS' },
+                  { icon: '🖥', label: 'HTML/CSS/JS' },
                   null,
-                  { icon: '🗄️', label: 'Supabase DB' },
+                  { icon: '🗄', label: 'Supabase DB' },
                   null,
-                  { icon: '✏️', label: 'CodePen' },
+                  { icon: '✏', label: 'CodePen' },
                   null,
-                  { icon: '🚀', label: 'Live App' },
+                  { icon: '', label: 'Live App' },
                 ].map((item, i) =>
                   item === null
                     ? <div key={i} className="flow-arrow">→</div>
@@ -1649,7 +1649,7 @@ async function kameraOeffnen() {
                 </tbody>
               </table>
               <div className="info-box">
-                <strong>ℹ️ </strong>{t.s2InfoText}
+                <strong>ℹ</strong>{t.s2InfoText}
               </div>
             </section>
 
@@ -1670,7 +1670,7 @@ async function kameraOeffnen() {
                 ))}
               </ol>
               <div className="tip-box">
-                <strong>💡 Tipp: </strong>{t.s3TipText}
+                <strong>Tipp: </strong>{t.s3TipText}
               </div>
             </section>
 
@@ -1741,10 +1741,10 @@ async function kameraOeffnen() {
                 ))}
               </ol>
               <div className="tip-box">
-                <strong>💡 </strong>{t.s8TipText}
+                <strong></strong>{t.s8TipText}
               </div>
               <div className="info-box">
-                <strong>ℹ️ </strong>{t.s8InfoText}
+                <strong>ℹ</strong>{t.s8InfoText}
               </div>
             </section>
 

@@ -12,7 +12,7 @@
   <style>
     :root {
       --primary: #B91C1C;
-      --accent: #F59E0B;
+      --accent: #DC2626;
       --dark: #1A1A1A;
       --light-bg: #FAFAFA;
       --primary-light: rgba(185,28,28,0.08);
@@ -26,17 +26,17 @@
 
     /* Bauhaus */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
-    .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
+    .bauhaus-accent-line { width: 48px; height: 4px; background: #DC2626; margin: 0.5rem 0 1rem 0; }
     .bauhaus-badge { background: #DC2626; color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
     .phase-badge { padding: 0.3rem 0.8rem; font-size: 0.75rem; font-weight: 700; border-radius: 0; text-transform: uppercase; display: inline-block; margin-bottom: 1rem; }
 
     /* Code */
-    .code-block { background: #DC2626; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.85rem; overflow-x: auto; position: relative; white-space: pre; border-radius: 0; }
-    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
+    .code-block { background: #DC2626; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #DC2626; font-family: monospace; font-size: 0.85rem; overflow-x: auto; position: relative; white-space: pre; border-radius: 0; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #1A1A1A; color: white; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
     .copy-btn:hover { background: #D97706; }
 
     /* Info boxes */
-    .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .tip-box { border-left: 4px solid #DC2626; background: #fafafa; padding: 1rem 1.25rem; margin: 1rem 0; }
     .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
     .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
     .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
@@ -109,10 +109,10 @@
 
     /* Hero section */
     .hero-section { background: #DC2626; color: white; padding: 2.5rem; margin-bottom: 2rem; }
-    .hero-section h2 { color: #F59E0B; font-size: 2rem; margin: 0.75rem 0 0.5rem; }
+    .hero-section h2 { color: white; font-size: 2rem; margin: 0.75rem 0 0.5rem; }
     .hero-section p { color: #d1d5db; line-height: 1.7; margin: 0.5rem 0 1.5rem; }
     .stat-badges { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .stat-badge { background: rgba(245,158,11,0.15); border: 1px solid #F59E0B; color: #F59E0B; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+    .stat-badge { background: rgba(185,28,28,0.10); border: 1px solid #DC2626; color: white; padding: 0.4rem 1rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 
     /* Störungen table expand */
     .expand-btn { background: none; border: 2px solid #1A1A1A; padding: 0.5rem 1.25rem; font-size: 0.88rem; font-weight: 700; cursor: pointer; border-radius: 0; font-family: 'Space Grotesk', sans-serif; margin: 0.75rem 0; }
@@ -195,7 +195,7 @@
     .persona-quote { background: rgba(185,28,28,0.06); border-left: 3px solid #B91C1C; padding: 0.75rem 1rem; font-style: italic; font-size: 0.92rem; margin-top: 1rem; }
 
     /* Wireframe */
-    .wireframe-container { background: #DC2626; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.82rem; color: #e5e7eb; overflow-x: auto; white-space: pre; position: relative; }
+    .wireframe-container { background: #DC2626; padding: 1.25rem; border-left: 4px solid #DC2626; font-family: monospace; font-size: 0.82rem; color: #e5e7eb; overflow-x: auto; white-space: pre; position: relative; }
 
     /* Responsive */
     @media (max-width: 768px) {
@@ -251,7 +251,7 @@
         s1BadgeLabel: 'USE CASE',
         s1Title: 'Kaffeevollautomat-Störungsmelder',
         s1Desc: 'Ein Industrie-Wartungstechniker meldet per Smartphone eine Störung eines Kaffeevollautomaten. Das System analysiert Foto + Symptome, liefert eine Diagnose und eine Schritt-für-Schritt-Reparaturanleitung. Bei Bedarf wird der Techniker zum Ersatzteilshop weitergeleitet.',
-        s1Stats: ['4 Screens', '6 Ersatzteile', 'Bauhaus Design'],
+        s1Stats: ['5 Screens', '6 Ersatzteile', 'Bauhaus Design'],
         s1StoerungenTitle: 'Die 10 typischen Störungen',
         s1StoerungenBtn: 'Störungsliste anzeigen',
         s1StoerungenBtnHide: 'Störungsliste ausblenden',
@@ -297,9 +297,9 @@
         s3Problem: 'Thomas, ein erfahrener Wartungstechniker, braucht eine schnelle, zuverlässige Möglichkeit, Kaffeemaschinen-Störungen vor Ort zu diagnostizieren und zu beheben, weil er täglich 8–12 Maschinen wartet und sich keine langen Handbuchrecherchen leisten kann.',
         s3HMWTitle: '"How Might We" – Fragen',
         s3HMW: [
-          '💡 Wie könnten wir die Diagnosezeit einer Kaffeemaschinen-Störung auf unter 2 Minuten reduzieren?',
-          '💡 Wie könnten wir Technikern ermöglichen, Ersatzteile direkt aus der Diagnose zu bestellen?',
-          '💡 Wie könnten wir die Fehlerrate bei der Störungsdiagnose auf unter 5% senken?',
+          'Wie könnten wir die Diagnosezeit einer Kaffeemaschinen-Störung auf unter 2 Minuten reduzieren?',
+          'Wie könnten wir Technikern ermöglichen, Ersatzteile direkt aus der Diagnose zu bestellen?',
+          'Wie könnten wir die Fehlerrate bei der Störungsdiagnose auf unter 5% senken?',
         ],
 
         // Section 4
@@ -307,31 +307,32 @@
         s4Title: 'Phase 3: Ideate',
         s4Crazy8Title: 'Crazy 8s – Ergebnis',
         s4Ideas: [
-          { num: '1', icon: '📷', title: 'Foto-Diagnose', desc: 'KI analysiert Foto der defekten Maschine automatisch' },
-          { num: '2', icon: '🔢', title: 'Fehlercode-Scanner', desc: 'QR/Barcode am Gerät scannen → direkte Diagnose' },
-          { num: '3', icon: '🗣️', title: 'Spracheingabe', desc: 'Sprachbefehl "E4 Fehler Jura" → Sofortdiagnose' },
-          { num: '4', icon: '📋', title: 'Symptom-Checkliste', desc: 'Multiple-Choice statt Freitext → schnell + präzise', selected: true },
-          { num: '5', icon: '🤖', title: 'Chatbot', desc: 'Konversationelle Diagnose via WhatsApp-ähnliches Interface' },
-          { num: '6', icon: '📱', title: 'AR-Overlay', desc: 'Kamera zeigt Reparaturschritte direkt auf der Maschine' },
-          { num: '7', icon: '🌐', title: 'Techniker-Forum', desc: 'Community-basierte Wissensdatenbank' },
+          { num: '1', icon: '', title: 'Foto-Diagnose', desc: 'KI analysiert Foto der defekten Maschine automatisch', selected: true },
+          { num: '2', icon: '', title: 'Fehlercode-Scanner', desc: 'QR/Barcode am Gerät scannen → direkte Diagnose' },
+          { num: '3', icon: '', title: 'Spracheingabe', desc: 'Sprachbefehl "E4 Fehler Jura" → Sofortdiagnose' },
+          { num: '4', icon: '', title: 'Symptom-Checkliste', desc: 'Multiple-Choice statt Freitext → schnell + präzise' },
+          { num: '5', icon: '', title: 'Chatbot', desc: 'Konversationelle Diagnose via WhatsApp-ähnliches Interface' },
+          { num: '6', icon: '', title: 'AR-Overlay', desc: 'Kamera zeigt Reparaturschritte direkt auf der Maschine' },
+          { num: '7', icon: '', title: 'Techniker-Forum', desc: 'Community-basierte Wissensdatenbank' },
           { num: '8', icon: '📧', title: 'Email-Diagnose', desc: 'Foto mailen → automatische Antwort' },
         ],
         s4KonvergenzTitle: 'Konvergenz – Entscheidung',
-        s4Konvergenz: 'Nach Bewertung nach Aufwand/Nutzen haben wir Idee 4 (Symptom-Checkliste) gewählt, da sie ohne KI sofort implementierbar ist und Idee 1 (Foto) als Future Feature geplant.',
+        s4Konvergenz: 'Wir haben Idee 1 (Foto-Diagnose per KI) gewählt – der Mehrwert durch automatische Bildanalyse überwiegt den Implementierungsaufwand. Idee 4 (Symptom-Checkliste) dient als Fallback im Mock-Modus ohne API Key.',
         s4ErweiterungTitle: 'Erweiterung für die App',
-        s4Erweiterung: 'Kombination aus Idee 4 (Symptom-Checkliste als Kern) + Idee 1 (Foto-Upload als optionales Feature). So ist die App sofort nutzbar und erweiterbar.',
+        s4Erweiterung: 'Kern: Idee 1 (KI-Foto-Analyse via Gemini Vision API) + Idee 4 (regelbasierter Mock-Modus als Fallback). Ergebnis: 5-Screen-App mit Home, Upload, KI-Analyse, Diagnose und Shop.',
 
         // Section 5
         s5PhaseBadge: 'PHASE 4: PROTOTYPE – LO-FI',
         s5Title: 'Phase 4: Prototype – Lo-Fi',
-        s5FlowTitle: 'App Flow – 4 Screens',
+        s5FlowTitle: 'App Flow – 5 Screens',
         s5Screens: [
-          { title: 'Störung erfassen', desc: 'Foto + Checkboxen + Diagnose-Button' },
-          { title: 'Diagnose anzeigen', desc: 'E4: Entkalker + Anleitung + Shop-Button' },
-          { title: 'Shop öffnen', desc: 'Entkalker, Pumpe, Brühgruppe' },
-          { title: 'Bestellung bestätigen', desc: 'Danke-Screen mit Bestätigung' },
+          { title: 'Home', desc: 'Kaffeemaschinen-Foto, Headline, CTA "Störung analysieren"' },
+          { title: 'Foto-Upload', desc: 'Foto hochladen (Drag&Drop), 5 Testbilder, Maschinentyp, Gemini API Key' },
+          { title: 'KI-Analyse', desc: 'Gemini Vision API analysiert das Foto – Ladeanimation' },
+          { title: 'Diagnose', desc: 'Störungsname, Ursache, Schritt-für-Schritt-Lösung, Ersatzteil-Empfehlung' },
+          { title: 'Shop + Bestellung', desc: 'Ersatzteile bestellen, Warenkorb, Bestellbestätigung' },
         ],
-        s5WireframeTitle: 'ASCII Wireframe – Screen 1',
+        s5WireframeTitle: 'ASCII Wireframe – Screen 0 (Home) + Screen 1 (Upload)',
 
         // Section 6
         s6PhaseBadge: 'PHASE 4: PROTOTYPE – HI-FI DESIGN',
@@ -346,7 +347,7 @@
           },
           {
             title: 'Akzentfarbe Gelb (#F59E0B)',
-            swatch: '#F59E0B',
+            swatch: '#DC2626',
             usage: 'Hinweise (Entkalker nötig), moderate Warnungen',
             reason: 'Aufmerksamkeitsstark ohne Dringlichkeit wie Rot',
           },
@@ -379,54 +380,65 @@
         // Section 7
         s7PhaseBadge: 'PHASE 4: FIGMA PROTOTYP',
         s7Title: 'Phase 4: Prototype – Figma',
-        s7ScreensTitle: '4 Screens im Detail',
+        s7ScreensTitle: '5 Screens im Detail',
         s7FigmaNote: 'Figma-Link wird nach Fertigstellung des Hi-Fi Prototyps hier eingefügt.',
         s7Screens: [
           {
-            num: '01',
-            title: 'Störung erfassen',
-            desc: 'Startscreen mit Eingabemaske für Foto-Upload, Maschinentyp-Auswahl und Symptome-Checkliste.',
+            num: '00',
+            title: 'Home',
+            desc: 'Einstiegsscreen mit Kaffeemaschinen-Foto und klarem CTA.',
             elements: [
-              'Hero: App-Name "☕ Störungsmelder"',
-              'Foto-Upload Button (groß, prominent, roter Rand)',
+              'Hero-Foto: Kaffeemaschine (images/coffee-machine.jpg)',
+              'Headline: "Was stimmt mit Ihrer Maschine nicht?"',
+              'Primary CTA: "STÖRUNG ANALYSIEREN" (rot, full-width)',
+              'Kein Login, kein Formular – direkt starten',
+            ],
+          },
+          {
+            num: '01',
+            title: 'Foto-Upload',
+            desc: 'Foto hochladen (Drag&Drop oder Kamera), Maschinentyp wählen, optionaler Gemini API Key.',
+            elements: [
+              'Drag&Drop-Zone (oder File-Input) für Foto-Upload',
+              '5 Testbild-Thumbnails (Kalk, Brühgruppe, Pumpe etc.)',
               'Dropdown: Maschinentyp (Jura, Siemens, DeLonghi, etc.)',
-              'Checkbox-Gruppe: Symptome (E4/E5, Kein Kaffee, Geräusche, etc.)',
-              'Primary CTA: "DIAGNOSE STARTEN" (rot, full-width, kein border-radius)',
+              'Input: Gemini API Key (optional – ohne Key: Mock-Modus)',
+              'Primary CTA: "DIAGNOSE STARTEN" (rot, full-width)',
             ],
           },
           {
             num: '02',
-            title: 'Diagnose',
-            desc: 'Diagnoseergebnis mit Ursache, Reparaturanleitung und Weiterleitung zum Shop.',
+            title: 'KI-Analyse',
+            desc: 'Ladescreen während Gemini Vision API das Foto analysiert.',
             elements: [
-              'Störungsname (H1, rot, Space Grotesk)',
-              'Ursache (concept-box, roter linker Rand)',
-              'Schritt-für-Schritt Anleitung (nummerierte Liste)',
-              'Info: "Ersatzteil benötigt?" mit Badge',
-              'CTA: "ERSATZTEIL BESTELLEN" → Screen 3',
+              'Spinner / Ladeanimation',
+              'Text: "KI analysiert das Foto…"',
+              'Hochgeladenes Foto als Vorschau',
+              'Automatischer Übergang zu Screen 03 nach API-Antwort',
             ],
           },
           {
             num: '03',
-            title: 'Ersatzteilshop',
-            desc: 'Produktliste mit direkter Bestellmöglichkeit und Warenkorb.',
+            title: 'Diagnose',
+            desc: 'KI-Diagnoseergebnis mit Ursache, Reparaturanleitung und Ersatzteil-Empfehlung.',
             elements: [
-              'Produktliste (2 Produkte als Karten)',
-              'Produktbild | Name | Preis | "In den Warenkorb" Button',
-              'Warenkorb-Badge im Header',
-              'CTA: "ZUR KASSE →"',
+              'Störungsname (H1, rot, Space Grotesk)',
+              'Ursache (concept-box, roter linker Rand)',
+              'Schritt-für-Schritt Anleitung (nummerierte Liste)',
+              'Ersatzteil-Empfehlung mit Badge',
+              'CTA: "ERSATZTEIL BESTELLEN" → Screen 04',
             ],
           },
           {
             num: '04',
-            title: 'Bestellung bestätigt',
-            desc: 'Erfolgsscreen nach abgeschlossener Bestellung.',
+            title: 'Shop + Bestellung',
+            desc: 'Produktliste, Warenkorb und Bestellbestätigung.',
             elements: [
-              'Großes grünes Checkmark (CSS, kein Icon-Font)',
-              '"Bestellung erfolgreich!" (grün, Space Grotesk)',
-              'Bestellnummer anzeigen',
-              '"Lieferzeit: 2–3 Werktage"',
-              '"Zurück zur Startseite" Link',
+              'Produktliste mit empfohlenem Ersatzteil (markiert)',
+              'Produktbild | Name | Preis | "Kaufen" Button',
+              'Warenkorb-Badge im Header',
+              'Bestellformular (Name, E-Mail)',
+              'Erfolgsscreen mit Bestellnummer',
             ],
           },
         ],
@@ -440,10 +452,10 @@
           { done: true,  text: 'Phase 3: Ideate – Crazy 8s, Konvergenz auf App-Idee' },
           { done: true,  text: 'Phase 4: Lo-Fi Prototype – ASCII Wireframe, App Flow' },
           { done: true,  text: 'Phase 4: Hi-Fi Design – Bauhaus-Designsystem dokumentiert' },
-          { done: true,  text: 'Phase 4: Figma – 4 Screens konzipiert' },
+          { done: true,  text: 'Phase 4: Figma – 5 Screens konzipiert' },
           { done: false, text: 'Phase 5: Test + Implementation → Lab 6' },
         ],
-        s8ConceptText: 'Wir haben jetzt alles was wir brauchen: Eine validierte Idee, eine definierte Zielgruppe, ein klares Design-System und 4 Screens. Zeit zum Bauen!',
+        s8ConceptText: 'Wir haben jetzt alles was wir brauchen: Eine validierte Idee, eine definierte Zielgruppe, ein klares Design-System und 5 Screens. Zeit zum Bauen!',
 
         // Quiz
         quizTitle: 'Quiz',
@@ -491,9 +503,9 @@
           },
           {
             q: 'Wie viele Screens hat unser Kaffeemaschinen-Prototyp?',
-            opts: ['2', '3', '4', '6'],
+            opts: ['3', '4', '5', '6'],
             correct: 2,
-            explanation: 'Der Prototyp hat 4 Screens: (1) Störung erfassen, (2) Diagnose, (3) Ersatzteilshop, (4) Bestellung bestätigt.',
+            explanation: 'Der Prototyp hat 5 Screens: (0) Home, (1) Foto-Upload, (2) KI-Analyse, (3) Diagnose, (4) Shop + Bestellung.',
           },
         ],
 
@@ -521,7 +533,7 @@
         s1BadgeLabel: 'USE CASE',
         s1Title: 'Coffee Machine Fault Reporter',
         s1Desc: 'An industrial maintenance technician reports a coffee machine fault via smartphone. The system analyses the photo + symptoms, delivers a diagnosis and a step-by-step repair guide. If needed, the technician is redirected to the spare-parts shop.',
-        s1Stats: ['4 Screens', '6 Spare Parts', 'Bauhaus Design'],
+        s1Stats: ['5 Screens', '6 Spare Parts', 'Bauhaus Design'],
         s1StoerungenTitle: 'The 10 Common Faults',
         s1StoerungenBtn: 'Show fault list',
         s1StoerungenBtnHide: 'Hide fault list',
@@ -565,22 +577,22 @@
         s3Problem: 'Thomas, an experienced maintenance technician, needs a fast, reliable way to diagnose and fix coffee machine faults on-site, because he services 8–12 machines daily and cannot afford lengthy manual research.',
         s3HMWTitle: '"How Might We" Questions',
         s3HMW: [
-          '💡 How might we reduce coffee machine fault diagnosis time to under 2 minutes?',
-          '💡 How might we enable technicians to order spare parts directly from the diagnosis?',
-          '💡 How might we reduce the fault diagnosis error rate to below 5%?',
+          'How might we reduce coffee machine fault diagnosis time to under 2 minutes?',
+          'How might we enable technicians to order spare parts directly from the diagnosis?',
+          'How might we reduce the fault diagnosis error rate to below 5%?',
         ],
 
         s4PhaseBadge: 'PHASE 3: IDEATE',
         s4Title: 'Phase 3: Ideate',
         s4Crazy8Title: 'Crazy 8s – Results',
         s4Ideas: [
-          { num: '1', icon: '📷', title: 'Photo Diagnosis', desc: 'AI automatically analyses photo of defective machine' },
-          { num: '2', icon: '🔢', title: 'Error Code Scanner', desc: 'Scan QR/barcode on device → direct diagnosis' },
-          { num: '3', icon: '🗣️', title: 'Voice Input', desc: 'Voice command "E4 error Jura" → instant diagnosis' },
-          { num: '4', icon: '📋', title: 'Symptom Checklist', desc: 'Multiple-choice instead of free text → fast + precise', selected: true },
-          { num: '5', icon: '🤖', title: 'Chatbot', desc: 'Conversational diagnosis via WhatsApp-like interface' },
-          { num: '6', icon: '📱', title: 'AR Overlay', desc: 'Camera shows repair steps directly on the machine' },
-          { num: '7', icon: '🌐', title: 'Technician Forum', desc: 'Community-based knowledge database' },
+          { num: '1', icon: '', title: 'Photo Diagnosis', desc: 'AI automatically analyses photo of defective machine', selected: true },
+          { num: '2', icon: '', title: 'Error Code Scanner', desc: 'Scan QR/barcode on device → direct diagnosis' },
+          { num: '3', icon: '', title: 'Voice Input', desc: 'Voice command "E4 error Jura" → instant diagnosis' },
+          { num: '4', icon: '', title: 'Symptom Checklist', desc: 'Multiple-choice instead of free text → fast + precise' },
+          { num: '5', icon: '', title: 'Chatbot', desc: 'Conversational diagnosis via WhatsApp-like interface' },
+          { num: '6', icon: '', title: 'AR Overlay', desc: 'Camera shows repair steps directly on the machine' },
+          { num: '7', icon: '', title: 'Technician Forum', desc: 'Community-based knowledge database' },
           { num: '8', icon: '📧', title: 'Email Diagnosis', desc: 'Send photo → automatic reply' },
         ],
         s4KonvergenzTitle: 'Convergence – Decision',
@@ -611,7 +623,7 @@
           },
           {
             title: 'Accent Colour Yellow (#F59E0B)',
-            swatch: '#F59E0B',
+            swatch: '#DC2626',
             usage: 'Notes (descaler needed), moderate warnings',
             reason: 'Attention-grabbing without the urgency of red',
           },
@@ -651,7 +663,7 @@
             title: 'Report Fault',
             desc: 'Start screen with input form for photo upload, machine type selection, and symptom checklist.',
             elements: [
-              'Hero: App name "☕ Fault Reporter"',
+              'Hero: App name "Fault Reporter"',
               'Photo upload button (large, prominent, red border)',
               'Dropdown: Machine type (Jura, Siemens, DeLonghi, etc.)',
               'Checkbox group: Symptoms (E4/E5, No coffee, Noises, etc.)',
@@ -857,24 +869,40 @@
         return () => observers.forEach(o => o.disconnect());
       }, [lang]);
 
-      const wireframe = `┌─────────────────────┐
-│ ☕ Störungsmelder   │
+      const wireframe = `SCREEN 0 – HOME
+┌─────────────────────┐
+│  STÖRUNGSMELDER  │
 │─────────────────────│
 │                     │
 │  ┌───────────────┐  │
-│  │  📷 Foto     │  │
-│  │  aufnehmen   │  │
+│  │  [Maschinen- │  │
+│  │    Foto]     │  │
 │  └───────────────┘  │
+│                     │
+│  Was stimmt mit     │
+│  Ihrer Maschine     │
+│  nicht?             │
+│                     │
+│ [STÖRUNG ANALYSIEREN│
+│      →             ]│
+└─────────────────────┘
+
+SCREEN 1 – FOTO-UPLOAD
+┌─────────────────────┐
+│ ◀  Foto hochladen  │
+│ ●──○──○──○  Schritt │
+│─────────────────────│
+│  ┌───────────────┐  │
+│  │  Foto     │  │
+│  │  hierher     │  │
+│  └───────────────┘  │
+│  [][][][][]│  ← Testbilder
 │                     │
 │  Maschinentyp:      │
 │  [▼ Jura E8      ] │
 │                     │
-│  Symptome:          │
-│  ☐ E4/E5 Fehler    │
-│  ☐ Kein Kaffee     │
-│  ☐ Fehlermeldung   │
-│  ☐ Geräusche       │
-│  ☐ Kein Dampf      │
+│  Gemini API Key:    │
+│  [________________] │
 │                     │
 │ [ DIAGNOSE STARTEN ]│
 └─────────────────────┘`;
@@ -914,7 +942,7 @@
             <section id="ueberblick" className="section-block">
               <div className="hero-section">
                 <span className="bauhaus-badge">{t.s1BadgeLabel}</span>
-                <h2 style={{fontFamily:'Space Grotesk',fontWeight:800,color:'#F59E0B',fontSize:'1.9rem',margin:'0.75rem 0 0.5rem'}}>
+                <h2 style={{fontFamily:'Space Grotesk',fontWeight:800,color:'#DC2626',fontSize:'1.9rem',margin:'0.75rem 0 0.5rem'}}>
                   {t.s1Title}
                 </h2>
                 <p>{t.s1Desc}</p>
@@ -1019,7 +1047,7 @@
 
             {/* ── Section 3: Define ── */}
             <section id="define" className="section-block">
-              <span className="phase-badge" style={{background:'#F59E0B',color:'#1A1A1A'}}>{t.s3PhaseBadge}</span>
+              <span className="phase-badge" style={{background:'#DC2626',color:'#1A1A1A'}}>{t.s3PhaseBadge}</span>
               <h2>{t.s3Title}</h2>
               <div className="bauhaus-accent-line" />
 
@@ -1038,7 +1066,7 @@
 
             {/* ── Section 4: Ideate ── */}
             <section id="ideate" className="section-block">
-              <span className="phase-badge" style={{background:'#F59E0B',color:'#1A1A1A'}}>{t.s4PhaseBadge}</span>
+              <span className="phase-badge" style={{background:'#DC2626',color:'#1A1A1A'}}>{t.s4PhaseBadge}</span>
               <h2>{t.s4Title}</h2>
               <div className="bauhaus-accent-line" />
 
@@ -1120,7 +1148,7 @@
               <div className="bauhaus-accent-line" />
 
               <div className="info-box" style={{marginBottom:'1.5rem'}}>
-                <strong>ℹ️</strong> {t.s7FigmaNote}
+                <strong>ℹ</strong> {t.s7FigmaNote}
               </div>
 
               <h3>{t.s7ScreensTitle}</h3>
@@ -1152,7 +1180,7 @@
                 <ul className="progress-list">
                   {t.s8Progress.map((item, i) => (
                     <li key={i} className="progress-item">
-                      <span className="progress-icon">{item.done ? '✅' : '➡️'}</span>
+                      <span className="progress-icon">{item.done ? '' : '➡'}</span>
                       <span className="progress-text">{item.text}</span>
                     </li>
                   ))}

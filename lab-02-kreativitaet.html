@@ -15,7 +15,7 @@
   <style>
     :root {
       --primary: #B91C1C;
-      --accent: #F59E0B;
+      --accent: #DC2626;
       --dark: #1A1A1A;
       --light-bg: #FAFAFA;
     }
@@ -43,7 +43,7 @@
     .bauhaus-accent-line {
       width: 48px;
       height: 4px;
-      background: #F59E0B;
+      background: #DC2626;
       margin: 0.5rem 0 1rem 0;
     }
 
@@ -75,7 +75,7 @@
       background: #DC2626;
       color: #e5e7eb;
       padding: 1.25rem;
-      border-left: 4px solid #F59E0B;
+      border-left: 4px solid #DC2626;
       font-family: monospace;
       font-size: 0.85rem;
       overflow-x: auto;
@@ -88,8 +88,7 @@
       position: absolute;
       top: 0.5rem;
       right: 0.5rem;
-      background: #F59E0B;
-      color: #1A1A1A;
+      background: #1A1A1A; color: white;
       border: none;
       padding: 0.25rem 0.6rem;
       font-size: 0.75rem;
@@ -102,8 +101,8 @@
     .copy-btn:hover { background: #D97706; }
 
     .tip-box {
-      border-left: 4px solid #F59E0B;
-      background: #fffbeb;
+      border-left: 4px solid #DC2626;
+      background: #fafafa;
       padding: 1rem 1.25rem;
       margin: 1rem 0;
     }
@@ -218,7 +217,7 @@
 
     .sidebar-link:hover {
       color: #B91C1C;
-      border-left-color: #F59E0B;
+      border-left-color: #DC2626;
       background: #FAFAFA;
     }
 
@@ -537,8 +536,8 @@
 
     .figma-steps li::before {
       content: counter(figma-counter);
-      background: #F59E0B;
-      color: #1A1A1A;
+      background: #DC2626;
+      color: white;
       font-weight: 800;
       font-size: 0.75rem;
       min-width: 24px;
@@ -670,7 +669,7 @@
           ))}
           {allAnswered && (
             <div className="quiz-score">
-              {score}/{questions.length} {score === questions.length ? '🎉 Perfekt!' : score >= 3 ? '— Gut gemacht!' : '— Weiter üben!'}
+              {score}/{questions.length} {score === questions.length ? 'Perfekt!' : score >= 3 ? '— Gut gemacht!' : '— Weiter üben!'}
             </div>
           )}
         </div>
@@ -682,7 +681,6 @@
       return (
         <div className={`phase-card${highlight ? ' active-phase' : ''}`}>
           <div className="phase-num">Phase {num}</div>
-          <div className="phase-emoji">{emoji}</div>
           <div className="phase-name">{name}</div>
           <div className="phase-desc">{desc}</div>
         </div>
@@ -809,15 +807,15 @@
                 <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s2_intro}</p>
 
                 <div className="phase-flow">
-                  <PhaseCard num="1" emoji="🔍" name="Empathize" desc={t.ph1_desc} />
+                  <PhaseCard num="1" emoji="" name="Empathize" desc={t.ph1_desc} />
                   <div className="phase-arrow">→</div>
-                  <PhaseCard num="2" emoji="📌" name="Define" desc={t.ph2_desc} />
+                  <PhaseCard num="2" emoji="" name="Define" desc={t.ph2_desc} />
                   <div className="phase-arrow">→</div>
-                  <PhaseCard num="3" emoji="💡" name="Ideate" desc={t.ph3_desc} />
+                  <PhaseCard num="3" emoji="" name="Ideate" desc={t.ph3_desc} />
                   <div className="phase-arrow">→</div>
-                  <PhaseCard num="4" emoji="✏️" name="Prototype" desc={t.ph4_desc} />
+                  <PhaseCard num="4" name="Prototype" desc={t.ph4_desc} />
                   <div className="phase-arrow">→</div>
-                  <PhaseCard num="5" emoji="🧪" name="Test" desc={t.ph5_desc} />
+                  <PhaseCard num="5" name="Test" desc={t.ph5_desc} />
                 </div>
 
                 <div className="tip-box">
@@ -827,7 +825,7 @@
 
               {/* ── #empathize ── */}
               <section id="empathize" data-section="empathize" className="section-block">
-                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>🔍 {t.s3_title}</h2>
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s3_title}</h2>
                 <div className="bauhaus-accent-line"></div>
                 <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s3_intro}</p>
 
@@ -865,7 +863,7 @@
 
               {/* ── #define ── */}
               <section id="define" data-section="define" className="section-block">
-                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>📌 {t.s4_title}</h2>
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s4_title}</h2>
                 <div className="bauhaus-accent-line"></div>
 
                 <h3 style={{ marginBottom: '0.5rem' }}>{t.s4_ps_title}</h3>
@@ -893,7 +891,7 @@
 
               {/* ── #ideate ── */}
               <section id="ideate" data-section="ideate" className="section-block">
-                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>💡 {t.s5_title}</h2>
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s5_title}</h2>
                 <div className="bauhaus-accent-line"></div>
                 <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s5_intro}</p>
 
@@ -910,7 +908,7 @@
                 </div>
 
                 <div className="tip-box">
-                  <strong>💡 Tipp:</strong> {t.s5_tip}
+                  <strong>Tipp:</strong> {t.s5_tip}
                 </div>
 
                 <div className="challenge-box">
@@ -921,7 +919,7 @@
 
               {/* ── #prototype ── */}
               <section id="prototype" data-section="prototype" className="section-block">
-                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>✏️ {t.s6_title}</h2>
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>✏{t.s6_title}</h2>
                 <div className="bauhaus-accent-line"></div>
                 <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s6_intro}</p>
 
@@ -970,7 +968,7 @@
                 </div>
 
                 <div className="tip-box">
-                  <strong>💡 "Fail fast to succeed sooner"</strong>
+                  <strong>"Fail fast to succeed sooner"</strong>
                   <p style={{ marginTop: '0.4rem', fontSize: '0.9rem' }}>{t.s7_tip}</p>
                 </div>
 
@@ -980,7 +978,7 @@
                     {t.s7_loop.map((step, i) => (
                       <React.Fragment key={i}>
                         <span style={{ padding: '0.3rem 0.75rem', border: '2px solid #B91C1C', color: '#B91C1C' }}>{step}</span>
-                        {i < t.s7_loop.length - 1 && <span style={{ color: '#F59E0B', fontWeight: 800 }}>→</span>}
+                        {i < t.s7_loop.length - 1 && <span style={{ color: '#DC2626', fontWeight: 800 }}>→</span>}
                       </React.Fragment>
                     ))}
                   </div>
@@ -1011,7 +1009,7 @@
                 </ul>
 
                 <div className="concept-box">
-                  <strong>📌 {t.s8_concept_title}</strong>
+                  <strong>{t.s8_concept_title}</strong>
                   <p style={{ marginTop: '0.4rem', fontSize: '0.9rem' }}>{t.s8_concept_text}</p>
                 </div>
 
@@ -1042,7 +1040,7 @@
                 </ol>
 
                 <div className="info-box">
-                  <strong>ℹ️ Figma Community:</strong>
+                  <strong>ℹFigma Community:</strong>
                   <p style={{ marginTop: '0.4rem', fontSize: '0.9rem' }}>{t.s10_info}</p>
                 </div>
 
@@ -1117,7 +1115,7 @@
         'Shadowing – Nutzer über die Schulter schauen',
       ],
       s3_map_title: 'Empathy Map Template',
-      s3_map_center: '👤 Nutzer-Avatar: Wer ist diese Person?',
+      s3_map_center: 'Nutzer-Avatar: Wer ist diese Person?',
       em_says: 'Was sagt die Person laut? Wörtliche Aussagen aus Interviews.',
       em_thinks: 'Was denkt sie? Überzeugungen, Bedenken, die sie vielleicht nicht ausspricht.',
       em_does: 'Was tut sie? Beobachtbares Verhalten und Handlungen.',
@@ -1142,10 +1140,10 @@
       s5_title: 'Ideate Phase',
       s5_intro: 'Jetzt geht es um Quantität – so viele Ideen wie möglich generieren, ohne zu bewerten.',
       s5_methods: [
-        { emoji: '🌩️', name: 'Brainstorming', desc: '10 Minuten, keine Bewertung, wild und kreativ. Alles ist erlaubt.' },
-        { emoji: '✍️', name: 'Brainwriting 6-3-5', desc: '6 Personen, 3 Ideen, 5 Runden = 90 Ideen in 30 Minuten.' },
-        { emoji: '🔧', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
-        { emoji: '⏱️', name: 'Crazy 8s', desc: '8 Ideen in 8 Minuten (je 1 Minute). Skizzieren statt schreiben.' },
+        { name: 'Brainstorming', desc: '10 Minuten, keine Bewertung, wild und kreativ. Alles ist erlaubt.' },
+        { name: 'Brainwriting 6-3-5', desc: '6 Personen, 3 Ideen, 5 Runden = 90 Ideen in 30 Minuten.' },
+        { emoji: '', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
+        { name: 'Crazy 8s', desc: '8 Ideen in 8 Minuten (je 1 Minute). Skizzieren statt schreiben.' },
       ],
       s5_tip: 'Während der Ideation gilt: Quantität vor Qualität. Keine Idee ist zu verrückt!',
       s5_challenge: 'Crazy 8s für den Störungsmelder: Skizziere 8 verschiedene App-Konzepte in 8 Minuten. Wecker stellen!',
@@ -1336,7 +1334,7 @@
         'Shadowing – watching users over the shoulder',
       ],
       s3_map_title: 'Empathy Map Template',
-      s3_map_center: '👤 User Avatar: Who is this person?',
+      s3_map_center: 'User Avatar: Who is this person?',
       em_says: 'What does the person say out loud? Verbatim quotes from interviews.',
       em_thinks: 'What do they think? Beliefs and concerns they might not say aloud.',
       em_does: 'What do they do? Observable behaviors and actions.',
@@ -1361,10 +1359,10 @@
       s5_title: 'Ideate Phase',
       s5_intro: 'Now it\'s about quantity – generating as many ideas as possible without evaluation.',
       s5_methods: [
-        { emoji: '🌩️', name: 'Brainstorming', desc: '10 minutes, no judgment, wild and creative. Everything is allowed.' },
-        { emoji: '✍️', name: 'Brainwriting 6-3-5', desc: '6 people, 3 ideas, 5 rounds = 90 ideas in 30 minutes.' },
-        { emoji: '🔧', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
-        { emoji: '⏱️', name: 'Crazy 8s', desc: '8 ideas in 8 minutes (1 minute each). Sketch instead of write.' },
+        { name: 'Brainstorming', desc: '10 minutes, no judgment, wild and creative. Everything is allowed.' },
+        { name: 'Brainwriting 6-3-5', desc: '6 people, 3 ideas, 5 rounds = 90 ideas in 30 minutes.' },
+        { emoji: '', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
+        { name: 'Crazy 8s', desc: '8 ideas in 8 minutes (1 minute each). Sketch instead of write.' },
       ],
       s5_tip: 'During ideation: quantity over quality. No idea is too crazy!',
       s5_challenge: 'Crazy 8s for the error reporter: sketch 8 different app concepts in 8 minutes. Set a timer!',

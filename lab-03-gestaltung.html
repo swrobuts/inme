@@ -17,7 +17,7 @@
 
     :root {
       --primary: #B91C1C;
-      --accent: #F59E0B;
+      --accent: #DC2626;
       --dark: #1A1A1A;
       --bg: #FAFAFA;
       --sidebar-w: 260px;
@@ -75,11 +75,11 @@
 
     /* ─── DESIGN SYSTEM CLASSES ─── */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
-    .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
-    .code-block { background: #DC2626; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
-    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; font-family: 'Space Grotesk', sans-serif; }
+    .bauhaus-accent-line { width: 48px; height: 4px; background: #DC2626; margin: 0.5rem 0 1rem 0; }
+    .code-block { background: #DC2626; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #DC2626; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #1A1A1A; color: white; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; font-family: 'Space Grotesk', sans-serif; }
     .copy-btn:hover { background: white; }
-    .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .tip-box { border-left: 4px solid #DC2626; background: #fafafa; padding: 1rem 1.25rem; margin: 1rem 0; }
     .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
     .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
     .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
@@ -97,7 +97,7 @@
     .badge { display: inline-block; border-radius: 0; font-weight: 700; font-size: 0.75rem; font-family: 'Space Grotesk', sans-serif; padding: 0.25rem 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
     .badge-dark { background: var(--primary); color: white; opacity: 0.9; }
     .badge-red { background: var(--primary); color: white; }
-    .badge-yellow { background: var(--accent); color: var(--dark); }
+    .badge-yellow { background: #1A1A1A; color: white; }
     .badge-green { background: #16A34A; color: white; }
     .badge-outline { border: 2px solid var(--dark); color: var(--dark); background: transparent; }
 
@@ -326,7 +326,7 @@ function SectionBauhaus({ lang }) {
         { icon: '◯△□', label: 'Geometrisch', text: 'Kreis, Dreieck, Quadrat als Grundformen aller Gestaltung' },
         { icon: '🔴🟡🔵', label: 'Primary Colors', text: 'Rot, Gelb, Blau als Basis – rein und unmittelbar' },
         { icon: 'Aa', label: 'Typografie', text: 'Klare, serifenlose Schriften: Futura, DIN, Helvetica' },
-        { icon: '⚙', label: 'Funktionalität', text: 'Form folgt Funktion – kein Ornament, alles hat Zweck' },
+        { icon: '', label: 'Funktionalität', text: 'Form folgt Funktion – kein Ornament, alles hat Zweck' },
       ],
       conceptText: 'Das Bauhaus hat modernes Design geprägt: IKEA, Apple, Google – alle basieren auf Bauhaus-Prinzipien.',
       compositionLabel: 'Bauhaus-Komposition (pure CSS)',
@@ -346,7 +346,7 @@ function SectionBauhaus({ lang }) {
         { icon: '◯△□', label: 'Geometric', text: 'Circle, triangle, square as the basic forms of all design' },
         { icon: '🔴🟡🔵', label: 'Primary Colors', text: 'Red, yellow, blue as the basis – pure and immediate' },
         { icon: 'Aa', label: 'Typography', text: 'Clean sans-serif typefaces: Futura, DIN, Helvetica' },
-        { icon: '⚙', label: 'Functionality', text: 'Form follows function – no ornament, everything has purpose' },
+        { icon: '', label: 'Functionality', text: 'Form follows function – no ornament, everything has purpose' },
       ],
       conceptText: 'The Bauhaus shaped modern design: IKEA, Apple, Google – all based on Bauhaus principles.',
       compositionLabel: 'Bauhaus Composition (pure CSS)',
@@ -396,7 +396,7 @@ function SectionBauhaus({ lang }) {
       </div>
 
       <div className="concept-box">
-        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>💡 </strong>
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}></strong>
         {c.conceptText}
       </div>
     </section>
@@ -419,13 +419,13 @@ function SectionFarblehre({ lang }) {
       harmonTitle: 'Farbharmonien',
       harmonies: [
         { name: 'Komplementär', desc: 'Gegenüberliegende Farben: maximaler Kontrast', colors: ['#B91C1C','#16a34a'], pairs: 'Rot + Grün, Blau + Orange' },
-        { name: 'Analog', desc: 'Benachbarte Farben: harmonisch, fließend', colors: ['#B91C1C','#F59E0B','#FDE68A'], pairs: 'Rot → Orange → Gelb' },
-        { name: 'Triadisch', desc: 'Gleichmäßig verteilt: lebendig, ausgeglichen', colors: ['#B91C1C','#F59E0B','#1d4ed8'], pairs: 'Rot, Gelb, Blau' },
+        { name: 'Analog', desc: 'Benachbarte Farben: harmonisch, fließend', colors: ['#B91C1C','#DC2626','#FDE68A'], pairs: 'Rot → Orange → Gelb' },
+        { name: 'Triadisch', desc: 'Gleichmäßig verteilt: lebendig, ausgeglichen', colors: ['#B91C1C','#DC2626','#1d4ed8'], pairs: 'Rot, Gelb, Blau' },
       ],
       psychTitle: 'Farbpsychologie',
       psych: [
         { color: '#B91C1C', label: 'Rot', desc: 'Energie, Warnung, Dringlichkeit, Leidenschaft' },
-        { color: '#F59E0B', label: 'Gelb', desc: 'Aufmerksamkeit, Optimismus, Warnung (milder)' },
+        { color: '#DC2626', label: 'Gelb', desc: 'Aufmerksamkeit, Optimismus, Warnung (milder)' },
         { color: '#1d4ed8', label: 'Blau', desc: 'Vertrauen, Seriosität, Ruhe, Technologie' },
         { color: '#1A1A1A', label: 'Schwarz', desc: 'Eleganz, Stärke, Autorität, Klarheit' },
         { color: '#f5f5f0', label: 'Weiß', desc: 'Reinheit, Offenheit, Minimalismus', dark: true },
@@ -438,13 +438,13 @@ function SectionFarblehre({ lang }) {
       harmonTitle: 'Color Harmonies',
       harmonies: [
         { name: 'Complementary', desc: 'Opposite colors: maximum contrast', colors: ['#B91C1C','#16a34a'], pairs: 'Red + Green, Blue + Orange' },
-        { name: 'Analogous', desc: 'Adjacent colors: harmonious, flowing', colors: ['#B91C1C','#F59E0B','#FDE68A'], pairs: 'Red → Orange → Yellow' },
-        { name: 'Triadic', desc: 'Evenly distributed: vivid, balanced', colors: ['#B91C1C','#F59E0B','#1d4ed8'], pairs: 'Red, Yellow, Blue' },
+        { name: 'Analogous', desc: 'Adjacent colors: harmonious, flowing', colors: ['#B91C1C','#DC2626','#FDE68A'], pairs: 'Red → Orange → Yellow' },
+        { name: 'Triadic', desc: 'Evenly distributed: vivid, balanced', colors: ['#B91C1C','#DC2626','#1d4ed8'], pairs: 'Red, Yellow, Blue' },
       ],
       psychTitle: 'Color Psychology',
       psych: [
         { color: '#B91C1C', label: 'Red', desc: 'Energy, warning, urgency, passion' },
-        { color: '#F59E0B', label: 'Yellow', desc: 'Attention, optimism, warning (milder)' },
+        { color: '#DC2626', label: 'Yellow', desc: 'Attention, optimism, warning (milder)' },
         { color: '#1d4ed8', label: 'Blue', desc: 'Trust, seriousness, calm, technology' },
         { color: '#1A1A1A', label: 'Black', desc: 'Elegance, strength, authority, clarity' },
         { color: '#f5f5f0', label: 'White', desc: 'Purity, openness, minimalism', dark: true },
@@ -699,7 +699,7 @@ function SectionLayout({ lang }) {
       <p style={{fontSize:'0.95rem',marginBottom:'0.75rem'}}>{c.spacingDesc}</p>
       <div className="space-demo" style={{marginBottom:'1.5rem'}}>
         {c.spacingScale.map((n,i) => {
-          const colors = ['#B91C1C','#F59E0B','#16A34A','#1d4ed8','#7c3aed','#1A1A1A'];
+          const colors = ['#B91C1C','#DC2626','#16A34A','#1d4ed8','#7c3aed','#1A1A1A'];
           const dim = Math.min(n, 64);
           return (
             <div key={i} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
@@ -835,12 +835,12 @@ function SectionUsability({ lang }) {
       title: 'Usability-Grundlagen',
       normanTitle: "Norman's Design Principles",
       normanPrinciples: [
-        { name: 'Visibility', icon: '👁', desc: 'Sichtbarkeit: Was kann der Nutzer tun? Mach es offensichtlich – versteckte Funktionen werden nicht genutzt.' },
-        { name: 'Feedback', icon: '💬', desc: 'Rückmeldung: Das System zeigt, was passiert – Loading-Spinner, Success-Badge, Fehlermeldung.' },
-        { name: 'Constraints', icon: '🚧', desc: 'Einschränkungen: Verhindere Fehler durch Begrenzungen – deaktivierte Buttons, Pflichtfelder, Validierung.' },
-        { name: 'Mapping', icon: '🗺', desc: 'Zuordnung: Steuerung muss intuitiv zur Wirkung passen – Lautstärke-Regler nach oben = lauter.' },
-        { name: 'Consistency', icon: '⚖', desc: 'Konsistenz: Gleiche Elemente = gleiche Funktion überall. Kein blaues "Löschen"-Button auf einer Seite, roter auf der nächsten.' },
-        { name: 'Affordance', icon: '👆', desc: 'Aufforderungscharakter: Eine Schaltfläche schreit „KLICK MICH!" – das Element signalisiert seine Nutzung.' },
+        { name: 'Visibility', icon: '', desc: 'Sichtbarkeit: Was kann der Nutzer tun? Mach es offensichtlich – versteckte Funktionen werden nicht genutzt.' },
+        { name: 'Feedback', icon: '', desc: 'Rückmeldung: Das System zeigt, was passiert – Loading-Spinner, Success-Badge, Fehlermeldung.' },
+        { name: 'Constraints', icon: '', desc: 'Einschränkungen: Verhindere Fehler durch Begrenzungen – deaktivierte Buttons, Pflichtfelder, Validierung.' },
+        { name: 'Mapping', icon: '', desc: 'Zuordnung: Steuerung muss intuitiv zur Wirkung passen – Lautstärke-Regler nach oben = lauter.' },
+        { name: 'Consistency', icon: '', desc: 'Konsistenz: Gleiche Elemente = gleiche Funktion überall. Kein blaues "Löschen"-Button auf einer Seite, roter auf der nächsten.' },
+        { name: 'Affordance', icon: '', desc: 'Aufforderungscharakter: Eine Schaltfläche schreit „KLICK MICH!" – das Element signalisiert seine Nutzung.' },
       ],
       tipText: '"Don\'t Make Me Think" (Steve Krug) – die beste Benutzeroberfläche ist die, über die man nicht nachdenken muss.',
     },
@@ -848,12 +848,12 @@ function SectionUsability({ lang }) {
       title: 'Usability Basics',
       normanTitle: "Norman's Design Principles",
       normanPrinciples: [
-        { name: 'Visibility', icon: '👁', desc: 'Visibility: What can the user do? Make it obvious – hidden functions are not used.' },
-        { name: 'Feedback', icon: '💬', desc: 'Feedback: The system shows what is happening – loading spinner, success badge, error message.' },
-        { name: 'Constraints', icon: '🚧', desc: 'Constraints: Prevent errors through limitations – disabled buttons, required fields, validation.' },
-        { name: 'Mapping', icon: '🗺', desc: 'Mapping: Controls must intuitively match their effect – volume slider up = louder.' },
-        { name: 'Consistency', icon: '⚖', desc: 'Consistency: Same elements = same function everywhere. No blue "Delete" button on one page, red on the next.' },
-        { name: 'Affordance', icon: '👆', desc: 'Affordance: A button shouts "CLICK ME!" – the element signals its use.' },
+        { name: 'Visibility', icon: '', desc: 'Visibility: What can the user do? Make it obvious – hidden functions are not used.' },
+        { name: 'Feedback', icon: '', desc: 'Feedback: The system shows what is happening – loading spinner, success badge, error message.' },
+        { name: 'Constraints', icon: '', desc: 'Constraints: Prevent errors through limitations – disabled buttons, required fields, validation.' },
+        { name: 'Mapping', icon: '', desc: 'Mapping: Controls must intuitively match their effect – volume slider up = louder.' },
+        { name: 'Consistency', icon: '', desc: 'Consistency: Same elements = same function everywhere. No blue "Delete" button on one page, red on the next.' },
+        { name: 'Affordance', icon: '', desc: 'Affordance: A button shouts "CLICK ME!" – the element signals its use.' },
       ],
       tipText: '"Don\'t Make Me Think" (Steve Krug) – the best user interface is the one you don\'t have to think about.',
     },
@@ -876,7 +876,7 @@ function SectionUsability({ lang }) {
       </div>
 
       <div className="tip-box">
-        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>💡 </strong>
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}></strong>
         {c.tipText}
       </div>
     </section>
@@ -892,7 +892,7 @@ function SectionAppDesign({ lang }) {
       colorTitle: '1. Farbsystem',
       colors: [
         { color: '#B91C1C', label: 'Rot', hex: '#B91C1C', use: 'E4/E5 Fehler, kritische Störungen, CTA "Diagnose starten"' },
-        { color: '#F59E0B', label: 'Gelb', hex: '#F59E0B', use: 'Warnungen, "Entkalker benötigt"', dark: true },
+        { color: '#DC2626', label: 'Gelb', hex: '#DC2626', use: 'Warnungen, "Entkalker benötigt"', dark: true },
         { color: '#16A34A', label: 'Grün', hex: '#16A34A', use: '"Problem gelöst", Erfolg' },
         { color: '#1A1A1A', label: 'Schwarz', hex: '#1A1A1A', use: 'Navigation, Struktur, Überschriften' },
       ],
@@ -912,7 +912,7 @@ function SectionAppDesign({ lang }) {
       colorTitle: '1. Color System',
       colors: [
         { color: '#B91C1C', label: 'Red', hex: '#B91C1C', use: 'E4/E5 errors, critical faults, CTA "Start Diagnosis"' },
-        { color: '#F59E0B', label: 'Yellow', hex: '#F59E0B', use: 'Warnings, "Descaler needed"', dark: true },
+        { color: '#DC2626', label: 'Yellow', hex: '#DC2626', use: 'Warnings, "Descaler needed"', dark: true },
         { color: '#16A34A', label: 'Green', hex: '#16A34A', use: '"Problem solved", success' },
         { color: '#1A1A1A', label: 'Black', hex: '#1A1A1A', use: 'Navigation, structure, headings' },
       ],
