@@ -863,6 +863,81 @@
       border-radius: 2px 0 0 2px;
       box-shadow: 0 42px 0 #B8B8BC;
     }
+  
+    /* ── Bonus Card ── */
+    .bonus-card {
+      grid-column: span 2;
+      border: 1.5px dashed var(--gray-400, #9CA3AF);
+      padding: 28px 24px 0;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: white;
+    }
+    .bonus-badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      border: 1.5px dashed #1A1A1A;
+      padding: 2px 7px;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+    .bonus-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #1A1A1A;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+    .bonus-subtitle {
+      font-size: 0.75rem;
+      color: #6B7280;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .bonus-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .bonus-chip {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #374151;
+      background: #F3F4F6;
+      padding: 3px 8px;
+      border: 1px solid #E5E7EB;
+    }
+    .btn-bonus-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1.5px dashed #D1D5DB;
+      padding: 14px 0;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      text-decoration: none;
+      margin-top: auto;
+      transition: color 0.15s;
+    }
+    .btn-bonus-link:hover { color: #DC2626; }
+    [data-lang="en"] .btn-bonus-link:hover { color: #1A1A1A; }
+    @media (max-width: 640px) {
+      .bonus-card { grid-column: span 1; }
+    }
+
   </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
@@ -1243,6 +1318,24 @@
                   <a href={lang === 'en' ? lab.link + '?lang=en' : lab.link} className="btn-lab-link">{t.labLink} →</a>
                 </div>
               ))}
+
+              {/* ── Bonus: Project Phil ── */}
+              <div className="bonus-card">
+                <span className="bonus-badge">{lang === 'en' ? 'Bonus Project' : 'Bonus-Projekt'}</span>
+                <div className="bonus-title">Project Phil</div>
+                <div className="bonus-subtitle">{lang === 'en' ? 'AI Knowledge System' : 'KI-Wissenssystem'}</div>
+                <div className="bonus-highlights">
+                  <span className="bonus-chip">ChromaDB</span>
+                  <span className="bonus-chip">Knowledge Graph</span>
+                  <span className="bonus-chip">OWL · RDF · SPARQL</span>
+                  <span className="bonus-chip">RAG-Pipeline</span>
+                  <span className="bonus-chip">{lang === 'en' ? 'Local LLM' : 'Lokales LLM'}</span>
+                  <span className="bonus-chip">{lang === 'en' ? 'Interactive UI' : 'Interaktive UI'}</span>
+                </div>
+                <a href="https://swrobuts.github.io/bigdata/" target="_blank" rel="noopener" className="btn-bonus-link">
+                  <span>{lang === 'en' ? 'Explore Project Phil →' : 'Zum Projekt →'}</span>
+                </a>
+              </div>
             </div>
           </section>
 
