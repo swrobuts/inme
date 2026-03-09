@@ -76,7 +76,7 @@
     /* ─── DESIGN SYSTEM CLASSES ─── */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
     .bauhaus-accent-line { width: 48px; height: 4px; background: #DC2626; margin: 0.5rem 0 1rem 0; }
-    .code-block { background: #DC2626; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #DC2626; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
+    .code-block { background: #F3F4F6; color: #1A1A1A; padding: 1.25rem; border-left: 4px solid #D1D5DB; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
     .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #1A1A1A; color: white; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; font-family: 'Space Grotesk', sans-serif; }
     .copy-btn:hover { background: white; }
     .tip-box { border-left: 4px solid #DC2626; background: #fafafa; padding: 1rem 1.25rem; margin: 1rem 0; }
@@ -677,14 +677,14 @@ function SectionFarblehre({ lang }) {
       title: 'Farblehre',
       harmonTitle: 'Farbharmonien',
       harmonies: [
-        { name: 'Komplementär', desc: 'Gegenüberliegende Farben: maximaler Kontrast', colors: ['#B91C1C','#16a34a'], pairs: 'Rot + Grün, Blau + Orange' },
-        { name: 'Analog', desc: 'Benachbarte Farben: harmonisch, fließend', colors: ['#B91C1C','#DC2626','#FDE68A'], pairs: 'Rot → Orange → Gelb' },
-        { name: 'Triadisch', desc: 'Gleichmäßig verteilt: lebendig, ausgeglichen', colors: ['#B91C1C','#DC2626','#1d4ed8'], pairs: 'Rot, Gelb, Blau' },
+        { name: 'Komplementär', desc: 'Gegenüberliegende Farben: maximaler Kontrast', colors: ['#DC2626','#16A34A'], pairs: 'Rot + Grün, Blau + Orange' },
+        { name: 'Analog', desc: 'Benachbarte Farben: harmonisch, fließend', colors: ['#DC2626','#F97316','#F7CC00'], pairs: 'Rot → Orange → Gelb' },
+        { name: 'Triadisch', desc: 'Gleichmäßig verteilt: lebendig, ausgeglichen', colors: ['#DC2626','#F7CC00','#1d4ed8'], pairs: 'Rot, Gelb, Blau' },
       ],
       psychTitle: 'Farbpsychologie',
       psych: [
         { color: '#B91C1C', label: 'Rot', desc: 'Energie, Warnung, Dringlichkeit, Leidenschaft' },
-        { color: '#DC2626', label: 'Gelb', desc: 'Aufmerksamkeit, Optimismus, Warnung (milder)' },
+        { color: '#F59E0B', label: 'Gelb', desc: 'Aufmerksamkeit, Optimismus, Warnung (milder)' },
         { color: '#1d4ed8', label: 'Blau', desc: 'Vertrauen, Seriosität, Ruhe, Technologie' },
         { color: '#1A1A1A', label: 'Schwarz', desc: 'Eleganz, Stärke, Autorität, Klarheit' },
         { color: '#f5f5f0', label: 'Weiß', desc: 'Reinheit, Offenheit, Minimalismus', dark: true },
@@ -696,14 +696,14 @@ function SectionFarblehre({ lang }) {
       title: 'Color Theory',
       harmonTitle: 'Color Harmonies',
       harmonies: [
-        { name: 'Complementary', desc: 'Opposite colors: maximum contrast', colors: ['#B91C1C','#16a34a'], pairs: 'Red + Green, Blue + Orange' },
-        { name: 'Analogous', desc: 'Adjacent colors: harmonious, flowing', colors: ['#B91C1C','#DC2626','#FDE68A'], pairs: 'Red → Orange → Yellow' },
-        { name: 'Triadic', desc: 'Evenly distributed: vivid, balanced', colors: ['#B91C1C','#DC2626','#1d4ed8'], pairs: 'Red, Yellow, Blue' },
+        { name: 'Complementary', desc: 'Opposite colors: maximum contrast', colors: ['#DC2626','#16A34A'], pairs: 'Red + Green, Blue + Orange' },
+        { name: 'Analogous', desc: 'Adjacent colors: harmonious, flowing', colors: ['#DC2626','#F97316','#F7CC00'], pairs: 'Red → Orange → Yellow' },
+        { name: 'Triadic', desc: 'Evenly distributed: vivid, balanced', colors: ['#DC2626','#F7CC00','#1d4ed8'], pairs: 'Red, Yellow, Blue' },
       ],
       psychTitle: 'Color Psychology',
       psych: [
         { color: '#B91C1C', label: 'Red', desc: 'Energy, warning, urgency, passion' },
-        { color: '#DC2626', label: 'Yellow', desc: 'Attention, optimism, warning (milder)' },
+        { color: '#F59E0B', label: 'Yellow', desc: 'Attention, optimism, warning (milder)' },
         { color: '#1d4ed8', label: 'Blue', desc: 'Trust, seriousness, calm, technology' },
         { color: '#1A1A1A', label: 'Black', desc: 'Elegance, strength, authority, clarity' },
         { color: '#f5f5f0', label: 'White', desc: 'Purity, openness, minimalism', dark: true },
