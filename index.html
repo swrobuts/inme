@@ -310,11 +310,14 @@
 
     /* Stats bar */
     .stats-bar {
-      background: #F9FAFB;
-      border-top: 3px solid #DC2626;
-      border-bottom: 1px solid #E5E7EB;
-      padding: 2.5rem 2rem;
+      background: #1A1A1A;
+      padding: 1.75rem 3rem;
+      width: 100%;
     }
+    .stats-bar .stat-value { color: white; }
+    .stats-bar .stat-label { color: rgba(255,255,255,0.5); }
+    .stats-bar .stat-divider { background: rgba(255,255,255,0.12); }
+    [data-lang="en"] .stats-bar .stat-value { color: #F7CC00; }
 
     .stats-grid {
       max-width: 900px;
@@ -613,7 +616,8 @@
         statLabs: "Labs",
         statUseCase: "Use Case",
         statTech: "Tech Stack",
-        statLang: "Sprachen",
+        statLang: "KI-Analyse",
+        statLangLabel: "Gemini Vision",
 
         // Labs section
         sectionLabs: "Die Labs",
@@ -698,7 +702,8 @@
         statLabs: "Labs",
         statUseCase: "Use Case",
         statTech: "Tech Stack",
-        statLang: "Languages",
+        statLang: "AI Analysis",
+        statLangLabel: "Gemini Vision",
 
         // Labs section
         sectionLabs: "The Labs",
@@ -841,8 +846,8 @@
             </div>
           </section>
 
-          {/* Stats Bar */}
-          <section className="stats-bar">
+          {/* Stats Banderole */}
+          <div className="stats-bar">
             <div className="stats-grid">
               <div className="stat-item">
                 <div className="stat-value">6</div>
@@ -855,16 +860,16 @@
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
-                <div className="stat-value" style={{ fontSize: '1.1rem', lineHeight: '1.3' }}>Supabase + CodePen</div>
+                <div className="stat-value" style={{ fontSize: '1.4rem' }}>{t.statTech}</div>
                 <div className="stat-label">{t.statTech}</div>
               </div>
               <div className="stat-divider"></div>
               <div className="stat-item">
-                <div className="stat-value" style={{ fontSize: '1.5rem' }}>DE / EN</div>
-                <div className="stat-label">{t.statLang}</div>
+                <div className="stat-value">{t.statLang}</div>
+                <div className="stat-label">{t.statLangLabel}</div>
               </div>
             </div>
-          </section>
+          </div>
 
           {/* Labs Grid */}
           <section className="labs-section" id="labs">
