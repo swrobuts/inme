@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 01 – Grundlagen Interaktiver Medien | INME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --primary: #B91C1C;
+      --accent: #F59E0B;
+      --dark: #1A1A1A;
+      --light-bg: #FAFAFA;
+      --primary-light: rgba(185,28,28,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; color: #1A1A1A; }
+    h2 { color: #B91C1C; font-weight: 800; font-family: 'Space Grotesk', sans-serif; margin-top: 0; }
+    h3 { color: #B91C1C; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin: 0.5rem 0; }
+    p { line-height: 1.7; }
+
+    /* Bauhaus */
+    .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
+    .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
+    .bauhaus-badge { background: #1A1A1A; color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
+
+    /* Code */
+    .code-block { background: #1A1A1A; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.85rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
+    .copy-btn:hover { background: #D97706; }
+
+    /* Info boxes */
+    .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
+    .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
+
+    /* Quiz */
+    .quiz-option { display: block; width: 100%; text-align: left; padding: 0.75rem 1rem; margin: 0.4rem 0; border: 2px solid #e5e7eb; border-radius: 0; background: white; cursor: pointer; font-size: 0.95rem; transition: border-color 0.15s, background 0.15s; }
+    .quiz-option:hover:not(:disabled) { border-color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; color: #166534; font-weight: 600; }
+    .quiz-option.wrong { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+    .quiz-option:disabled { cursor: default; }
+
+    /* Layout */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 100;
+      background: white; border-bottom: 2px solid #1A1A1A;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+    .header-left { display: flex; align-items: center; gap: 1.5rem; }
+    .header-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: #B91C1C; text-decoration: none; }
+    .header-back { font-size: 0.85rem; color: #555; text-decoration: none; font-weight: 500; }
+    .header-back:hover { color: #B91C1C; }
+    .lang-btn { border: 2px solid #1A1A1A; background: white; padding: 0.2rem 0.6rem; font-size: 0.78rem; font-weight: 700; cursor: pointer; border-radius: 0; letter-spacing: 0.05em; }
+    .lang-btn.active { background: #1A1A1A; color: white; }
+    .lang-btn:hover:not(.active) { background: #f5f5f5; }
+
+    .sidebar {
+      position: fixed; top: 56px; left: 0; width: 260px;
+      height: calc(100vh - 56px); overflow-y: auto;
+      border-right: 2px solid #1A1A1A; background: white;
+      padding: 1.5rem 0;
+    }
+    .sidebar-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #888; padding: 0 1.25rem; margin-bottom: 0.75rem; }
+    .sidebar-link {
+      display: block; padding: 0.55rem 1.25rem; font-size: 0.88rem; color: #444;
+      text-decoration: none; border-left: 3px solid transparent;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      font-weight: 500;
+    }
+    .sidebar-link:hover { color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .sidebar-link.active { color: #B91C1C; border-left-color: #B91C1C; background: rgba(185,28,28,0.06); font-weight: 700; }
+
+    .main-content {
+      margin-left: 260px; padding-top: 72px; padding-bottom: 4rem;
+      padding-left: 3rem; padding-right: 3rem; max-width: 960px;
+    }
+
+    .section-block { margin-bottom: 4rem; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    th { background: #1A1A1A; color: white; padding: 0.65rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; }
+    td { padding: 0.6rem 1rem; border-bottom: 1px solid #e5e7eb; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    tr:hover td { background: rgba(185,28,28,0.03); }
+
+    /* Grid */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .example-card { border: 2px solid #e5e7eb; padding: 1rem; text-align: center; font-weight: 600; font-size: 0.9rem; background: white; }
+    .example-card .icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .prop-card { border: 2px solid #1A1A1A; padding: 1.25rem; background: white; }
+    .prop-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .prop-card h4 { color: #B91C1C; margin: 0.25rem 0; }
+    .prop-card p { font-size: 0.88rem; margin: 0; color: #555; }
+
+    .relevanz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .relevanz-card { border: 2px solid #e5e7eb; padding: 1rem 1.25rem; background: white; }
+    .relevanz-card .icon { font-size: 1.4rem; }
+    .relevanz-card h4 { margin: 0.4rem 0 0.2rem; font-size: 0.92rem; color: #1A1A1A; }
+    .relevanz-card p { font-size: 0.8rem; color: #666; margin: 0; }
+
+    .web-gen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .web-gen-card { border: 2px solid #1A1A1A; padding: 1.25rem; }
+    .web-gen-card .gen-label { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: #B91C1C; }
+    .web-gen-card .gen-era { font-size: 0.78rem; color: #888; font-weight: 600; margin: 0.2rem 0 0.6rem; }
+    .web-gen-card ul { margin: 0; padding-left: 1.1rem; font-size: 0.85rem; color: #444; }
+    .web-gen-card li { margin-bottom: 0.2rem; }
+
+    /* Checklist */
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; }
+    .checklist li:last-child { border-bottom: none; }
+    .check-icon { color: #22c55e; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* Nav bottom */
+    .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
+    .nav-btn:hover { background: #1A1A1A; color: white; }
+    .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
+    .nav-btn.primary:hover { background: #991b1b; border-color: #991b1b; }
+
+    /* Quiz section */
+    .quiz-question-block { margin-bottom: 2rem; padding: 1.5rem; border: 2px solid #e5e7eb; background: white; }
+    .quiz-question-block h4 { margin: 0 0 1rem; font-size: 1rem; line-height: 1.5; }
+    .quiz-explanation { margin-top: 0.75rem; padding: 0.75rem 1rem; background: #f0fdf4; border-left: 3px solid #22c55e; font-size: 0.88rem; color: #166534; }
+    .quiz-explanation.wrong-exp { background: #fef2f2; border-left-color: #ef4444; color: #991b1b; }
+    .score-display { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #1A1A1A; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ─── Translations ────────────────────────────────────────────────────────────
+    const translations = {
+      de: {
+        // Meta
+        pageTitle: 'Lab 01 – Grundlagen Interaktiver Medien',
+        backLink: '← Übersicht',
+        labLabel: 'INME Lab',
+        timeEstimate: 'ca. 45 Min',
+        labNumber: 'Lab 01',
+
+        // Sidebar
+        sidebarNav: 'Navigation',
+        nav: [
+          { href: '#ueberblick',      label: 'Überblick' },
+          { href: '#definition',      label: 'Was sind interaktive Medien?' },
+          { href: '#kategorisierung', label: 'Kategorisierung' },
+          { href: '#eigenschaften',   label: 'Eigenschaften' },
+          { href: '#relevanz',        label: 'Relevanz' },
+          { href: '#technologien',    label: 'Technologien' },
+          { href: '#quiz',            label: 'Quiz' },
+          { href: '#zusammenfassung', label: 'Zusammenfassung' },
+        ],
+
+        // Section 1
+        s1Title: 'Überblick',
+        s1Intro: 'In diesem Lab lernen Sie die Grundlagen interaktiver Medien kennen. Wir definieren, was interaktive Medien sind, wie sie kategorisiert werden und welche Eigenschaften sie auszeichnen.',
+        s1LernzieleTitle: 'Lernziele',
+        s1Lernziele: [
+          'Interaktive Medien definieren können',
+          'Kategorisierungssysteme kennen und anwenden',
+          'Kernmerkmale / Eigenschaften erläutern',
+          'Relevanz für Medienmanagement verstehen',
+        ],
+
+        // Section 2
+        s2Title: 'Was sind interaktive Medien?',
+        s2DefLabel: 'Definition nach Malaka (2009)',
+        s2DefText: '"Interaktive Medien ermöglichen eine bidirektionale Kommunikation zwischen Mensch und Medium, bei der das System auf Nutzereingaben reagiert und den Inhalt dynamisch anpasst."',
+        s2ConceptTitle: 'Schlüsselmerkmale',
+        s2Concepts: [
+          { term: 'Bidirektional', desc: 'Nutzer kann aktiv eingreifen, nicht nur konsumieren' },
+          { term: 'Dynamisch',     desc: 'Inhalte verändern sich auf Basis von Interaktionen' },
+          { term: 'Personalisiert',desc: 'Jeder Nutzer kann eine andere Erfahrung machen' },
+          { term: 'Reaktiv',       desc: 'System antwortet auf Eingaben in Echtzeit' },
+        ],
+        s2AbgrenzungTitle: 'Abgrenzung: Passive vs. Interaktive Medien',
+        s2TableHeaders: ['Passive Medien', 'Interaktive Medien'],
+        s2TableRows: [
+          ['Zeitung, TV, Radio', 'Apps, Spiele, Webseiten'],
+          ['Einwegkommunikation', 'Bidirektionale Kommunikation'],
+          ['Linearer Fluss', 'Nicht-linearer Fluss'],
+          ['Gleich für alle Nutzer', 'Personalisiert pro Nutzer'],
+        ],
+        s2ExamplesTitle: 'Beispiele interaktiver Medien',
+        s2Examples: [
+          { icon: '📱', label: 'Apps' },
+          { icon: '🎮', label: 'Computerspiele' },
+          { icon: '🥽', label: 'VR-Systeme' },
+          { icon: '📊', label: 'Datenjournalismus-Tools' },
+          { icon: '🖼️', label: 'Interaktive Installationen' },
+        ],
+
+        // Section 3
+        s3Title: 'Kategorisierung',
+        s3KatTitle: '3 Hauptkategorien',
+        s3Kategorien: [
+          { num: '01', title: 'Datenträger', items: ['CD-ROM', 'DVD', 'USB-Stick', 'Festplatte'] },
+          { num: '02', title: 'Kanäle',      items: ['Internet', 'Mobilfunk', 'Bluetooth', 'NFC'] },
+          { num: '03', title: 'Systeme & Dienste', items: ['Apps', 'Webseiten', 'Social Media', 'IoT-Plattformen'] },
+        ],
+        s3InfoTitle: 'Interaktive Medien vs. Massenmedien',
+        s3InfoText: 'Massenmedien (Fernsehen, Radio, Zeitungen) senden Inhalte von einem Sender an viele Empfänger (1:n). Interaktive Medien ermöglichen dagegen bidirektionale oder sogar viele-zu-vielen-Kommunikation (n:n) — jeder Nutzer kann gleichzeitig Produzent und Konsument sein.',
+        s3WebTitle: 'Evolution: Web-Generationen',
+        s3WebGen: [
+          { label: 'Web 1.0', era: '1990er', items: ['Read-only', 'Statische Seiten', 'Einseitige Information', 'HTML, FTP'] },
+          { label: 'Web 2.0', era: '2000er', items: ['Read-Write', 'User Generated Content', 'Social Media & Blogs', 'AJAX, APIs'] },
+          { label: 'Web 3.0', era: '2010er+', items: ['Semantic Web', 'Maschinenlesbare Daten', 'KI-Integration', 'Linked Data'] },
+        ],
+
+        // Section 4
+        s4Title: 'Eigenschaften interaktiver Medien',
+        s4Props: [
+          { icon: '🔄', title: 'Interaktivität',   desc: 'Nutzer kann aktiv eingreifen und Ergebnisse direkt beeinflussen' },
+          { icon: '🎵', title: 'Multimedia',        desc: 'Text, Bild, Audio, Video und Animation werden kombiniert' },
+          { icon: '🌐', title: 'Vernetzung',        desc: 'Verbindung zu anderen Systemen, APIs und Nutzern' },
+          { icon: '👤', title: 'Personalisierung',  desc: 'Inhalte werden individuell auf den Nutzer zugeschnitten' },
+          { icon: '⚡', title: 'Echtzeit',          desc: 'Sofortige Reaktion des Systems auf Nutzereingaben' },
+        ],
+
+        // Section 5
+        s5Title: 'Relevanz für Medienmanagement',
+        s5Intro: 'Interaktive Medien prägen nahezu alle Bereiche moderner Medienunternehmen. Für Medienmanager ist es entscheidend, die Möglichkeiten und Grenzen dieser Technologien zu verstehen.',
+        s5Areas: [
+          { icon: '📊', title: 'Datenjournalismus',     desc: 'NYT Interaktives, Spiegel Interaktiv' },
+          { icon: '🎨', title: 'UX Design',             desc: 'Figma, Adobe XD, Prototyping' },
+          { icon: '📚', title: 'E-Learning',            desc: 'Duolingo, Khan Academy' },
+          { icon: '🏭', title: 'Industrie 4.0',         desc: 'Dashboards, Predictive Maintenance' },
+          { icon: '🏠', title: 'Smart Home',            desc: 'Alexa, Google Nest' },
+          { icon: '🏥', title: 'HealthTech',            desc: 'Fitness-Tracker, Telemedizin' },
+        ],
+        s5TipTitle: 'Markt & Zukunftsaussichten',
+        s5TipText: 'Der globale Markt für interaktive Medien wächst rasant. Laut Statista wird der Interactive Media & Services Markt bis 2027 auf über 400 Mrd. USD geschätzt. Treiber sind KI, immersive Technologien (VR/AR) und die zunehmende Vernetzung durch IoT.',
+
+        // Section 6
+        s6Title: 'Technologien im Überblick',
+        s6TableHeaders: ['Technologie', 'Verwendung', 'Beispiel'],
+        s6Rows: [
+          ['HTML / CSS / JS',  'Web-Frontend',          'Jede Webseite'],
+          ['React / Angular / Vue', 'Web-Frameworks',   'Instagram, AirBnB'],
+          ['Swift / Kotlin',   'Mobile Apps',           'iOS / Android Apps'],
+          ['Cloud (AWS/Azure)','Backend, Hosting',      'Netflix, Spotify'],
+          ['KI / ML',          'Personalisierung',      'TikTok-Algorithmus'],
+          ['WebGL / WebXR',    '3D, VR / AR im Web',   'Google Maps, Meta'],
+        ],
+        s6NoteTitle: 'Hinweis',
+        s6NoteText: 'In diesem Lab geben wir nur einen Überblick. Den Deep-Dive zu einzelnen Technologien gibt es in späteren Labs.',
+
+        // Section 7 – Quiz
+        s7Title: 'Quiz – Wissen überprüfen',
+        quizQuestions: [
+          {
+            q: 'Was ist ein zentrales Merkmal interaktiver Medien?',
+            options: ['Bidirektionale Kommunikation', 'Einweg-Übertragung', 'Analoges Signal', 'Lineares Narrativ'],
+            correct: 0,
+            explanation: 'Richtig! Bidirektionale Kommunikation ist das Kernelement – das Medium reagiert auf den Nutzer.',
+          },
+          {
+            q: 'Welche Medienart zählt zu den interaktiven Medien?',
+            options: ['Gedruckte Zeitung', 'Öffentlich-rechtliches Fernsehen', 'Fitness-App mit personalisierten Plänen', 'UKW-Radio'],
+            correct: 2,
+            explanation: 'Korrekt! Eine Fitness-App reagiert auf Nutzerdaten und passt Inhalte individuell an.',
+          },
+          {
+            q: 'Was unterscheidet Web 2.0 von Web 1.0?',
+            options: ['Schnelleres Internet', 'Nutzer sind Produzenten und Konsumenten ("Prosumenten")', 'Mehr Bilder und Videos', 'Einführung von HTTPS'],
+            correct: 1,
+            explanation: 'Richtig! Web 2.0 ermöglichte User Generated Content – Nutzer wurden zu Prosumenten.',
+          },
+          {
+            q: 'Welche Technologie ermöglicht Echtzeit-Interaktivität im Web?',
+            options: ['HTML', 'CSS', 'JavaScript', 'XML'],
+            correct: 2,
+            explanation: 'Genau! JavaScript ist die einzige Skriptsprache im Browser und ermöglicht dynamische Interaktion.',
+          },
+          {
+            q: 'Was ist Tim Berners-Lees Vision des maschinell interpretierbaren Webs?',
+            options: ['Web 4.0', 'Dark Web', 'Semantic Web', 'Deep Web'],
+            correct: 2,
+            explanation: 'Korrekt! Das Semantic Web (Web 3.0) soll Inhalte für Maschinen verständlich machen.',
+          },
+        ],
+        quizScoreLabel: (score, total) => `${score} / ${total} richtig`,
+        quizReset: 'Quiz neu starten',
+
+        // Section 8
+        s8Title: 'Zusammenfassung',
+        s8Takeaways: [
+          'Interaktive Medien ermöglichen bidirektionale Kommunikation zwischen Mensch und Medium',
+          'Sie unterscheiden sich durch Interaktivität, Multimedia, Vernetzung, Personalisierung und Echtzeit',
+          'Web 2.0 machte Nutzer zu Prosumenten – gleichzeitig Konsumenten und Produzenten',
+          'JavaScript ist die Kerntechnologie für Web-Interaktivität',
+          'Anwendungsfelder: Journalismus, UX-Design, E-Learning, IoT, Smart Home, HealthTech',
+        ],
+        navBack: '← Zurück zur Übersicht',
+        navNext: 'Weiter: Lab 02 – Kreativtechniken →',
+      },
+
+      en: {
+        // Meta
+        pageTitle: 'Lab 01 – Foundations of Interactive Media',
+        backLink: '← Overview',
+        labLabel: 'INME Lab',
+        timeEstimate: 'approx. 45 min',
+        labNumber: 'Lab 01',
+
+        // Sidebar
+        sidebarNav: 'Navigation',
+        nav: [
+          { href: '#ueberblick',      label: 'Overview' },
+          { href: '#definition',      label: 'What are Interactive Media?' },
+          { href: '#kategorisierung', label: 'Categorization' },
+          { href: '#eigenschaften',   label: 'Properties' },
+          { href: '#relevanz',        label: 'Relevance' },
+          { href: '#technologien',    label: 'Technologies' },
+          { href: '#quiz',            label: 'Quiz' },
+          { href: '#zusammenfassung', label: 'Summary' },
+        ],
+
+        // Section 1
+        s1Title: 'Overview',
+        s1Intro: 'In this lab you will learn the fundamentals of interactive media. We will define what interactive media are, how they are categorized, and what key properties distinguish them.',
+        s1LernzieleTitle: 'Learning Objectives',
+        s1Lernziele: [
+          'Be able to define interactive media',
+          'Know and apply categorization systems',
+          'Explain core properties and characteristics',
+          'Understand relevance for media management',
+        ],
+
+        // Section 2
+        s2Title: 'What are Interactive Media?',
+        s2DefLabel: 'Definition (Malaka, 2009)',
+        s2DefText: '"Interactive media enable bidirectional communication between humans and the medium, in which the system responds to user input and dynamically adapts its content."',
+        s2ConceptTitle: 'Key Attributes',
+        s2Concepts: [
+          { term: 'Bidirectional',   desc: 'Users actively participate rather than passively consume' },
+          { term: 'Dynamic',         desc: 'Content changes based on user interactions' },
+          { term: 'Personalized',    desc: 'Each user can have a different experience' },
+          { term: 'Reactive',        desc: 'System responds to input in real time' },
+        ],
+        s2AbgrenzungTitle: 'Passive vs. Interactive Media',
+        s2TableHeaders: ['Passive Media', 'Interactive Media'],
+        s2TableRows: [
+          ['Newspaper, TV, Radio', 'Apps, Games, Websites'],
+          ['One-way communication', 'Bidirectional communication'],
+          ['Linear flow', 'Non-linear flow'],
+          ['Same for all users', 'Personalized per user'],
+        ],
+        s2ExamplesTitle: 'Examples of Interactive Media',
+        s2Examples: [
+          { icon: '📱', label: 'Apps' },
+          { icon: '🎮', label: 'Video Games' },
+          { icon: '🥽', label: 'VR Systems' },
+          { icon: '📊', label: 'Data Journalism Tools' },
+          { icon: '🖼️', label: 'Interactive Installations' },
+        ],
+
+        // Section 3
+        s3Title: 'Categorization',
+        s3KatTitle: '3 Main Categories',
+        s3Kategorien: [
+          { num: '01', title: 'Storage Media',     items: ['CD-ROM', 'DVD', 'USB Drive', 'Hard Drive'] },
+          { num: '02', title: 'Channels',          items: ['Internet', 'Mobile Networks', 'Bluetooth', 'NFC'] },
+          { num: '03', title: 'Systems & Services',items: ['Apps', 'Websites', 'Social Media', 'IoT Platforms'] },
+        ],
+        s3InfoTitle: 'Interactive Media vs. Mass Media',
+        s3InfoText: 'Mass media (TV, radio, newspapers) broadcast content from one sender to many receivers (1:n). Interactive media, in contrast, enable bidirectional or even many-to-many communication (n:n) — every user can simultaneously be a producer and a consumer.',
+        s3WebTitle: 'Evolution: Web Generations',
+        s3WebGen: [
+          { label: 'Web 1.0', era: '1990s', items: ['Read-only', 'Static pages', 'One-way information', 'HTML, FTP'] },
+          { label: 'Web 2.0', era: '2000s', items: ['Read-Write', 'User Generated Content', 'Social Media & Blogs', 'AJAX, APIs'] },
+          { label: 'Web 3.0', era: '2010s+', items: ['Semantic Web', 'Machine-readable data', 'AI Integration', 'Linked Data'] },
+        ],
+
+        // Section 4
+        s4Title: 'Properties of Interactive Media',
+        s4Props: [
+          { icon: '🔄', title: 'Interactivity',    desc: 'Users actively participate and directly influence outcomes' },
+          { icon: '🎵', title: 'Multimedia',        desc: 'Text, images, audio, video and animation are combined' },
+          { icon: '🌐', title: 'Connectivity',      desc: 'Connection to other systems, APIs and users' },
+          { icon: '👤', title: 'Personalization',   desc: 'Content is individually tailored to each user' },
+          { icon: '⚡', title: 'Real-Time',         desc: 'Immediate system response to user inputs' },
+        ],
+
+        // Section 5
+        s5Title: 'Relevance for Media Management',
+        s5Intro: 'Interactive media shape nearly every area of modern media companies. For media managers, understanding the possibilities and limitations of these technologies is essential.',
+        s5Areas: [
+          { icon: '📊', title: 'Data Journalism',    desc: 'NYT Interactive, Spiegel Interaktiv' },
+          { icon: '🎨', title: 'UX Design',          desc: 'Figma, Adobe XD, Prototyping' },
+          { icon: '📚', title: 'E-Learning',         desc: 'Duolingo, Khan Academy' },
+          { icon: '🏭', title: 'Industry 4.0',       desc: 'Dashboards, Predictive Maintenance' },
+          { icon: '🏠', title: 'Smart Home',         desc: 'Alexa, Google Nest' },
+          { icon: '🏥', title: 'HealthTech',         desc: 'Fitness Trackers, Telemedicine' },
+        ],
+        s5TipTitle: 'Market & Future Outlook',
+        s5TipText: 'The global interactive media market is growing rapidly. According to Statista, the Interactive Media & Services market is estimated to exceed USD 400 billion by 2027. Key drivers are AI, immersive technologies (VR/AR) and the increasing connectivity through IoT.',
+
+        // Section 6
+        s6Title: 'Technologies Overview',
+        s6TableHeaders: ['Technology', 'Use Case', 'Example'],
+        s6Rows: [
+          ['HTML / CSS / JS',       'Web frontend',         'Every website'],
+          ['React / Angular / Vue', 'Web frameworks',       'Instagram, AirBnB'],
+          ['Swift / Kotlin',        'Mobile apps',          'iOS / Android apps'],
+          ['Cloud (AWS / Azure)',   'Backend, hosting',     'Netflix, Spotify'],
+          ['AI / ML',               'Personalization',      'TikTok algorithm'],
+          ['WebGL / WebXR',         '3D, VR / AR on web',  'Google Maps, Meta'],
+        ],
+        s6NoteTitle: 'Note',
+        s6NoteText: 'In this lab we provide only an overview. Deep-dives into individual technologies will be covered in later labs.',
+
+        // Section 7
+        s7Title: 'Quiz – Test Your Knowledge',
+        quizQuestions: [
+          {
+            q: 'What is a key characteristic of interactive media?',
+            options: ['Bidirectional communication', 'One-way transmission', 'Analogue signal', 'Linear narrative'],
+            correct: 0,
+            explanation: 'Correct! Bidirectional communication is the core element — the medium responds to the user.',
+          },
+          {
+            q: 'Which media type is considered interactive?',
+            options: ['Printed newspaper', 'Public broadcasting TV', 'Fitness app with personalized plans', 'FM radio'],
+            correct: 2,
+            explanation: 'Correct! A fitness app responds to user data and adapts content individually.',
+          },
+          {
+            q: 'What distinguishes Web 2.0 from Web 1.0?',
+            options: ['Faster internet', 'Users are both producers and consumers ("prosumers")', 'More images and videos', 'Introduction of HTTPS'],
+            correct: 1,
+            explanation: 'Correct! Web 2.0 enabled user generated content — users became prosumers.',
+          },
+          {
+            q: 'Which technology enables real-time interactivity on the web?',
+            options: ['HTML', 'CSS', 'JavaScript', 'XML'],
+            correct: 2,
+            explanation: 'Exactly! JavaScript is the only scripting language in the browser and enables dynamic interaction.',
+          },
+          {
+            q: "What is Tim Berners-Lee's vision of the machine-readable web?",
+            options: ['Web 4.0', 'Dark Web', 'Semantic Web', 'Deep Web'],
+            correct: 2,
+            explanation: 'Correct! The Semantic Web (Web 3.0) aims to make content understandable to machines.',
+          },
+        ],
+        quizScoreLabel: (score, total) => `${score} / ${total} correct`,
+        quizReset: 'Restart Quiz',
+
+        // Section 8
+        s8Title: 'Summary',
+        s8Takeaways: [
+          'Interactive media enable bidirectional communication between humans and the medium',
+          'They are defined by interactivity, multimedia, connectivity, personalization and real-time response',
+          'Web 2.0 turned users into prosumers — simultaneously consumers and producers',
+          'JavaScript is the core technology for web interactivity',
+          'Application fields: journalism, UX design, e-learning, IoT, smart home, health tech',
+        ],
+        navBack: '← Back to Overview',
+        navNext: 'Next: Lab 02 – Creative Techniques →',
+      },
+    };
+
+    // ─── CodeBlock ───────────────────────────────────────────────────────────────
+    function CodeBlock({ code }) {
+      const [copied, setCopied] = useState(false);
+      const handleCopy = () => {
+        navigator.clipboard.writeText(code).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        });
+      };
+      return (
+        <div className="code-block">
+          <button className="copy-btn" onClick={handleCopy}>{copied ? 'Copied!' : 'Copy'}</button>
+          {code}
+        </div>
+      );
+    }
+
+    // ─── Quiz ─────────────────────────────────────────────────────────────────────
+    function Quiz({ questions, lang, t }) {
+      const [answers, setAnswers] = useState({});
+      const [reset, setReset] = useState(0);
+
+      const handleSelect = (qi, oi) => {
+        if (answers[qi] !== undefined) return;
+        setAnswers(prev => ({ ...prev, [qi]: oi }));
+      };
+
+      const handleReset = () => {
+        setAnswers({});
+        setReset(r => r + 1);
+      };
+
+      const score = Object.entries(answers).filter(([qi, oi]) => questions[parseInt(qi)].correct === oi).length;
+      const answered = Object.keys(answers).length;
+
+      return (
+        <div key={reset}>
+          {questions.map((q, qi) => {
+            const chosen = answers[qi];
+            const isAnswered = chosen !== undefined;
+            const isCorrect = chosen === q.correct;
+            return (
+              <div className="quiz-question-block" key={qi}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                  <span className="bauhaus-badge" style={{ flexShrink: 0, marginTop: '0.1rem' }}>Q{qi + 1}</span>
+                  <h4 style={{ margin: 0 }}>{q.q}</h4>
+                </div>
+                {q.options.map((opt, oi) => {
+                  let cls = 'quiz-option';
+                  if (isAnswered) {
+                    if (oi === q.correct) cls += ' correct';
+                    else if (oi === chosen) cls += ' wrong';
+                  }
+                  return (
+                    <button
+                      key={oi}
+                      className={cls}
+                      disabled={isAnswered}
+                      onClick={() => handleSelect(qi, oi)}
+                    >
+                      <span style={{ marginRight: '0.5rem', opacity: 0.5, fontSize: '0.78rem' }}>{String.fromCharCode(65 + oi)})</span>
+                      {opt}
+                    </button>
+                  );
+                })}
+                {isAnswered && (
+                  <div className={`quiz-explanation${isCorrect ? '' : ' wrong-exp'}`}>
+                    {isCorrect ? '✓ ' : '✗ '}{q.explanation}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          {answered > 0 && (
+            <div>
+              <div className="score-display">
+                {t.quizScoreLabel(score, questions.length)}
+                {answered === questions.length && (
+                  <span style={{ marginLeft: '1rem', fontSize: '0.9rem', color: score === questions.length ? '#22c55e' : score >= questions.length / 2 ? '#F59E0B' : '#ef4444' }}>
+                    {score === questions.length ? ' 🎉' : score >= questions.length / 2 ? ' 👍' : ' 💪'}
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={handleReset}
+                style={{ border: '2px solid #1A1A1A', background: 'white', padding: '0.6rem 1.2rem', fontWeight: 700, cursor: 'pointer', fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.9rem', borderRadius: 0 }}
+              >
+                {t.quizReset}
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── App ─────────────────────────────────────────────────────────────────────
+    function App() {
+      const [lang, setLang] = useState('de');
+      const [activeSection, setActiveSection] = useState('ueberblick');
+      const t = translations[lang];
+
+      // IntersectionObserver for sidebar highlighting
+      useEffect(() => {
+        const sectionIds = ['ueberblick','definition','kategorisierung','eigenschaften','relevanz','technologien','quiz','zusammenfassung'];
+        const observers = [];
+        const visible = {};
+
+        const updateActive = () => {
+          for (const id of sectionIds) {
+            if (visible[id]) { setActiveSection(id); return; }
+          }
+        };
+
+        sectionIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const obs = new IntersectionObserver(
+            ([entry]) => {
+              visible[id] = entry.isIntersecting;
+              updateActive();
+            },
+            { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+          );
+          obs.observe(el);
+          observers.push(obs);
+        });
+
+        return () => observers.forEach(o => o.disconnect());
+      }, []);
+
+      const handleNavClick = (e, href) => {
+        e.preventDefault();
+        const id = href.replace('#', '');
+        const el = document.getElementById(id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - 72;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      };
+
+      return (
+        <div>
+          {/* ── Header ── */}
+          <header className="header">
+            <div className="header-left">
+              <a href="index.html" className="header-logo">{t.labLabel}</a>
+              <a href="index.html" className="header-back">{t.backLink}</a>
+            </div>
+            <div style={{ display: 'flex', gap: '0.35rem' }}>
+              <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => setLang('de')}>DE</button>
+              <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            </div>
+          </header>
+
+          {/* ── Sidebar ── */}
+          <nav className="sidebar">
+            <div className="sidebar-title">{t.sidebarNav}</div>
+            {t.nav.map(item => (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`sidebar-link${activeSection === item.href.replace('#', '') ? ' active' : ''}`}
+                onClick={(e) => handleNavClick(e, item.href)}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* ── Main ── */}
+          <main className="main-content">
+
+            {/* ── Section 1: Überblick ── */}
+            <section id="ueberblick" className="section-block">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.25rem' }}>
+                <span className="bauhaus-badge">{t.labNumber}</span>
+                <span className="bauhaus-badge" style={{ background: '#B91C1C' }}>{t.timeEstimate}</span>
+              </div>
+              <h2 style={{ marginTop: '0.75rem' }}>{t.s1Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <p style={{ fontSize: '1.05rem', lineHeight: '1.75', color: '#333' }}>{t.s1Intro}</p>
+              <div className="bauhaus-card" style={{ marginTop: '1.5rem' }}>
+                <h3 style={{ margin: '0 0 0.75rem' }}>{t.s1LernzieleTitle}</h3>
+                <ul style={{ margin: 0, paddingLeft: '1.4rem', lineHeight: 2 }}>
+                  {t.s1Lernziele.map((z, i) => (
+                    <li key={i} style={{ color: '#333' }}>{z}</li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+
+            {/* ── Section 2: Definition ── */}
+            <section id="definition" className="section-block">
+              <h2>{t.s2Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <div className="concept-box">
+                <div className="bauhaus-badge" style={{ marginBottom: '0.6rem' }}>{t.s2DefLabel}</div>
+                <p style={{ margin: 0, fontStyle: 'italic', fontSize: '1.0rem', lineHeight: '1.7' }}>{t.s2DefText}</p>
+              </div>
+
+              <h3>{t.s2ConceptTitle}</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem', margin: '1rem 0 1.5rem' }}>
+                {t.s2Concepts.map((c, i) => (
+                  <div key={i} className="bauhaus-card">
+                    <strong style={{ color: '#B91C1C', fontFamily: "'Space Grotesk', sans-serif" }}>{c.term}</strong>
+                    <p style={{ margin: '0.4rem 0 0', fontSize: '0.88rem', color: '#555' }}>{c.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <h3>{t.s2AbgrenzungTitle}</h3>
+              <table>
+                <thead>
+                  <tr>{t.s2TableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {t.s2TableRows.map((row, i) => (
+                    <tr key={i}>{row.map((cell, j) => <td key={j}>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <h3 style={{ marginTop: '1.5rem' }}>{t.s2ExamplesTitle}</h3>
+              <div className="cards-grid">
+                {t.s2Examples.map((ex, i) => (
+                  <div key={i} className="example-card">
+                    <div className="icon">{ex.icon}</div>
+                    <div>{ex.label}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* ── Section 3: Kategorisierung ── */}
+            <section id="kategorisierung" className="section-block">
+              <h2>{t.s3Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+
+              <h3>{t.s3KatTitle}</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem', margin: '1rem 0 1.5rem' }}>
+                {t.s3Kategorien.map((k, i) => (
+                  <div key={i} className="bauhaus-card">
+                    <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 800, fontSize: '2rem', color: 'rgba(185,28,28,0.15)', lineHeight: 1 }}>{k.num}</div>
+                    <h4 style={{ color: '#B91C1C', margin: '0.4rem 0' }}>{k.title}</h4>
+                    <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.88rem', color: '#555' }}>
+                      {k.items.map((item, j) => <li key={j}>{item}</li>)}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+
+              <div className="info-box">
+                <strong>{t.s3InfoTitle}</strong>
+                <p style={{ margin: '0.5rem 0 0', fontSize: '0.92rem' }}>{t.s3InfoText}</p>
+              </div>
+
+              <h3 style={{ marginTop: '1.5rem' }}>{t.s3WebTitle}</h3>
+              <div className="web-gen-grid">
+                {t.s3WebGen.map((w, i) => (
+                  <div key={i} className="web-gen-card">
+                    <div className="gen-label">{w.label}</div>
+                    <div className="gen-era">{w.era}</div>
+                    <ul>{w.items.map((item, j) => <li key={j}>{item}</li>)}</ul>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* ── Section 4: Eigenschaften ── */}
+            <section id="eigenschaften" className="section-block">
+              <h2>{t.s4Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '1rem', marginTop: '1rem' }}>
+                {t.s4Props.map((p, i) => (
+                  <div key={i} className="prop-card">
+                    <div className="icon">{p.icon}</div>
+                    <h4>{p.title}</h4>
+                    <p>{p.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* ── Section 5: Relevanz ── */}
+            <section id="relevanz" className="section-block">
+              <h2>{t.s5Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <p style={{ color: '#333', lineHeight: '1.7' }}>{t.s5Intro}</p>
+
+              <div className="relevanz-grid">
+                {t.s5Areas.map((a, i) => (
+                  <div key={i} className="relevanz-card">
+                    <div className="icon">{a.icon}</div>
+                    <h4>{a.title}</h4>
+                    <p>{a.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="tip-box" style={{ marginTop: '1.5rem' }}>
+                <strong>💡 {t.s5TipTitle}</strong>
+                <p style={{ margin: '0.5rem 0 0', fontSize: '0.92rem' }}>{t.s5TipText}</p>
+              </div>
+            </section>
+
+            {/* ── Section 6: Technologien ── */}
+            <section id="technologien" className="section-block">
+              <h2>{t.s6Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <table>
+                <thead>
+                  <tr>{t.s6TableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {t.s6Rows.map((row, i) => (
+                    <tr key={i}>{row.map((cell, j) => <td key={j}>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="challenge-box" style={{ marginTop: '1rem' }}>
+                <strong>📌 {t.s6NoteTitle}</strong>
+                <p style={{ margin: '0.4rem 0 0', fontSize: '0.92rem' }}>{t.s6NoteText}</p>
+              </div>
+            </section>
+
+            {/* ── Section 7: Quiz ── */}
+            <section id="quiz" className="section-block">
+              <h2>{t.s7Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <Quiz questions={t.quizQuestions} lang={lang} t={t} />
+            </section>
+
+            {/* ── Section 8: Zusammenfassung ── */}
+            <section id="zusammenfassung" className="section-block">
+              <h2>{t.s8Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <div className="bauhaus-card">
+                <ul className="checklist">
+                  {t.s8Takeaways.map((item, i) => (
+                    <li key={i}>
+                      <span className="check-icon">✓</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="nav-bottom">
+                <a href="index.html" className="nav-btn">{t.navBack}</a>
+                <a href="lab-02-kreativitaet.html" className="nav-btn primary">{t.navNext}</a>
+              </div>
+            </section>
+
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

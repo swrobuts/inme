@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 04 – UX Research &amp; Prototyping | INME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --primary: #B91C1C;
+      --accent: #F59E0B;
+      --dark: #1A1A1A;
+      --light-bg: #FAFAFA;
+      --primary-light: rgba(185,28,28,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; color: #1A1A1A; }
+    h2 { color: #B91C1C; font-weight: 800; font-family: 'Space Grotesk', sans-serif; margin-top: 0; }
+    h3 { color: #B91C1C; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin: 0.5rem 0; }
+    p { line-height: 1.7; }
+
+    /* Bauhaus */
+    .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
+    .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
+    .bauhaus-badge { background: #1A1A1A; color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
+
+    /* Code */
+    .code-block { background: #1A1A1A; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.85rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; margin: 1rem 0; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
+    .copy-btn:hover { background: #D97706; }
+
+    /* Info boxes */
+    .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
+    .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
+
+    /* Quiz */
+    .quiz-option { display: block; width: 100%; text-align: left; padding: 0.75rem 1rem; margin: 0.4rem 0; border: 2px solid #e5e7eb; border-radius: 0; background: white; cursor: pointer; font-size: 0.95rem; transition: border-color 0.15s, background 0.15s; }
+    .quiz-option:hover:not(:disabled) { border-color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; color: #166534; font-weight: 600; }
+    .quiz-option.wrong { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+    .quiz-option:disabled { cursor: default; }
+
+    /* Layout */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 100;
+      background: white; border-bottom: 2px solid #1A1A1A;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+    .header-left { display: flex; align-items: center; gap: 1.5rem; }
+    .header-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: #B91C1C; text-decoration: none; }
+    .header-back { font-size: 0.85rem; color: #555; text-decoration: none; font-weight: 500; }
+    .header-back:hover { color: #B91C1C; }
+    .lang-btn { border: 2px solid #1A1A1A; background: white; padding: 0.2rem 0.6rem; font-size: 0.78rem; font-weight: 700; cursor: pointer; border-radius: 0; letter-spacing: 0.05em; }
+    .lang-btn.active { background: #1A1A1A; color: white; }
+    .lang-btn:hover:not(.active) { background: #f5f5f5; }
+
+    .sidebar {
+      position: fixed; top: 56px; left: 0; width: 260px;
+      height: calc(100vh - 56px); overflow-y: auto;
+      border-right: 2px solid #1A1A1A; background: white;
+      padding: 1.5rem 0;
+    }
+    .sidebar-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #888; padding: 0 1.25rem; margin-bottom: 0.75rem; }
+    .sidebar-link {
+      display: block; padding: 0.55rem 1.25rem; font-size: 0.88rem; color: #444;
+      text-decoration: none; border-left: 3px solid transparent;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      font-weight: 500;
+    }
+    .sidebar-link:hover { color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .sidebar-link.active { color: #B91C1C; border-left-color: #B91C1C; background: rgba(185,28,28,0.06); font-weight: 700; }
+
+    .main-content {
+      margin-left: 260px; padding-top: 72px; padding-bottom: 4rem;
+      padding-left: 3rem; padding-right: 3rem; max-width: 960px;
+    }
+
+    .section-block { margin-bottom: 4rem; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    th { background: #1A1A1A; color: white; padding: 0.65rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; }
+    td { padding: 0.6rem 1rem; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    tr:hover td { background: rgba(185,28,28,0.03); }
+
+    /* Research Method Cards */
+    .method-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
+    .method-card { border: 2px solid #1A1A1A; padding: 1.25rem; background: white; }
+    .method-card .m-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .method-card h4 { color: #B91C1C; margin: 0.2rem 0 0.4rem; font-size: 0.95rem; }
+    .method-card p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.55; }
+
+    /* Persona Card */
+    .persona-card { border: 2px solid #1A1A1A; background: white; overflow: hidden; max-width: 520px; margin: 1.25rem 0; }
+    .persona-header { background: #1A1A1A; color: white; padding: 1rem 1.25rem; }
+    .persona-header .p-name { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; }
+    .persona-header .p-role { font-size: 0.85rem; color: #aaa; margin-top: 0.15rem; }
+    .persona-section { padding: 0.85rem 1.25rem; border-bottom: 1px solid #e5e7eb; }
+    .persona-section:last-child { border-bottom: none; }
+    .persona-section h4 { font-family: 'Space Grotesk', sans-serif; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin: 0 0 0.5rem; }
+    .persona-section ul { margin: 0; padding-left: 1.1rem; font-size: 0.88rem; }
+    .persona-section li { margin-bottom: 0.25rem; line-height: 1.5; }
+    .persona-affinity { display: flex; gap: 0.25rem; align-items: center; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .dot.filled { background: #B91C1C; }
+    .dot.empty { background: #e5e7eb; border: 1px solid #ccc; }
+    .persona-quote { font-style: italic; font-size: 0.9rem; color: #555; margin-top: 0.4rem; }
+
+    /* User Story Cards */
+    .user-story-card { border-left: 4px solid #B91C1C; border-top: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; border-radius: 0; background: white; padding: 1rem 1.25rem; margin: 0.6rem 0; font-size: 0.95rem; line-height: 1.6; }
+    .user-story-card .story-num { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: #B91C1C; margin-bottom: 0.3rem; }
+
+    /* Sitemap */
+    .sitemap { font-family: monospace; font-size: 0.9rem; background: white; border: 2px solid #1A1A1A; padding: 1.25rem 1.5rem; display: inline-block; line-height: 1.9; margin: 1rem 0; }
+    .sitemap .root { font-weight: 700; font-size: 1rem; color: #B91C1C; }
+    .sitemap .node { color: #1A1A1A; }
+    .sitemap .connector { color: #888; }
+
+    /* Journey table */
+    .journey-table { font-size: 0.82rem; }
+    .journey-table th { font-size: 0.75rem; }
+    .emotion-curve { margin: 1.5rem 0 0.5rem; }
+
+    /* Figma steps */
+    .figma-steps { counter-reset: step-counter; list-style: none; padding: 0; margin: 1rem 0; }
+    .figma-steps li { counter-increment: step-counter; display: flex; gap: 1rem; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; line-height: 1.55; }
+    .figma-steps li:last-child { border-bottom: none; }
+    .figma-steps li::before { content: counter(step-counter); background: #B91C1C; color: white; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.8rem; min-width: 26px; height: 26px; border-radius: 0; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* Resources */
+    .resource-links { list-style: none; padding: 0; margin: 1rem 0; }
+    .resource-links li { padding: 0.6rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; }
+    .resource-links li:last-child { border-bottom: none; }
+    .resource-links a { color: #B91C1C; text-decoration: none; font-weight: 600; }
+    .resource-links a:hover { text-decoration: underline; }
+    .resource-links .res-desc { color: #666; font-size: 0.85rem; margin-left: 0.4rem; }
+
+    /* Quiz */
+    .quiz-question-block { margin-bottom: 2rem; padding: 1.5rem; border: 2px solid #e5e7eb; background: white; }
+    .quiz-question-block h4 { margin: 0 0 1rem; font-size: 1rem; line-height: 1.5; }
+    .quiz-explanation { margin-top: 0.75rem; padding: 0.75rem 1rem; background: #f0fdf4; border-left: 3px solid #22c55e; font-size: 0.88rem; color: #166534; }
+    .quiz-explanation.wrong-exp { background: #fef2f2; border-left-color: #ef4444; color: #991b1b; }
+    .score-display { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #1A1A1A; }
+
+    /* Nav bottom */
+    .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
+    .nav-btn:hover { background: #1A1A1A; color: white; }
+    .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
+    .nav-btn.primary:hover { background: #991b1b; border-color: #991b1b; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding-left: 1.25rem; padding-right: 1.25rem; }
+      .method-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ─── Translations ─────────────────────────────────────────────────────────
+    const t = {
+      de: {
+        pageTitle: 'Lab 04 – UX Research & Prototyping',
+        labLabel: 'INME Lab',
+        backLink: '← Übersicht',
+        timeEstimate: 'ca. 75 Min',
+        labNumber: 'Lab 04',
+        sidebarNav: 'Navigation',
+        nav: [
+          { href: '#ueberblick',   label: 'Überblick' },
+          { href: '#ux-vs-ui',     label: 'UX vs. UI' },
+          { href: '#user-research',label: 'User Research' },
+          { href: '#personas',     label: 'Personas' },
+          { href: '#user-journey', label: 'User Journey Map' },
+          { href: '#user-stories', label: 'User Stories' },
+          { href: '#ia',           label: 'Information Architecture' },
+          { href: '#wireframes',   label: 'Wireframes' },
+          { href: '#figma',        label: 'Figma Quickstart' },
+          { href: '#quiz',         label: 'Quiz' },
+          { href: '#ressourcen',   label: 'Ressourcen' },
+        ],
+
+        // Überblick
+        s1Title: 'Überblick',
+        s1Subtitle: 'Vom Konzept zum Klickprototyp',
+        s1Intro: 'In diesem Lab lernen Sie, wie aus nutzerzentrierter Forschung konkrete UX-Artefakte entstehen – von Personas über Journey Maps bis hin zu Wireframes und Klickprototypen in Figma.',
+        s1LernzieleTitle: 'Lernziele',
+        s1Lernziele: [
+          'UX und UI klar voneinander abgrenzen',
+          'Grundlegende User-Research-Methoden anwenden',
+          'Personas und User Journey Maps erstellen',
+          'User Stories im richtigen Format formulieren',
+          'Information Architecture (Sitemap) skizzieren',
+          'Lo-Fi-Wireframes erstellen und in Figma umsetzen',
+        ],
+
+        // UX vs UI
+        s2Title: 'UX vs. UI',
+        s2Concept: 'UX is how it works. UI is how it looks.',
+        s2TableCaption: 'Vergleich: UX vs. UI',
+        s2TableHeaders: ['', 'UX (User Experience)', 'UI (User Interface)'],
+        s2TableRows: [
+          ['Was', 'Nutzererlebnis', 'Visuelle Gestaltung'],
+          ['Fokus', 'Usability, Flows', 'Farben, Buttons, Layout'],
+          ['Tools', 'Interviews, Journey Maps', 'Figma, Sketch'],
+          ['Frage', '"Funktioniert es?"', '"Sieht es gut aus?"'],
+          ['Output', 'Wireframes, Prototypen', 'Mockups, Design Systems'],
+        ],
+        s2Summary: 'Gutes Produkt = UX + UI zusammen. Eines ohne das andere scheitert.',
+
+        // User Research
+        s3Title: 'User Research',
+        s3Intro: 'User Research legt das Fundament für jede UX-Entscheidung. Ohne Research designen wir für uns selbst – nicht für die Nutzer.',
+        s3Methods: [
+          { icon: '🎤', title: 'Interviews', desc: 'Direkte 1:1 Gespräche mit Nutzern. 5–8 Interviews reichen oft, um Muster zu erkennen.' },
+          { icon: '📋', title: 'Umfragen', desc: 'Quantitative Daten. Google Forms, Typeform. Gut für Bestätigung von Hypothesen.' },
+          { icon: '👀', title: 'Beobachtung', desc: 'Nutzer beim echten Arbeiten zusehen. Contextual Inquiry liefert echte Einblicke.' },
+          { icon: '📔', title: 'Tagebuchstudie', desc: 'Nutzer dokumentieren selbst über Zeit. Gut für alltägliche Verhaltensweisen.' },
+        ],
+        s3Tip: 'Was Nutzer SAGEN ≠ was sie TUN. Beobachtung ist oft aufschlussreicher als Befragung.',
+        s3InfoTitle: 'Für unseren Use Case',
+        s3InfoText: 'Wartungstechniker von Kaffeevollautomaten wurden befragt:',
+        s3InfoStats: [
+          '78% suchen Fehlerinfos auf dem Smartphone',
+          '65% beklagen schlechte Handbuch-UX',
+          '91% würden eine App nutzen wenn sie schneller ist',
+        ],
+
+        // Personas
+        s4Title: 'Personas',
+        s4ConceptTitle: 'Was ist eine Persona?',
+        s4ConceptText: 'Fiktive Repräsentation eines realen Nutzersegments, basierend auf Research-Daten. Personas machen abstrakte Zielgruppen greifbar und fördern empathisches Design.',
+        s4PersonaName: 'THOMAS WEBER, 34',
+        s4PersonaRole: 'Wartungstechniker · Catering GmbH',
+        s4ZieleTitle: 'Ziele',
+        s4Ziele: [
+          'Störungen schnell (<5 Min) beheben',
+          'Keine Servicetermine verpassen',
+          'Kompetent wirken vor dem Kunden',
+        ],
+        s4FrustrTitle: 'Frustrationen',
+        s4Frustr: [
+          'Handbücher nicht dabei / unleserlich',
+          'Google-Suche liefert oft falsche Infos',
+          'Ersatzteile aus verschiedenen Shops',
+        ],
+        s4KontextTitle: 'Kontext',
+        s4Kontext: [
+          '8–12 Maschinen/Tag, oft allein',
+          'Arbeitet im Außendienst',
+          'Smartphone: Samsung Galaxy, Android',
+        ],
+        s4AffinityLabel: 'Technik-Affinität:',
+        s4AffinityDesc: 'mittel',
+        s4Quote: '"Ich will die Lösung, nicht das Handbuch."',
+        s4TemplateTitle: 'Persona Template',
+        s4TemplateCode: `## Persona: [Name], [Alter]
+**Beruf:** [Jobtitel]
+**Unternehmen:** [Art des Unternehmens]
+
+### Ziele
+- [Ziel 1]
+- [Ziel 2]
+
+### Frustrationen
+- [Frustration 1]
+- [Frustration 2]
+
+### Kontext
+- [Wie/wo arbeitet die Person?]
+- [Welche Geräte nutzt sie?]
+
+### Technik-Affinität: [niedrig/mittel/hoch]
+### Zitat: "[Was würde diese Person sagen?]"`,
+
+        // User Journey
+        s5Title: 'User Journey Map',
+        s5Subtitle: 'Die Reise von Thomas beim Beheben einer Kaffeemaschinen-Störung',
+        s5TableHeaders: ['Schritt', 'Aktion', 'Gedanken', 'Gefühle', 'Touchpoints'],
+        s5Rows: [
+          ['1. Störung bemerken', 'Maschine zeigt E4', '"Nicht schon wieder!"', '😤 Frustriert', 'Maschine'],
+          ['2. Diagnose suchen', 'Handbuch suchen', '"Wo ist das nochmal?"', '😕 Suchend', 'Handbuch (fehlt)'],
+          ['3. Google-Suche', 'Smartphone raus', '"Mal schauen ob ich was finde"', '😐 Neutral', 'Smartphone, Google'],
+          ['4. App nutzen', 'INME App öffnen', '"Das sieht einfach aus"', '😊 Neugierig', 'App: Screen 1'],
+          ['5. Symptome eingeben', 'Foto + Checkboxes', '"Einfach zu bedienen"', '😊 Zufrieden', 'App: Diagnose'],
+          ['6. Lösung lesen', 'Entkalker-Anleitung', '"Perfekt, das kann ich"', '😊 Erleichtert', 'App: Lösung'],
+          ['7. Ersatzteil bestellen', 'Direkt im Shop', '"Super, alles an einem Ort"', '😄 Begeistert', 'App: Shop'],
+          ['8. Problem gelöst', 'Maschine läuft wieder', '"Ich bin gut"', '😄 Stolz', 'Maschine'],
+        ],
+        s5CurveLabel: 'Emotionskurve',
+        s5CurveNote: 'Frustration → Neutral → Zufriedenheit',
+
+        // User Stories
+        s6Title: 'User Stories',
+        s6Intro: 'Format: "Als [Rolle] möchte ich [Aktion], damit [Nutzen]."',
+        s6Stories: [
+          { num: 'US-01', text: ['Als ', 'Wartungstechniker', ' möchte ich eine Störung fotografieren können, damit das System automatisch eine Diagnose erstellt.'] },
+          { num: 'US-02', text: ['Als ', 'Techniker', ' möchte ich Symptome per Checkbox auswählen, damit die Diagnose präziser ist.'] },
+          { num: 'US-03', text: ['Als ', 'Techniker', ' möchte ich eine Schritt-für-Schritt-Reparaturanleitung sehen, damit ich keine Fehler mache.'] },
+          { num: 'US-04', text: ['Als ', 'Techniker', ' möchte ich Ersatzteile direkt aus der Diagnose bestellen, damit ich Zeit spare.'] },
+          { num: 'US-05', text: ['Als ', 'Serviceleiter', ' möchte ich alle gemeldeten Störungen im Dashboard sehen, damit ich den Überblick behalte.'] },
+        ],
+
+        // IA
+        s7Title: 'Information Architecture',
+        s7Subtitle: 'Welche Screens braucht die App? (Sitemap)',
+        s7Note: 'Wir halten die IA bewusst einfach – 4 Screens, 1 Flow.',
+
+        // Wireframes
+        s8Title: 'Wireframes',
+        s8Intro: 'Lo-Fi Wireframe: Screen 1 – Störung melden',
+        s8Wire: `┌─────────────────────┐
+│  ◀  Störung melden  │   ← Header mit Back-Navigation
+│─────────────────────│
+│                     │
+│  ┌───────────────┐  │
+│  │   📷 FOTO    │  │   ← Foto-Upload Button (prominent)
+│  │   aufnehmen  │  │
+│  └───────────────┘  │
+│                     │
+│  Maschinentyp:      │   ← Dropdown
+│  [▼ Jura E8      ] │
+│                     │
+│  Symptome wählen:   │   ← Checkboxes
+│  ☐ Kein Kaffee     │
+│  ☐ Fehlermeldung   │
+│  ☐ Wasserleck      │
+│  ☐ Geräusche       │
+│  ☐ Dampf fehlt     │
+│                     │
+│  [ Diagnose starten ] │   ← Primary CTA
+└─────────────────────┘`,
+        s8Tip: 'Papierprototypen können in 15 Minuten mit Post-its gebaut werden!',
+
+        // Figma
+        s9Title: 'Figma Quickstart',
+        s9Steps: [
+          { title: 'Account anlegen', desc: 'figma.com → "Get started for free" (kostenlos für Studis via Education Plan)' },
+          { title: 'Neues File', desc: '"New design file" erstellen' },
+          { title: 'Frame anlegen', desc: 'F drücken → Preset "iPhone 14" (390×844) oder "Desktop" (1440×900)' },
+          { title: 'Elemente platzieren', desc: 'R=Rectangle, T=Text, F=Frame – Tastaturkürzel lernen spart Zeit' },
+          { title: 'Auto Layout', desc: 'Shift+A → Box wächst automatisch mit Inhalt mit' },
+          { title: 'Komponenten', desc: 'Ctrl+Alt+K → Wiederverwendbare UI-Elemente erstellen' },
+          { title: 'Prototype tab', desc: 'Connect frames mit Pfeilen → fertiger Klickprototyp zum Teilen' },
+        ],
+        s9InfoText: 'Figma Community (figma.com/community) hat kostenlose Templates. Suche: "Mobile App Wireframe" oder "Coffee App"',
+        s9Challenge: 'Übung: Baue Screen 1 "Störung erfassen" in Figma nach. Nutze: Frame 390×844, 3 Rectangles, 2 Text-Elemente, 1 Button.',
+
+        // Quiz
+        s10Title: 'Quiz',
+        s10Intro: 'Teste dein Wissen aus Lab 04.',
+        s10Questions: [
+          {
+            q: 'Was ist der Unterschied zwischen UX und UI?',
+            options: [
+              'Es gibt keinen Unterschied',
+              'UX = wie es aussieht, UI = wie es funktioniert',
+              'UX = wie es funktioniert, UI = wie es aussieht',
+              'UX ist für Mobile, UI für Desktop',
+            ],
+            correct: 2,
+            explanation: 'UX (User Experience) beschreibt das Nutzererlebnis und wie ein Produkt funktioniert. UI (User Interface) beschreibt die visuelle Gestaltung – wie es aussieht.',
+          },
+          {
+            q: 'Was ist eine Persona?',
+            options: [
+              'Ein echter Nutzer, der die App testet',
+              'Eine fiktive Repräsentation eines typischen Nutzersegments',
+              'Ein Datenbankschema für Nutzerprofile',
+              'Ein Algorithmus zur Nutzersegmentierung',
+            ],
+            correct: 1,
+            explanation: 'Eine Persona ist eine fiktive, forschungsbasierte Repräsentation eines typischen Nutzersegments. Sie hilft dem Team, Designentscheidungen am echten Nutzer auszurichten.',
+          },
+          {
+            q: 'Was zeigt eine User Journey Map?',
+            options: [
+              'Den Quellcode einer Anwendung',
+              'Die Datenbankstruktur',
+              'Alle Schritte und Emotionen eines Nutzers bei der Erfüllung einer Aufgabe',
+              'Die Serverarchitektur',
+            ],
+            correct: 2,
+            explanation: 'Eine User Journey Map visualisiert alle Schritte, Gedanken, Gefühle und Touchpoints eines Nutzers auf dem Weg zu einem Ziel – und macht Schmerzpunkte sichtbar.',
+          },
+          {
+            q: 'Wie lautet das Format einer User Story?',
+            options: [
+              '"Das System muss [Funktion] unterstützen."',
+              '"Als [Rolle] möchte ich [Aktion], damit [Nutzen]."',
+              '"Der Nutzer kann [Funktion] verwenden."',
+              '"Wenn [Bedingung], dann [Aktion]."',
+            ],
+            correct: 1,
+            explanation: 'Das User-Story-Format "Als [Rolle] möchte ich [Aktion], damit [Nutzen]" stellt sicher, dass jede Funktion aus Nutzerperspektive begründet ist.',
+          },
+          {
+            q: 'Was ist Information Architecture?',
+            options: [
+              'Die physische Infrastruktur eines Servers',
+              'Ein CSS-Layout-Framework',
+              'Die Struktur und Organisation von Inhalten einer Anwendung',
+              'Eine Programmiersprache für Datenbanken',
+            ],
+            correct: 2,
+            explanation: 'Information Architecture (IA) beschreibt, wie Inhalte einer Anwendung strukturiert, organisiert und navigierbar gemacht werden – z. B. als Sitemap.',
+          },
+        ],
+        s10ScoreLabel: (s, t) => `Ergebnis: ${s} von ${t} Fragen richtig`,
+        s10Reset: 'Quiz wiederholen',
+
+        // Ressourcen
+        s11Title: 'Figma-Ressourcen',
+        s11Links: [
+          { href: 'https://www.figma.com/community', label: 'Figma Community', desc: '– Kostenlose Templates & Plugins' },
+          { href: 'https://www.figma.com/education', label: 'Figma Education', desc: '– Kostenloses Pro-Abo für Studierende' },
+          { href: 'https://www.nngroup.com', label: 'Nielsen Norman Group', desc: '– UX Research & Artikel' },
+          { href: 'https://material.io', label: 'Material Design', desc: '– Google Design System' },
+          { href: 'https://developer.apple.com/design/human-interface-guidelines', label: 'Apple Human Interface Guidelines', desc: '– Apple Design System' },
+        ],
+
+        // Nav
+        navPrev: '← Lab 03: Gestaltung',
+        navNext: 'Weiter: Lab 05 – Use Case →',
+        copied: 'Kopiert!',
+        copy: 'Kopieren',
+      },
+
+      en: {
+        pageTitle: 'Lab 04 – UX Research & Prototyping',
+        labLabel: 'INME Lab',
+        backLink: '← Overview',
+        timeEstimate: 'approx. 75 min',
+        labNumber: 'Lab 04',
+        sidebarNav: 'Navigation',
+        nav: [
+          { href: '#ueberblick',   label: 'Overview' },
+          { href: '#ux-vs-ui',     label: 'UX vs. UI' },
+          { href: '#user-research',label: 'User Research' },
+          { href: '#personas',     label: 'Personas' },
+          { href: '#user-journey', label: 'User Journey Map' },
+          { href: '#user-stories', label: 'User Stories' },
+          { href: '#ia',           label: 'Information Architecture' },
+          { href: '#wireframes',   label: 'Wireframes' },
+          { href: '#figma',        label: 'Figma Quickstart' },
+          { href: '#quiz',         label: 'Quiz' },
+          { href: '#ressourcen',   label: 'Resources' },
+        ],
+
+        s1Title: 'Overview',
+        s1Subtitle: 'From Concept to Clickable Prototype',
+        s1Intro: 'In this lab you will learn how user-centred research translates into concrete UX artefacts – from personas and journey maps to wireframes and clickable prototypes in Figma.',
+        s1LernzieleTitle: 'Learning Objectives',
+        s1Lernziele: [
+          'Clearly distinguish UX from UI',
+          'Apply basic user research methods',
+          'Create personas and user journey maps',
+          'Write user stories in the correct format',
+          'Sketch an information architecture (sitemap)',
+          'Create lo-fi wireframes and implement them in Figma',
+        ],
+
+        s2Title: 'UX vs. UI',
+        s2Concept: 'UX is how it works. UI is how it looks.',
+        s2TableCaption: 'Comparison: UX vs. UI',
+        s2TableHeaders: ['', 'UX (User Experience)', 'UI (User Interface)'],
+        s2TableRows: [
+          ['What', 'User experience', 'Visual design'],
+          ['Focus', 'Usability, flows', 'Colours, buttons, layout'],
+          ['Tools', 'Interviews, journey maps', 'Figma, Sketch'],
+          ['Question', '"Does it work?"', '"Does it look good?"'],
+          ['Output', 'Wireframes, prototypes', 'Mockups, design systems'],
+        ],
+        s2Summary: 'Good product = UX + UI together. One without the other fails.',
+
+        s3Title: 'User Research',
+        s3Intro: 'User research is the foundation of every UX decision. Without research, we design for ourselves – not for users.',
+        s3Methods: [
+          { icon: '🎤', title: 'Interviews', desc: 'Direct 1:1 conversations with users. 5–8 interviews are often enough to identify patterns.' },
+          { icon: '📋', title: 'Surveys', desc: 'Quantitative data. Google Forms, Typeform. Good for validating hypotheses.' },
+          { icon: '👀', title: 'Observation', desc: 'Watch users work in their real environment. Contextual inquiry delivers genuine insights.' },
+          { icon: '📔', title: 'Diary Study', desc: 'Users document themselves over time. Good for everyday behaviours.' },
+        ],
+        s3Tip: 'What users SAY ≠ what they DO. Observation is often more revealing than asking.',
+        s3InfoTitle: 'For our use case',
+        s3InfoText: 'Coffee machine maintenance technicians were surveyed:',
+        s3InfoStats: [
+          '78% look up error information on their smartphone',
+          '65% complain about poor manual UX',
+          '91% would use an app if it were faster',
+        ],
+
+        s4Title: 'Personas',
+        s4ConceptTitle: 'What is a Persona?',
+        s4ConceptText: 'A fictional representation of a real user segment, based on research data. Personas make abstract target groups tangible and promote empathic design.',
+        s4PersonaName: 'THOMAS WEBER, 34',
+        s4PersonaRole: 'Maintenance Technician · Catering GmbH',
+        s4ZieleTitle: 'Goals',
+        s4Ziele: [
+          'Fix faults quickly (<5 min)',
+          'Never miss a service appointment',
+          'Appear competent in front of the customer',
+        ],
+        s4FrustrTitle: 'Frustrations',
+        s4Frustr: [
+          'Manuals not available / illegible',
+          'Google searches often return wrong info',
+          'Spare parts from multiple different shops',
+        ],
+        s4KontextTitle: 'Context',
+        s4Kontext: [
+          '8–12 machines/day, often alone',
+          'Works in field service',
+          'Smartphone: Samsung Galaxy, Android',
+        ],
+        s4AffinityLabel: 'Tech affinity:',
+        s4AffinityDesc: 'medium',
+        s4Quote: '"I want the solution, not the manual."',
+        s4TemplateTitle: 'Persona Template',
+        s4TemplateCode: `## Persona: [Name], [Age]
+**Job:** [Job title]
+**Company:** [Type of company]
+
+### Goals
+- [Goal 1]
+- [Goal 2]
+
+### Frustrations
+- [Frustration 1]
+- [Frustration 2]
+
+### Context
+- [How/where does the person work?]
+- [Which devices do they use?]
+
+### Tech Affinity: [low/medium/high]
+### Quote: "[What would this person say?]"`,
+
+        s5Title: 'User Journey Map',
+        s5Subtitle: 'Thomas\'s journey when fixing a coffee machine fault',
+        s5TableHeaders: ['Step', 'Action', 'Thoughts', 'Feelings', 'Touchpoints'],
+        s5Rows: [
+          ['1. Notice fault', 'Machine shows E4', '"Not again!"', '😤 Frustrated', 'Machine'],
+          ['2. Look for diagnosis', 'Search for manual', '"Where is it again?"', '😕 Searching', 'Manual (missing)'],
+          ['3. Google search', 'Pulls out smartphone', '"Let\'s see if I can find something"', '😐 Neutral', 'Smartphone, Google'],
+          ['4. Use app', 'Opens INME app', '"That looks simple"', '😊 Curious', 'App: Screen 1'],
+          ['5. Enter symptoms', 'Photo + checkboxes', '"Easy to use"', '😊 Satisfied', 'App: Diagnosis'],
+          ['6. Read solution', 'Descaling instructions', '"Perfect, I can do this"', '😊 Relieved', 'App: Solution'],
+          ['7. Order spare part', 'Directly in shop', '"Great, everything in one place"', '😄 Enthusiastic', 'App: Shop'],
+          ['8. Problem solved', 'Machine running again', '"I\'m good"', '😄 Proud', 'Machine'],
+        ],
+        s5CurveLabel: 'Emotion curve',
+        s5CurveNote: 'Frustration → Neutral → Satisfaction',
+
+        s6Title: 'User Stories',
+        s6Intro: 'Format: "As a [role] I want to [action] so that [benefit]."',
+        s6Stories: [
+          { num: 'US-01', text: ['As a ', 'maintenance technician', ' I want to photograph a fault so that the system automatically creates a diagnosis.'] },
+          { num: 'US-02', text: ['As a ', 'technician', ' I want to select symptoms via checkboxes so that the diagnosis is more precise.'] },
+          { num: 'US-03', text: ['As a ', 'technician', ' I want to see a step-by-step repair guide so that I don\'t make mistakes.'] },
+          { num: 'US-04', text: ['As a ', 'technician', ' I want to order spare parts directly from the diagnosis so that I save time.'] },
+          { num: 'US-05', text: ['As a ', 'service manager', ' I want to see all reported faults in the dashboard so that I maintain an overview.'] },
+        ],
+
+        s7Title: 'Information Architecture',
+        s7Subtitle: 'Which screens does the app need? (Sitemap)',
+        s7Note: 'We keep the IA deliberately simple – 4 screens, 1 flow.',
+
+        s8Title: 'Wireframes',
+        s8Intro: 'Lo-Fi Wireframe: Screen 1 – Report Fault',
+        s8Wire: `┌─────────────────────┐
+│  ◀  Report Fault    │   ← Header with back navigation
+│─────────────────────│
+│                     │
+│  ┌───────────────┐  │
+│  │   📷 TAKE    │  │   ← Photo upload button (prominent)
+│  │    PHOTO     │  │
+│  └───────────────┘  │
+│                     │
+│  Machine type:      │   ← Dropdown
+│  [▼ Jura E8      ] │
+│                     │
+│  Select symptoms:   │   ← Checkboxes
+│  ☐ No coffee       │
+│  ☐ Error message   │
+│  ☐ Water leak      │
+│  ☐ Noises          │
+│  ☐ No steam        │
+│                     │
+│  [ Start diagnosis  ] │   ← Primary CTA
+└─────────────────────┘`,
+        s8Tip: 'Paper prototypes can be built in 15 minutes with Post-its!',
+
+        s9Title: 'Figma Quickstart',
+        s9Steps: [
+          { title: 'Create account', desc: 'figma.com → "Get started for free" (free for students via Education Plan)' },
+          { title: 'New file', desc: 'Create a "New design file"' },
+          { title: 'Create frame', desc: 'Press F → Preset "iPhone 14" (390×844) or "Desktop" (1440×900)' },
+          { title: 'Place elements', desc: 'R=Rectangle, T=Text, F=Frame – learning shortcuts saves time' },
+          { title: 'Auto Layout', desc: 'Shift+A → Box grows automatically with its content' },
+          { title: 'Components', desc: 'Ctrl+Alt+K → Create reusable UI elements' },
+          { title: 'Prototype tab', desc: 'Connect frames with arrows → shareable clickable prototype' },
+        ],
+        s9InfoText: 'Figma Community (figma.com/community) has free templates. Search for: "Mobile App Wireframe" or "Coffee App"',
+        s9Challenge: 'Exercise: Recreate Screen 1 "Report Fault" in Figma. Use: Frame 390×844, 3 Rectangles, 2 Text elements, 1 Button.',
+
+        s10Title: 'Quiz',
+        s10Intro: 'Test your knowledge from Lab 04.',
+        s10Questions: [
+          {
+            q: 'What is the difference between UX and UI?',
+            options: [
+              'There is no difference',
+              'UX = how it looks, UI = how it works',
+              'UX = how it works, UI = how it looks',
+              'UX is for mobile, UI for desktop',
+            ],
+            correct: 2,
+            explanation: 'UX (User Experience) describes the user experience and how a product works. UI (User Interface) describes the visual design – how it looks.',
+          },
+          {
+            q: 'What is a persona?',
+            options: [
+              'A real user who tests the app',
+              'A fictional representation of a typical user segment',
+              'A database schema for user profiles',
+              'An algorithm for user segmentation',
+            ],
+            correct: 1,
+            explanation: 'A persona is a fictional, research-based representation of a typical user segment. It helps the team align design decisions with real users.',
+          },
+          {
+            q: 'What does a User Journey Map show?',
+            options: [
+              'The source code of an application',
+              'The database structure',
+              'All steps and emotions of a user completing a task',
+              'The server architecture',
+            ],
+            correct: 2,
+            explanation: 'A User Journey Map visualises all steps, thoughts, feelings and touchpoints of a user on their way to a goal – making pain points visible.',
+          },
+          {
+            q: 'What is the format of a User Story?',
+            options: [
+              '"The system must support [function]."',
+              '"As a [role] I want to [action] so that [benefit]."',
+              '"The user can use [function]."',
+              '"When [condition], then [action]."',
+            ],
+            correct: 1,
+            explanation: 'The User Story format "As a [role] I want to [action] so that [benefit]" ensures every feature is justified from the user\'s perspective.',
+          },
+          {
+            q: 'What is Information Architecture?',
+            options: [
+              'The physical infrastructure of a server',
+              'A CSS layout framework',
+              'The structure and organisation of content in an application',
+              'A programming language for databases',
+            ],
+            correct: 2,
+            explanation: 'Information Architecture (IA) describes how the content of an application is structured, organised and made navigable – e.g. as a sitemap.',
+          },
+        ],
+        s10ScoreLabel: (s, t) => `Result: ${s} of ${t} questions correct`,
+        s10Reset: 'Retry quiz',
+
+        s11Title: 'Figma Resources',
+        s11Links: [
+          { href: 'https://www.figma.com/community', label: 'Figma Community', desc: '– Free templates & plugins' },
+          { href: 'https://www.figma.com/education', label: 'Figma Education', desc: '– Free pro plan for students' },
+          { href: 'https://www.nngroup.com', label: 'Nielsen Norman Group', desc: '– UX research & articles' },
+          { href: 'https://material.io', label: 'Material Design', desc: '– Google Design System' },
+          { href: 'https://developer.apple.com/design/human-interface-guidelines', label: 'Apple Human Interface Guidelines', desc: '– Apple Design System' },
+        ],
+
+        navPrev: '← Lab 03: Design',
+        navNext: 'Next: Lab 05 – Use Case →',
+        copied: 'Copied!',
+        copy: 'Copy',
+      },
+    };
+
+    // ─── CodeBlock with copy button ──────────────────────────────────────────
+    function CodeBlock({ code, lang }) {
+      const [label, setLabel] = useState(lang === 'de' ? 'Kopieren' : 'Copy');
+      function handleCopy() {
+        navigator.clipboard.writeText(code).catch(() => {});
+        setLabel(lang === 'de' ? 'Kopiert!' : 'Copied!');
+        setTimeout(() => setLabel(lang === 'de' ? 'Kopieren' : 'Copy'), 2000);
+      }
+      return (
+        <div className="code-block">
+          <button className="copy-btn" onClick={handleCopy}>{label}</button>
+          {code}
+        </div>
+      );
+    }
+
+    // ─── Emotion Curve SVG ────────────────────────────────────────────────────
+    function EmotionCurve({ label, note }) {
+      // Low (frustrated) → low-mid → neutral → up → up → higher → high → peak
+      const points = "20,80 80,90 160,70 240,40 310,35 385,28 460,18 540,14";
+      return (
+        <div className="emotion-curve">
+          <div style={{ fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#888', marginBottom: '0.4rem' }}>{label}</div>
+          <svg width="560" height="110" style={{ maxWidth: '100%', display: 'block' }}>
+            <defs>
+              <linearGradient id="curveGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#ef4444" />
+                <stop offset="40%" stopColor="#F59E0B" />
+                <stop offset="100%" stopColor="#22c55e" />
+              </linearGradient>
+            </defs>
+            {/* grid lines */}
+            <line x1="20" y1="20" x2="20" y2="95" stroke="#e5e7eb" strokeWidth="1"/>
+            <line x1="20" y1="95" x2="545" y2="95" stroke="#e5e7eb" strokeWidth="1"/>
+            {/* zone labels */}
+            <text x="24" y="92" fontSize="9" fill="#aaa">😤</text>
+            <text x="24" y="70" fontSize="9" fill="#aaa">😐</text>
+            <text x="24" y="38" fontSize="9" fill="#aaa">😊</text>
+            <text x="24" y="18" fontSize="9" fill="#aaa">😄</text>
+            {/* curve */}
+            <polyline
+              points={points}
+              fill="none"
+              stroke="url(#curveGrad)"
+              strokeWidth="3"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+            />
+            {/* dots */}
+            {points.split(' ').map((pt, i) => {
+              const [x, y] = pt.split(',').map(Number);
+              return <circle key={i} cx={x} cy={y} r="4" fill="white" stroke="#B91C1C" strokeWidth="2"/>;
+            })}
+            {/* step labels */}
+            {['1','2','3','4','5','6','7','8'].map((n, i) => {
+              const pts = points.split(' ');
+              const [x] = pts[i].split(',').map(Number);
+              return <text key={i} x={x} y={108} fontSize="9" fill="#888" textAnchor="middle">{n}</text>;
+            })}
+          </svg>
+          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.25rem' }}>{note}</div>
+        </div>
+      );
+    }
+
+    // ─── Quiz ─────────────────────────────────────────────────────────────────
+    function QuizSection({ tr }) {
+      const [answers, setAnswers] = useState({});
+      const [submitted, setSubmitted] = useState({});
+
+      function handleAnswer(qi, oi) {
+        if (submitted[qi]) return;
+        setAnswers(prev => ({ ...prev, [qi]: oi }));
+        setSubmitted(prev => ({ ...prev, [qi]: true }));
+      }
+
+      function handleReset() {
+        setAnswers({});
+        setSubmitted({});
+      }
+
+      const total = tr.s10Questions.length;
+      const answeredAll = Object.keys(submitted).length === total;
+      const score = tr.s10Questions.reduce((acc, q, i) => acc + (answers[i] === q.correct ? 1 : 0), 0);
+
+      return (
+        <div>
+          <p style={{ color: '#555', marginBottom: '1.5rem' }}>{tr.s10Intro}</p>
+          {tr.s10Questions.map((q, qi) => (
+            <div key={qi} className="quiz-question-block">
+              <h4>{qi + 1}. {q.q}</h4>
+              {q.options.map((opt, oi) => {
+                let cls = 'quiz-option';
+                if (submitted[qi]) {
+                  if (oi === q.correct) cls += ' correct';
+                  else if (oi === answers[qi] && oi !== q.correct) cls += ' wrong';
+                }
+                return (
+                  <button
+                    key={oi}
+                    className={cls}
+                    disabled={!!submitted[qi]}
+                    onClick={() => handleAnswer(qi, oi)}
+                  >
+                    {String.fromCharCode(65 + oi)}) {opt}
+                  </button>
+                );
+              })}
+              {submitted[qi] && (
+                <div className={`quiz-explanation${answers[qi] !== q.correct ? ' wrong-exp' : ''}`}>
+                  {answers[qi] === q.correct ? '✓ ' : '✗ '}{q.explanation}
+                </div>
+              )}
+            </div>
+          ))}
+          {answeredAll && (
+            <div>
+              <div className="score-display">{tr.s10ScoreLabel(score, total)} {score === total ? '🎉' : score >= 3 ? '👍' : '💪'}</div>
+              <button
+                onClick={handleReset}
+                style={{ border: '2px solid #1A1A1A', background: 'white', padding: '0.5rem 1.25rem', fontWeight: 700, cursor: 'pointer', borderRadius: 0, fontFamily: "'Space Grotesk', sans-serif" }}
+              >
+                {tr.s10Reset}
+              </button>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── Main App ─────────────────────────────────────────────────────────────
+    function App() {
+      const [lang, setLang] = useState('de');
+      const [activeSection, setActiveSection] = useState('ueberblick');
+      const tr = t[lang];
+
+      useEffect(() => {
+        document.title = tr.pageTitle + ' | INME';
+        document.documentElement.lang = lang;
+      }, [lang]);
+
+      useEffect(() => {
+        const sectionIds = tr.nav.map(n => n.href.replace('#', ''));
+        const observers = [];
+
+        sectionIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          const obs = new IntersectionObserver(
+            entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) setActiveSection(id);
+              });
+            },
+            { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+          );
+          obs.observe(el);
+          observers.push(obs);
+        });
+
+        return () => observers.forEach(o => o.disconnect());
+      }, [lang]);
+
+      return (
+        <>
+          {/* Header */}
+          <header className="header">
+            <div className="header-left">
+              <a href="index.html" className="header-logo">{tr.labLabel}</a>
+              <a href="index.html" className="header-back">{tr.backLink}</a>
+            </div>
+            <div style={{ display: 'flex', gap: '0.4rem' }}>
+              <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => setLang('de')}>DE</button>
+              <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            </div>
+          </header>
+
+          {/* Sidebar */}
+          <nav className="sidebar">
+            <div className="sidebar-title">{tr.sidebarNav}</div>
+            {tr.nav.map(n => (
+              <a
+                key={n.href}
+                href={n.href}
+                className={`sidebar-link${activeSection === n.href.replace('#', '') ? ' active' : ''}`}
+              >
+                {n.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Main */}
+          <main className="main-content">
+
+            {/* ── Überblick ── */}
+            <section id="ueberblick" className="section-block">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                <span className="bauhaus-badge">{tr.labNumber}</span>
+                <span className="bauhaus-badge">{tr.timeEstimate}</span>
+              </div>
+              <h2>{tr.s1Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <p style={{ fontSize: '1.15rem', fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", color: '#1A1A1A', marginBottom: '0.5rem' }}>{tr.s1Subtitle}</p>
+              <p style={{ color: '#555' }}>{tr.s1Intro}</p>
+              <div className="bauhaus-card" style={{ marginTop: '1.25rem' }}>
+                <h4 style={{ margin: '0 0 0.75rem' }}>{tr.s1LernzieleTitle}</h4>
+                <ul style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: 1.85 }}>
+                  {tr.s1Lernziele.map((z, i) => <li key={i} style={{ fontSize: '0.95rem' }}>{z}</li>)}
+                </ul>
+              </div>
+            </section>
+
+            {/* ── UX vs UI ── */}
+            <section id="ux-vs-ui" className="section-block">
+              <h2>{tr.s2Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <div className="concept-box">
+                <strong style={{ fontSize: '1.05rem', fontFamily: "'Space Grotesk', sans-serif" }}>"{tr.s2Concept}"</strong>
+              </div>
+              <table>
+                <thead>
+                  <tr>{tr.s2TableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {tr.s2TableRows.map((row, i) => (
+                    <tr key={i}>
+                      {row.map((cell, j) => (
+                        <td key={j} style={j === 0 ? { fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif", fontSize: '0.82rem', textTransform: 'uppercase', letterSpacing: '0.05em' } : {}}>
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="tip-box">
+                <strong>{tr.s2Summary}</strong>
+              </div>
+            </section>
+
+            {/* ── User Research ── */}
+            <section id="user-research" className="section-block">
+              <h2>{tr.s3Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <p style={{ color: '#555' }}>{tr.s3Intro}</p>
+              <div className="method-cards">
+                {tr.s3Methods.map((m, i) => (
+                  <div key={i} className="method-card">
+                    <div className="m-icon">{m.icon}</div>
+                    <h4>{m.title}</h4>
+                    <p>{m.desc}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="tip-box">
+                <strong>{tr.s3Tip}</strong>
+              </div>
+              <div className="info-box">
+                <strong>{tr.s3InfoTitle}</strong>
+                <p style={{ margin: '0.4rem 0 0', fontSize: '0.9rem' }}>{tr.s3InfoText}</p>
+                <ul style={{ margin: '0.4rem 0 0', paddingLeft: '1.2rem', fontSize: '0.9rem' }}>
+                  {tr.s3InfoStats.map((s, i) => <li key={i} style={{ marginBottom: '0.2rem' }}>{s}</li>)}
+                </ul>
+              </div>
+            </section>
+
+            {/* ── Personas ── */}
+            <section id="personas" className="section-block">
+              <h2>{tr.s4Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <div className="concept-box">
+                <strong>{tr.s4ConceptTitle}</strong>
+                <p style={{ margin: '0.4rem 0 0', fontSize: '0.92rem' }}>{tr.s4ConceptText}</p>
+              </div>
+              <div className="persona-card">
+                <div className="persona-header">
+                  <div className="p-name">👤 {tr.s4PersonaName}</div>
+                  <div className="p-role">{tr.s4PersonaRole}</div>
+                </div>
+                <div className="persona-section">
+                  <h4>{tr.s4ZieleTitle}</h4>
+                  <ul>{tr.s4Ziele.map((z, i) => <li key={i}>{z}</li>)}</ul>
+                </div>
+                <div className="persona-section">
+                  <h4>{tr.s4FrustrTitle}</h4>
+                  <ul>{tr.s4Frustr.map((f, i) => <li key={i}>{f}</li>)}</ul>
+                </div>
+                <div className="persona-section">
+                  <h4>{tr.s4KontextTitle}</h4>
+                  <ul>{tr.s4Kontext.map((k, i) => <li key={i}>{k}</li>)}</ul>
+                </div>
+                <div className="persona-section">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.4rem' }}>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>{tr.s4AffinityLabel}</span>
+                    <div className="persona-affinity">
+                      {[1,2,3,4,5].map(n => <span key={n} className={`dot ${n <= 3 ? 'filled' : 'empty'}`}></span>)}
+                    </div>
+                    <span style={{ fontSize: '0.82rem', color: '#666' }}>({tr.s4AffinityDesc})</span>
+                  </div>
+                  <div className="persona-quote">{tr.s4Quote}</div>
+                </div>
+              </div>
+              <h3 style={{ marginTop: '2rem' }}>{tr.s4TemplateTitle}</h3>
+              <CodeBlock code={tr.s4TemplateCode} lang={lang} />
+            </section>
+
+            {/* ── User Journey ── */}
+            <section id="user-journey" className="section-block">
+              <h2>{tr.s5Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <p style={{ color: '#555', fontStyle: 'italic', marginBottom: '1rem' }}>{tr.s5Subtitle}</p>
+              <div style={{ overflowX: 'auto' }}>
+                <table className="journey-table">
+                  <thead>
+                    <tr>{tr.s5TableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                  </thead>
+                  <tbody>
+                    {tr.s5Rows.map((row, i) => (
+                      <tr key={i}>
+                        {row.map((cell, j) => (
+                          <td key={j} style={j === 0 ? { fontWeight: 600, fontFamily: "'Space Grotesk', sans-serif", whiteSpace: 'nowrap' } : {}}>
+                            {cell}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <EmotionCurve label={tr.s5CurveLabel} note={tr.s5CurveNote} />
+            </section>
+
+            {/* ── User Stories ── */}
+            <section id="user-stories" className="section-block">
+              <h2>{tr.s6Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <div className="concept-box" style={{ marginBottom: '1.25rem' }}>
+                <strong>{tr.s6Intro}</strong>
+              </div>
+              {tr.s6Stories.map((s, i) => (
+                <div key={i} className="user-story-card">
+                  <div className="story-num">{s.num}</div>
+                  <span>
+                    {s.text[0]}
+                    <strong style={{ color: '#B91C1C' }}>{s.text[1]}</strong>
+                    {s.text[2]}
+                  </span>
+                </div>
+              ))}
+            </section>
+
+            {/* ── IA ── */}
+            <section id="ia" className="section-block">
+              <h2>{tr.s7Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <p style={{ color: '#555', fontStyle: 'italic' }}>{tr.s7Subtitle}</p>
+              <div className="sitemap">
+                <div className="root">HOME</div>
+                <div><span className="connector">└── </span><span className="node">Störung melden (Screen 1)</span></div>
+                <div><span className="connector">    └── </span><span className="node">Diagnose (Screen 2)</span></div>
+                <div><span className="connector">        └── </span><span className="node">Ersatzteilshop (Screen 3)</span></div>
+                <div><span className="connector">            └── </span><span className="node">Bestellung bestätigen (Screen 4)</span></div>
+              </div>
+              <div className="info-box" style={{ marginTop: '1rem' }}>
+                <strong>{tr.s7Note}</strong>
+              </div>
+            </section>
+
+            {/* ── Wireframes ── */}
+            <section id="wireframes" className="section-block">
+              <h2>{tr.s8Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <p style={{ color: '#555', marginBottom: '0.75rem' }}>{tr.s8Intro}</p>
+              <CodeBlock code={tr.s8Wire} lang={lang} />
+              <div className="tip-box" style={{ marginTop: '1rem' }}>
+                <strong>💡 </strong>{tr.s8Tip}
+              </div>
+            </section>
+
+            {/* ── Figma ── */}
+            <section id="figma" className="section-block">
+              <h2>{tr.s9Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <ol className="figma-steps">
+                {tr.s9Steps.map((step, i) => (
+                  <li key={i}>
+                    <span>
+                      <strong>{step.title}:</strong> {step.desc}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+              <div className="info-box">
+                <strong>ℹ️ </strong>{tr.s9InfoText}
+              </div>
+              <div className="challenge-box" style={{ marginTop: '0.75rem' }}>
+                <strong>🎯 </strong>{tr.s9Challenge}
+              </div>
+            </section>
+
+            {/* ── Quiz ── */}
+            <section id="quiz" className="section-block">
+              <h2>{tr.s10Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <QuizSection tr={tr} key={lang} />
+            </section>
+
+            {/* ── Ressourcen ── */}
+            <section id="ressourcen" className="section-block">
+              <h2>{tr.s11Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <ul className="resource-links">
+                {tr.s11Links.map((l, i) => (
+                  <li key={i}>
+                    <a href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+                    <span className="res-desc">{l.desc}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            {/* ── Bottom Nav ── */}
+            <nav className="nav-bottom">
+              <a href="lab-03-gestaltung.html" className="nav-btn">{tr.navPrev}</a>
+              <a href="lab-05-usecase.html" className="nav-btn primary">{tr.navNext}</a>
+            </nav>
+
+          </main>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

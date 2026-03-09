@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 06 – Implementierung: Supabase + CodePen | INME</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --primary: #B91C1C;
+      --accent: #F59E0B;
+      --dark: #1A1A1A;
+      --light-bg: #FAFAFA;
+      --primary-light: rgba(185,28,28,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; color: #1A1A1A; }
+    h2 { color: #B91C1C; font-weight: 800; font-family: 'Space Grotesk', sans-serif; margin-top: 0; }
+    h3 { color: #B91C1C; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin: 0.5rem 0; }
+    p { line-height: 1.7; }
+
+    /* Bauhaus */
+    .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
+    .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
+    .bauhaus-badge { background: #1A1A1A; color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
+
+    /* Code */
+    .code-block { background: #1A1A1A; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; font-size: 0.82rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; margin: 1rem 0; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
+    .copy-btn:hover { background: #D97706; }
+
+    /* Info boxes */
+    .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
+    .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
+
+    /* Quiz */
+    .quiz-option { display: block; width: 100%; text-align: left; padding: 0.75rem 1rem; margin: 0.4rem 0; border: 2px solid #e5e7eb; border-radius: 0; background: white; cursor: pointer; font-size: 0.95rem; transition: border-color 0.15s, background 0.15s; }
+    .quiz-option:hover:not(:disabled) { border-color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; color: #166534; font-weight: 600; }
+    .quiz-option.wrong { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+    .quiz-option:disabled { cursor: default; }
+
+    /* Layout */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 100;
+      background: white; border-bottom: 2px solid #1A1A1A;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+    .header-left { display: flex; align-items: center; gap: 1.5rem; }
+    .header-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: #B91C1C; text-decoration: none; }
+    .header-back { font-size: 0.85rem; color: #555; text-decoration: none; font-weight: 500; }
+    .header-back:hover { color: #B91C1C; }
+    .lang-btn { border: 2px solid #1A1A1A; background: white; padding: 0.2rem 0.6rem; font-size: 0.78rem; font-weight: 700; cursor: pointer; border-radius: 0; letter-spacing: 0.05em; }
+    .lang-btn.active { background: #1A1A1A; color: white; }
+    .lang-btn:hover:not(.active) { background: #f5f5f5; }
+
+    .sidebar {
+      position: fixed; top: 56px; left: 0; width: 260px;
+      height: calc(100vh - 56px); overflow-y: auto;
+      border-right: 2px solid #1A1A1A; background: white;
+      padding: 1.5rem 0;
+    }
+    .sidebar-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #888; padding: 0 1.25rem; margin-bottom: 0.75rem; }
+    .sidebar-link {
+      display: block; padding: 0.55rem 1.25rem; font-size: 0.88rem; color: #444;
+      text-decoration: none; border-left: 3px solid transparent;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      font-weight: 500;
+    }
+    .sidebar-link:hover { color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .sidebar-link.active { color: #B91C1C; border-left-color: #B91C1C; background: rgba(185,28,28,0.06); font-weight: 700; }
+
+    .main-content {
+      margin-left: 260px; padding-top: 72px; padding-bottom: 4rem;
+      padding-left: 3rem; padding-right: 3rem; max-width: 960px;
+    }
+
+    .section-block { margin-bottom: 4rem; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    th { background: #1A1A1A; color: white; padding: 0.65rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; }
+    td { padding: 0.6rem 1rem; border-bottom: 1px solid #e5e7eb; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    tr:hover td { background: rgba(185,28,28,0.03); }
+
+    /* Nav bottom */
+    .nav-bottom { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
+    .nav-btn:hover { background: #1A1A1A; color: white; }
+    .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
+    .nav-btn.primary:hover { background: #991b1b; border-color: #991b1b; }
+
+    /* Quiz section */
+    .quiz-question-block { margin-bottom: 2rem; padding: 1.5rem; border: 2px solid #e5e7eb; background: white; }
+    .quiz-question-block h4 { margin: 0 0 1rem; font-size: 1rem; line-height: 1.5; }
+    .quiz-explanation { margin-top: 0.75rem; padding: 0.75rem 1rem; background: #f0fdf4; border-left: 3px solid #22c55e; font-size: 0.88rem; color: #166534; }
+    .quiz-explanation.wrong-exp { background: #fef2f2; border-left-color: #ef4444; color: #991b1b; }
+    .score-display { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #1A1A1A; }
+
+    /* Flow visual */
+    .flow-visual { display: flex; align-items: center; gap: 0; margin: 1.5rem 0; flex-wrap: wrap; }
+    .flow-step { border: 2px solid #1A1A1A; padding: 0.85rem 1.25rem; background: white; text-align: center; min-width: 130px; }
+    .flow-step .flow-icon { font-size: 1.5rem; display: block; margin-bottom: 0.3rem; }
+    .flow-step .flow-label { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.82rem; color: #1A1A1A; }
+    .flow-arrow { background: #F59E0B; color: #1A1A1A; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+
+    /* Setup steps */
+    .setup-steps { list-style: none; padding: 0; margin: 1.5rem 0; counter-reset: step-counter; }
+    .setup-step { display: flex; gap: 1.25rem; padding: 1.1rem 1.25rem; border: 2px solid #e5e7eb; border-bottom: none; background: white; align-items: flex-start; }
+    .setup-step:last-child { border-bottom: 2px solid #e5e7eb; }
+    .setup-step-num { background: #B91C1C; color: white; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1rem; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .setup-step-content { flex: 1; }
+    .setup-step-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; color: #1A1A1A; }
+    .setup-step-desc { font-size: 0.88rem; color: #555; line-height: 1.55; }
+    .setup-step-desc code { background: #f3f4f6; padding: 0.1rem 0.35rem; font-family: monospace; font-size: 0.85em; border: 1px solid #e5e7eb; }
+
+    /* Codepen steps */
+    .codepen-steps { list-style: none; padding: 0; margin: 1.5rem 0; }
+    .codepen-step { display: flex; gap: 1.25rem; padding: 1rem 1.25rem; margin-bottom: 0.75rem; background: white; border: 2px solid #e5e7eb; align-items: flex-start; }
+    .codepen-step-circle { background: #B91C1C; color: white; font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .codepen-step-body { flex: 1; }
+    .codepen-step-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .codepen-step-desc { font-size: 0.88rem; color: #555; line-height: 1.5; }
+
+    /* Extension cards */
+    .ext-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.5rem 0; }
+    .ext-card { border: 2px solid #e5e7eb; padding: 1.25rem; background: white; border-top: 3px solid #B91C1C; }
+    .ext-card h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; margin: 0.5rem 0 0.4rem; color: #1A1A1A; }
+    .ext-card p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.55; }
+    .diff-badge { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 0; display: inline-block; }
+    .diff-medium { background: #F59E0B; color: #1A1A1A; }
+    .diff-advanced { background: #B91C1C; color: white; }
+
+    /* SQL explanation list */
+    .sql-explain { list-style: none; padding: 0; margin: 1rem 0; }
+    .sql-explain li { padding: 0.55rem 0; border-bottom: 1px solid #e5e7eb; font-size: 0.9rem; display: flex; gap: 0.75rem; align-items: flex-start; }
+    .sql-explain li:last-child { border-bottom: none; }
+    .sql-table-name { font-family: monospace; background: #1A1A1A; color: #F59E0B; padding: 0.1rem 0.4rem; font-size: 0.82rem; flex-shrink: 0; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding-left: 1.25rem; padding-right: 1.25rem; }
+      .ext-grid { grid-template-columns: 1fr; }
+      .flow-visual { flex-direction: column; align-items: flex-start; }
+      .flow-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ─── Translations ───────────────────────────────────────────────────────────
+    const T = {
+      de: {
+        pageTitle: 'Lab 06 – Implementierung: Supabase + CodePen',
+        labLabel: 'INME Lab',
+        backLink: '← Übersicht',
+        nav: [
+          { href: '#ueberblick',        label: 'Überblick' },
+          { href: '#tech-stack',        label: 'Technologie-Stack' },
+          { href: '#supabase-setup',    label: 'Supabase Setup' },
+          { href: '#datenbank',         label: 'Datenbankschema' },
+          { href: '#app-html',          label: 'App HTML' },
+          { href: '#app-css',           label: 'App CSS' },
+          { href: '#app-js',            label: 'App JavaScript' },
+          { href: '#codepen-anleitung', label: 'CodePen Anleitung' },
+          { href: '#erweiterungen',     label: 'Erweiterungsideen' },
+          { href: '#quiz',              label: 'Quiz' },
+        ],
+
+        // Section 1
+        s1Title: 'Vom Prototyp zur lauffähigen App',
+        s1BadgeDuration: 'ca. 90 Min',
+        s1GoalsTitle: 'Lernziele',
+        s1Goals: [
+          'Supabase als Backend-as-a-Service kennenlernen und einrichten',
+          'Ein SQL-Datenbankschema für eine Web-App entwerfen und ausführen',
+          'Eine vollständige Web-App mit HTML, CSS und Vanilla JS bauen',
+          'Die App in CodePen veröffentlichen und den Link teilen',
+          'Row Level Security (RLS) in Supabase konfigurieren',
+        ],
+        s1FlowLabel: 'Workflow:',
+
+        // Section 2
+        s2Title: 'Technologie-Stack',
+        s2TableHeaders: ['Technologie', 'Zweck', 'Warum'],
+        s2TableRows: [
+          ['HTML5', 'Struktur + Screens', 'Standard, überall verfügbar'],
+          ['CSS3', 'Bauhaus-Styling', 'Kein Framework nötig'],
+          ['Vanilla JavaScript', 'Interaktivität', 'Einfach, kein Build-Tool'],
+          ['Supabase', 'Datenbank + API', 'Kostenlos, einfach, kein Backend-Code'],
+          ['CodePen', 'Entwicklungsumgebung', 'Kein Setup, sofort teilbar'],
+        ],
+        s2InfoText: 'Warum kein React in der App? Für einfache Anwendungen wie diese ist Vanilla JS genug. React wäre Overengineering.',
+
+        // Section 3
+        s3Title: 'Supabase Setup',
+        s3Steps: [
+          {
+            title: 'Account anlegen',
+            desc: 'supabase.com aufrufen → "Start your project" → GitHub-Login (kostenlos!)',
+          },
+          {
+            title: 'Neues Projekt',
+            desc: '"New project" → Projektname: kaffeemaschine-app → Region: Frankfurt (eu-central-1) → Passwort vergeben und merken!',
+          },
+          {
+            title: 'SQL Editor öffnen',
+            desc: 'Im Dashboard: "SQL Editor" in der linken Navigation → "New query" klicken',
+          },
+          {
+            title: 'Schema erstellen',
+            desc: 'Den SQL-Code aus dem nächsten Abschnitt einfügen und mit F5 (oder Run) ausführen',
+          },
+          {
+            title: 'API-Keys kopieren',
+            desc: 'Settings → API → "Project URL" und "anon public" key notieren – beide werden im JavaScript benötigt',
+          },
+        ],
+        s3TipText: 'Der "anon" Key ist öffentlich – er darf im Frontend-Code stehen. NIEMALS den "service_role" Key ins Frontend!',
+
+        // Section 4
+        s4Title: 'Datenbankschema (SQL)',
+        s4Desc: 'Diesen SQL-Code im Supabase SQL Editor einfügen und ausführen. Er erstellt alle Tabellen, fügt Demo-Daten ein und konfiguriert die Sicherheitsregeln.',
+        s4SqlExplainTitle: 'Was machen diese Tabellen?',
+        s4SqlExplain: [
+          { table: 'stoerungen', desc: 'Speichert jede Störungsmeldung eines Technikers – Maschinentyp, Symptome, Diagnose und Status.' },
+          { table: 'ersatzteile', desc: 'Der Produktkatalog: Alle verfügbaren Ersatzteile mit Preis, Kategorie und Lagerbestand.' },
+          { table: 'bestellungen', desc: 'Eine Bestellung mit Kundendaten, verknüpft mit der ursprünglichen Störungsmeldung.' },
+          { table: 'bestellpositionen', desc: 'Welche Ersatzteile in welcher Menge in einer Bestellung enthalten sind (n:m Verknüpfung).' },
+        ],
+        s4RlsNote: 'Row Level Security (RLS) schützt die Datenbank: Ohne explizite Policy kann niemand auf eine Tabelle zugreifen. Die Policies definieren genau, wer lesen und schreiben darf.',
+
+        // Section 5, 6, 7
+        s5Title: 'App HTML (für CodePen)',
+        s5Desc: 'Diesen Code in den HTML-Tab von CodePen einfügen. Er enthält das Supabase CDN, Google Fonts und alle vier App-Screens.',
+        s6Title: 'App CSS (für CodePen)',
+        s6Desc: 'Diesen Code in den CSS-Tab von CodePen einfügen. Bauhaus-Design: keine border-radius, harte geometrische Kanten.',
+        s7Title: 'App JavaScript (für CodePen)',
+        s7Desc: 'Diesen Code in den JS-Tab von CodePen einfügen. Am Anfang die eigenen Supabase-Zugangsdaten eintragen. Die App läuft auch ohne Supabase im Demo-Modus.',
+
+        // Section 8
+        s8Title: 'Schritt-für-Schritt: CodePen',
+        s8Steps: [
+          { title: 'codepen.io aufrufen', desc: '"Start Coding" oder "New Pen" klicken – kostenlos, kein Account nötig für das Testen' },
+          { title: 'HTML einfügen', desc: 'Den Code aus dem HTML-Abschnitt oben kopieren und in den HTML-Tab von CodePen einfügen' },
+          { title: 'CSS einfügen', desc: 'CSS-Tab-Code kopieren und in den CSS-Tab einfügen' },
+          { title: 'JS einfügen', desc: 'JavaScript-Code kopieren und in den JS-Tab einfügen' },
+          { title: 'Supabase URL + Key eintragen', desc: 'In den ersten Zeilen des JS: SUPABASE_URL und SUPABASE_ANON_KEY durch die eigenen Werte ersetzen' },
+          { title: 'Speichern', desc: 'Ctrl+S (oder Save-Button) – CodePen erstellt automatisch eine teilbare URL' },
+          { title: 'Testen', desc: 'Symptom wählen → "Diagnose starten" → Ersatzteil zum Warenkorb hinzufügen → Bestellung aufgeben' },
+        ],
+        s8TipText: 'CodePen speichert automatisch. Du kannst den Link teilen – einfach URL kopieren!',
+        s8InfoText: 'Ohne Supabase-Keys läuft die App im Demo-Modus mit den eingebetteten Beispieldaten. Das reicht zum Testen!',
+
+        // Section 9
+        s9Title: 'Erweiterungsideen',
+        s9Extensions: [
+          { diff: 'Mittel', diffClass: 'diff-medium', title: 'Kamera-Integration', desc: 'navigator.mediaDevices.getUserMedia() für einen Live-Kamera-Feed direkt in der App verwenden' },
+          { diff: 'Mittel', diffClass: 'diff-medium', title: 'Foto-Upload zu Supabase', desc: 'supabase.storage.from("fotos").upload(...) – Störungsfotos direkt in Supabase Storage speichern' },
+          { diff: 'Fortgeschritten', diffClass: 'diff-advanced', title: 'Push-Notifications', desc: 'Service Worker API + Web Push: Techniker wird benachrichtigt wenn eine Bestellung bearbeitet wird' },
+          { diff: 'Fortgeschritten', diffClass: 'diff-advanced', title: 'KI-Diagnose', desc: 'OpenAI Vision API: Störungsfoto an GPT-4o senden und automatisch eine Diagnose generieren lassen' },
+          { diff: 'Fortgeschritten', diffClass: 'diff-advanced', title: 'Admin-Dashboard', desc: 'Alle Störungsmeldungen in einer Tabelle anzeigen, Status ändern, Supabase Realtime für Live-Updates' },
+        ],
+        s9CameraTitle: 'Kamera-API (Code-Snippet)',
+
+        // Section 10 – Quiz
+        s10Title: 'Quiz',
+        s10Subtitle: 'Teste dein Wissen aus Lab 06',
+        quizQuestions: [
+          {
+            q: 'Was ist Supabase?',
+            opts: [
+              'Ein JavaScript-Framework',
+              'Eine Open-Source Firebase-Alternative (Backend as a Service)',
+              'Ein CSS-Preprocessor',
+              'Ein Bildbearbeitungsprogramm',
+            ],
+            correct: 1,
+            explanation: 'Supabase ist eine Open-Source Alternative zu Firebase. Es bietet eine PostgreSQL-Datenbank, Authentifizierung, Storage und Auto-generated APIs – alles ohne Backend-Code schreiben zu müssen.',
+          },
+          {
+            q: 'Was macht die Funktion gen_random_uuid() in PostgreSQL?',
+            opts: [
+              'Verschlüsselt ein Passwort',
+              'Erstellt einen zufälligen Benutzernamen',
+              'Generiert eine zufällige UUID als Primärschlüssel',
+              'Sortiert Datensätze zufällig',
+            ],
+            correct: 2,
+            explanation: 'gen_random_uuid() generiert eine zufällige UUID (Universally Unique Identifier) nach Version 4. Sie wird häufig als Primärschlüssel verwendet, weil sie global eindeutig ist und keine Auto-Increment-Konflikte verursacht.',
+          },
+          {
+            q: 'Was ist ein Foreign Key in SQL?',
+            opts: [
+              'Ein verstecktes Datenbankpasswort',
+              'Ein Verweis auf den Primärschlüssel einer anderen Tabelle',
+              'Ein Index für schnellere Suche',
+              'Eine Methode zur Datenverschlüsselung',
+            ],
+            correct: 1,
+            explanation: 'Ein Foreign Key (Fremdschlüssel) verweist auf den Primärschlüssel einer anderen Tabelle und stellt eine referentielle Integrität her. Im Schema referenziert z.B. bestellpositionen.bestellung_id den Primärschlüssel der Tabelle bestellungen.',
+          },
+          {
+            q: 'Was ist der "anon key" in Supabase?',
+            opts: [
+              'Ein geheimer Server-Schlüssel (niemals öffentlich)',
+              'Ein temporärer Entwicklungsschlüssel',
+              'Ein öffentlicher API-Schlüssel für clientseitige Anfragen',
+              'Das Admin-Passwort der Datenbank',
+            ],
+            correct: 2,
+            explanation: 'Der anon key ist ein öffentlicher API-Schlüssel, der sicher im Frontend-Code verwendet werden darf. Er ermöglicht nur die Aktionen, die durch Row Level Security Policies erlaubt wurden. Der service_role key hingegen umgeht RLS und darf NIEMALS im Frontend stehen.',
+          },
+          {
+            q: 'Was gibt navigator.mediaDevices zurück?',
+            opts: [
+              'Ein Array aller installierten Treiber',
+              'Zugriff auf Kamera, Mikrofon und andere Mediengeräte',
+              'Die Bildschirmauflösung',
+              'Eine Liste aller Netzwerkschnittstellen',
+            ],
+            correct: 1,
+            explanation: 'navigator.mediaDevices ist eine Web API, die Zugriff auf verbundene Mediengeräte wie Kamera und Mikrofon bietet. Mit getUserMedia() kann man Kamera-Streams anfordern – ideal für die Foto-Aufnahme-Funktion in unserer App.',
+          },
+        ],
+        quizScoreLabel: (n, t) => `Ergebnis: ${n} von ${t} richtig`,
+
+        // Nav
+        navPrev: '← Lab 05: Use Case',
+        navOverview: '← Zurück zur Übersicht',
+      },
+
+      en: {
+        pageTitle: 'Lab 06 – Implementation: Supabase + CodePen',
+        labLabel: 'INME Lab',
+        backLink: '← Overview',
+        nav: [
+          { href: '#ueberblick',        label: 'Overview' },
+          { href: '#tech-stack',        label: 'Tech Stack' },
+          { href: '#supabase-setup',    label: 'Supabase Setup' },
+          { href: '#datenbank',         label: 'Database Schema' },
+          { href: '#app-html',          label: 'App HTML' },
+          { href: '#app-css',           label: 'App CSS' },
+          { href: '#app-js',            label: 'App JavaScript' },
+          { href: '#codepen-anleitung', label: 'CodePen Guide' },
+          { href: '#erweiterungen',     label: 'Extensions' },
+          { href: '#quiz',              label: 'Quiz' },
+        ],
+
+        // Section 1
+        s1Title: 'From Prototype to Working App',
+        s1BadgeDuration: 'approx. 90 min',
+        s1GoalsTitle: 'Learning Objectives',
+        s1Goals: [
+          'Get to know Supabase as a Backend-as-a-Service and set it up',
+          'Design and run a SQL database schema for a web app',
+          'Build a complete web app with HTML, CSS and Vanilla JS',
+          'Publish the app on CodePen and share the link',
+          'Configure Row Level Security (RLS) in Supabase',
+        ],
+        s1FlowLabel: 'Workflow:',
+
+        // Section 2
+        s2Title: 'Technology Stack',
+        s2TableHeaders: ['Technology', 'Purpose', 'Why'],
+        s2TableRows: [
+          ['HTML5', 'Structure + Screens', 'Standard, available everywhere'],
+          ['CSS3', 'Bauhaus Styling', 'No framework needed'],
+          ['Vanilla JavaScript', 'Interactivity', 'Simple, no build tool'],
+          ['Supabase', 'Database + API', 'Free, easy, no backend code'],
+          ['CodePen', 'Development environment', 'No setup, instantly shareable'],
+        ],
+        s2InfoText: 'Why no React in the app? For simple applications like this, Vanilla JS is enough. React would be over-engineering.',
+
+        // Section 3
+        s3Title: 'Supabase Setup',
+        s3Steps: [
+          {
+            title: 'Create account',
+            desc: 'Go to supabase.com → "Start your project" → GitHub login (free!)',
+          },
+          {
+            title: 'New project',
+            desc: '"New project" → Project name: kaffeemaschine-app → Region: Frankfurt (eu-central-1) → Set and remember a password',
+          },
+          {
+            title: 'Open SQL Editor',
+            desc: 'In the dashboard: click "SQL Editor" in the left nav → click "New query"',
+          },
+          {
+            title: 'Create schema',
+            desc: 'Paste the SQL code from the next section and execute it with F5 (or Run)',
+          },
+          {
+            title: 'Copy API keys',
+            desc: 'Settings → API → Note down "Project URL" and "anon public" key – both are needed in the JavaScript',
+          },
+        ],
+        s3TipText: 'The "anon" key is public – it may appear in frontend code. NEVER put the "service_role" key in the frontend!',
+
+        // Section 4
+        s4Title: 'Database Schema (SQL)',
+        s4Desc: 'Paste this SQL code into the Supabase SQL Editor and run it. It creates all tables, inserts demo data, and configures security rules.',
+        s4SqlExplainTitle: 'What do these tables do?',
+        s4SqlExplain: [
+          { table: 'stoerungen', desc: 'Stores each fault report from a technician – machine type, symptoms, diagnosis and status.' },
+          { table: 'ersatzteile', desc: 'The product catalogue: all available spare parts with price, category and stock level.' },
+          { table: 'bestellungen', desc: 'An order with customer data, linked to the original fault report.' },
+          { table: 'bestellpositionen', desc: 'Which spare parts in which quantities are in an order (n:m relationship).' },
+        ],
+        s4RlsNote: 'Row Level Security (RLS) protects the database: without an explicit policy, nobody can access a table. The policies define exactly who can read and write.',
+
+        // Section 5, 6, 7
+        s5Title: 'App HTML (for CodePen)',
+        s5Desc: 'Paste this code into the HTML tab of CodePen. It includes the Supabase CDN, Google Fonts and all four app screens.',
+        s6Title: 'App CSS (for CodePen)',
+        s6Desc: 'Paste this code into the CSS tab of CodePen. Bauhaus design: no border-radius, hard geometric edges.',
+        s7Title: 'App JavaScript (for CodePen)',
+        s7Desc: 'Paste this code into the JS tab of CodePen. Enter your own Supabase credentials at the top. The app also runs without Supabase in demo mode.',
+
+        // Section 8
+        s8Title: 'Step-by-Step: CodePen',
+        s8Steps: [
+          { title: 'Open codepen.io', desc: 'Click "Start Coding" or "New Pen" – free, no account needed for testing' },
+          { title: 'Paste HTML', desc: 'Copy the code from the HTML section above and paste it into the HTML tab of CodePen' },
+          { title: 'Paste CSS', desc: 'Copy the CSS tab code and paste it into the CSS tab' },
+          { title: 'Paste JS', desc: 'Copy the JavaScript code and paste it into the JS tab' },
+          { title: 'Enter Supabase URL + Key', desc: 'In the first lines of JS: replace SUPABASE_URL and SUPABASE_ANON_KEY with your own values' },
+          { title: 'Save', desc: 'Ctrl+S (or Save button) – CodePen automatically creates a shareable URL' },
+          { title: 'Test', desc: 'Select a symptom → "Start diagnosis" → add a spare part to the cart → place an order' },
+        ],
+        s8TipText: 'CodePen saves automatically. You can share the link – just copy the URL!',
+        s8InfoText: 'Without Supabase keys the app runs in demo mode with the embedded sample data. That is enough for testing!',
+
+        // Section 9
+        s9Title: 'Extension Ideas',
+        s9Extensions: [
+          { diff: 'Medium', diffClass: 'diff-medium', title: 'Camera Integration', desc: 'Use navigator.mediaDevices.getUserMedia() for a live camera feed directly in the app' },
+          { diff: 'Medium', diffClass: 'diff-medium', title: 'Photo Upload to Supabase', desc: 'supabase.storage.from("fotos").upload(...) – save fault photos directly to Supabase Storage' },
+          { diff: 'Advanced', diffClass: 'diff-advanced', title: 'Push Notifications', desc: 'Service Worker API + Web Push: technician gets notified when an order is processed' },
+          { diff: 'Advanced', diffClass: 'diff-advanced', title: 'AI Diagnosis', desc: 'OpenAI Vision API: send the fault photo to GPT-4o and automatically generate a diagnosis' },
+          { diff: 'Advanced', diffClass: 'diff-advanced', title: 'Admin Dashboard', desc: 'Display all fault reports in a table, change status, Supabase Realtime for live updates' },
+        ],
+        s9CameraTitle: 'Camera API (Code Snippet)',
+
+        // Section 10 – Quiz
+        s10Title: 'Quiz',
+        s10Subtitle: 'Test your knowledge from Lab 06',
+        quizQuestions: [
+          {
+            q: 'What is Supabase?',
+            opts: [
+              'A JavaScript framework',
+              'An open-source Firebase alternative (Backend as a Service)',
+              'A CSS preprocessor',
+              'An image editing program',
+            ],
+            correct: 1,
+            explanation: 'Supabase is an open-source alternative to Firebase. It provides a PostgreSQL database, authentication, storage and auto-generated APIs – all without needing to write backend code.',
+          },
+          {
+            q: 'What does gen_random_uuid() do in PostgreSQL?',
+            opts: [
+              'Encrypts a password',
+              'Creates a random username',
+              'Generates a random UUID as a primary key',
+              'Sorts records randomly',
+            ],
+            correct: 2,
+            explanation: 'gen_random_uuid() generates a random version 4 UUID (Universally Unique Identifier). It is commonly used as a primary key because it is globally unique and does not cause auto-increment conflicts.',
+          },
+          {
+            q: 'What is a Foreign Key in SQL?',
+            opts: [
+              'A hidden database password',
+              'A reference to the primary key of another table',
+              'An index for faster searching',
+              'A data encryption method',
+            ],
+            correct: 1,
+            explanation: 'A Foreign Key references the primary key of another table and enforces referential integrity. In the schema, for example, bestellpositionen.bestellung_id references the primary key of the bestellungen table.',
+          },
+          {
+            q: 'What is the "anon key" in Supabase?',
+            opts: [
+              'A secret server key (never public)',
+              'A temporary development key',
+              'A public API key for client-side requests',
+              'The database admin password',
+            ],
+            correct: 2,
+            explanation: 'The anon key is a public API key that can safely be used in frontend code. It only allows the actions permitted by Row Level Security policies. The service_role key, on the other hand, bypasses RLS and must NEVER appear in the frontend.',
+          },
+          {
+            q: 'What does navigator.mediaDevices return?',
+            opts: [
+              'An array of all installed drivers',
+              'Access to camera, microphone and other media devices',
+              'The screen resolution',
+              'A list of all network interfaces',
+            ],
+            correct: 1,
+            explanation: 'navigator.mediaDevices is a Web API that provides access to connected media devices such as cameras and microphones. getUserMedia() can be used to request camera streams – ideal for the photo capture feature in our app.',
+          },
+        ],
+        quizScoreLabel: (n, t) => `Score: ${n} of ${t} correct`,
+
+        // Nav
+        navPrev: '← Lab 05: Use Case',
+        navOverview: '← Back to Overview',
+      },
+    };
+
+    // ─── Code strings (stored as JS arrays to avoid JSX escaping issues) ────────
+    const SQL_CODE = `-- ═══════════════════════════════════════════
+-- INME Lab – Kaffeemaschinen-Störungsmelder
+-- Datenbankschema für Supabase
+-- ═══════════════════════════════════════════
+
+-- Tabelle: Störungsmeldungen
+CREATE TABLE stoerungen (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  maschinentyp TEXT NOT NULL,
+  fehlercode TEXT,
+  symptome TEXT[],
+  beschreibung TEXT,
+  diagnose TEXT,
+  status TEXT DEFAULT 'offen'
+    CHECK (status IN ('offen', 'in_bearbeitung', 'geloest')),
+  loesung TEXT
+);
+
+-- Tabelle: Ersatzteilkatalog
+CREATE TABLE ersatzteile (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  beschreibung TEXT,
+  preis DECIMAL(10,2),
+  kategorie TEXT,
+  lagerbestand INT DEFAULT 0,
+  bild_url TEXT
+);
+
+-- Tabelle: Bestellungen
+CREATE TABLE bestellungen (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  stoerung_id UUID REFERENCES stoerungen(id),
+  kundename TEXT,
+  email TEXT,
+  status TEXT DEFAULT 'offen'
+);
+
+-- Tabelle: Bestellpositionen
+CREATE TABLE bestellpositionen (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  bestellung_id UUID REFERENCES bestellungen(id),
+  ersatzteil_id UUID REFERENCES ersatzteile(id),
+  menge INT DEFAULT 1
+);
+
+-- Demo-Daten: Ersatzteile
+INSERT INTO ersatzteile
+  (name, beschreibung, preis, kategorie, lagerbestand)
+VALUES
+  ('Entkalker Jura 3-Pack',
+   'Original Jura Entkalker, 3 Tabletten für 3 Entkalkungsvorgänge',
+   12.90, 'Reinigung', 150),
+  ('Brühgruppe Komplett',
+   'Komplette Brühgruppe als Ersatz, kompatibel mit Jura E-Serie',
+   89.00, 'Mechanik', 12),
+  ('Dichtungsset Universal',
+   '10-teiliges Dichtungsset für alle gängigen Kaffeevollautomaten',
+   8.50, 'Dichtungen', 200),
+  ('Pumpe VibraFoam 15 Bar',
+   'Ersatzpumpe, 15 Bar, Vibrationstyp, universell kompatibel',
+   45.00, 'Mechanik', 25),
+  ('Dampfventil komplett',
+   'Ersatz-Dampfventil inkl. Dichtungen und Schrauben',
+   28.90, 'Mechanik', 30),
+  ('Reinigungstabletten 30er',
+   'Monatliche Reinigung, 30 Tabletten',
+   14.90, 'Reinigung', 300);
+
+-- Row Level Security aktivieren (empfohlen)
+ALTER TABLE stoerungen ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ersatzteile ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bestellungen ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bestellpositionen ENABLE ROW LEVEL SECURITY;
+
+-- Öffentlicher Lesezugriff für Ersatzteile
+CREATE POLICY "Ersatzteile öffentlich lesbar"
+  ON ersatzteile FOR SELECT USING (true);
+
+-- Öffentlicher Schreibzugriff für Störungen + Bestellungen
+CREATE POLICY "Störungen einfügen"
+  ON stoerungen FOR INSERT WITH CHECK (true);
+CREATE POLICY "Bestellungen einfügen"
+  ON bestellungen FOR INSERT WITH CHECK (true);
+CREATE POLICY "Bestellpositionen einfügen"
+  ON bestellpositionen FOR INSERT WITH CHECK (true);`;
+
+    const HTML_CODE = `<!-- ═══════════════════════════════════════════════════
+     INME Lab – Kaffeemaschinen-Störungsmelder
+     HTML für CodePen (HTML-Tab einfügen)
+     ════════════════════════════════════════════════ -->
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+
+<!-- App Container -->
+<div id="app">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="app-header">
+    <div class="header-brand">
+      ☕ <span>Störungsmelder</span>
+    </div>
+    <div id="cart-badge" class="cart-badge" style="display:none">
+      🛒 <span id="cart-count">0</span>
+    </div>
+  </header>
+
+  <!-- ═══ SCREEN 1: Störung erfassen ═══ -->
+  <div id="screen-1" class="screen active">
+    <div class="screen-content">
+      <h1>Störung melden</h1>
+      <p class="subtitle">Wähle Maschinentyp und Symptome</p>
+
+      <!-- Foto-Bereich -->
+      <div class="foto-area" onclick="document.getElementById('foto-input').click()">
+        <div id="foto-placeholder">
+          <span class="foto-icon">📷</span>
+          <span>Foto aufnehmen</span>
+          <span class="foto-hint">optional</span>
+        </div>
+        <img id="foto-preview" style="display:none" alt="Störungsfoto">
+      </div>
+      <input type="file" id="foto-input" accept="image/*" capture="environment"
+             style="display:none" onchange="zeigeVorschau(this)">
+
+      <!-- Maschinentyp -->
+      <div class="form-group">
+        <label>Maschinentyp</label>
+        <select id="maschinentyp">
+          <option value="">-- Bitte wählen --</option>
+          <option value="jura-e8">Jura E8</option>
+          <option value="jura-z10">Jura Z10</option>
+          <option value="siemens-eq6">Siemens EQ.6</option>
+          <option value="delonghi-magnifica">DeLonghi Magnifica</option>
+          <option value="philips-5400">Philips Series 5400</option>
+          <option value="andere">Anderer Typ</option>
+        </select>
+      </div>
+
+      <!-- Symptome -->
+      <div class="form-group">
+        <label>Symptome (mehrere möglich)</label>
+        <div class="symptom-grid">
+          <label class="symptom-item">
+            <input type="checkbox" value="fehlercode_e4"> E4/E5 Fehlercode
+          </label>
+          <label class="symptom-item">
+            <input type="checkbox" value="kein_kaffee"> Kein Kaffee
+          </label>
+          <label class="symptom-item">
+            <input type="checkbox" value="keine_bohnen"> Bohnen leer
+          </label>
+          <label class="symptom-item">
+            <input type="checkbox" value="geraeusche"> Geräusche
+          </label>
+          <label class="symptom-item">
+            <input type="checkbox" value="dampf_defekt"> Kein Dampf
+          </label>
+          <label class="symptom-item">
+            <input type="checkbox" value="wasserleck"> Wasserleck
+          </label>
+          <label class="symptom-item">
+            <input type="checkbox" value="startet_nicht"> Startet nicht
+          </label>
+          <label class="symptom-item">
+            <input type="checkbox" value="display_tot"> Display tot
+          </label>
+        </div>
+      </div>
+
+      <!-- Beschreibung -->
+      <div class="form-group">
+        <label>Zusätzliche Beschreibung (optional)</label>
+        <textarea id="beschreibung"
+          placeholder="z.B. 'Maschine blinkt rot nach dem Einschalten'"></textarea>
+      </div>
+
+      <!-- CTA -->
+      <button class="btn-primary btn-full" onclick="diagnoseDurchfuehren()">
+        DIAGNOSE STARTEN →
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ SCREEN 2: Diagnose ═══ -->
+  <div id="screen-2" class="screen">
+    <div class="screen-content">
+      <button class="btn-back" onclick="zeigeScreen(1)">← Zurück</button>
+
+      <div id="diagnose-container">
+        <!-- wird per JavaScript befüllt -->
+      </div>
+
+      <div id="btn-shop-container" style="display:none">
+        <button class="btn-primary btn-full" onclick="zeigeScreen(3)">
+          🛒 ERSATZTEIL BESTELLEN →
+        </button>
+      </div>
+
+      <button class="btn-secondary btn-full"
+              style="margin-top:1rem" onclick="zeigeScreen(1)">
+        Neue Störung melden
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ SCREEN 3: Ersatzteilshop ═══ -->
+  <div id="screen-3" class="screen">
+    <div class="screen-content">
+      <button class="btn-back" onclick="zeigeScreen(2)">← Zurück</button>
+      <h2>Ersatzteilshop</h2>
+      <p class="subtitle">Empfohlene Produkte für deine Störung</p>
+
+      <div id="produkte-liste">
+        <div class="loading">Lade Ersatzteile...</div>
+      </div>
+
+      <div id="warenkorb-section" style="display:none">
+        <div class="warenkorb-summary">
+          <h3>Warenkorb</h3>
+          <div id="warenkorb-items"></div>
+          <div class="warenkorb-total">
+            Gesamt: <strong id="warenkorb-total">€0.00</strong>
+          </div>
+          <button class="btn-primary btn-full" onclick="zeigeScreen(4)">
+            ZUR KASSE →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SCREEN 4: Bestellung ═══ -->
+  <div id="screen-4" class="screen">
+    <div class="screen-content">
+      <button class="btn-back" onclick="zeigeScreen(3)">← Zurück</button>
+      <h2>Bestellung abschließen</h2>
+
+      <div class="form-group">
+        <label>Ihr Name</label>
+        <input type="text" id="kundename" placeholder="Thomas Weber">
+      </div>
+      <div class="form-group">
+        <label>E-Mail</label>
+        <input type="email" id="email" placeholder="thomas@catering.de">
+      </div>
+
+      <div id="bestell-summary" class="bestell-summary">
+        <!-- wird per JS befüllt -->
+      </div>
+
+      <button class="btn-primary btn-full" onclick="bestellungAbschicken()">
+        ✓ JETZT BESTELLEN
+      </button>
+
+      <div id="bestell-erfolg" style="display:none" class="erfolg-box">
+        <div class="erfolg-check">✓</div>
+        <h2>Bestellung erfolgreich!</h2>
+        <p id="bestell-nr"></p>
+        <p>Lieferzeit: 2-3 Werktage</p>
+        <button class="btn-secondary btn-full" onclick="neueStorung()">
+          Neue Störung melden
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>`;
+
+    const CSS_CODE = `/* ═══════════════════════════════════════════
+   INME Lab – Kaffeemaschinen-Störungsmelder
+   CSS für CodePen (CSS-Tab einfügen)
+   Bauhaus Design: kein border-radius!
+   ═══════════════════════════════════════════ */
+
+/* 1. CSS Custom Properties */
+:root {
+  --primary: #B91C1C;
+  --warning: #F59E0B;
+  --success: #16A34A;
+  --neutral: #1A1A1A;
+  --bg: #FAFAFA;
+  --text: #1A1A1A;
+  --text-light: #6B7280;
+  --border: #E5E7EB;
+}
+
+/* 2. Reset & Base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* 3. Header */
+.app-header {
+  position: sticky;
+  top: 0;
+  background: var(--neutral);
+  color: white;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+.header-brand {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800; font-size: 1.1rem;
+}
+.cart-badge {
+  background: var(--warning); color: var(--neutral);
+  padding: 0.25rem 0.75rem; font-weight: 700;
+  font-size: 0.85rem; cursor: pointer;
+}
+
+/* 4. Screen Management */
+.screen { display: none; }
+.screen.active { display: block; }
+.screen-content { padding: 1.5rem; }
+
+/* 5. Typography */
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.75rem; font-weight: 800;
+  color: var(--neutral); margin-bottom: 0.5rem;
+}
+h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.4rem; font-weight: 700;
+  color: var(--primary); margin-bottom: 0.5rem;
+}
+h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem; font-weight: 700; color: var(--neutral);
+}
+.subtitle { color: var(--text-light); margin-bottom: 1.5rem; }
+
+/* 6. Foto-Bereich */
+.foto-area {
+  border: 2px dashed var(--border);
+  padding: 2rem; text-align: center;
+  cursor: pointer; margin-bottom: 1.5rem; background: white;
+  /* KEIN border-radius – Bauhaus! */
+}
+.foto-area:hover { border-color: var(--primary); }
+.foto-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+.foto-hint { color: var(--text-light); font-size: 0.8rem; display: block; }
+#foto-preview { width: 100%; max-height: 200px; object-fit: cover; }
+
+/* 7. Formulare */
+.form-group { margin-bottom: 1.25rem; }
+label { display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; }
+input[type="text"], input[type="email"], select, textarea {
+  width: 100%; padding: 0.75rem;
+  border: 2px solid var(--border);
+  border-radius: 0; /* BAUHAUS! */
+  font-size: 1rem; background: white; appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--primary);
+}
+textarea { min-height: 80px; resize: vertical; }
+
+/* 8. Symptom-Grid */
+.symptom-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;
+}
+.symptom-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.6rem 0.75rem; border: 2px solid var(--border);
+  cursor: pointer; font-size: 0.9rem; background: white;
+}
+.symptom-item:has(input:checked) {
+  border-color: var(--primary);
+  background: rgba(185,28,28,0.05);
+  font-weight: 600;
+}
+
+/* 9. Buttons – KEIN border-radius (Bauhaus!) */
+.btn-primary {
+  background: var(--primary); color: white;
+  border: none; border-radius: 0;
+  padding: 1rem 1.5rem; font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem; cursor: pointer; letter-spacing: 0.05em;
+}
+.btn-primary:hover { background: #991b1b; }
+.btn-secondary {
+  background: white; color: var(--neutral);
+  border: 2px solid var(--neutral); border-radius: 0;
+  padding: 0.875rem 1.5rem; font-weight: 700;
+  font-size: 1rem; cursor: pointer;
+}
+.btn-back {
+  background: none; border: none; color: var(--text-light);
+  cursor: pointer; padding: 0.5rem 0;
+  margin-bottom: 1rem; display: block;
+}
+.btn-full { width: 100%; }
+
+/* 10. Diagnose */
+.diagnose-karte {
+  border: 2px solid var(--neutral);
+  padding: 1.25rem; margin-bottom: 1.5rem; background: white;
+}
+.diagnose-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem; font-weight: 800;
+  color: var(--primary); margin-bottom: 0.5rem;
+}
+.diagnose-ursache { color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem; }
+.loesung-steps { list-style: none; padding: 0; }
+.loesung-steps li {
+  padding: 0.6rem 0.75rem 0.6rem 2.5rem;
+  border-left: 3px solid var(--warning);
+  margin-bottom: 0.5rem; background: #fffbeb;
+  position: relative;
+}
+.loesung-steps li::before {
+  content: attr(data-step);
+  position: absolute; left: 0.5rem;
+  font-weight: 700; color: var(--warning);
+}
+.status-badge {
+  display: inline-block; padding: 0.2rem 0.7rem;
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  border-radius: 0; margin-bottom: 1rem;
+}
+.status-error { background: var(--primary); color: white; }
+.status-warning { background: var(--warning); color: var(--neutral); }
+.status-info { background: #3b82f6; color: white; }
+
+/* 11. Produkte */
+.produkt-karte {
+  border: 2px solid var(--neutral);
+  padding: 1rem; margin-bottom: 0.75rem;
+  background: white; display: flex;
+  justify-content: space-between; align-items: center;
+}
+.produkt-info { flex: 1; }
+.produkt-name { font-weight: 700; }
+.produkt-preis {
+  color: var(--primary); font-weight: 800;
+  font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
+}
+.btn-add {
+  background: var(--primary); color: white;
+  border: none; border-radius: 0;
+  padding: 0.5rem 1rem; font-weight: 700;
+  cursor: pointer; white-space: nowrap; margin-left: 1rem;
+}
+.btn-add.hinzugefuegt { background: var(--success); }
+
+/* 12. Warenkorb */
+.warenkorb-summary {
+  border: 2px solid var(--neutral);
+  padding: 1.25rem; margin-top: 1.5rem; background: white;
+}
+.warenkorb-total {
+  font-size: 1.1rem; font-weight: 700; margin: 1rem 0;
+  padding-top: 0.75rem; border-top: 2px solid var(--border);
+}
+
+/* 13. Bestellung */
+.bestell-summary {
+  border: 2px solid var(--border);
+  padding: 1rem; margin: 1rem 0; background: white;
+}
+
+/* 14. Erfolg */
+.erfolg-box { text-align: center; padding: 2rem; }
+.erfolg-check { font-size: 4rem; color: var(--success); font-weight: 800; margin-bottom: 1rem; }
+
+/* 15. Loading */
+.loading { text-align: center; color: var(--text-light); padding: 2rem; }
+
+/* 16. Responsive */
+@media (max-width: 480px) {
+  .symptom-grid { grid-template-columns: 1fr; }
+}`;
+
+    const JS_CODE = `// ═══════════════════════════════════════════════════════
+// INME Lab – Kaffeemaschinen-Störungsmelder
+// JavaScript für CodePen (JS-Tab einfügen)
+// ═══════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════
+// KONFIGURATION – DEINE SUPABASE-DATEN HIER
+// ═══════════════════════════════════════════
+const SUPABASE_URL = 'https://DEIN-PROJEKT.supabase.co'; // ← ANPASSEN!
+const SUPABASE_ANON_KEY = 'DEIN_ANON_KEY_HIER';          // ← ANPASSEN!
+
+// Supabase Client initialisieren
+let db = null;
+try {
+  const { createClient } = supabase;
+  db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  console.log('✅ Supabase verbunden');
+} catch (e) {
+  console.warn('⚠️ Supabase nicht konfiguriert – Demo-Modus aktiv');
+}
+
+// ═══════════════════════════════════════════
+// DIAGNOSE-REGELN (regelbasiert)
+// Symptom → Diagnose + Lösung + Ersatzteil
+// ═══════════════════════════════════════════
+const DIAGNOSE_REGELN = {
+  'fehlercode_e4': {
+    name: 'Entkalkung erforderlich (E4/E5)',
+    ursache: 'Kalkablagerungen im Heizsystem haben den Grenzwert überschritten.',
+    schwere: 'warning',
+    schritte: [
+      'Frisches Wasser in den Tank füllen',
+      'Entkalker-Tablette (Jura Original) in Tank geben',
+      'Entkalkungsprogramm in den Einstellungen starten',
+      'Ca. 45 Minuten warten – Maschine nicht abschalten!',
+      'Nach Abschluss: Tank leeren und mit frischem Wasser spülen'
+    ],
+    ersatzteil: 'Entkalker Jura 3-Pack'
+  },
+  'kein_kaffee': {
+    name: 'Brühgruppe verstopft',
+    ursache: 'Kaffeerückstände haben die Brühgruppe blockiert.',
+    schwere: 'error',
+    schritte: [
+      'Maschine ausschalten und Stecker ziehen',
+      'Seitenabdeckung öffnen und Brühgruppe entnehmen',
+      'Brühgruppe unter lauwarmem Wasser ausspülen (KEIN Seife!)',
+      'Alle beweglichen Teile auf freie Beweglichkeit prüfen',
+      'Brühgruppe einsetzen, bis sie einrastet',
+      'Maschine einschalten und Spülprogramm starten'
+    ],
+    ersatzteil: 'Brühgruppe Komplett'
+  },
+  'keine_bohnen': {
+    name: 'Bohnenbehälter leer',
+    ursache: 'Keine Kaffeebohnen mehr vorhanden.',
+    schwere: 'info',
+    schritte: [
+      'Bohnenbehälter öffnen',
+      'Frische Kaffeebohnen einfüllen (empf. mittlere Röstung)',
+      'Mahlgrad prüfen und ggf. anpassen',
+      'Maschine neu starten'
+    ],
+    ersatzteil: null
+  },
+  'geraeusche': {
+    name: 'Pumpe defekt',
+    ursache: 'Die Vibrationspumpe zeigt ungewöhnliche Betriebsgeräusche – Verschleiß oder Defekt.',
+    schwere: 'error',
+    schritte: [
+      'Maschine SOFORT ausschalten – weitere Nutzung vermeiden!',
+      'Pumpe durch zertifizierten Techniker prüfen lassen',
+      'Ersatzpumpe bestellen (Modell unten)',
+      'Kundendienst kontaktieren wenn unklar'
+    ],
+    ersatzteil: 'Pumpe VibraFoam 15 Bar'
+  },
+  'dampf_defekt': {
+    name: 'Dampfventil defekt',
+    ursache: 'Kalkablagerungen oder Dichtungsverschleiß im Dampfventil.',
+    schwere: 'warning',
+    schritte: [
+      'Dampflanze mit Nadelreiniger durchstechen (vorsichtig!)',
+      'Entkalkungsprogramm starten',
+      'Wenn weiterhin kein Dampf: Dampfventil austauschen',
+      'Dichtungsset als Vorsichtsmaßnahme tauschen'
+    ],
+    ersatzteil: 'Dampfventil komplett'
+  },
+  'startet_nicht': {
+    name: 'Stromversorgung unterbrochen',
+    ursache: 'Sicherung ausgelöst oder Steckdose ohne Strom.',
+    schwere: 'info',
+    schritte: [
+      'Stecker aus der Steckdose ziehen und neu einstecken',
+      'Andere Steckdose / Steckdosenleiste prüfen',
+      'Sicherungskasten prüfen – Sicherung für Küche/Bereich',
+      'Netzkabel auf Schäden untersuchen',
+      'Wenn alles OK und immer noch kein Start: Kundendienst'
+    ],
+    ersatzteil: null
+  },
+  'display_tot': {
+    name: 'Elektronik-Defekt',
+    ursache: 'Elektronische Steuerplatine defekt oder Displayfehler.',
+    schwere: 'error',
+    schritte: [
+      'Maschine ausschalten und 5 Minuten warten (Neustart)',
+      'Erneut einschalten',
+      'Wenn Display weiterhin tot: Professioneller Kundendienst erforderlich',
+      'Kundendienst: service@hersteller.de (Seriennummer bereithalten)'
+    ],
+    ersatzteil: null
+  }
+};
+
+// Demo-Daten falls Supabase nicht konfiguriert
+const DEMO_ERSATZTEILE = [
+  { id: '1', name: 'Entkalker Jura 3-Pack', beschreibung: '3 Tabletten', preis: 12.90, kategorie: 'Reinigung' },
+  { id: '2', name: 'Brühgruppe Komplett', beschreibung: 'Für Jura E-Serie', preis: 89.00, kategorie: 'Mechanik' },
+  { id: '3', name: 'Dichtungsset Universal', beschreibung: '10-teiliges Set', preis: 8.50, kategorie: 'Dichtungen' },
+  { id: '4', name: 'Pumpe VibraFoam 15 Bar', beschreibung: 'Universell kompatibel', preis: 45.00, kategorie: 'Mechanik' },
+  { id: '5', name: 'Dampfventil komplett', beschreibung: 'Inkl. Dichtungen', preis: 28.90, kategorie: 'Mechanik' },
+  { id: '6', name: 'Reinigungstabletten 30er', beschreibung: 'Monatliche Reinigung', preis: 14.90, kategorie: 'Reinigung' }
+];
+
+// ═══════════════════════════════════════════
+// STATE – App-Zustand
+// ═══════════════════════════════════════════
+let currentScreen = 1;
+let aktuelleStorung = null;
+let warenkorb = [];
+let alleErsatzteile = [];
+
+// ═══════════════════════════════════════════
+// SCREEN-MANAGEMENT
+// ═══════════════════════════════════════════
+function zeigeScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + n).classList.add('active');
+  currentScreen = n;
+  window.scrollTo(0, 0);
+
+  if (n === 3) ladeErsatzteile();
+  if (n === 4) zeigeBestellsummary();
+
+  // Warenkorb-Badge
+  const badge = document.getElementById('cart-badge');
+  badge.style.display = warenkorb.length > 0 ? 'block' : 'none';
+  document.getElementById('cart-count').textContent = warenkorb.length;
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 1: Foto-Vorschau
+// ═══════════════════════════════════════════
+function zeigeVorschau(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('foto-placeholder').style.display = 'none';
+      const preview = document.getElementById('foto-preview');
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 1 → 2: Diagnose durchführen
+// ═══════════════════════════════════════════
+function diagnoseDurchfuehren() {
+  const checkboxen = document.querySelectorAll('.symptom-item input:checked');
+  const symptome = Array.from(checkboxen).map(cb => cb.value);
+
+  if (symptome.length === 0) {
+    alert('Bitte wähle mindestens ein Symptom aus!');
+    return;
+  }
+
+  const maschinentyp = document.getElementById('maschinentyp').value;
+  const beschreibung = document.getElementById('beschreibung').value;
+
+  // Diagnose bestimmen (erstes erkanntes Symptom gewinnt)
+  let diagnose = null;
+  for (const symptom of symptome) {
+    if (DIAGNOSE_REGELN[symptom]) {
+      diagnose = { ...DIAGNOSE_REGELN[symptom], symptom };
+      break;
+    }
+  }
+
+  if (!diagnose) {
+    diagnose = {
+      name: 'Unbekannte Störung',
+      ursache: 'Das Symptom konnte nicht automatisch zugeordnet werden.',
+      schwere: 'info',
+      schritte: [
+        'Handbuch der Maschine konsultieren',
+        'Hersteller-Kundendienst kontaktieren',
+        'Fehlercodes aus dem Display notieren'
+      ],
+      ersatzteil: null
+    };
+  }
+
+  aktuelleStorung = { maschinentyp, symptome, beschreibung, diagnose };
+  zeigeDiagnose(diagnose);
+  speichereStorung(maschinentyp, symptome, beschreibung, diagnose);
+  zeigeScreen(2);
+}
+
+function zeigeDiagnose(diagnose) {
+  const schwereLabel = { error: 'KRITISCH', warning: 'WARNUNG', info: 'HINWEIS' };
+  const schwereClass = { error: 'status-error', warning: 'status-warning', info: 'status-info' };
+
+  const schritteHTML = diagnose.schritte
+    .map((s, i) => '<li data-step="' + (i+1) + '">' + s + '</li>')
+    .join('');
+
+  document.getElementById('diagnose-container').innerHTML =
+    '<div class="diagnose-karte">' +
+      '<span class="status-badge ' + schwereClass[diagnose.schwere] + '">' +
+        schwereLabel[diagnose.schwere] +
+      '</span>' +
+      '<div class="diagnose-name">' + diagnose.name + '</div>' +
+      '<div class="diagnose-ursache">Ursache: ' + diagnose.ursache + '</div>' +
+      '<h3 style="margin-bottom:0.75rem">Reparaturanleitung:</h3>' +
+      '<ol class="loesung-steps">' + schritteHTML + '</ol>' +
+    '</div>';
+
+  document.getElementById('btn-shop-container').style.display =
+    diagnose.ersatzteil ? 'block' : 'none';
+}
+
+// ═══════════════════════════════════════════
+// SUPABASE: Störung speichern
+// ═══════════════════════════════════════════
+async function speichereStorung(maschinentyp, symptome, beschreibung, diagnose) {
+  if (!db || SUPABASE_URL.includes('DEIN-PROJEKT')) return;
+  try {
+    const { error } = await db.from('stoerungen').insert({
+      maschinentyp, symptome, beschreibung,
+      diagnose: diagnose.name,
+      loesung: diagnose.schritte.join(' | '),
+      status: 'offen'
+    });
+    if (error) console.warn('Speichern fehlgeschlagen:', error.message);
+    else console.log('✅ Störung gespeichert');
+  } catch (e) {
+    console.warn('Speichern übersprungen:', e.message);
+  }
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 3: Ersatzteile laden
+// ═══════════════════════════════════════════
+async function ladeErsatzteile() {
+  let teile = DEMO_ERSATZTEILE;
+
+  if (db && !SUPABASE_URL.includes('DEIN-PROJEKT')) {
+    try {
+      const { data, error } = await db.from('ersatzteile').select('*');
+      if (!error && data) teile = data;
+    } catch (e) {
+      console.warn('Lade Demo-Daten statt Supabase');
+    }
+  }
+
+  alleErsatzteile = teile;
+  const empfohlen = aktuelleStorung?.diagnose?.ersatzteil;
+  const sortiert = empfohlen
+    ? [teile.find(t => t.name === empfohlen), ...teile.filter(t => t.name !== empfohlen)].filter(Boolean)
+    : teile;
+
+  document.getElementById('produkte-liste').innerHTML = sortiert.map(t =>
+    '<div class="produkt-karte">' +
+      '<div class="produkt-info">' +
+        '<div class="produkt-name">' + (t.name === empfohlen ? '⭐ ' : '') + t.name + '</div>' +
+        '<div style="color:#6B7280;font-size:0.85rem">' + (t.beschreibung || '') + '</div>' +
+        '<div class="produkt-preis">€' + Number(t.preis).toFixed(2) + '</div>' +
+      '</div>' +
+      '<button class="btn-add" id="btn-' + t.id + '" onclick="addToCart(\'' + t.id + '\')">' +
+        '+ Kaufen' +
+      '</button>' +
+    '</div>'
+  ).join('');
+}
+
+// ═══════════════════════════════════════════
+// WARENKORB
+// ═══════════════════════════════════════════
+function addToCart(id) {
+  const teil = alleErsatzteile.find(t => String(t.id) === String(id));
+  if (!teil) return;
+
+  if (!warenkorb.find(t => String(t.id) === String(id))) {
+    warenkorb.push(teil);
+    const btn = document.getElementById('btn-' + id);
+    if (btn) {
+      btn.textContent = '✓ Im Warenkorb';
+      btn.classList.add('hinzugefuegt');
+    }
+  }
+
+  document.getElementById('warenkorb-section').style.display = 'block';
+  aktualisiereWarenkorb();
+}
+
+function aktualisiereWarenkorb() {
+  const total = warenkorb.reduce((sum, t) => sum + Number(t.preis), 0);
+
+  document.getElementById('warenkorb-items').innerHTML = warenkorb.map(t =>
+    '<div style="display:flex;justify-content:space-between;padding:0.4rem 0;border-bottom:1px solid #e5e7eb">' +
+      '<span>' + t.name + '</span>' +
+      '<span style="font-weight:700">€' + Number(t.preis).toFixed(2) + '</span>' +
+    '</div>'
+  ).join('');
+
+  document.getElementById('warenkorb-total').textContent = '€' + total.toFixed(2);
+  document.getElementById('cart-count').textContent = warenkorb.length;
+  document.getElementById('cart-badge').style.display = warenkorb.length > 0 ? 'block' : 'none';
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 4: Bestellzusammenfassung
+// ═══════════════════════════════════════════
+function zeigeBestellsummary() {
+  const total = warenkorb.reduce((sum, t) => sum + Number(t.preis), 0);
+  const el = document.getElementById('bestell-summary');
+  if (!el) return;
+  el.innerHTML =
+    '<strong>Bestellübersicht:</strong><br>' +
+    warenkorb.map(t => t.name + ' – €' + Number(t.preis).toFixed(2)).join('<br>') +
+    '<br><strong>Gesamt: €' + total.toFixed(2) + '</strong>';
+}
+
+// ═══════════════════════════════════════════
+// SCREEN 4: Bestellung abschicken
+// ═══════════════════════════════════════════
+async function bestellungAbschicken() {
+  const name = document.getElementById('kundename').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+  if (!name || !email) {
+    alert('Bitte Name und E-Mail eingeben!');
+    return;
+  }
+
+  let bestellNr = 'DEMO-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+
+  if (db && !SUPABASE_URL.includes('DEIN-PROJEKT')) {
+    try {
+      const { data, error } = await db.from('bestellungen').insert({
+        kundename: name, email: email, status: 'offen'
+      }).select().single();
+
+      if (!error && data) {
+        bestellNr = data.id.substr(0, 8).toUpperCase();
+        for (const teil of warenkorb) {
+          await db.from('bestellpositionen').insert({
+            bestellung_id: data.id,
+            ersatzteil_id: teil.id,
+            menge: 1
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('Bestellung im Demo-Modus:', e.message);
+    }
+  }
+
+  document.getElementById('bestell-nr').textContent = 'Bestellnummer: ' + bestellNr;
+  document.querySelectorAll('#screen-4 .screen-content .form-group, #bestell-summary').forEach(
+    el => el.style.display = 'none'
+  );
+  document.querySelector('#screen-4 .btn-primary').style.display = 'none';
+  document.getElementById('bestell-erfolg').style.display = 'block';
+}
+
+// ═══════════════════════════════════════════
+// RESET: Neue Störung starten
+// ═══════════════════════════════════════════
+function neueStorung() {
+  warenkorb = [];
+  aktuelleStorung = null;
+  document.querySelectorAll('.symptom-item input').forEach(cb => cb.checked = false);
+  document.getElementById('maschinentyp').value = '';
+  document.getElementById('beschreibung').value = '';
+  document.getElementById('foto-placeholder').style.display = 'flex';
+  document.getElementById('foto-preview').style.display = 'none';
+  document.getElementById('bestell-erfolg').style.display = 'none';
+  // Formularfelder wieder einblenden
+  document.querySelectorAll('#screen-4 .screen-content .form-group, #bestell-summary').forEach(
+    el => el.style.display = ''
+  );
+  const primaryBtn = document.querySelector('#screen-4 .btn-primary');
+  if (primaryBtn) primaryBtn.style.display = '';
+  zeigeScreen(1);
+}
+
+// App starten
+console.log('☕ Störungsmelder geladen. Supabase:', db ? 'verbunden' : 'Demo-Modus');`;
+
+    const CAMERA_SNIPPET = `// Kamera-Zugriff (für Screen 1)
+async function kameraOeffnen() {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'environment' } // Rückkamera
+  });
+  document.getElementById('video-element').srcObject = stream;
+}`;
+
+    // ─── CopyButton component ─────────────────────────────────────────────────
+    function CopyButton({ getText }) {
+      const [copied, setCopied] = useState(false);
+      function handleCopy() {
+        const text = typeof getText === 'function' ? getText() : getText;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1800);
+          }).catch(() => {});
+        }
+      }
+      return (
+        <button className="copy-btn" onClick={handleCopy}>
+          {copied ? '✓ Kopiert' : 'Kopieren'}
+        </button>
+      );
+    }
+
+    // ─── CodeBlock ────────────────────────────────────────────────────────────
+    function CodeBlock({ code }) {
+      return (
+        <div className="code-block" style={{ position: 'relative' }}>
+          <CopyButton getText={() => code} />
+          {code}
+        </div>
+      );
+    }
+
+    // ─── QuizBlock ────────────────────────────────────────────────────────────
+    function QuizBlock({ questions, scoreLabel }) {
+      const [answers, setAnswers] = useState({});
+      const score = Object.values(answers).filter(a => a.correct).length;
+      const done = Object.keys(answers).length === questions.length;
+
+      function pick(qi, oi) {
+        if (answers[qi] !== undefined) return;
+        setAnswers(prev => ({
+          ...prev,
+          [qi]: { chosen: oi, correct: oi === questions[qi].correct },
+        }));
+      }
+
+      return (
+        <div>
+          {questions.map((q, qi) => {
+            const ans = answers[qi];
+            return (
+              <div key={qi} className="quiz-question-block">
+                <h4>{qi + 1}. {q.q}</h4>
+                {q.opts.map((opt, oi) => {
+                  let cls = 'quiz-option';
+                  if (ans !== undefined) {
+                    if (oi === q.correct) cls += ' correct';
+                    else if (oi === ans.chosen && !ans.correct) cls += ' wrong';
+                  }
+                  return (
+                    <button
+                      key={oi}
+                      className={cls}
+                      disabled={ans !== undefined}
+                      onClick={() => pick(qi, oi)}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+                {ans !== undefined && (
+                  <div className={'quiz-explanation' + (ans.correct ? '' : ' wrong-exp')}>
+                    {ans.correct ? '✓ Richtig! ' : '✗ Leider falsch. '}{q.explanation}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+          {done && (
+            <div className="score-display">
+              {scoreLabel(score, questions.length)}
+              {' '}
+              {score === questions.length ? '🎉' : score >= questions.length / 2 ? '👍' : '📚'}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── Sidebar with IntersectionObserver ──────────────────────────────────
+    function Sidebar({ nav, lang }) {
+      const [active, setActive] = useState(nav[0].href);
+
+      useEffect(() => {
+        const sections = nav.map(n => document.querySelector(n.href)).filter(Boolean);
+        const obs = new IntersectionObserver(
+          entries => {
+            entries.forEach(e => {
+              if (e.isIntersecting) setActive('#' + e.target.id);
+            });
+          },
+          { rootMargin: '-56px 0px -60% 0px', threshold: 0 }
+        );
+        sections.forEach(s => obs.observe(s));
+        return () => obs.disconnect();
+      }, [nav]);
+
+      return (
+        <nav className="sidebar">
+          <div className="sidebar-title">Lab 06</div>
+          {nav.map(n => (
+            <a
+              key={n.href}
+              href={n.href}
+              className={'sidebar-link' + (active === n.href ? ' active' : '')}
+              onClick={() => setActive(n.href)}
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+      );
+    }
+
+    // ─── Main App ─────────────────────────────────────────────────────────────
+    function App() {
+      const [lang, setLang] = useState('de');
+      const t = T[lang];
+
+      return (
+        <>
+          {/* ── Header ── */}
+          <header className="header">
+            <div className="header-left">
+              <a href="index.html" className="header-logo">{t.labLabel}</a>
+              <a href="index.html" className="header-back">{t.backLink}</a>
+            </div>
+            <div style={{ display: 'flex', gap: '0.25rem' }}>
+              <button
+                className={'lang-btn' + (lang === 'de' ? ' active' : '')}
+                onClick={() => setLang('de')}
+              >DE</button>
+              <button
+                className={'lang-btn' + (lang === 'en' ? ' active' : '')}
+                onClick={() => setLang('en')}
+              >EN</button>
+            </div>
+          </header>
+
+          {/* ── Sidebar ── */}
+          <Sidebar nav={t.nav} lang={lang} />
+
+          {/* ── Main Content ── */}
+          <main className="main-content">
+
+            {/* ── Section 1: Überblick ── */}
+            <section id="ueberblick" className="section-block">
+              <span className="bauhaus-badge">{lang === 'de' ? 'ÜBERBLICK' : 'OVERVIEW'}</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s1Title}</h2>
+              <span className="bauhaus-badge" style={{ marginBottom: '1.5rem' }}>{t.s1BadgeDuration}</span>
+
+              <div className="bauhaus-card" style={{ marginTop: '1.25rem', marginBottom: '1.5rem' }}>
+                <h3 style={{ marginTop: 0, marginBottom: '0.75rem' }}>{t.s1GoalsTitle}</h3>
+                <ul style={{ paddingLeft: '1.25rem', lineHeight: '2' }}>
+                  {t.s1Goals.map((g, i) => <li key={i}>{g}</li>)}
+                </ul>
+              </div>
+
+              <div style={{ marginBottom: '0.5rem', fontWeight: 700 }}>{t.s1FlowLabel}</div>
+              <div className="flow-visual">
+                {[
+                  { icon: '🎨', label: 'Figma' },
+                  null,
+                  { icon: '🖥️', label: 'HTML/CSS/JS' },
+                  null,
+                  { icon: '🗄️', label: 'Supabase DB' },
+                  null,
+                  { icon: '✏️', label: 'CodePen' },
+                  null,
+                  { icon: '🚀', label: 'Live App' },
+                ].map((item, i) =>
+                  item === null
+                    ? <div key={i} className="flow-arrow">→</div>
+                    : <div key={i} className="flow-step">
+                        <span className="flow-icon">{item.icon}</span>
+                        <span className="flow-label">{item.label}</span>
+                      </div>
+                )}
+              </div>
+            </section>
+
+            {/* ── Section 2: Tech Stack ── */}
+            <section id="tech-stack" className="section-block">
+              <span className="bauhaus-badge">{lang === 'de' ? 'TECH' : 'TECH'}</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s2Title}</h2>
+              <table>
+                <thead>
+                  <tr>{t.s2TableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
+                </thead>
+                <tbody>
+                  {t.s2TableRows.map((row, i) => (
+                    <tr key={i}>{row.map((cell, j) => <td key={j}>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="info-box">
+                <strong>ℹ️ </strong>{t.s2InfoText}
+              </div>
+            </section>
+
+            {/* ── Section 3: Supabase Setup ── */}
+            <section id="supabase-setup" className="section-block">
+              <span className="bauhaus-badge">SETUP</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s3Title}</h2>
+              <ol className="setup-steps" style={{ listStyle: 'none', padding: 0, margin: '1.5rem 0' }}>
+                {t.s3Steps.map((step, i) => (
+                  <li key={i} className="setup-step">
+                    <div className="setup-step-num">{i + 1}</div>
+                    <div className="setup-step-content">
+                      <div className="setup-step-title">{step.title}</div>
+                      <div className="setup-step-desc">{step.desc}</div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <div className="tip-box">
+                <strong>💡 Tipp: </strong>{t.s3TipText}
+              </div>
+            </section>
+
+            {/* ── Section 4: Datenbankschema ── */}
+            <section id="datenbank" className="section-block">
+              <span className="bauhaus-badge">SQL</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s4Title}</h2>
+              <p>{t.s4Desc}</p>
+              <CodeBlock code={SQL_CODE} />
+
+              <h3 style={{ marginTop: '2rem', marginBottom: '0.75rem' }}>{t.s4SqlExplainTitle}</h3>
+              <ul className="sql-explain">
+                {t.s4SqlExplain.map((row, i) => (
+                  <li key={i}>
+                    <span className="sql-table-name">{row.table}</span>
+                    <span>{row.desc}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="concept-box">
+                <strong>{lang === 'de' ? 'Row Level Security (RLS):' : 'Row Level Security (RLS):'} </strong>
+                {t.s4RlsNote}
+              </div>
+            </section>
+
+            {/* ── Section 5: App HTML ── */}
+            <section id="app-html" className="section-block">
+              <span className="bauhaus-badge">HTML</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s5Title}</h2>
+              <p>{t.s5Desc}</p>
+              <CodeBlock code={HTML_CODE} />
+            </section>
+
+            {/* ── Section 6: App CSS ── */}
+            <section id="app-css" className="section-block">
+              <span className="bauhaus-badge">CSS</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s6Title}</h2>
+              <p>{t.s6Desc}</p>
+              <CodeBlock code={CSS_CODE} />
+            </section>
+
+            {/* ── Section 7: App JS ── */}
+            <section id="app-js" className="section-block">
+              <span className="bauhaus-badge">JS</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s7Title}</h2>
+              <p>{t.s7Desc}</p>
+              <CodeBlock code={JS_CODE} />
+            </section>
+
+            {/* ── Section 8: CodePen Anleitung ── */}
+            <section id="codepen-anleitung" className="section-block">
+              <span className="bauhaus-badge">CODEPEN</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s8Title}</h2>
+              <ol className="codepen-steps" style={{ listStyle: 'none', padding: 0, margin: '1.5rem 0' }}>
+                {t.s8Steps.map((step, i) => (
+                  <li key={i} className="codepen-step">
+                    <div className="codepen-step-circle">{i + 1}</div>
+                    <div className="codepen-step-body">
+                      <div className="codepen-step-title">{step.title}</div>
+                      <div className="codepen-step-desc">{step.desc}</div>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <div className="tip-box">
+                <strong>💡 </strong>{t.s8TipText}
+              </div>
+              <div className="info-box">
+                <strong>ℹ️ </strong>{t.s8InfoText}
+              </div>
+            </section>
+
+            {/* ── Section 9: Erweiterungen ── */}
+            <section id="erweiterungen" className="section-block">
+              <span className="bauhaus-badge">{lang === 'de' ? 'ERWEITERUNGEN' : 'EXTENSIONS'}</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s9Title}</h2>
+              <div className="ext-grid">
+                {t.s9Extensions.map((ext, i) => (
+                  <div key={i} className="ext-card">
+                    <span className={'diff-badge ' + ext.diffClass}>{ext.diff}</span>
+                    <h4>{ext.title}</h4>
+                    <p>{ext.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem' }}>{t.s9CameraTitle}</h3>
+              <CodeBlock code={CAMERA_SNIPPET} />
+            </section>
+
+            {/* ── Section 10: Quiz ── */}
+            <section id="quiz" className="section-block">
+              <span className="bauhaus-badge">QUIZ</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.s10Title}</h2>
+              <p style={{ marginBottom: '1.5rem' }}>{t.s10Subtitle}</p>
+              <QuizBlock
+                questions={t.quizQuestions}
+                scoreLabel={t.quizScoreLabel}
+              />
+            </section>
+
+            {/* ── Bottom Navigation ── */}
+            <div className="nav-bottom">
+              <a href="lab-05-usecase.html" className="nav-btn">{t.navPrev}</a>
+              <a href="index.html" className="nav-btn">{t.navOverview}</a>
+            </div>
+
+          </main>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

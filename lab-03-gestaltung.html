@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INME Lab 03 – Gestaltungsprinzipien & Bauhaus</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #B91C1C;
+      --accent: #F59E0B;
+      --dark: #1A1A1A;
+      --bg: #FAFAFA;
+      --sidebar-w: 260px;
+      --header-h: 56px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    h2 { font-family: 'Space Grotesk', sans-serif; color: #B91C1C; font-weight: 700; }
+    h3 { font-family: 'Space Grotesk', sans-serif; color: #B91C1C; font-weight: 600; }
+    h4 { font-family: 'Space Grotesk', sans-serif; color: var(--dark); font-weight: 600; }
+
+    /* ─── HEADER ─── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
+      background: white; border-bottom: 2px solid var(--dark);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; z-index: 100;
+    }
+    .header-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--primary); text-decoration: none; }
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    .back-link { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--dark); text-decoration: none; border: 2px solid var(--dark); padding: 0.3rem 0.75rem; }
+    .back-link:hover { background: var(--dark); color: white; }
+    .lang-toggle { display: flex; border: 2px solid var(--dark); overflow: hidden; }
+    .lang-btn { background: white; border: none; padding: 0.3rem 0.6rem; font-size: 0.8rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; cursor: pointer; color: var(--dark); }
+    .lang-btn.active { background: var(--dark); color: white; }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      position: fixed; top: var(--header-h); left: 0; bottom: 0;
+      width: var(--sidebar-w); background: white; border-right: 2px solid var(--dark);
+      overflow-y: auto; padding: 1.5rem 0; z-index: 90;
+    }
+    .sidebar-label {
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; font-weight: 800;
+      letter-spacing: 0.12em; text-transform: uppercase; color: #9ca3af;
+      padding: 0 1.25rem; margin-bottom: 0.5rem; margin-top: 1rem;
+    }
+    .sidebar-link {
+      display: block; padding: 0.55rem 1.25rem; font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem; font-weight: 500; color: var(--dark); text-decoration: none;
+      border-left: 3px solid transparent; transition: border-color 0.15s, background 0.15s;
+    }
+    .sidebar-link:hover { background: #f3f4f6; border-left-color: #d1d5db; }
+    .sidebar-link.active { border-left-color: var(--primary); color: var(--primary); font-weight: 700; background: rgba(185,28,28,0.05); }
+
+    /* ─── MAIN ─── */
+    .main-content { margin-left: var(--sidebar-w); padding-top: calc(var(--header-h) + 16px); min-height: 100vh; }
+    .content-inner { max-width: 860px; margin: 0 auto; padding: 1.5rem 2rem 4rem; }
+
+    /* ─── DESIGN SYSTEM CLASSES ─── */
+    .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
+    .bauhaus-accent-line { width: 48px; height: 4px; background: #F59E0B; margin: 0.5rem 0 1rem 0; }
+    .code-block { background: #1A1A1A; color: #e5e7eb; padding: 1.25rem; border-left: 4px solid #F59E0B; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #F59E0B; color: #1A1A1A; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; font-family: 'Space Grotesk', sans-serif; }
+    .copy-btn:hover { background: white; }
+    .tip-box { border-left: 4px solid #F59E0B; background: #fffbeb; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
+    .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .quiz-option { display: block; width: 100%; text-align: left; padding: 0.75rem 1rem; margin: 0.4rem 0; border: 2px solid #e5e7eb; border-radius: 0; background: white; cursor: pointer; font-size: 0.95rem; font-family: inherit; }
+    .quiz-option:hover:not(:disabled) { border-color: var(--dark); }
+    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; }
+    .quiz-option.wrong { border-color: #ef4444; background: #fef2f2; }
+
+    /* ─── SECTION SPACING ─── */
+    .section { margin-bottom: 4rem; }
+    .section-title { font-size: 1.75rem; margin-bottom: 0.25rem; }
+    .section-sub { font-size: 1.1rem; color: #4b5563; margin-bottom: 1.5rem; }
+
+    /* ─── BADGE ─── */
+    .badge { display: inline-block; border-radius: 0; font-weight: 700; font-size: 0.75rem; font-family: 'Space Grotesk', sans-serif; padding: 0.25rem 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge-dark { background: var(--dark); color: white; }
+    .badge-red { background: var(--primary); color: white; }
+    .badge-yellow { background: var(--accent); color: var(--dark); }
+    .badge-green { background: #16A34A; color: white; }
+    .badge-outline { border: 2px solid var(--dark); color: var(--dark); background: transparent; }
+
+    /* ─── GRID ─── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; }
+
+    /* ─── BAUHAUS COMPOSITION ─── */
+    .bauhaus-composition {
+      width: 100%; max-width: 300px; height: 200px; position: relative;
+      background: #f5f5f0; border: 2px solid var(--dark); overflow: hidden;
+    }
+    .bh-circle { position: absolute; width: 100px; height: 100px; border-radius: 50%; background: var(--primary); top: 30px; left: 20px; }
+    .bh-square { position: absolute; width: 90px; height: 90px; background: var(--accent); bottom: 20px; right: 20px; }
+    .bh-triangle { position: absolute; width: 0; height: 0; border-left: 55px solid transparent; border-right: 55px solid transparent; border-bottom: 95px solid var(--dark); bottom: 20px; left: 50%; transform: translateX(-50%); }
+
+    /* ─── COLOR SWATCHES ─── */
+    .swatch { width: 100%; height: 60px; border: 1px solid #d1d5db; }
+    .swatch-label { font-size: 0.78rem; font-weight: 600; margin-top: 0.3rem; font-family: 'Space Grotesk', sans-serif; }
+    .swatch-hex { font-size: 0.72rem; color: #6b7280; font-family: monospace; }
+
+    /* ─── FONT EXAMPLES ─── */
+    .font-serif { font-family: Georgia, 'Times New Roman', serif; }
+    .font-sans { font-family: 'Space Grotesk', sans-serif; }
+    .font-mono { font-family: 'Courier New', Courier, monospace; }
+
+    /* ─── TYPE SCALE ─── */
+    .type-row { display: flex; align-items: baseline; gap: 1.5rem; padding: 0.75rem 0; border-bottom: 1px solid #e5e7eb; }
+    .type-label { font-size: 0.75rem; color: #6b7280; font-family: monospace; min-width: 80px; flex-shrink: 0; }
+    .type-meta { font-size: 0.72rem; color: #9ca3af; font-family: monospace; min-width: 160px; flex-shrink: 0; }
+
+    /* ─── 8PX SCALE ─── */
+    .space-demo { display: flex; align-items: flex-end; gap: 0.5rem; flex-wrap: wrap; }
+    .space-block { background: var(--primary); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+
+    /* ─── GESTALT VISUAL ─── */
+    .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--dark); display: inline-block; }
+    .dot-red { background: var(--primary); }
+    .dot-row { display: flex; gap: 4px; align-items: center; }
+
+    /* ─── QUIZ ─── */
+    .quiz-progress { display: flex; gap: 6px; margin-bottom: 1.5rem; }
+    .quiz-pip { width: 28px; height: 6px; background: #e5e7eb; }
+    .quiz-pip.done { background: var(--accent); }
+    .quiz-pip.correct { background: #22c55e; }
+    .quiz-pip.wrong { background: #ef4444; }
+    .quiz-score-banner { border: 2px solid var(--dark); padding: 1.5rem; text-align: center; background: white; margin-top: 1.5rem; }
+
+    /* ─── BOTTOM NAV ─── */
+    .bottom-nav { border-top: 2px solid var(--dark); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; gap: 1rem; flex-wrap: wrap; }
+    .bottom-nav-btn { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--dark); text-decoration: none; border: 2px solid var(--dark); padding: 0.6rem 1.2rem; display: inline-block; }
+    .bottom-nav-btn:hover { background: var(--dark); color: white; }
+    .bottom-nav-btn.primary { background: var(--primary); border-color: var(--primary); color: white; }
+    .bottom-nav-btn.primary:hover { background: #991b1b; }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; }
+      .content-inner { padding: 1rem 1rem 3rem; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .type-row { flex-direction: column; gap: 0.25rem; }
+      .type-meta { min-width: unset; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ─── COPY BUTTON ───
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false);
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  };
+  return (
+    <button className="copy-btn" onClick={handleCopy}>
+      {copied ? 'Copied!' : 'Copy'}
+    </button>
+  );
+}
+
+// ─── CODE BLOCK ───
+function CodeBlock({ code }) {
+  return (
+    <div className="code-block" style={{marginTop: '0.75rem'}}>
+      <CopyButton text={code} />
+      {code}
+    </div>
+  );
+}
+
+// ─── SIDEBAR ───
+const SECTIONS = [
+  { id: 'ueberblick', de: 'Überblick', en: 'Overview' },
+  { id: 'bauhaus', de: 'Das Bauhaus', en: 'The Bauhaus' },
+  { id: 'farblehre', de: 'Farblehre', en: 'Color Theory' },
+  { id: 'typografie', de: 'Typografie', en: 'Typography' },
+  { id: 'layout', de: 'Layout & Grid', en: 'Layout & Grid' },
+  { id: 'gestaltgesetze', de: 'Gestaltgesetze', en: 'Gestalt Laws' },
+  { id: 'usability', de: 'Usability', en: 'Usability' },
+  { id: 'app-design', de: 'Bauhaus in der App', en: 'Bauhaus in the App' },
+  { id: 'quiz', de: 'Quiz', en: 'Quiz' },
+  { id: 'uebung', de: 'Praktische Übung', en: 'Practical Exercise' },
+];
+
+function Sidebar({ lang, activeId }) {
+  return (
+    <nav className="sidebar">
+      <div className="sidebar-label">{lang === 'de' ? 'Inhalt' : 'Contents'}</div>
+      {SECTIONS.map(s => (
+        <a
+          key={s.id}
+          href={`#${s.id}`}
+          className={`sidebar-link${activeId === s.id ? ' active' : ''}`}
+        >
+          {lang === 'de' ? s.de : s.en}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+// ─── SECTION: UEBERBLICK ───
+function SectionUeberblick({ lang }) {
+  const t = {
+    de: {
+      title: 'Überblick',
+      motto: '"Form follows function" – das Bauhaus-Credo',
+      mottoSub: 'Die Designphilosophie, die die moderne Welt geprägt hat.',
+      badge: 'ca. 60 Min',
+      goalsTitle: 'Lernziele',
+      goals: [
+        'Bauhaus-Geschichte und Kernprinzipien verstehen',
+        'Farblehre und Farbharmonien anwenden können',
+        'Typografisches System für digitale Produkte aufbauen',
+        'Gestaltgesetze der Wahrnehmungspsychologie kennen',
+        "Norman's Design Principles auf UI anwenden",
+      ],
+    },
+    en: {
+      title: 'Overview',
+      motto: '"Form follows function" – the Bauhaus credo',
+      mottoSub: 'The design philosophy that shaped the modern world.',
+      badge: 'approx. 60 min',
+      goalsTitle: 'Learning Goals',
+      goals: [
+        'Understand Bauhaus history and core principles',
+        'Apply color theory and color harmonies',
+        'Build a typographic system for digital products',
+        "Know the Gestalt laws of perceptual psychology",
+        "Apply Norman's Design Principles to UI",
+      ],
+    },
+  };
+  const c = t[lang];
+  return (
+    <section id="ueberblick" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+      <div className="bauhaus-card" style={{marginBottom: '1.5rem', background: 'var(--dark)', color: 'white', borderColor: 'var(--dark)'}}>
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:'0.75rem'}}>
+          <div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'1.25rem',marginBottom:'0.4rem'}}>{c.motto}</div>
+            <div style={{color:'#d1d5db',fontSize:'0.95rem'}}>{c.mottoSub}</div>
+          </div>
+          <span className="badge badge-yellow">{c.badge}</span>
+        </div>
+      </div>
+
+      <div className="bauhaus-card">
+        <h3 style={{marginBottom:'0.5rem'}}>{c.goalsTitle}</h3>
+        <ul style={{paddingLeft:'1.25rem',display:'flex',flexDirection:'column',gap:'0.4rem'}}>
+          {c.goals.map((g,i) => (
+            <li key={i} style={{fontSize:'0.95rem'}}>{g}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION: BAUHAUS ───
+function SectionBauhaus({ lang }) {
+  const t = {
+    de: {
+      title: 'Das Bauhaus',
+      historyTitle: 'Geschichte',
+      history: [
+        { year: '1919', text: 'Gründung in Weimar durch Walter Gropius' },
+        { year: '1925', text: 'Umzug nach Dessau – Blütezeit beginnt' },
+        { year: '1933', text: 'Schließung durch die Nationalsozialisten' },
+      ],
+      philTitle: 'Philosophie',
+      philText: 'Das Bauhaus vereinte Kunst und Handwerk zum „Gesamtkunstwerk". Das Prinzip: Reduktion auf das Wesentliche. Kein Ornament ohne Funktion.',
+      principlesTitle: 'Kernprinzipien',
+      principles: [
+        { icon: '◯△□', label: 'Geometrisch', text: 'Kreis, Dreieck, Quadrat als Grundformen aller Gestaltung' },
+        { icon: '🔴🟡🔵', label: 'Primary Colors', text: 'Rot, Gelb, Blau als Basis – rein und unmittelbar' },
+        { icon: 'Aa', label: 'Typografie', text: 'Klare, serifenlose Schriften: Futura, DIN, Helvetica' },
+        { icon: '⚙', label: 'Funktionalität', text: 'Form folgt Funktion – kein Ornament, alles hat Zweck' },
+      ],
+      conceptText: 'Das Bauhaus hat modernes Design geprägt: IKEA, Apple, Google – alle basieren auf Bauhaus-Prinzipien.',
+      compositionLabel: 'Bauhaus-Komposition (pure CSS)',
+    },
+    en: {
+      title: 'The Bauhaus',
+      historyTitle: 'History',
+      history: [
+        { year: '1919', text: 'Founded in Weimar by Walter Gropius' },
+        { year: '1925', text: 'Moved to Dessau – golden age begins' },
+        { year: '1933', text: 'Closed by the National Socialists' },
+      ],
+      philTitle: 'Philosophy',
+      philText: 'The Bauhaus united art and craft into a "Gesamtkunstwerk" (total work of art). The principle: reduction to the essentials. No ornament without function.',
+      principlesTitle: 'Core Principles',
+      principles: [
+        { icon: '◯△□', label: 'Geometric', text: 'Circle, triangle, square as the basic forms of all design' },
+        { icon: '🔴🟡🔵', label: 'Primary Colors', text: 'Red, yellow, blue as the basis – pure and immediate' },
+        { icon: 'Aa', label: 'Typography', text: 'Clean sans-serif typefaces: Futura, DIN, Helvetica' },
+        { icon: '⚙', label: 'Functionality', text: 'Form follows function – no ornament, everything has purpose' },
+      ],
+      conceptText: 'The Bauhaus shaped modern design: IKEA, Apple, Google – all based on Bauhaus principles.',
+      compositionLabel: 'Bauhaus Composition (pure CSS)',
+    },
+  };
+  const c = t[lang];
+  return (
+    <section id="bauhaus" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <div className="grid-2" style={{marginBottom:'1.5rem'}}>
+        <div>
+          <h3 style={{marginBottom:'0.75rem'}}>{c.historyTitle}</h3>
+          <div style={{display:'flex',flexDirection:'column',gap:'0.5rem'}}>
+            {c.history.map((h,i) => (
+              <div key={i} style={{display:'flex',gap:'1rem',alignItems:'flex-start'}}>
+                <span style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,color:'var(--primary)',minWidth:'40px',fontSize:'0.9rem'}}>{h.year}</span>
+                <span style={{fontSize:'0.95rem'}}>{h.text}</span>
+              </div>
+            ))}
+          </div>
+
+          <h3 style={{marginTop:'1.5rem',marginBottom:'0.5rem'}}>{c.philTitle}</h3>
+          <p style={{fontSize:'0.95rem',lineHeight:1.6}}>{c.philText}</p>
+        </div>
+
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'0.5rem'}}>
+          <div className="bauhaus-composition">
+            <div className="bh-circle" />
+            <div className="bh-triangle" />
+            <div className="bh-square" />
+          </div>
+          <div style={{fontSize:'0.75rem',color:'#6b7280',fontStyle:'italic'}}>{c.compositionLabel}</div>
+        </div>
+      </div>
+
+      <h3 style={{marginBottom:'0.75rem'}}>{c.principlesTitle}</h3>
+      <div className="grid-4" style={{marginBottom:'1.5rem'}}>
+        {c.principles.map((p,i) => (
+          <div key={i} className="bauhaus-card" style={{textAlign:'center'}}>
+            <div style={{fontSize:'1.5rem',marginBottom:'0.5rem'}}>{p.icon}</div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:'0.9rem',marginBottom:'0.4rem',color:'var(--primary)'}}>{p.label}</div>
+            <div style={{fontSize:'0.8rem',color:'#4b5563',lineHeight:1.5}}>{p.text}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="concept-box">
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>💡 </strong>
+        {c.conceptText}
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION: FARBLEHRE ───
+const FARB_CSS = `:root {
+  --primary: #B91C1C;    /* Rot: Fehler, CTAs, Dringlichkeit */
+  --warning: #F59E0B;    /* Gelb: Warnungen, Aufmerksamkeit */
+  --success: #16A34A;    /* Grün: Erfolg, gelöste Probleme */
+  --neutral: #1A1A1A;    /* Schwarz: Text, Struktur */
+  --bg: #FAFAFA;         /* Hintergrund: sauber, offen */
+}`;
+
+function SectionFarblehre({ lang }) {
+  const t = {
+    de: {
+      title: 'Farblehre',
+      harmonTitle: 'Farbharmonien',
+      harmonies: [
+        { name: 'Komplementär', desc: 'Gegenüberliegende Farben: maximaler Kontrast', colors: ['#B91C1C','#16a34a'], pairs: 'Rot + Grün, Blau + Orange' },
+        { name: 'Analog', desc: 'Benachbarte Farben: harmonisch, fließend', colors: ['#B91C1C','#F59E0B','#FDE68A'], pairs: 'Rot → Orange → Gelb' },
+        { name: 'Triadisch', desc: 'Gleichmäßig verteilt: lebendig, ausgeglichen', colors: ['#B91C1C','#F59E0B','#1d4ed8'], pairs: 'Rot, Gelb, Blau' },
+      ],
+      psychTitle: 'Farbpsychologie',
+      psych: [
+        { color: '#B91C1C', label: 'Rot', desc: 'Energie, Warnung, Dringlichkeit, Leidenschaft' },
+        { color: '#F59E0B', label: 'Gelb', desc: 'Aufmerksamkeit, Optimismus, Warnung (milder)' },
+        { color: '#1d4ed8', label: 'Blau', desc: 'Vertrauen, Seriosität, Ruhe, Technologie' },
+        { color: '#1A1A1A', label: 'Schwarz', desc: 'Eleganz, Stärke, Autorität, Klarheit' },
+        { color: '#f5f5f0', label: 'Weiß', desc: 'Reinheit, Offenheit, Minimalismus', dark: true },
+        { color: '#16A34A', label: 'Grün', desc: 'Erfolg, Natur, Sicherheit, Gesundheit' },
+      ],
+      codeTitle: 'Bauhaus Color System – CSS',
+    },
+    en: {
+      title: 'Color Theory',
+      harmonTitle: 'Color Harmonies',
+      harmonies: [
+        { name: 'Complementary', desc: 'Opposite colors: maximum contrast', colors: ['#B91C1C','#16a34a'], pairs: 'Red + Green, Blue + Orange' },
+        { name: 'Analogous', desc: 'Adjacent colors: harmonious, flowing', colors: ['#B91C1C','#F59E0B','#FDE68A'], pairs: 'Red → Orange → Yellow' },
+        { name: 'Triadic', desc: 'Evenly distributed: vivid, balanced', colors: ['#B91C1C','#F59E0B','#1d4ed8'], pairs: 'Red, Yellow, Blue' },
+      ],
+      psychTitle: 'Color Psychology',
+      psych: [
+        { color: '#B91C1C', label: 'Red', desc: 'Energy, warning, urgency, passion' },
+        { color: '#F59E0B', label: 'Yellow', desc: 'Attention, optimism, warning (milder)' },
+        { color: '#1d4ed8', label: 'Blue', desc: 'Trust, seriousness, calm, technology' },
+        { color: '#1A1A1A', label: 'Black', desc: 'Elegance, strength, authority, clarity' },
+        { color: '#f5f5f0', label: 'White', desc: 'Purity, openness, minimalism', dark: true },
+        { color: '#16A34A', label: 'Green', desc: 'Success, nature, safety, health' },
+      ],
+      codeTitle: 'Bauhaus Color System – CSS',
+    },
+  };
+  const c = t[lang];
+  return (
+    <section id="farblehre" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <h3 style={{marginBottom:'0.75rem'}}>{c.harmonTitle}</h3>
+      <div className="grid-3" style={{marginBottom:'2rem'}}>
+        {c.harmonies.map((h,i) => (
+          <div key={i} className="bauhaus-card">
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,marginBottom:'0.3rem'}}>{h.name}</div>
+            <div style={{display:'flex',gap:'6px',marginBottom:'0.5rem'}}>
+              {h.colors.map((col,j) => (
+                <div key={j} style={{width:36,height:36,background:col,border:'1px solid #d1d5db'}} />
+              ))}
+            </div>
+            <div style={{fontSize:'0.8rem',color:'#4b5563',marginBottom:'0.25rem'}}>{h.desc}</div>
+            <div style={{fontSize:'0.75rem',color:'#9ca3af',fontFamily:'monospace'}}>{h.pairs}</div>
+          </div>
+        ))}
+      </div>
+
+      <h3 style={{marginBottom:'0.75rem'}}>{c.psychTitle}</h3>
+      <div className="grid-3" style={{marginBottom:'2rem'}}>
+        {c.psych.map((p,i) => (
+          <div key={i} style={{border:'2px solid',borderColor:p.dark?'#d1d5db':p.color,borderRadius:0,padding:'1rem',background:'white'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'0.6rem',marginBottom:'0.4rem'}}>
+              <div style={{width:20,height:20,background:p.color,border:p.dark?'1px solid #d1d5db':'none',flexShrink:0}} />
+              <span style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:'0.9rem'}}>{p.label}</span>
+              <span style={{fontFamily:'monospace',fontSize:'0.72rem',color:'#9ca3af'}}>{p.color.toUpperCase()}</span>
+            </div>
+            <div style={{fontSize:'0.82rem',color:'#4b5563'}}>{p.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      <h3 style={{marginBottom:'0.5rem'}}>{c.codeTitle}</h3>
+      <CodeBlock code={FARB_CSS} />
+    </section>
+  );
+}
+
+// ─── SECTION: TYPOGRAFIE ───
+const TYPO_CSS = `/* Typografie-System */
+h1, h2, h3 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  font-size: 1rem;
+}`;
+
+function SectionTypografie({ lang }) {
+  const t = {
+    de: {
+      title: 'Typografie',
+      catsTitle: 'Schriftarten-Kategorien',
+      cats: [
+        { name: 'Serif', ex: 'Georgia', cls: 'font-serif', desc: 'Füßchen, klassisch, traditionell – gut für Print' },
+        { name: 'Sans-Serif', ex: 'Space Grotesk / Helvetica', cls: 'font-sans', desc: 'Klar, modern, digital-optimiert' },
+        { name: 'Monospace', ex: 'Courier New', cls: 'font-mono', desc: 'Gleichbreite Zeichen – Code, technisch' },
+      ],
+      bauhausTitle: 'Bauhaus-Schriften',
+      bauhausText: 'Futura (Paul Renner, 1927) · DIN 1451 · Helvetica · heute: Space Grotesk',
+      hierarchyTitle: 'Typografie-Hierarchie',
+      scale: [
+        { tag: 'H1', size: '2.5rem', weight: '800', font: 'Space Grotesk', use: lang === 'de' ? 'Seitentitel' : 'Page title', ex: 'Störungsmelder' },
+        { tag: 'H2', size: '2rem', weight: '700', font: 'Space Grotesk', use: lang === 'de' ? 'Sektionen' : 'Sections', ex: 'Fehlercodes' },
+        { tag: 'H3', size: '1.5rem', weight: '600', font: 'Space Grotesk', use: lang === 'de' ? 'Unterabschnitte' : 'Subsections', ex: 'E4 – Brüheinheit' },
+        { tag: 'Body', size: '1rem', weight: '400', font: 'System Font', use: lang === 'de' ? 'Fließtext' : 'Body text', ex: 'Schritt 1: Gerät ausschalten…' },
+        { tag: 'Caption', size: '0.85rem', weight: '400', font: 'System, gray', use: lang === 'de' ? 'Bildunterschriften' : 'Captions', ex: 'Abb. 1: Brüheinheit' },
+      ],
+      readTitle: 'Lesbarkeitsregeln',
+      readRules: [
+        lang === 'de' ? 'Zeilenabstand 1.5–1.7 für Fließtext' : 'Line-height 1.5–1.7 for body text',
+        lang === 'de' ? 'Max. 70 Zeichen pro Zeile (responsive!)' : 'Max. 70 characters per line (responsive!)',
+        lang === 'de' ? 'Kontrast mind. 4.5:1 – WCAG AA' : 'Min. contrast 4.5:1 – WCAG AA',
+      ],
+      codeTitle: 'CSS Typografie-System',
+    },
+    en: {
+      title: 'Typography',
+      catsTitle: 'Font Categories',
+      cats: [
+        { name: 'Serif', ex: 'Georgia', cls: 'font-serif', desc: 'Serifs, classic, traditional – great for print' },
+        { name: 'Sans-Serif', ex: 'Space Grotesk / Helvetica', cls: 'font-sans', desc: 'Clean, modern, optimized for digital' },
+        { name: 'Monospace', ex: 'Courier New', cls: 'font-mono', desc: 'Equal-width characters – code, technical' },
+      ],
+      bauhausTitle: 'Bauhaus Typefaces',
+      bauhausText: 'Futura (Paul Renner, 1927) · DIN 1451 · Helvetica · today: Space Grotesk',
+      hierarchyTitle: 'Typographic Hierarchy',
+      scale: [
+        { tag: 'H1', size: '2.5rem', weight: '800', font: 'Space Grotesk', use: 'Page title', ex: 'Error Reporter' },
+        { tag: 'H2', size: '2rem', weight: '700', font: 'Space Grotesk', use: 'Sections', ex: 'Error Codes' },
+        { tag: 'H3', size: '1.5rem', weight: '600', font: 'Space Grotesk', use: 'Subsections', ex: 'E4 – Brew Unit' },
+        { tag: 'Body', size: '1rem', weight: '400', font: 'System Font', use: 'Body text', ex: 'Step 1: Turn off device…' },
+        { tag: 'Caption', size: '0.85rem', weight: '400', font: 'System, gray', use: 'Captions', ex: 'Fig. 1: Brew unit' },
+      ],
+      readTitle: 'Readability Rules',
+      readRules: [
+        'Line-height 1.5–1.7 for body text',
+        'Max. 70 characters per line (responsive!)',
+        'Min. contrast 4.5:1 – WCAG AA',
+      ],
+      codeTitle: 'CSS Typography System',
+    },
+  };
+  const c = t[lang];
+
+  const scaleFontSize = { H1:'2rem', H2:'1.6rem', H3:'1.25rem', Body:'1rem', Caption:'0.85rem' };
+  const scaleFontW = { H1:800, H2:700, H3:600, Body:400, Caption:400 };
+  const scaleColor = { H1:'#B91C1C', H2:'#B91C1C', H3:'#B91C1C', Body:'#1A1A1A', Caption:'#6b7280' };
+  const scaleFontFamily = { H1:"'Space Grotesk',sans-serif", H2:"'Space Grotesk',sans-serif", H3:"'Space Grotesk',sans-serif", Body:'inherit', Caption:'inherit' };
+
+  return (
+    <section id="typografie" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <h3 style={{marginBottom:'0.75rem'}}>{c.catsTitle}</h3>
+      <div className="grid-3" style={{marginBottom:'2rem'}}>
+        {c.cats.map((cat,i) => (
+          <div key={i} className="bauhaus-card">
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,marginBottom:'0.25rem'}}>{cat.name}</div>
+            <div className={cat.cls} style={{fontSize:'1.3rem',marginBottom:'0.5rem',color:'var(--dark)'}}>{cat.ex}</div>
+            <div style={{fontSize:'0.8rem',color:'#4b5563'}}>{cat.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="info-box" style={{marginBottom:'1.5rem'}}>
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>{c.bauhausTitle}: </strong>
+        {c.bauhausText}
+      </div>
+
+      <h3 style={{marginBottom:'0.75rem'}}>{c.hierarchyTitle}</h3>
+      <div className="bauhaus-card" style={{marginBottom:'1.5rem',padding:'0'}}>
+        {c.scale.map((s,i) => (
+          <div key={i} className="type-row" style={{padding:'0.75rem 1.25rem',borderBottom: i < c.scale.length-1 ? '1px solid #e5e7eb':'none'}}>
+            <span className="type-label">{s.tag}</span>
+            <span
+              style={{
+                fontSize: scaleFontSize[s.tag],
+                fontWeight: scaleFontW[s.tag],
+                color: scaleColor[s.tag],
+                fontFamily: scaleFontFamily[s.tag],
+                flex:1,
+                overflow:'hidden',
+                textOverflow:'ellipsis',
+                whiteSpace:'nowrap',
+              }}
+            >
+              {s.ex}
+            </span>
+            <span className="type-meta">{s.size} / {s.weight} / {s.font}</span>
+            <span style={{fontSize:'0.75rem',color:'#9ca3af',minWidth:'110px',textAlign:'right'}}>{s.use}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="tip-box" style={{marginBottom:'1.5rem'}}>
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>{c.readTitle}:</strong>
+        <ul style={{paddingLeft:'1.25rem',marginTop:'0.4rem',display:'flex',flexDirection:'column',gap:'0.2rem'}}>
+          {c.readRules.map((r,i) => <li key={i} style={{fontSize:'0.9rem'}}>{r}</li>)}
+        </ul>
+      </div>
+
+      <h3 style={{marginBottom:'0.5rem'}}>{c.codeTitle}</h3>
+      <CodeBlock code={TYPO_CSS} />
+    </section>
+  );
+}
+
+// ─── SECTION: LAYOUT ───
+const GRID_CSS = `/* Beispiel: Responsive 3-Spalten-Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; /* 3 × 8px */
+}`;
+
+const FLEX_CSS = `/* Flexbox für horizontale Ausrichtung */
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* 2 × 8px */
+}`;
+
+function SectionLayout({ lang }) {
+  const t = {
+    de: {
+      title: 'Layout & Grid',
+      gridTitle: '12-Spalten-Grid',
+      gridDesc: 'Das klassische Web-Raster: 12 Spalten, weil 12 durch 2, 3, 4 und 6 teilbar ist. Elemente belegen 1–12 Spalten.',
+      spacingTitle: '8px-System',
+      spacingDesc: 'Alle Abstände und Größen sind Vielfache von 8px. Das erzeugt visuelle Harmonie und Konsistenz.',
+      spacingScale: [8, 16, 24, 32, 48, 64],
+      whiteTitle: 'Whitespace',
+      whiteText: '"Don\'t fear the void" – leerer Raum ist kein Fehler, sondern ein aktives Gestaltungsmittel. Er schafft Struktur und Hierarchie.',
+      gridCodeTitle: 'CSS Grid',
+      flexCodeTitle: 'CSS Flexbox',
+    },
+    en: {
+      title: 'Layout & Grid',
+      gridTitle: '12-Column Grid',
+      gridDesc: 'The classic web grid: 12 columns, because 12 is divisible by 2, 3, 4 and 6. Elements span 1–12 columns.',
+      spacingTitle: '8px System',
+      spacingDesc: 'All spacing and sizes are multiples of 8px. This creates visual harmony and consistency.',
+      spacingScale: [8, 16, 24, 32, 48, 64],
+      whiteTitle: 'Whitespace',
+      whiteText: '"Don\'t fear the void" – empty space is not a mistake, but an active design tool. It creates structure and hierarchy.',
+      gridCodeTitle: 'CSS Grid',
+      flexCodeTitle: 'CSS Flexbox',
+    },
+  };
+  const c = t[lang];
+
+  return (
+    <section id="layout" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <h3 style={{marginBottom:'0.5rem'}}>{c.gridTitle}</h3>
+      <p style={{fontSize:'0.95rem',marginBottom:'0.75rem'}}>{c.gridDesc}</p>
+      <div className="info-box" style={{marginBottom:'1.5rem'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(12,1fr)',gap:'4px',marginBottom:'0.5rem'}}>
+          {Array.from({length:12},(_,i) => (
+            <div key={i} style={{height:28,background:i%3===0?'var(--primary)':i%3===1?'var(--accent)':'#1d4ed8',opacity:0.8}} />
+          ))}
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(12,1fr)',gap:'4px',marginBottom:'0.5rem'}}>
+          <div style={{gridColumn:'span 4',height:20,background:'#e5e7eb',border:'1px dashed #9ca3af'}} />
+          <div style={{gridColumn:'span 4',height:20,background:'#e5e7eb',border:'1px dashed #9ca3af'}} />
+          <div style={{gridColumn:'span 4',height:20,background:'#e5e7eb',border:'1px dashed #9ca3af'}} />
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(12,1fr)',gap:'4px'}}>
+          <div style={{gridColumn:'span 8',height:20,background:'#e5e7eb',border:'1px dashed #9ca3af'}} />
+          <div style={{gridColumn:'span 4',height:20,background:'#e5e7eb',border:'1px dashed #9ca3af'}} />
+        </div>
+      </div>
+
+      <h3 style={{marginBottom:'0.5rem'}}>{c.spacingTitle}</h3>
+      <p style={{fontSize:'0.95rem',marginBottom:'0.75rem'}}>{c.spacingDesc}</p>
+      <div className="space-demo" style={{marginBottom:'1.5rem'}}>
+        {c.spacingScale.map((n,i) => {
+          const colors = ['#B91C1C','#F59E0B','#16A34A','#1d4ed8','#7c3aed','#1A1A1A'];
+          const dim = Math.min(n, 64);
+          return (
+            <div key={i} style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}>
+              <div style={{width:dim,height:dim,background:colors[i],flexShrink:0}} />
+              <span style={{fontSize:'0.68rem',fontFamily:'monospace',fontWeight:700,color:'#4b5563'}}>{n}px</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="tip-box" style={{marginBottom:'1.5rem'}}>
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>{c.whiteTitle}: </strong>
+        {c.whiteText}
+      </div>
+
+      <div className="grid-2">
+        <div>
+          <h3 style={{marginBottom:'0.5rem'}}>{c.gridCodeTitle}</h3>
+          <CodeBlock code={GRID_CSS} />
+        </div>
+        <div>
+          <h3 style={{marginBottom:'0.5rem'}}>{c.flexCodeTitle}</h3>
+          <CodeBlock code={FLEX_CSS} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION: GESTALTGESETZE ───
+function GestaltVisual({ type }) {
+  if (type === 'naehe') {
+    return (
+      <div style={{display:'flex',gap:'16px',padding:'12px',background:'#f9fafb',border:'1px solid #e5e7eb',alignItems:'center'}}>
+        <div style={{display:'flex',gap:'4px'}}>
+          {[0,1,2].map(i=><div key={i} className="dot" />)}
+        </div>
+        <div style={{display:'flex',gap:'4px'}}>
+          {[0,1,2].map(i=><div key={i} className="dot" />)}
+        </div>
+        <div style={{display:'flex',gap:'4px'}}>
+          {[0,1,2].map(i=><div key={i} className="dot" />)}
+        </div>
+      </div>
+    );
+  }
+  if (type === 'aehnlichkeit') {
+    return (
+      <div style={{display:'flex',gap:'6px',padding:'12px',background:'#f9fafb',border:'1px solid #e5e7eb',alignItems:'center',flexWrap:'wrap'}}>
+        {[0,1,2,3,4,5,6,7].map(i => (
+          <div key={i} style={{width:14,height:14,borderRadius:i%2===0?'50%':0,background:i%2===0?'var(--primary)':'#1d4ed8'}} />
+        ))}
+      </div>
+    );
+  }
+  if (type === 'kontinuität') {
+    return (
+      <div style={{padding:'12px',background:'#f9fafb',border:'1px solid #e5e7eb'}}>
+        <div style={{display:'flex',alignItems:'center',gap:0}}>
+          {Array.from({length:8},(_,i) => (
+            <div key={i} style={{width:20,height:3,background:i%2===0?'var(--dark)':'transparent'}} />
+          ))}
+          <div style={{width:0,height:0,borderTop:'6px solid transparent',borderBottom:'6px solid transparent',borderLeft:'10px solid var(--dark)'}} />
+        </div>
+      </div>
+    );
+  }
+  if (type === 'geschlossenheit') {
+    return (
+      <div style={{padding:'12px',background:'#f9fafb',border:'1px solid #e5e7eb',display:'flex',gap:'16px',alignItems:'center'}}>
+        <div style={{position:'relative',width:36,height:36}}>
+          <div style={{position:'absolute',top:0,left:0,width:36,height:4,background:'var(--dark)'}} />
+          <div style={{position:'absolute',bottom:0,left:0,width:36,height:4,background:'var(--dark)'}} />
+          <div style={{position:'absolute',top:0,left:0,width:4,height:36,background:'var(--dark)'}} />
+          {/* right side gap */}
+        </div>
+        <div style={{fontSize:'0.8rem',color:'#6b7280'}}>→ □</div>
+      </div>
+    );
+  }
+  return null;
+}
+
+function SectionGestaltgesetze({ lang }) {
+  const t = {
+    de: {
+      title: 'Gestaltgesetze',
+      laws: [
+        { key:'naehe', name:'Gesetz der Nähe', desc:'Elemente die nah beieinander sind, werden als Gruppe wahrgenommen.', example:'→ Navigationsmenü-Punkte' },
+        { key:'aehnlichkeit', name:'Gesetz der Ähnlichkeit', desc:'Gleich aussehende Elemente gehören zusammen.', example:'→ Alle roten Buttons = Primäraktion' },
+        { key:'kontinuität', name:'Gesetz der Kontinuität', desc:'Das Auge folgt Linien und Kurven natürlich weiter.', example:'→ Scroll-Richtung, Tabellen-Reihen' },
+        { key:'geschlossenheit', name:'Gesetz der Geschlossenheit', desc:'Lücken werden automatisch vom Gehirn ergänzt.', example:'→ Logos, Icons, Rahmen' },
+      ],
+      conceptText: 'Diese Gesetze sind nicht Meinungen – sie sind empirisch belegt durch Gestaltpsychologie (Wertheimer, Köhler, Koffka, ~1920).',
+    },
+    en: {
+      title: 'Gestalt Laws',
+      laws: [
+        { key:'naehe', name:'Law of Proximity', desc:'Elements close together are perceived as a group.', example:'→ Navigation menu items' },
+        { key:'aehnlichkeit', name:'Law of Similarity', desc:'Elements that look the same are seen as belonging together.', example:'→ All red buttons = primary action' },
+        { key:'kontinuität', name:'Law of Continuity', desc:'The eye naturally follows lines and curves.', example:'→ Scroll direction, table rows' },
+        { key:'geschlossenheit', name:'Law of Closure', desc:'The brain automatically fills in gaps.', example:'→ Logos, icons, frames' },
+      ],
+      conceptText: 'These laws are not opinions – they are empirically validated by Gestalt psychology (Wertheimer, Köhler, Koffka, ~1920).',
+    },
+  };
+  const c = t[lang];
+  return (
+    <section id="gestaltgesetze" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <div className="grid-2" style={{marginBottom:'1.5rem'}}>
+        {c.laws.map((law,i) => (
+          <div key={i} className="bauhaus-card">
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:'var(--primary)',marginBottom:'0.4rem'}}>{law.name}</div>
+            <p style={{fontSize:'0.88rem',marginBottom:'0.6rem',lineHeight:1.5}}>{law.desc}</p>
+            <GestaltVisual type={law.key} />
+            <div style={{marginTop:'0.5rem',fontSize:'0.8rem',color:'#6b7280',fontStyle:'italic'}}>{law.example}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="concept-box">{c.conceptText}</div>
+    </section>
+  );
+}
+
+// ─── SECTION: USABILITY ───
+function SectionUsability({ lang }) {
+  const t = {
+    de: {
+      title: 'Usability-Grundlagen',
+      normanTitle: "Norman's Design Principles",
+      normanPrinciples: [
+        { name: 'Visibility', icon: '👁', desc: 'Sichtbarkeit: Was kann der Nutzer tun? Mach es offensichtlich – versteckte Funktionen werden nicht genutzt.' },
+        { name: 'Feedback', icon: '💬', desc: 'Rückmeldung: Das System zeigt, was passiert – Loading-Spinner, Success-Badge, Fehlermeldung.' },
+        { name: 'Constraints', icon: '🚧', desc: 'Einschränkungen: Verhindere Fehler durch Begrenzungen – deaktivierte Buttons, Pflichtfelder, Validierung.' },
+        { name: 'Mapping', icon: '🗺', desc: 'Zuordnung: Steuerung muss intuitiv zur Wirkung passen – Lautstärke-Regler nach oben = lauter.' },
+        { name: 'Consistency', icon: '⚖', desc: 'Konsistenz: Gleiche Elemente = gleiche Funktion überall. Kein blaues "Löschen"-Button auf einer Seite, roter auf der nächsten.' },
+        { name: 'Affordance', icon: '👆', desc: 'Aufforderungscharakter: Eine Schaltfläche schreit „KLICK MICH!" – das Element signalisiert seine Nutzung.' },
+      ],
+      tipText: '"Don\'t Make Me Think" (Steve Krug) – die beste Benutzeroberfläche ist die, über die man nicht nachdenken muss.',
+    },
+    en: {
+      title: 'Usability Basics',
+      normanTitle: "Norman's Design Principles",
+      normanPrinciples: [
+        { name: 'Visibility', icon: '👁', desc: 'Visibility: What can the user do? Make it obvious – hidden functions are not used.' },
+        { name: 'Feedback', icon: '💬', desc: 'Feedback: The system shows what is happening – loading spinner, success badge, error message.' },
+        { name: 'Constraints', icon: '🚧', desc: 'Constraints: Prevent errors through limitations – disabled buttons, required fields, validation.' },
+        { name: 'Mapping', icon: '🗺', desc: 'Mapping: Controls must intuitively match their effect – volume slider up = louder.' },
+        { name: 'Consistency', icon: '⚖', desc: 'Consistency: Same elements = same function everywhere. No blue "Delete" button on one page, red on the next.' },
+        { name: 'Affordance', icon: '👆', desc: 'Affordance: A button shouts "CLICK ME!" – the element signals its use.' },
+      ],
+      tipText: '"Don\'t Make Me Think" (Steve Krug) – the best user interface is the one you don\'t have to think about.',
+    },
+  };
+  const c = t[lang];
+  return (
+    <section id="usability" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <h3 style={{marginBottom:'0.75rem'}}>{c.normanTitle}</h3>
+      <div className="grid-3" style={{marginBottom:'1.5rem'}}>
+        {c.normanPrinciples.map((p,i) => (
+          <div key={i} className="bauhaus-card">
+            <div style={{fontSize:'1.5rem',marginBottom:'0.4rem'}}>{p.icon}</div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:'var(--primary)',marginBottom:'0.4rem'}}>{p.name}</div>
+            <div style={{fontSize:'0.82rem',color:'#4b5563',lineHeight:1.5}}>{p.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="tip-box">
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>💡 </strong>
+        {c.tipText}
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION: APP-DESIGN ───
+function SectionAppDesign({ lang }) {
+  const t = {
+    de: {
+      title: 'Bauhaus in der App',
+      subtitle: 'Konkrete Anwendung auf den Kaffeemaschinen-Störungsmelder',
+      colorTitle: '1. Farbsystem',
+      colors: [
+        { color: '#B91C1C', label: 'Rot', hex: '#B91C1C', use: 'E4/E5 Fehler, kritische Störungen, CTA "Diagnose starten"' },
+        { color: '#F59E0B', label: 'Gelb', hex: '#F59E0B', use: 'Warnungen, "Entkalker benötigt"', dark: true },
+        { color: '#16A34A', label: 'Grün', hex: '#16A34A', use: '"Problem gelöst", Erfolg' },
+        { color: '#1A1A1A', label: 'Schwarz', hex: '#1A1A1A', use: 'Navigation, Struktur, Überschriften' },
+      ],
+      typoTitle: '2. Typografie',
+      typoText: 'Space Grotesk für Störungsname + Diagnose-Headline · System Font für Anleitungstext',
+      gridTitle: '3. Grid',
+      gridText: 'Mobile: 1 Spalte (full-width) · Desktop: 4-Spalten-Layout',
+      buttonsTitle: '4. Buttons',
+      buttonsText: '0 border-radius (Bauhaus), klarer CTA-Kontrast',
+      iconsTitle: '5. Icons',
+      iconsText: 'Geometry-basiert, keine Schnörkel',
+      conceptText: 'Jede Designentscheidung hat einen Grund. In Lab 5 dokumentieren wir diese systematisch.',
+    },
+    en: {
+      title: 'Bauhaus in the App',
+      subtitle: 'Concrete application to the coffee machine error reporter',
+      colorTitle: '1. Color System',
+      colors: [
+        { color: '#B91C1C', label: 'Red', hex: '#B91C1C', use: 'E4/E5 errors, critical faults, CTA "Start Diagnosis"' },
+        { color: '#F59E0B', label: 'Yellow', hex: '#F59E0B', use: 'Warnings, "Descaler needed"', dark: true },
+        { color: '#16A34A', label: 'Green', hex: '#16A34A', use: '"Problem solved", success' },
+        { color: '#1A1A1A', label: 'Black', hex: '#1A1A1A', use: 'Navigation, structure, headings' },
+      ],
+      typoTitle: '2. Typography',
+      typoText: 'Space Grotesk for error name + diagnosis headline · System font for instruction text',
+      gridTitle: '3. Grid',
+      gridText: 'Mobile: 1 column (full-width) · Desktop: 4-column layout',
+      buttonsTitle: '4. Buttons',
+      buttonsText: '0 border-radius (Bauhaus), clear CTA contrast',
+      iconsTitle: '5. Icons',
+      iconsText: 'Geometry-based, no frills',
+      conceptText: 'Every design decision has a reason. In Lab 5 we document these systematically.',
+    },
+  };
+  const c = t[lang];
+  return (
+    <section id="app-design" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+      <p style={{fontSize:'0.95rem',color:'#4b5563',marginBottom:'1.5rem'}}>{c.subtitle}</p>
+
+      <h3 style={{marginBottom:'0.75rem'}}>{c.colorTitle}</h3>
+      <div className="grid-4" style={{marginBottom:'1.5rem'}}>
+        {c.colors.map((col,i) => (
+          <div key={i} style={{border:'2px solid var(--dark)'}}>
+            <div style={{height:64,background:col.color}} />
+            <div style={{padding:'0.6rem'}}>
+              <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:'0.85rem'}}>{col.label}</div>
+              <div style={{fontFamily:'monospace',fontSize:'0.72rem',color:'#6b7280',marginBottom:'0.3rem'}}>{col.hex}</div>
+              <div style={{fontSize:'0.75rem',color:'#4b5563',lineHeight:1.4}}>{col.use}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid-2" style={{marginBottom:'1.5rem'}}>
+        <div className="bauhaus-card">
+          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,marginBottom:'0.3rem'}}>{c.typoTitle}</div>
+          <p style={{fontSize:'0.88rem',color:'#4b5563'}}>{c.typoText}</p>
+        </div>
+        <div className="bauhaus-card">
+          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,marginBottom:'0.3rem'}}>{c.gridTitle}</div>
+          <p style={{fontSize:'0.88rem',color:'#4b5563'}}>{c.gridText}</p>
+        </div>
+        <div className="bauhaus-card">
+          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,marginBottom:'0.3rem'}}>{c.buttonsTitle}</div>
+          <div style={{display:'flex',gap:'8px',flexWrap:'wrap',marginTop:'0.5rem'}}>
+            <button style={{background:'var(--primary)',color:'white',border:'none',borderRadius:0,padding:'8px 16px',fontWeight:700,fontFamily:"'Space Grotesk',sans-serif",fontSize:'0.85rem',cursor:'default'}}>Diagnose</button>
+            <button style={{background:'var(--accent)',color:'var(--dark)',border:'none',borderRadius:0,padding:'8px 16px',fontWeight:700,fontFamily:"'Space Grotesk',sans-serif",fontSize:'0.85rem',cursor:'default'}}>Warnung</button>
+            <button style={{background:'white',color:'var(--dark)',border:'2px solid var(--dark)',borderRadius:0,padding:'8px 16px',fontWeight:700,fontFamily:"'Space Grotesk',sans-serif",fontSize:'0.85rem',cursor:'default'}}>Abbrechen</button>
+          </div>
+          <div style={{fontSize:'0.75rem',color:'#6b7280',marginTop:'0.4rem'}}>{c.buttonsText}</div>
+        </div>
+        <div className="bauhaus-card">
+          <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,marginBottom:'0.3rem'}}>{c.iconsTitle}</div>
+          <div style={{display:'flex',gap:'12px',marginTop:'0.4rem'}}>
+            {['◯','△','□','✕','→','↑'].map((ic,i) => (
+              <div key={i} style={{width:32,height:32,background:'#f3f4f6',border:'1px solid #e5e7eb',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem'}}>{ic}</div>
+            ))}
+          </div>
+          <div style={{fontSize:'0.75rem',color:'#6b7280',marginTop:'0.4rem'}}>{c.iconsText}</div>
+        </div>
+      </div>
+
+      <div className="concept-box">{c.conceptText}</div>
+    </section>
+  );
+}
+
+// ─── SECTION: QUIZ ───
+const QUIZ_DATA = [
+  {
+    de: 'Was ist das Bauhaus-Credo?',
+    en: 'What is the Bauhaus credo?',
+    options: {
+      de: ['Less is more', 'Form follows function', 'Art for art\'s sake', 'Function follows form'],
+      en: ['Less is more', 'Form follows function', 'Art for art\'s sake', 'Function follows form'],
+    },
+    correct: 1,
+  },
+  {
+    de: 'Was sind Komplementärfarben?',
+    en: 'What are complementary colors?',
+    options: {
+      de: ['Gleiche Farbtöne in verschiedenen Helligkeiten','Farben der gleichen Farbfamilie','Gegenüberliegende Farben im Farbkreis','Farben mit ähnlichem Farbton'],
+      en: ['Same hues at different brightness levels','Colors of the same color family','Opposite colors on the color wheel','Colors with similar hue'],
+    },
+    correct: 2,
+  },
+  {
+    de: 'Was ist das 8px-System?',
+    en: 'What is the 8px system?',
+    options: {
+      de: ['Maximale Schriftgröße für Buttons','Alle Abstände und Größen sind Vielfache von 8 Pixeln','Eine Methode um Bilder zu skalieren','Ein Browser-Kompatibilitäts-Standard'],
+      en: ['Maximum font size for buttons','All spacing and sizes are multiples of 8 pixels','A method to scale images','A browser compatibility standard'],
+    },
+    correct: 1,
+  },
+  {
+    de: "Was bedeutet 'Affordance' nach Norman?",
+    en: "What does 'Affordance' mean according to Norman?",
+    options: {
+      de: ['Die Ladezeit einer Oberfläche','Die Konsistenz von UI-Elementen','Die wahrgenommene Verwendungsmöglichkeit eines Objekts','Das Farbschema einer Anwendung'],
+      en: ['The loading time of an interface','The consistency of UI elements','The perceived possibility of use of an object','The color scheme of an application'],
+    },
+    correct: 2,
+  },
+  {
+    de: 'Welche Farbe steht in unserem Bauhaus-System für Fehler und kritische Aktionen?',
+    en: 'Which color represents errors and critical actions in our Bauhaus system?',
+    options: {
+      de: ['Gelb #F59E0B','Grün #16A34A','Rot #B91C1C','Blau #3b82f6'],
+      en: ['Yellow #F59E0B','Green #16A34A','Red #B91C1C','Blue #3b82f6'],
+    },
+    correct: 2,
+  },
+];
+
+function SectionQuiz({ lang }) {
+  const [current, setCurrent] = useState(0);
+  const [answers, setAnswers] = useState(Array(QUIZ_DATA.length).fill(null));
+  const [showResult, setShowResult] = useState(false);
+
+  const q = QUIZ_DATA[current];
+  const opts = q.options[lang];
+
+  const handleAnswer = (idx) => {
+    if (answers[current] !== null) return;
+    const newAnswers = [...answers];
+    newAnswers[current] = idx;
+    setAnswers(newAnswers);
+    if (current === QUIZ_DATA.length - 1) {
+      setTimeout(() => setShowResult(true), 600);
+    } else {
+      setTimeout(() => setCurrent(c => c + 1), 800);
+    }
+  };
+
+  const handleReset = () => {
+    setCurrent(0);
+    setAnswers(Array(QUIZ_DATA.length).fill(null));
+    setShowResult(false);
+  };
+
+  const score = answers.filter((a, i) => a === QUIZ_DATA[i].correct).length;
+
+  const t = {
+    de: {
+      title: 'Quiz',
+      question: 'Frage',
+      of: 'von',
+      next: 'Weiter',
+      restart: 'Nochmal',
+      score: 'Dein Ergebnis',
+      correct: 'richtig',
+      feedback: [
+        'Weiter üben – schau dir die Inhalte nochmal an!',
+        'Solide Basis – noch ein bisschen mehr!',
+        'Sehr gut! Du hast die Bauhaus-Prinzipien verstanden.',
+        'Perfekt! Meister der Gestaltung!',
+      ],
+    },
+    en: {
+      title: 'Quiz',
+      question: 'Question',
+      of: 'of',
+      next: 'Next',
+      restart: 'Try again',
+      score: 'Your score',
+      correct: 'correct',
+      feedback: [
+        'Keep practicing – review the content again!',
+        'Solid start – a bit more to go!',
+        'Great! You understand the Bauhaus principles.',
+        'Perfect! Master of design!',
+      ],
+    },
+  };
+  const c = t[lang];
+  const fbIdx = score <= 1 ? 0 : score <= 2 ? 1 : score <= 4 ? 2 : 3;
+
+  return (
+    <section id="quiz" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <div className="quiz-progress">
+        {QUIZ_DATA.map((_,i) => {
+          let cls = 'quiz-pip';
+          if (answers[i] !== null) {
+            cls += answers[i] === QUIZ_DATA[i].correct ? ' correct' : ' wrong';
+          } else if (i === current) {
+            cls += ' done';
+          }
+          return <div key={i} className={cls} />;
+        })}
+        <span style={{fontSize:'0.8rem',color:'#6b7280',marginLeft:'0.5rem',fontFamily:"'Space Grotesk',sans-serif"}}>
+          {c.question} {current + 1} {c.of} {QUIZ_DATA.length}
+        </span>
+      </div>
+
+      {!showResult ? (
+        <div className="bauhaus-card">
+          <p style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,fontSize:'1.05rem',marginBottom:'1rem'}}>
+            {lang === 'de' ? q.de : q.en}
+          </p>
+          {opts.map((opt, idx) => {
+            let cls = 'quiz-option';
+            if (answers[current] !== null) {
+              if (idx === q.correct) cls += ' correct';
+              else if (idx === answers[current]) cls += ' wrong';
+            }
+            return (
+              <button
+                key={idx}
+                className={cls}
+                onClick={() => handleAnswer(idx)}
+                disabled={answers[current] !== null}
+              >
+                <span style={{fontWeight:700,marginRight:'0.5rem',color:'#9ca3af'}}>{String.fromCharCode(65+idx)})</span>
+                {opt}
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <div>
+          <div className="quiz-score-banner">
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'2rem',color:'var(--primary)',marginBottom:'0.25rem'}}>
+              {score} / {QUIZ_DATA.length}
+            </div>
+            <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:600,marginBottom:'0.5rem'}}>
+              {c.score}: {score} {c.correct}
+            </div>
+            <div style={{color:'#4b5563',marginBottom:'1rem'}}>{c.feedback[fbIdx]}</div>
+            <button
+              onClick={handleReset}
+              style={{background:'var(--dark)',color:'white',border:'none',borderRadius:0,padding:'0.6rem 1.5rem',fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,cursor:'pointer',fontSize:'0.9rem'}}
+            >
+              {c.restart}
+            </button>
+          </div>
+
+          <div style={{marginTop:'1rem',display:'flex',flexDirection:'column',gap:'0.4rem'}}>
+            {QUIZ_DATA.map((qd, i) => (
+              <div key={i} style={{display:'flex',alignItems:'flex-start',gap:'0.75rem',padding:'0.5rem',background: answers[i] === qd.correct ? '#f0fdf4':'#fef2f2', border: `1px solid ${answers[i] === qd.correct ? '#86efac':'#fca5a5'}`}}>
+                <span style={{fontWeight:700,color: answers[i] === qd.correct ? '#16A34A':'#ef4444',minWidth:'20px'}}>{answers[i] === qd.correct ? '✓' : '✗'}</span>
+                <span style={{fontSize:'0.88rem'}}>{lang === 'de' ? qd.de : qd.en}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ─── SECTION: UEBUNG ───
+const EXERCISE_CSS = `/* ═══════════════════════════════════════
+   INME Lab – Bauhaus Design System
+   Kaffeevollautomat-Störungsmelder
+   ═══════════════════════════════════════ */
+
+/* 1. CSS Custom Properties */
+:root {
+  --primary: #B91C1C;
+  --warning: #F59E0B;
+  --success: #16A34A;
+  --neutral: #1A1A1A;
+  --bg: #FAFAFA;
+  --text: #1A1A1A;
+  --text-light: #6B7280;
+
+  /* 8px-System */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+}
+
+/* 2. Typografie */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&display=swap');
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  margin: 0;
+}
+
+h1, h2, h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--neutral);
+  margin: 0 0 var(--space-2);
+}
+
+/* 3. Bauhaus Buttons (KEIN border-radius!) */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 0;
+  padding: var(--space-2) var(--space-3);
+  font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-warning {
+  background: var(--warning);
+  color: var(--neutral);
+  border: none;
+  border-radius: 0;
+  padding: var(--space-2) var(--space-3);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* 4. Status-Badges */
+.badge-error   { background: var(--primary); color: white;        padding: 4px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 0; }
+.badge-warning { background: var(--warning); color: var(--neutral); padding: 4px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 0; }
+.badge-success { background: var(--success); color: white;        padding: 4px 12px; font-size: 0.75rem; font-weight: 700; border-radius: 0; }`;
+
+function SectionUebung({ lang }) {
+  const t = {
+    de: {
+      title: 'Praktische Übung',
+      challengeTitle: 'Aufgabe: Bauhaus Design System in CodePen',
+      challenge: 'Definiere das Farb- und Typografie-System für deine App in CodePen. Nutze das CSS unten als Startpunkt und erweitere es um eigene Komponenten.',
+      steps: [
+        'CodePen öffnen (codepen.io/pen) – kostenloses Konto anlegen oder als Gast starten',
+        'Den kompletten CSS-Code unten in den CSS-Editor einfügen',
+        'In HTML zwei Buttons erstellen: .btn-primary und .btn-warning',
+        'Drei Status-Badges einbauen: .badge-error, .badge-warning, .badge-success',
+        'Typografie: H1, H2, H3 mit Space Grotesk testen',
+        'Screenshot für das Projektdossier machen',
+      ],
+      codeLabel: 'Komplettes CSS für CodePen (kopieren & einfügen):',
+    },
+    en: {
+      title: 'Practical Exercise',
+      challengeTitle: 'Task: Bauhaus Design System in CodePen',
+      challenge: 'Define the color and typography system for your app in CodePen. Use the CSS below as a starting point and extend it with your own components.',
+      steps: [
+        'Open CodePen (codepen.io/pen) – create a free account or start as guest',
+        'Paste the complete CSS code below into the CSS editor',
+        'Create two buttons in HTML: .btn-primary and .btn-warning',
+        'Add three status badges: .badge-error, .badge-warning, .badge-success',
+        'Typography: Test H1, H2, H3 with Space Grotesk',
+        'Take a screenshot for the project dossier',
+      ],
+      codeLabel: 'Complete CSS for CodePen (copy & paste):',
+    },
+  };
+  const c = t[lang];
+  return (
+    <section id="uebung" className="section">
+      <h2 className="section-title">{c.title}</h2>
+      <div className="bauhaus-accent-line" />
+
+      <div className="challenge-box" style={{marginBottom:'1.5rem'}}>
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif",display:'block',marginBottom:'0.4rem'}}>{c.challengeTitle}</strong>
+        {c.challenge}
+      </div>
+
+      <div className="bauhaus-card" style={{marginBottom:'1.5rem'}}>
+        <ol style={{paddingLeft:'1.25rem',display:'flex',flexDirection:'column',gap:'0.5rem'}}>
+          {c.steps.map((s,i) => (
+            <li key={i} style={{fontSize:'0.95rem'}}>{s}</li>
+          ))}
+        </ol>
+      </div>
+
+      <h3 style={{marginBottom:'0.5rem'}}>{c.codeLabel}</h3>
+      <CodeBlock code={EXERCISE_CSS} />
+    </section>
+  );
+}
+
+// ─── BOTTOM NAV ───
+function BottomNav({ lang }) {
+  return (
+    <div className="bottom-nav">
+      <a href="lab-02-kreativitaet.html" className="bottom-nav-btn">
+        ← {lang === 'de' ? 'Lab 02: Kreativtechniken' : 'Lab 02: Creative Techniques'}
+      </a>
+      <a href="lab-04-ux.html" className="bottom-nav-btn primary">
+        {lang === 'de' ? 'Weiter: Lab 04 – UX Research' : 'Next: Lab 04 – UX Research'} →
+      </a>
+    </div>
+  );
+}
+
+// ─── APP ───
+function App() {
+  const [lang, setLang] = useState('de');
+  const [activeId, setActiveId] = useState('ueberblick');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+    );
+    SECTIONS.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <>
+      {/* HEADER */}
+      <header className="site-header">
+        <a href="index.html" className="header-brand">INME Lab</a>
+        <div className="header-right">
+          <a href="index.html" className="back-link">← {lang === 'de' ? 'Übersicht' : 'Overview'}</a>
+          <div className="lang-toggle">
+            <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => setLang('de')}>DE</button>
+            <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+          </div>
+        </div>
+      </header>
+
+      {/* SIDEBAR */}
+      <Sidebar lang={lang} activeId={activeId} />
+
+      {/* MAIN */}
+      <main className="main-content">
+        <div className="content-inner">
+          {/* Lab header */}
+          <div style={{display:'flex',alignItems:'center',gap:'0.75rem',marginBottom:'0.5rem',flexWrap:'wrap'}}>
+            <span className="badge badge-dark">Lab 03</span>
+            <span className="badge badge-outline">{lang === 'de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}</span>
+          </div>
+          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'2rem',color:'var(--dark)',marginBottom:'0.25rem'}}>
+            {lang === 'de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}
+          </h1>
+          <p style={{color:'#6b7280',marginBottom:'2.5rem',fontSize:'1rem'}}>
+            {lang === 'de'
+              ? 'Von Farblehre bis Gestaltgesetze – die Grundlagen visuellen Designs für digitale Produkte.'
+              : 'From color theory to Gestalt laws – the foundations of visual design for digital products.'}
+          </p>
+
+          <SectionUeberblick lang={lang} />
+          <SectionBauhaus lang={lang} />
+          <SectionFarblehre lang={lang} />
+          <SectionTypografie lang={lang} />
+          <SectionLayout lang={lang} />
+          <SectionGestaltgesetze lang={lang} />
+          <SectionUsability lang={lang} />
+          <SectionAppDesign lang={lang} />
+          <SectionQuiz lang={lang} />
+          <SectionUebung lang={lang} />
+
+          <BottomNav lang={lang} />
+        </div>
+      </main>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>

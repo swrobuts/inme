@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab 02 – Kreativtechniken &amp; Design Thinking · INME Lab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #B91C1C;
+      --accent: #F59E0B;
+      --dark: #1A1A1A;
+      --light-bg: #FAFAFA;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--light-bg);
+      color: var(--dark);
+    }
+
+    h2 { color: #B91C1C; font-weight: 800; font-family: 'Space Grotesk', sans-serif; }
+    h3 { color: #B91C1C; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+
+    /* ── Bauhaus design tokens ── */
+    .bauhaus-card {
+      border: 2px solid #1A1A1A;
+      border-radius: 0;
+      padding: 1.5rem;
+      background: white;
+    }
+
+    .bauhaus-accent-line {
+      width: 48px;
+      height: 4px;
+      background: #F59E0B;
+      margin: 0.5rem 0 1rem 0;
+    }
+
+    .bauhaus-badge {
+      background: #1A1A1A;
+      color: white;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 0;
+      display: inline-block;
+    }
+
+    .bauhaus-badge-red {
+      background: #B91C1C;
+      color: white;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-radius: 0;
+      display: inline-block;
+    }
+
+    .code-block {
+      background: #1A1A1A;
+      color: #e5e7eb;
+      padding: 1.25rem;
+      border-left: 4px solid #F59E0B;
+      font-family: monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      position: relative;
+      border-radius: 0;
+      white-space: pre;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: #F59E0B;
+      color: #1A1A1A;
+      border: none;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 0;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .copy-btn:hover { background: #D97706; }
+
+    .tip-box {
+      border-left: 4px solid #F59E0B;
+      background: #fffbeb;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .info-box {
+      border-left: 4px solid #3b82f6;
+      background: #eff6ff;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .concept-box {
+      border-left: 4px solid #B91C1C;
+      background: rgba(185,28,28,0.08);
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .challenge-box {
+      border-left: 4px solid #22c55e;
+      background: #f0fdf4;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 0.75rem 1rem;
+      margin: 0.4rem 0;
+      border: 2px solid #e5e7eb;
+      border-radius: 0;
+      background: white;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .quiz-option:hover:not(:disabled) { border-color: #9CA3AF; }
+    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; }
+    .quiz-option.wrong   { border-color: #ef4444; background: #fef2f2; }
+
+    /* ── Fixed Navbar ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: white;
+      border-bottom: 2px solid #1A1A1A;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+    }
+
+    .lang-btn {
+      padding: 0.25rem 0.75rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: 2px solid #1A1A1A;
+      border-radius: 0;
+      background: transparent;
+      color: #1A1A1A;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .lang-btn.active {
+      background: #B91C1C;
+      color: white;
+      border-color: #B91C1C;
+    }
+
+    /* ── Fixed Sidebar ── */
+    .sidebar {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      width: 260px;
+      height: calc(100vh - 56px);
+      background: white;
+      border-right: 2px solid #1A1A1A;
+      overflow-y: auto;
+      z-index: 100;
+      padding: 1.5rem 0;
+    }
+
+    .sidebar-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #9CA3AF;
+      padding: 0 1.25rem 0.75rem;
+    }
+
+    .sidebar-link {
+      display: block;
+      padding: 0.55rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: color 0.15s, border-color 0.15s, background 0.15s;
+    }
+
+    .sidebar-link:hover {
+      color: #B91C1C;
+      border-left-color: #F59E0B;
+      background: #FAFAFA;
+    }
+
+    .sidebar-link.active {
+      color: #B91C1C;
+      border-left-color: #B91C1C;
+      font-weight: 700;
+      background: rgba(185,28,28,0.04);
+    }
+
+    /* ── Main content ── */
+    .main-content {
+      margin-left: 260px;
+      padding-top: 72px;
+      min-height: 100vh;
+    }
+
+    .content-inner {
+      max-width: 860px;
+      padding: 2rem 2.5rem 4rem;
+    }
+
+    .section-block {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #E5E7EB;
+    }
+
+    .section-block:last-child { border-bottom: none; }
+
+    /* ── Phase flow ── */
+    .phase-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+
+    .phase-card {
+      flex: 1;
+      min-width: 140px;
+      border: 2px solid #1A1A1A;
+      border-radius: 0;
+      padding: 1.25rem 1rem;
+      background: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .phase-card.active-phase { background: #B91C1C; color: white; }
+    .phase-card.active-phase h3 { color: white; }
+
+    .phase-arrow {
+      display: flex;
+      align-items: center;
+      padding: 0 0.25rem;
+      font-size: 1.25rem;
+      color: #F59E0B;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .phase-num {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9CA3AF;
+      margin-bottom: 0.25rem;
+    }
+
+    .phase-card.active-phase .phase-num { color: rgba(255,255,255,0.7); }
+
+    .phase-emoji { font-size: 1.5rem; margin: 0.25rem 0; }
+
+    .phase-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+      color: #B91C1C;
+    }
+
+    .phase-card.active-phase .phase-name { color: white; }
+
+    .phase-desc {
+      font-size: 0.75rem;
+      color: #6B7280;
+      line-height: 1.4;
+    }
+
+    .phase-card.active-phase .phase-desc { color: rgba(255,255,255,0.85); }
+
+    /* ── Empathy Map ── */
+    .empathy-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      border: 2px solid #1A1A1A;
+      margin: 1.5rem 0;
+    }
+
+    .em-cell {
+      border: 1px solid #1A1A1A;
+      padding: 1rem;
+      min-height: 100px;
+    }
+
+    .em-cell-label {
+      font-weight: 800;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #B91C1C;
+      margin-bottom: 0.5rem;
+    }
+
+    .em-cell-hint {
+      font-size: 0.8rem;
+      color: #6B7280;
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    .em-center {
+      grid-column: 1 / -1;
+      background: #1A1A1A;
+      color: white;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Comparison table ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 2px solid #1A1A1A;
+      margin: 1.5rem 0;
+    }
+
+    .compare-table th {
+      background: #1A1A1A;
+      color: white;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .compare-table td {
+      padding: 0.65rem 1rem;
+      border: 1px solid #E5E7EB;
+      font-size: 0.875rem;
+      vertical-align: top;
+    }
+
+    .compare-table tr:nth-child(even) td { background: #F9FAFB; }
+
+    /* ── Methods grid ── */
+    .methods-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    /* ── Steps list ── */
+    .steps-list { list-style: none; padding: 0; margin: 1.5rem 0; }
+
+    .step-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      background: #B91C1C;
+      color: white;
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .step-content { flex: 1; padding-top: 0.25rem; }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1A1A1A;
+      margin-bottom: 0.35rem;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: #4B5563;
+      line-height: 1.55;
+    }
+
+    /* ── Quiz ── */
+    .quiz-score {
+      background: #1A1A1A;
+      color: white;
+      padding: 1rem 1.5rem;
+      margin-top: 1.5rem;
+      font-weight: 700;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    /* ── Nav footer ── */
+    .lab-nav {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      padding: 2.5rem 2.5rem;
+      border-top: 2px solid #1A1A1A;
+      background: white;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .lab-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #1A1A1A;
+      border-radius: 0;
+      background: white;
+      color: #1A1A1A;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .lab-nav-btn:hover { background: #1A1A1A; color: white; }
+    .lab-nav-btn.primary { background: #B91C1C; color: white; border-color: #B91C1C; }
+    .lab-nav-btn.primary:hover { background: #991B1B; border-color: #991B1B; }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; }
+      .content-inner { padding: 1.5rem 1rem 4rem; }
+      .phase-flow { flex-direction: column; }
+      .phase-arrow { transform: rotate(90deg); align-self: center; }
+      .methods-grid { grid-template-columns: 1fr; }
+      .lab-nav { flex-direction: column; }
+    }
+
+    @media (max-width: 500px) {
+      .empathy-map { grid-template-columns: 1fr; }
+      .em-center { grid-column: 1; }
+    }
+
+    /* ── Page hero ── */
+    .page-hero {
+      background: #1A1A1A;
+      padding: 3rem 2.5rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 260px; height: 260px;
+      background: #B91C1C;
+      opacity: 0.18;
+      border-radius: 0;
+    }
+
+    .page-hero-inner { position: relative; z-index: 1; }
+
+    .page-hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 800;
+      font-size: 2.25rem;
+      color: white;
+      margin: 0.75rem 0 0.5rem;
+      line-height: 1.15;
+    }
+
+    .page-hero-sub {
+      color: rgba(255,255,255,0.7);
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Figma steps */
+    .figma-steps { counter-reset: figma-counter; list-style: none; padding: 0; margin: 1.25rem 0; }
+
+    .figma-steps li {
+      counter-increment: figma-counter;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    .figma-steps li::before {
+      content: counter(figma-counter);
+      background: #F59E0B;
+      color: #1A1A1A;
+      font-weight: 800;
+      font-size: 0.75rem;
+      min-width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .back-link:hover { color: white; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    /* ── Copy button helper ── */
+    function CopyBtn({ text }) {
+      const [copied, setCopied] = useState(false);
+      const handleCopy = () => {
+        navigator.clipboard.writeText(text).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        }).catch(() => {
+          const el = document.createElement('textarea');
+          el.value = text;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1800);
+        });
+      };
+      return <button className="copy-btn" onClick={handleCopy}>{copied ? '✓ Kopiert' : 'Kopieren'}</button>;
+    }
+
+    /* ── Code Block ── */
+    function CodeBlock({ code }) {
+      return (
+        <div className="code-block">
+          <CopyBtn text={code} />
+          {code}
+        </div>
+      );
+    }
+
+    /* ── Quiz Component ── */
+    function Quiz({ questions }) {
+      const [answers, setAnswers] = useState({});
+      const [showScore, setShowScore] = useState(false);
+
+      const handleAnswer = (qi, opt) => {
+        if (answers[qi] !== undefined) return;
+        setAnswers(prev => ({ ...prev, [qi]: opt }));
+      };
+
+      const score = Object.entries(answers).filter(([qi, opt]) => questions[+qi].correct === opt).length;
+      const allAnswered = Object.keys(answers).length === questions.length;
+
+      return (
+        <div>
+          {questions.map((q, qi) => (
+            <div key={qi} style={{ marginBottom: '1.75rem' }}>
+              <p style={{ fontWeight: 700, marginBottom: '0.5rem', fontSize: '0.95rem' }}>
+                <span style={{ color: '#B91C1C', marginRight: '0.5rem' }}>F{qi + 1}.</span>
+                {q.question}
+              </p>
+              {q.options.map((opt, oi) => {
+                let cls = 'quiz-option';
+                if (answers[qi] !== undefined) {
+                  if (oi === q.correct) cls += ' correct';
+                  else if (oi === answers[qi]) cls += ' wrong';
+                }
+                return (
+                  <button
+                    key={oi}
+                    className={cls}
+                    onClick={() => handleAnswer(qi, oi)}
+                    disabled={answers[qi] !== undefined}
+                  >
+                    <span style={{ fontWeight: 700, marginRight: '0.5rem', color: '#B91C1C' }}>
+                      {['A', 'B', 'C', 'D'][oi]})
+                    </span>
+                    {opt}
+                    {answers[qi] !== undefined && oi === q.correct && (
+                      <span style={{ marginLeft: '0.5rem', color: '#16a34a' }}>✓</span>
+                    )}
+                    {answers[qi] === oi && oi !== q.correct && (
+                      <span style={{ marginLeft: '0.5rem', color: '#ef4444' }}>✗</span>
+                    )}
+                  </button>
+                );
+              })}
+              {answers[qi] !== undefined && (
+                <p style={{ fontSize: '0.8rem', color: '#6B7280', marginTop: '0.35rem', paddingLeft: '0.5rem' }}>
+                  {q.explanation}
+                </p>
+              )}
+            </div>
+          ))}
+          {allAnswered && (
+            <div className="quiz-score">
+              {score}/{questions.length} {score === questions.length ? '🎉 Perfekt!' : score >= 3 ? '— Gut gemacht!' : '— Weiter üben!'}
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    /* ── Phase Card ── */
+    function PhaseCard({ num, emoji, name, desc, highlight }) {
+      return (
+        <div className={`phase-card${highlight ? ' active-phase' : ''}`}>
+          <div className="phase-num">Phase {num}</div>
+          <div className="phase-emoji">{emoji}</div>
+          <div className="phase-name">{name}</div>
+          <div className="phase-desc">{desc}</div>
+        </div>
+      );
+    }
+
+    /* ── Main App ── */
+    function App() {
+      const [lang, setLang] = useState('de');
+      const [activeSection, setActiveSection] = useState('ueberblick');
+
+      const t = lang === 'de' ? de : en;
+
+      /* Scroll spy */
+      useEffect(() => {
+        const sections = document.querySelectorAll('[data-section]');
+        const observer = new IntersectionObserver(
+          entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) setActiveSection(entry.target.dataset.section);
+            });
+          },
+          { rootMargin: '-20% 0px -70% 0px' }
+        );
+        sections.forEach(s => observer.observe(s));
+        return () => observer.disconnect();
+      }, []);
+
+      const navLinks = [
+        { id: 'ueberblick',    label: t.nav_ueberblick },
+        { id: 'design-thinking', label: t.nav_designthinking },
+        { id: 'empathize',    label: t.nav_empathize },
+        { id: 'define',       label: t.nav_define },
+        { id: 'ideate',       label: t.nav_ideate },
+        { id: 'prototype',    label: t.nav_prototype },
+        { id: 'test',         label: t.nav_test },
+        { id: 'uebung',       label: t.nav_uebung },
+        { id: 'quiz',         label: t.nav_quiz },
+        { id: 'figma',        label: t.nav_figma },
+      ];
+
+      const personaTemplate = `## Persona: [Name], [Alter]
+**Beruf:** [Jobtitel] bei [Unternehmen]
+**Ziele:**
+- ...
+**Frustrationen:**
+- ...
+**Technik-Affinität:** [niedrig / mittel / hoch]
+**Zitat:** "[Was würde diese Person sagen?]"`;
+
+      return (
+        <div>
+          {/* ── Navbar ── */}
+          <nav className="navbar">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontWeight: 800, fontSize: '1.15rem', color: '#B91C1C'
+              }}>INME Lab</span>
+              <a href="index.html" style={{
+                color: '#9CA3AF', fontSize: '0.85rem', fontWeight: 600,
+                borderLeft: '2px solid #E5E7EB', paddingLeft: '0.75rem',
+                textDecoration: 'none', transition: 'color 0.15s'
+              }}>← {t.backLabel}</a>
+            </div>
+            <div style={{ display: 'flex', gap: '0.35rem' }}>
+              <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => setLang('de')}>DE</button>
+              <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
+            </div>
+          </nav>
+
+          {/* ── Sidebar ── */}
+          <aside className="sidebar">
+            <div className="sidebar-label">Lab 02</div>
+            {navLinks.map(l => (
+              <a
+                key={l.id}
+                href={`#${l.id}`}
+                className={`sidebar-link${activeSection === l.id ? ' active' : ''}`}
+              >
+                {l.label}
+              </a>
+            ))}
+          </aside>
+
+          {/* ── Main ── */}
+          <main className="main-content">
+
+            {/* Page Hero */}
+            <div className="page-hero">
+              <div className="page-hero-inner">
+                <a href="index.html" className="back-link">← {t.backLabel}</a>
+                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', flexWrap: 'wrap' }}>
+                  <span className="bauhaus-badge">Lab 02</span>
+                  <span className="bauhaus-badge" style={{ background: '#B91C1C' }}>{t.heroBadgeTime}</span>
+                </div>
+                <h1>{t.heroTitle}</h1>
+                <p className="page-hero-sub">{t.heroSub}</p>
+              </div>
+            </div>
+
+            <div className="content-inner">
+
+              {/* ── #ueberblick ── */}
+              <section id="ueberblick" data-section="ueberblick" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s1_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <div className="concept-box">
+                  <p style={{ fontWeight: 700, fontSize: '1rem' }}>{t.s1_tagline}</p>
+                </div>
+                <h3 style={{ marginBottom: '0.5rem', marginTop: '1.25rem' }}>{t.s1_lernziele}</h3>
+                <ul style={{ paddingLeft: '1.25rem', lineHeight: '1.9', fontSize: '0.95rem' }}>
+                  {t.s1_lernziele_list.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+                <div style={{ marginTop: '1rem' }}>
+                  <span className="bauhaus-badge">⏱ {t.heroBadgeTime}</span>
+                </div>
+              </section>
+
+              {/* ── #design-thinking ── */}
+              <section id="design-thinking" data-section="design-thinking" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s2_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s2_intro}</p>
+
+                <div className="phase-flow">
+                  <PhaseCard num="1" emoji="🔍" name="Empathize" desc={t.ph1_desc} />
+                  <div className="phase-arrow">→</div>
+                  <PhaseCard num="2" emoji="📌" name="Define" desc={t.ph2_desc} />
+                  <div className="phase-arrow">→</div>
+                  <PhaseCard num="3" emoji="💡" name="Ideate" desc={t.ph3_desc} />
+                  <div className="phase-arrow">→</div>
+                  <PhaseCard num="4" emoji="✏️" name="Prototype" desc={t.ph4_desc} />
+                  <div className="phase-arrow">→</div>
+                  <PhaseCard num="5" emoji="🧪" name="Test" desc={t.ph5_desc} />
+                </div>
+
+                <div className="tip-box">
+                  <strong>↺</strong> {t.s2_iterativ}
+                </div>
+              </section>
+
+              {/* ── #empathize ── */}
+              <section id="empathize" data-section="empathize" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>🔍 {t.s3_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s3_intro}</p>
+
+                <h3 style={{ marginBottom: '0.5rem' }}>{t.s3_methoden}</h3>
+                <ul style={{ paddingLeft: '1.25rem', lineHeight: '1.9', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
+                  {t.s3_methoden_list.map((m, i) => <li key={i}>{m}</li>)}
+                </ul>
+
+                <h3 style={{ marginBottom: '0.5rem' }}>{t.s3_map_title}</h3>
+                <div className="empathy-map">
+                  <div className="em-center">{t.s3_map_center}</div>
+                  <div className="em-cell">
+                    <div className="em-cell-label">SAYS</div>
+                    <div className="em-cell-hint">{t.em_says}</div>
+                  </div>
+                  <div className="em-cell">
+                    <div className="em-cell-label">THINKS</div>
+                    <div className="em-cell-hint">{t.em_thinks}</div>
+                  </div>
+                  <div className="em-cell">
+                    <div className="em-cell-label">DOES</div>
+                    <div className="em-cell-hint">{t.em_does}</div>
+                  </div>
+                  <div className="em-cell">
+                    <div className="em-cell-label">FEELS</div>
+                    <div className="em-cell-hint">{t.em_feels}</div>
+                  </div>
+                </div>
+
+                <div className="challenge-box">
+                  <strong>💪 {t.challenge_label}</strong>
+                  <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>{t.s3_challenge}</p>
+                </div>
+              </section>
+
+              {/* ── #define ── */}
+              <section id="define" data-section="define" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>📌 {t.s4_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+
+                <h3 style={{ marginBottom: '0.5rem' }}>{t.s4_ps_title}</h3>
+                <div className="concept-box">
+                  <p style={{ fontSize: '0.95rem', fontStyle: 'italic', lineHeight: '1.6' }}>
+                    "{t.s4_ps_text}"
+                  </p>
+                </div>
+
+                <h3 style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>{t.s4_hmw_title}</h3>
+                <p style={{ fontSize: '0.9rem', color: '#4B5563', marginBottom: '1rem' }}>{t.s4_hmw_intro}</p>
+
+                <div className="bauhaus-card" style={{ marginBottom: '1rem' }}>
+                  <div className="bauhaus-badge" style={{ marginBottom: '0.75rem' }}>HMW {t.s4_hmw_examples}</div>
+                  <ul style={{ paddingLeft: '1.25rem', lineHeight: '2', fontSize: '0.9rem' }}>
+                    {t.s4_hmw_list.map((h, i) => <li key={i}>{h}</li>)}
+                  </ul>
+                </div>
+
+                <div className="challenge-box">
+                  <strong>💪 {t.challenge_label}</strong>
+                  <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>{t.s4_challenge}</p>
+                </div>
+              </section>
+
+              {/* ── #ideate ── */}
+              <section id="ideate" data-section="ideate" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>💡 {t.s5_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s5_intro}</p>
+
+                <div className="methods-grid">
+                  {t.s5_methods.map((m, i) => (
+                    <div key={i} className="bauhaus-card">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                        <span style={{ fontSize: '1.25rem' }}>{m.emoji}</span>
+                        <h3 style={{ fontSize: '1rem' }}>{m.name}</h3>
+                      </div>
+                      <p style={{ fontSize: '0.85rem', color: '#4B5563', lineHeight: '1.5' }}>{m.desc}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="tip-box">
+                  <strong>💡 Tipp:</strong> {t.s5_tip}
+                </div>
+
+                <div className="challenge-box">
+                  <strong>💪 {t.challenge_label}</strong>
+                  <p style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>{t.s5_challenge}</p>
+                </div>
+              </section>
+
+              {/* ── #prototype ── */}
+              <section id="prototype" data-section="prototype" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>✏️ {t.s6_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s6_intro}</p>
+
+                <table className="compare-table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>{t.s6_lofi}</th>
+                      <th>{t.s6_hifi}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {t.s6_rows.map((row, i) => (
+                      <tr key={i}>
+                        <td style={{ fontWeight: 700, color: '#B91C1C', whiteSpace: 'nowrap' }}>{row.label}</td>
+                        <td>{row.lofi}</td>
+                        <td>{row.hifi}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <div style={{ marginTop: '1rem' }}>
+                  <a href="#figma" className="lab-nav-btn primary" style={{ display: 'inline-flex' }}>
+                    {t.s6_figma_link} →
+                  </a>
+                </div>
+              </section>
+
+              {/* ── #test ── */}
+              <section id="test" data-section="test" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>🧪 {t.s7_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s7_intro}</p>
+
+                <h3 style={{ marginBottom: '0.5rem' }}>{t.s7_basics_title}</h3>
+                <ul style={{ paddingLeft: '1.25rem', lineHeight: '1.9', fontSize: '0.9rem', marginBottom: '1rem' }}>
+                  {t.s7_basics.map((b, i) => <li key={i}>{b}</li>)}
+                </ul>
+
+                <h3 style={{ marginBottom: '0.5rem', marginTop: '1.25rem' }}>{t.s7_methods_title}</h3>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1.25rem' }}>
+                  {t.s7_methods.map((m, i) => (
+                    <span key={i} className="bauhaus-badge" style={{ background: '#374151', fontSize: '0.8rem' }}>{m}</span>
+                  ))}
+                </div>
+
+                <div className="tip-box">
+                  <strong>💡 "Fail fast to succeed sooner"</strong>
+                  <p style={{ marginTop: '0.4rem', fontSize: '0.9rem' }}>{t.s7_tip}</p>
+                </div>
+
+                <div className="bauhaus-card" style={{ marginTop: '1rem' }}>
+                  <h3 style={{ marginBottom: '0.75rem', fontSize: '0.95rem' }}>{t.s7_loop_title}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '0.9rem', fontWeight: 600 }}>
+                    {t.s7_loop.map((step, i) => (
+                      <React.Fragment key={i}>
+                        <span style={{ padding: '0.3rem 0.75rem', border: '2px solid #B91C1C', color: '#B91C1C' }}>{step}</span>
+                        {i < t.s7_loop.length - 1 && <span style={{ color: '#F59E0B', fontWeight: 800 }}>→</span>}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* ── #uebung ── */}
+              <section id="uebung" data-section="uebung" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s8_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1.25rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s8_intro}</p>
+
+                <ul className="steps-list">
+                  {t.s8_steps.map((step, i) => (
+                    <li key={i} className="step-item">
+                      <div className="step-num">{i + 1}</div>
+                      <div className="step-content">
+                        <div className="step-title">{step.title}</div>
+                        <div className="step-desc">{step.desc}</div>
+                        {step.sub && (
+                          <ul style={{ paddingLeft: '1.25rem', marginTop: '0.4rem', fontSize: '0.85rem', color: '#6B7280', lineHeight: '1.7' }}>
+                            {step.sub.map((s, si) => <li key={si}>{s}</li>)}
+                          </ul>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="concept-box">
+                  <strong>📌 {t.s8_concept_title}</strong>
+                  <p style={{ marginTop: '0.4rem', fontSize: '0.9rem' }}>{t.s8_concept_text}</p>
+                </div>
+
+                <h3 style={{ marginTop: '1.5rem', marginBottom: '0.75rem' }}>{t.s8_template_title}</h3>
+                <CodeBlock code={personaTemplate} />
+              </section>
+
+              {/* ── #quiz ── */}
+              <section id="quiz" data-section="quiz" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s9_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1.5rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s9_intro}</p>
+                <Quiz questions={t.s9_questions} />
+              </section>
+
+              {/* ── #figma ── */}
+              <section id="figma" data-section="figma" className="section-block">
+                <h2 style={{ fontSize: '1.75rem', marginBottom: '0.25rem' }}>{t.s10_title}</h2>
+                <div className="bauhaus-accent-line"></div>
+                <p style={{ marginBottom: '1rem', fontSize: '0.95rem', color: '#4B5563' }}>{t.s10_intro}</p>
+
+                <ol className="figma-steps">
+                  {t.s10_steps.map((step, i) => (
+                    <li key={i}>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+
+                <div className="info-box">
+                  <strong>ℹ️ Figma Community:</strong>
+                  <p style={{ marginTop: '0.4rem', fontSize: '0.9rem' }}>{t.s10_info}</p>
+                </div>
+
+                <div className="tip-box" style={{ marginTop: '1rem' }}>
+                  <strong>→ Lab 04:</strong> {t.s10_lab4_hint}
+                </div>
+              </section>
+
+            </div>{/* /content-inner */}
+
+            {/* ── Bottom Navigation ── */}
+            <div className="lab-nav">
+              <a href="lab-01-grundlagen.html" className="lab-nav-btn">← {t.nav_prev}</a>
+              <a href="lab-03-gestaltung.html" className="lab-nav-btn primary">{t.nav_next} →</a>
+            </div>
+
+          </main>
+        </div>
+      );
+    }
+
+    /* ════════════════════════════════════════
+       TRANSLATIONS
+    ════════════════════════════════════════ */
+    const de = {
+      backLabel: 'Übersicht',
+      heroBadgeTime: 'ca. 60 Min',
+      heroTitle: 'Kreativtechniken & Design Thinking',
+      heroSub: 'Lab 02 · INME · THWS Business School',
+
+      nav_ueberblick:     'Überblick',
+      nav_designthinking: 'Die 5 Phasen',
+      nav_empathize:      'Empathize',
+      nav_define:         'Define',
+      nav_ideate:         'Ideate',
+      nav_prototype:      'Prototype',
+      nav_test:           'Test',
+      nav_uebung:         'Use Case starten',
+      nav_quiz:           'Quiz',
+      nav_figma:          'Figma Quickstart',
+
+      challenge_label: 'Übung',
+
+      /* Überblick */
+      s1_title: 'Überblick',
+      s1_tagline: 'Design Thinking ist der rote Faden durch alle Labs',
+      s1_lernziele: 'Lernziele',
+      s1_lernziele_list: [
+        'Die 5 Phasen des Design Thinking kennen und benennen',
+        'Kreativmethoden (Brainstorming, HMW, SCAMPER) anwenden',
+        'Den eigenen Use Case mit einer Persona starten',
+      ],
+
+      /* 5 Phasen */
+      s2_title: 'Die 5 Phasen des Design Thinking',
+      s2_intro: 'Design Thinking ist ein menschenzentrierter Ansatz zur Problemlösung. Die fünf Phasen sind kein linearer Prozess – sie werden iterativ durchlaufen.',
+      ph1_desc: 'Nutzer verstehen. Interviews, Beobachtung, Empathy Maps. Ziel: tiefes Verständnis für echte Bedürfnisse.',
+      ph2_desc: 'Problem formulieren. Point of View, "How Might We" Fragen. Ziel: klares Problemstatement.',
+      ph3_desc: 'Ideen generieren. Brainstorming, Brainwriting, SCAMPER. Ziel: Quantität vor Qualität, keine Kritik.',
+      ph4_desc: 'Lösungen greifbar machen. Papierprototypen, Figma. Ziel: schnell testen, nicht perfekt sein.',
+      ph5_desc: 'Feedback sammeln. Usability-Tests. Ziel: lernen und iterieren.',
+      s2_iterativ: 'Der Prozess ist iterativ – Rückschritte sind normal und gewollt!',
+
+      /* Empathize */
+      s3_title: 'Empathize Phase',
+      s3_intro: 'Bevor wir ein Problem lösen, müssen wir es wirklich verstehen – aus der Perspektive der Nutzer.',
+      s3_methoden: 'Methoden',
+      s3_methoden_list: [
+        'User-Interviews – offene Gespräche mit echten Nutzern',
+        'Beobachtung (Contextual Inquiry) – Nutzer bei ihrer Arbeit begleiten',
+        'Empathy Maps – Visualisierung von Gedanken, Gefühlen und Handlungen',
+        'Shadowing – Nutzer über die Schulter schauen',
+      ],
+      s3_map_title: 'Empathy Map Template',
+      s3_map_center: '👤 Nutzer-Avatar: Wer ist diese Person?',
+      em_says: 'Was sagt die Person laut? Wörtliche Aussagen aus Interviews.',
+      em_thinks: 'Was denkt sie? Überzeugungen, Bedenken, die sie vielleicht nicht ausspricht.',
+      em_does: 'Was tut sie? Beobachtbares Verhalten und Handlungen.',
+      em_feels: 'Was fühlt sie? Emotionen, Frustrationen, Freude.',
+      s3_challenge: 'Erstelle eine Empathy Map für einen Kaffeemaschinen-Nutzer. Was sagt er? Was denkt er? Was tut er? Was fühlt er, wenn die Maschine "E4" meldet?',
+
+      /* Define */
+      s4_title: 'Define Phase',
+      s4_ps_title: 'Problem Statement',
+      s4_ps_text: 'Techniker Thomas braucht eine schnelle Möglichkeit, Kaffeemaschinen-Störungen zu diagnostizieren, weil er täglich 10+ Maschinen wartet und keine Zeit für lange Handbuchrecherchen hat.',
+      s4_hmw_title: 'How Might We (HMW)',
+      s4_hmw_intro: 'HMW-Statements verwandeln ein Problem in eine Designchance. Sie sind offen genug für Kreativität, aber fokussiert genug für Richtung.',
+      s4_hmw_examples: 'Beispiele',
+      s4_hmw_list: [
+        '"Wie könnten wir die Diagnose einer Kaffeemaschinen-Störung auf unter 2 Minuten reduzieren?"',
+        '"Wie könnten wir Technikern ermöglichen, Ersatzteile direkt aus der Diagnose zu bestellen?"',
+        '"Wie könnten wir die Fehlerrate bei der Störungsdiagnose auf unter 5 % senken?"',
+      ],
+      s4_challenge: 'Formuliere 3 eigene HMW-Fragen für den Kaffeemaschinen-Use-Case.',
+
+      /* Ideate */
+      s5_title: 'Ideate Phase',
+      s5_intro: 'Jetzt geht es um Quantität – so viele Ideen wie möglich generieren, ohne zu bewerten.',
+      s5_methods: [
+        { emoji: '🌩️', name: 'Brainstorming', desc: '10 Minuten, keine Bewertung, wild und kreativ. Alles ist erlaubt.' },
+        { emoji: '✍️', name: 'Brainwriting 6-3-5', desc: '6 Personen, 3 Ideen, 5 Runden = 90 Ideen in 30 Minuten.' },
+        { emoji: '🔧', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
+        { emoji: '⏱️', name: 'Crazy 8s', desc: '8 Ideen in 8 Minuten (je 1 Minute). Skizzieren statt schreiben.' },
+      ],
+      s5_tip: 'Während der Ideation gilt: Quantität vor Qualität. Keine Idee ist zu verrückt!',
+      s5_challenge: 'Crazy 8s für den Störungsmelder: Skizziere 8 verschiedene App-Konzepte in 8 Minuten. Wecker stellen!',
+
+      /* Prototype */
+      s6_title: 'Prototype Phase',
+      s6_intro: 'Prototypen machen Ideen greifbar und testbar. Wichtig: Ein Prototyp muss nicht perfekt sein – er muss lehrreich sein.',
+      s6_lofi: 'Lo-Fi Prototyp',
+      s6_hifi: 'Hi-Fi Prototyp',
+      s6_rows: [
+        { label: 'Material',  lofi: 'Papier, Post-its, Stift',         hifi: 'Figma, Sketch, Adobe XD' },
+        { label: 'Zeit',      lofi: '15–30 Minuten',                   hifi: 'Stunden bis Tage' },
+        { label: 'Ziel',      lofi: 'Grundstruktur und Fluss testen',  hifi: 'Aussehen + Interaktion testen' },
+        { label: 'Kosten',    lofi: 'Fast 0',                          hifi: 'Mittel' },
+        { label: 'Beste für', lofi: 'Frühe Phase, schnelle Iteration', hifi: 'Später, vor Entwicklung' },
+      ],
+      s6_figma_link: 'Figma Quickstart ansehen',
+
+      /* Test */
+      s7_title: 'Test Phase',
+      s7_intro: 'Testing ist kein letzter Schritt – es ist eine kontinuierliche Aktivität im gesamten Design Thinking Prozess.',
+      s7_basics_title: 'Grundregeln für Usability-Tests',
+      s7_basics: [
+        '5 Nutzer reichen – Nielsen\'s Law: 85 % aller Probleme werden gefunden',
+        'Think Aloud Protocol: Nutzer laut denken lassen',
+        'Nicht erklären oder helfen – nur beobachten und notieren',
+        'Fragen stellen, nicht antworten geben',
+      ],
+      s7_methods_title: 'Feedback-Methoden',
+      s7_methods: ['SUS Score', 'Heatmaps', 'Think Aloud', 'A/B Tests'],
+      s7_tip: 'Frühes Scheitern als Lernmöglichkeit nutzen. Jedes Feedback ist ein Geschenk – auch negatives.',
+      s7_loop_title: 'Iterationsschleife',
+      s7_loop: ['Test', 'Learnings', 'Define / Ideate / Prototype', 'Test again'],
+
+      /* Übung */
+      s8_title: 'Use Case starten',
+      s8_intro: 'Jetzt bist du dran! Folge dieser Schritt-für-Schritt-Anleitung, um deinen Use Case zu starten.',
+      s8_steps: [
+        {
+          title: 'Persona erstellen: Thomas, 34, Wartungstechniker',
+          desc: 'Entwickle eine vollständige Persona mit allen relevanten Informationen:',
+          sub: [
+            'Name, Alter, Job',
+            'Tägliche Aufgaben (z. B. 10+ Maschinen täglich warten)',
+            'Frustrationen (z. B. "Immer das Handbuch suchen")',
+            'Ziele (z. B. "Schnell wieder einsatzbereit sein")',
+            'Technik-Affinität: mittel',
+          ]
+        },
+        {
+          title: 'Empathy Map ausfüllen',
+          desc: 'Nutze das Template oben. Was sagt, denkt, tut und fühlt Thomas, wenn eine Maschine einen Fehler meldet?',
+        },
+        {
+          title: 'Problem Statement formulieren',
+          desc: 'Schreibe ein klares Problem Statement im Format: "[Persona] braucht [Bedürfnis], weil [Insight]."',
+        },
+        {
+          title: '5 HMW-Fragen generieren',
+          desc: 'Formuliere 5 "How Might We"-Fragen, die dein Problem Statement in Chancen verwandeln.',
+        },
+      ],
+      s8_concept_title: 'Hinweis',
+      s8_concept_text: 'Diese Persona begleitet uns durch alle weiteren Labs!',
+      s8_template_title: 'Persona Template (kopierbar)',
+
+      /* Quiz */
+      s9_title: 'Quiz – Wissen testen',
+      s9_intro: 'Teste dein Verständnis der Inhalte aus Lab 02. Klicke auf eine Antwort, um sie zu prüfen.',
+      s9_questions: [
+        {
+          question: 'Welche Phase kommt im Design Thinking nach "Empathize"?',
+          options: ['Prototype', 'Test', 'Define', 'Ideate'],
+          correct: 2,
+          explanation: 'Nach Empathize folgt Define – hier wird das Problem klar formuliert.',
+        },
+        {
+          question: 'Was ist das Ziel der "Ideate"-Phase?',
+          options: [
+            'Einen Prototypen bauen',
+            'Möglichst viele kreative Ideen ohne Bewertung generieren',
+            'Nutzerinterviews durchführen',
+            'Das Problem definieren',
+          ],
+          correct: 1,
+          explanation: 'In der Ideation gilt: Quantität vor Qualität. Keine Idee ist zu verrückt.',
+        },
+        {
+          question: 'Was ist ein "How Might We"-Statement?',
+          options: [
+            'Eine technische Spezifikation',
+            'Eine Frage, die ein Problem in eine Designchance verwandelt',
+            'Ein Usability-Test-Protokoll',
+            'Eine Persona-Vorlage',
+          ],
+          correct: 1,
+          explanation: 'HMW-Statements sind offen genug für Kreativität, aber fokussiert genug für Richtung.',
+        },
+        {
+          question: 'Was bedeutet "Fail fast to succeed sooner"?',
+          options: [
+            'Schnell aufgeben, wenn etwas nicht funktioniert',
+            'Tests überspringen, um schneller zu sein',
+            'Frühes Scheitern als Lernmöglichkeit nutzen',
+            'Fehler im Code schnell finden',
+          ],
+          correct: 2,
+          explanation: 'Frühes Feedback und schnelle Iterationen führen zu besseren Lösungen.',
+        },
+        {
+          question: 'Was ist der Unterschied zwischen Lo-Fi und Hi-Fi Prototypen?',
+          options: [
+            'Lo-Fi ist günstiger in der Produktion',
+            'Hi-Fi ist für mobile Geräte',
+            'Lo-Fi: grob/schnell (Papier); Hi-Fi: detailliert/realistisch (Figma)',
+            'Es gibt keinen wesentlichen Unterschied',
+          ],
+          correct: 2,
+          explanation: 'Lo-Fi Prototypen sind schnell und günstig; Hi-Fi Prototypen sind realistisch und detailliert.',
+        },
+      ],
+
+      /* Figma */
+      s10_title: 'Figma Quickstart',
+      s10_intro: 'Figma ist das Standard-Tool für UI/UX Design. Kostenlos für Studierende und im Browser nutzbar – kein Download nötig.',
+      s10_steps: [
+        'Account anlegen: figma.com (kostenlos für Studierende)',
+        'Neues Design File erstellen (Dashboard → "New design file")',
+        'Frame anlegen: F drücken → Mobile (390×844) oder Desktop (1440×900) wählen',
+        'Grundelemente: Rectangle (R), Text (T), Frame (F), Auto Layout (Shift+A)',
+        'Komponenten erstellen: Element auswählen → Ctrl+Alt+K (Win) / Cmd+Alt+K (Mac)',
+      ],
+      s10_info: 'Figma Community hat tausende kostenlose Templates. Suche nach "Coffee App" oder "Maintenance App" für Inspiration.',
+      s10_lab4_hint: 'In Lab 04 tauchen wir tiefer in Figma ein – Komponenten, Auto Layout und interaktive Prototypen.',
+
+      /* Nav */
+      nav_prev: 'Lab 01: Grundlagen',
+      nav_next: 'Weiter: Lab 03 – Gestaltung',
+    };
+
+    const en = {
+      backLabel: 'Overview',
+      heroBadgeTime: 'approx. 60 min',
+      heroTitle: 'Creativity Techniques & Design Thinking',
+      heroSub: 'Lab 02 · INME · THWS Business School',
+
+      nav_ueberblick:     'Overview',
+      nav_designthinking: 'The 5 Phases',
+      nav_empathize:      'Empathize',
+      nav_define:         'Define',
+      nav_ideate:         'Ideate',
+      nav_prototype:      'Prototype',
+      nav_test:           'Test',
+      nav_uebung:         'Start Use Case',
+      nav_quiz:           'Quiz',
+      nav_figma:          'Figma Quickstart',
+
+      challenge_label: 'Exercise',
+
+      /* Overview */
+      s1_title: 'Overview',
+      s1_tagline: 'Design Thinking is the guiding thread through all labs',
+      s1_lernziele: 'Learning Objectives',
+      s1_lernziele_list: [
+        'Know and name the 5 phases of Design Thinking',
+        'Apply creativity methods (brainstorming, HMW, SCAMPER)',
+        'Start your own use case with a persona',
+      ],
+
+      /* 5 Phases */
+      s2_title: 'The 5 Phases of Design Thinking',
+      s2_intro: 'Design Thinking is a human-centered approach to problem solving. The five phases are not a linear process – they are iterated through repeatedly.',
+      ph1_desc: 'Understand users. Interviews, observation, empathy maps. Goal: deep understanding of real needs.',
+      ph2_desc: 'Frame the problem. Point of view, "How Might We" questions. Goal: a clear problem statement.',
+      ph3_desc: 'Generate ideas. Brainstorming, brainwriting, SCAMPER. Goal: quantity over quality, no criticism.',
+      ph4_desc: 'Make solutions tangible. Paper prototypes, Figma. Goal: test fast, not be perfect.',
+      ph5_desc: 'Gather feedback. Usability tests. Goal: learn and iterate.',
+      s2_iterativ: 'The process is iterative – going back is normal and desired!',
+
+      /* Empathize */
+      s3_title: 'Empathize Phase',
+      s3_intro: 'Before we solve a problem, we need to truly understand it – from the user\'s perspective.',
+      s3_methoden: 'Methods',
+      s3_methoden_list: [
+        'User Interviews – open conversations with real users',
+        'Observation (Contextual Inquiry) – accompany users in their work',
+        'Empathy Maps – visualizing thoughts, feelings and actions',
+        'Shadowing – watching users over the shoulder',
+      ],
+      s3_map_title: 'Empathy Map Template',
+      s3_map_center: '👤 User Avatar: Who is this person?',
+      em_says: 'What does the person say out loud? Verbatim quotes from interviews.',
+      em_thinks: 'What do they think? Beliefs and concerns they might not say aloud.',
+      em_does: 'What do they do? Observable behaviors and actions.',
+      em_feels: 'What do they feel? Emotions, frustrations, joy.',
+      s3_challenge: 'Create an Empathy Map for a coffee machine user. What does he say? Think? Do? Feel when the machine shows "E4"?',
+
+      /* Define */
+      s4_title: 'Define Phase',
+      s4_ps_title: 'Problem Statement',
+      s4_ps_text: 'Technician Thomas needs a fast way to diagnose coffee machine errors because he maintains 10+ machines daily and has no time for lengthy manual research.',
+      s4_hmw_title: 'How Might We (HMW)',
+      s4_hmw_intro: 'HMW statements transform a problem into a design opportunity. They are open enough for creativity but focused enough to provide direction.',
+      s4_hmw_examples: 'Examples',
+      s4_hmw_list: [
+        '"How might we reduce the diagnosis of a coffee machine error to under 2 minutes?"',
+        '"How might we enable technicians to order spare parts directly from the diagnosis?"',
+        '"How might we reduce the error rate in fault diagnosis to under 5%?"',
+      ],
+      s4_challenge: 'Formulate 3 of your own HMW questions for the coffee machine use case.',
+
+      /* Ideate */
+      s5_title: 'Ideate Phase',
+      s5_intro: 'Now it\'s about quantity – generating as many ideas as possible without evaluation.',
+      s5_methods: [
+        { emoji: '🌩️', name: 'Brainstorming', desc: '10 minutes, no judgment, wild and creative. Everything is allowed.' },
+        { emoji: '✍️', name: 'Brainwriting 6-3-5', desc: '6 people, 3 ideas, 5 rounds = 90 ideas in 30 minutes.' },
+        { emoji: '🔧', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
+        { emoji: '⏱️', name: 'Crazy 8s', desc: '8 ideas in 8 minutes (1 minute each). Sketch instead of write.' },
+      ],
+      s5_tip: 'During ideation: quantity over quality. No idea is too crazy!',
+      s5_challenge: 'Crazy 8s for the error reporter: sketch 8 different app concepts in 8 minutes. Set a timer!',
+
+      /* Prototype */
+      s6_title: 'Prototype Phase',
+      s6_intro: 'Prototypes make ideas tangible and testable. Important: a prototype doesn\'t need to be perfect – it needs to be educational.',
+      s6_lofi: 'Lo-Fi Prototype',
+      s6_hifi: 'Hi-Fi Prototype',
+      s6_rows: [
+        { label: 'Material',  lofi: 'Paper, post-its, pen',           hifi: 'Figma, Sketch, Adobe XD' },
+        { label: 'Time',      lofi: '15–30 minutes',                  hifi: 'Hours to days' },
+        { label: 'Goal',      lofi: 'Test basic structure and flow',  hifi: 'Test appearance + interaction' },
+        { label: 'Cost',      lofi: 'Almost 0',                       hifi: 'Medium' },
+        { label: 'Best for',  lofi: 'Early phase, quick iteration',   hifi: 'Later, before development' },
+      ],
+      s6_figma_link: 'View Figma Quickstart',
+
+      /* Test */
+      s7_title: 'Test Phase',
+      s7_intro: 'Testing is not a final step – it\'s a continuous activity throughout the entire Design Thinking process.',
+      s7_basics_title: 'Ground Rules for Usability Tests',
+      s7_basics: [
+        '5 users are enough – Nielsen\'s Law: 85% of all problems are found',
+        'Think Aloud Protocol: let users think out loud',
+        'Don\'t explain or help – only observe and note',
+        'Ask questions, don\'t give answers',
+      ],
+      s7_methods_title: 'Feedback Methods',
+      s7_methods: ['SUS Score', 'Heatmaps', 'Think Aloud', 'A/B Tests'],
+      s7_tip: 'Use early failure as a learning opportunity. Every piece of feedback is a gift – even negative ones.',
+      s7_loop_title: 'Iteration Loop',
+      s7_loop: ['Test', 'Learnings', 'Define / Ideate / Prototype', 'Test again'],
+
+      /* Exercise */
+      s8_title: 'Start the Use Case',
+      s8_intro: 'Now it\'s your turn! Follow this step-by-step guide to start your use case.',
+      s8_steps: [
+        {
+          title: 'Create persona: Thomas, 34, Maintenance Technician',
+          desc: 'Develop a complete persona with all relevant information:',
+          sub: [
+            'Name, age, job',
+            'Daily tasks (e.g., maintain 10+ machines daily)',
+            'Frustrations (e.g., "Always searching for the manual")',
+            'Goals (e.g., "Get back operational quickly")',
+            'Tech affinity: medium',
+          ]
+        },
+        {
+          title: 'Fill in the Empathy Map',
+          desc: 'Use the template above. What does Thomas say, think, do and feel when a machine reports an error?',
+        },
+        {
+          title: 'Formulate a Problem Statement',
+          desc: 'Write a clear problem statement in the format: "[Persona] needs [need] because [insight]."',
+        },
+        {
+          title: 'Generate 5 HMW Questions',
+          desc: 'Formulate 5 "How Might We" questions that transform your problem statement into opportunities.',
+        },
+      ],
+      s8_concept_title: 'Note',
+      s8_concept_text: 'This persona will accompany us through all further labs!',
+      s8_template_title: 'Persona Template (copyable)',
+
+      /* Quiz */
+      s9_title: 'Quiz – Test Your Knowledge',
+      s9_intro: 'Test your understanding of Lab 02 content. Click an answer to check it.',
+      s9_questions: [
+        {
+          question: 'Which phase comes after "Empathize" in Design Thinking?',
+          options: ['Prototype', 'Test', 'Define', 'Ideate'],
+          correct: 2,
+          explanation: 'After Empathize comes Define – here the problem is clearly formulated.',
+        },
+        {
+          question: 'What is the goal of the "Ideate" phase?',
+          options: [
+            'Build a prototype',
+            'Generate as many creative ideas as possible without evaluation',
+            'Conduct user interviews',
+            'Define the problem',
+          ],
+          correct: 1,
+          explanation: 'In ideation: quantity over quality. No idea is too crazy.',
+        },
+        {
+          question: 'What is a "How Might We" statement?',
+          options: [
+            'A technical specification',
+            'A question that transforms a problem into a design opportunity',
+            'A usability test protocol',
+            'A persona template',
+          ],
+          correct: 1,
+          explanation: 'HMW statements are open enough for creativity but focused enough to provide direction.',
+        },
+        {
+          question: 'What does "Fail fast to succeed sooner" mean?',
+          options: [
+            'Give up quickly when something doesn\'t work',
+            'Skip tests to be faster',
+            'Use early failure as a learning opportunity',
+            'Find bugs in code quickly',
+          ],
+          correct: 2,
+          explanation: 'Early feedback and quick iterations lead to better solutions.',
+        },
+        {
+          question: 'What is the difference between Lo-Fi and Hi-Fi prototypes?',
+          options: [
+            'Lo-Fi is cheaper in production',
+            'Hi-Fi is for mobile devices',
+            'Lo-Fi: rough/fast (paper); Hi-Fi: detailed/realistic (Figma)',
+            'There is no significant difference',
+          ],
+          correct: 2,
+          explanation: 'Lo-Fi prototypes are quick and cheap; Hi-Fi prototypes are realistic and detailed.',
+        },
+      ],
+
+      /* Figma */
+      s10_title: 'Figma Quickstart',
+      s10_intro: 'Figma is the standard tool for UI/UX design. Free for students and usable in the browser – no download needed.',
+      s10_steps: [
+        'Create an account: figma.com (free for students)',
+        'Create a new design file (Dashboard → "New design file")',
+        'Add a frame: press F → select Mobile (390×844) or Desktop (1440×900)',
+        'Basic elements: Rectangle (R), Text (T), Frame (F), Auto Layout (Shift+A)',
+        'Create components: select element → Ctrl+Alt+K (Win) / Cmd+Alt+K (Mac)',
+      ],
+      s10_info: 'Figma Community has thousands of free templates. Search for "Coffee App" or "Maintenance App" for inspiration.',
+      s10_lab4_hint: 'In Lab 04 we dive deeper into Figma – components, auto layout and interactive prototypes.',
+
+      /* Nav */
+      nav_prev: 'Lab 01: Foundations',
+      nav_next: 'Next: Lab 03 – Design',
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
