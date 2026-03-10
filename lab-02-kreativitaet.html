@@ -853,14 +853,23 @@
         { id: 'zusammenfassung', label: t.nav_zusammenfassung },
       ];
 
-      const personaTemplate = `## Persona: [Name], [Alter]
+      const personaTemplate = lang === 'de'
+        ? `## Persona: [Name], [Alter]
 **Beruf:** [Jobtitel] bei [Unternehmen]
 **Ziele:**
 - ...
 **Frustrationen:**
 - ...
 **Technik-Affinität:** [niedrig / mittel / hoch]
-**Zitat:** "[Was würde diese Person sagen?]"`;
+**Zitat:** "[Was würde diese Person sagen?]"`
+        : `## Persona: [Name], [Age]
+**Job:** [Job title] at [Company]
+**Goals:**
+- ...
+**Frustrations:**
+- ...
+**Tech Affinity:** [low / medium / high]
+**Quote:** "[What would this person say?]"`;
 
       return (
         <div data-lang={lang}>
@@ -1234,7 +1243,7 @@
 
       /* 5 Phasen */
       s2_title: 'Die 5 Phasen des Design Thinking',
-      s2_intro: 'Design Thinking ist ein menschenzentrierter Ansatz zur Problemlösung. Die fünf Phasen sind kein linearer Prozess – sie werden iterativ durchlaufen.',
+      s2_intro: 'Design Thinking ist ein menschenzentrierter Ansatz zur Problemlösung, geprägt u.\u00a0a. durch die Stanford d.school und IDEO (Hasso Plattner Institute of Design, gegr. 2005). Die fünf Phasen sind kein linearer Prozess – sie werden iterativ durchlaufen.',
       ph1_desc: 'Nutzer verstehen. Interviews, Beobachtung, Empathy Maps. Ziel: tiefes Verständnis für echte Bedürfnisse.',
       ph2_desc: 'Problem formulieren. Point of View, "How Might We" Fragen. Ziel: klares Problemstatement.',
       ph3_desc: 'Ideen generieren. Brainstorming, Brainwriting, SCAMPER. Ziel: Quantität vor Qualität, keine Kritik.',
@@ -1276,11 +1285,11 @@
 
       /* Ideate */
       s5_title: 'Ideate Phase',
-      s5_intro: 'Jetzt geht es um Quantität – so viele Ideen wie möglich generieren, ohne zu bewerten.',
+      s5_intro: 'Jetzt geht es um Quantität – so viele Ideen wie möglich generieren, ohne zu bewerten. Die Ideate-Phase ist bewusst divergent: erst Optionen öffnen, dann in einer zweiten Phase konvergent die besten Ideen auswählen (Divergent/Convergent Thinking nach Guilford, 1967).',
       s5_methods: [
         { name: 'Brainstorming', desc: '10 Minuten, keine Bewertung, wild und kreativ. Alles ist erlaubt.' },
-        { name: 'Brainwriting 6-3-5', desc: '6 Personen, 3 Ideen, 5 Runden = 90 Ideen in 25 Minuten.' },
-        { emoji: '', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
+        { name: 'Brainwriting 6-3-5', desc: '6 Personen, 3 Ideen pro Runde, 5 Min. pro Runde. 6 Runden → 108 Ideen in 30 Minuten (Rohrbach, 1969).' },
+        { emoji: '', name: 'SCAMPER', desc: 'S = Substitute · C = Combine · A = Adapt · M = Modify/Magnify · P = Put to other use · E = Eliminate · R = Reverse (Eberle, 1971).' },
         { name: 'Crazy 8s', desc: '8 Ideen in 8 Minuten (je 1 Minute). Skizzieren statt schreiben.' },
       ],
       s5_tip: 'Während der Ideation gilt: Quantität vor Qualität. Keine Idee ist zu verrückt!',
@@ -1420,8 +1429,9 @@
       /* Zusammenfassung */
       s_summary_title: 'Zusammenfassung',
       s_summary_list: [
-        'Design Thinking: 5 Phasen (Empathize, Define, Ideate, Prototype, Test)',
-        'Kreativtechniken: Brainstorming, How Might We, Crazy 8s',
+        'Design Thinking: 5 Phasen (Empathize, Define, Ideate, Prototype, Test) – geprägt durch Stanford d.school / IDEO',
+        'Kreativtechniken: Brainstorming, Brainwriting 6-3-5, SCAMPER, How Might We, Crazy 8s',
+        'Divergentes Denken (Ideen öffnen) vor konvergentem Denken (Ideen bewerten)',
         'Kreativität ist eine erlernbare Kompetenz',
         'Iteration statt Perfektion – früh scheitern, früh lernen',
       ],
@@ -1464,7 +1474,7 @@
 
       /* 5 Phases */
       s2_title: 'The 5 Phases of Design Thinking',
-      s2_intro: 'Design Thinking is a human-centered approach to problem solving. The five phases are not a linear process – they are iterated through repeatedly.',
+      s2_intro: 'Design Thinking is a human-centered approach to problem solving, shaped by the Stanford d.school and IDEO (Hasso Plattner Institute of Design, est. 2005). The five phases are not a linear process – they are iterated through repeatedly.',
       ph1_desc: 'Understand users. Interviews, observation, empathy maps. Goal: deep understanding of real needs.',
       ph2_desc: 'Frame the problem. Point of view, "How Might We" questions. Goal: a clear problem statement.',
       ph3_desc: 'Generate ideas. Brainstorming, brainwriting, SCAMPER. Goal: quantity over quality, no criticism.',
@@ -1506,11 +1516,11 @@
 
       /* Ideate */
       s5_title: 'Ideate Phase',
-      s5_intro: 'Now it\'s about quantity – generating as many ideas as possible without evaluation.',
+      s5_intro: 'Now it\'s about quantity – generating as many ideas as possible without evaluation. The Ideate phase is deliberately divergent: first open up options, then converge to select the best ideas (Divergent/Convergent Thinking, Guilford 1967).',
       s5_methods: [
         { name: 'Brainstorming', desc: '10 minutes, no judgment, wild and creative. Everything is allowed.' },
-        { name: 'Brainwriting 6-3-5', desc: '6 people, 3 ideas, 5 rounds = 90 ideas in 25 minutes.' },
-        { emoji: '', name: 'SCAMPER', desc: 'Substitute · Combine · Adapt · Modify · Put to other use · Eliminate · Reverse.' },
+        { name: 'Brainwriting 6-3-5', desc: '6 people, 3 ideas per round, 5 min per round. 6 rounds → 108 ideas in 30 minutes (Rohrbach, 1969).' },
+        { emoji: '', name: 'SCAMPER', desc: 'S = Substitute · C = Combine · A = Adapt · M = Modify/Magnify · P = Put to other use · E = Eliminate · R = Reverse (Eberle, 1971).' },
         { name: 'Crazy 8s', desc: '8 ideas in 8 minutes (1 minute each). Sketch instead of write.' },
       ],
       s5_tip: 'During ideation: quantity over quality. No idea is too crazy!',
@@ -1650,8 +1660,9 @@
       /* Summary */
       s_summary_title: 'Summary',
       s_summary_list: [
-        'Design Thinking: 5 phases (Empathize, Define, Ideate, Prototype, Test)',
-        'Creativity techniques: Brainstorming, How Might We, Crazy 8s',
+        'Design Thinking: 5 phases (Empathize, Define, Ideate, Prototype, Test) – shaped by Stanford d.school / IDEO',
+        'Creativity techniques: Brainstorming, Brainwriting 6-3-5, SCAMPER, How Might We, Crazy 8s',
+        'Divergent thinking (open up ideas) before convergent thinking (evaluate ideas)',
         'Creativity is a learnable skill',
         'Iteration over perfection – fail fast, learn fast',
       ],
