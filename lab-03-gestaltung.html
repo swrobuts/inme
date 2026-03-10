@@ -13,89 +13,138 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --primary: #B91C1C;
       --accent: #DC2626;
       --dark: #1A1A1A;
-      --bg: #FAFAFA;
-      --sidebar-w: 260px;
-      --header-h: 56px;
+      --light-bg: #FAFAFA;
+      --primary-light: rgba(185,28,28,0.08);
     }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { background: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; color: #1A1A1A; }
+    h2 { color: #B91C1C; font-weight: 800; font-family: 'Space Grotesk', sans-serif; margin-top: 0; }
+    h3 { color: #B91C1C; font-weight: 700; font-family: 'Space Grotesk', sans-serif; }
+    h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin: 0.5rem 0; }
+    p { line-height: 1.7; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--dark);
-      line-height: 1.6;
-    }
-
-    h2 { font-family: 'Space Grotesk', sans-serif; color: #B91C1C; font-weight: 700; }
-    h3 { font-family: 'Space Grotesk', sans-serif; color: #B91C1C; font-weight: 600; }
-    h4 { font-family: 'Space Grotesk', sans-serif; color: var(--dark); font-weight: 600; }
-
-    /* ─── HEADER ─── */
-    .site-header {
-      position: fixed; top: 0; left: 0; right: 0; height: var(--header-h);
-      background: white; border-bottom: 2px solid var(--dark);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 1.5rem; z-index: 100;
-    }
-    .header-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--primary); text-decoration: none; }
-    .header-right { display: flex; align-items: center; gap: 1rem; }
-    .back-link { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--dark); text-decoration: none; border: 2px solid var(--dark); padding: 0.3rem 0.75rem; }
-    .back-link:hover { background: var(--primary); color: white; opacity: 0.9; }
-    .lang-toggle { display: flex; border: 2px solid var(--dark); overflow: hidden; }
-    .lang-btn { background: white; border: none; padding: 0.3rem 0.6rem; font-size: 0.8rem; font-weight: 700; font-family: 'Space Grotesk', sans-serif; cursor: pointer; color: var(--dark); }
-    .lang-btn.active { background: var(--primary); color: white; opacity: 0.9; }
-
-    /* ─── SIDEBAR ─── */
-    .sidebar {
-      position: fixed; top: var(--header-h); left: 0; bottom: 0;
-      width: var(--sidebar-w); background: white; border-right: 2px solid var(--dark);
-      overflow-y: auto; padding: 1.5rem 0; z-index: 90;
-    }
-    .sidebar-label {
-      font-family: 'Space Grotesk', sans-serif; font-size: 0.65rem; font-weight: 800;
-      letter-spacing: 0.12em; text-transform: uppercase; color: #9ca3af;
-      padding: 0 1.25rem; margin-bottom: 0.5rem; margin-top: 1rem;
-    }
-    .sidebar-link {
-      display: block; padding: 0.55rem 1.25rem; font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.85rem; font-weight: 500; color: var(--dark); text-decoration: none;
-      border-left: 3px solid transparent; transition: border-color 0.15s, background 0.15s;
-    }
-    .sidebar-link:hover { background: #f3f4f6; border-left-color: #d1d5db; }
-    .sidebar-link.active { border-left-color: var(--primary); color: var(--primary); font-weight: 700; background: rgba(185,28,28,0.05); }
-
-    /* ─── MAIN ─── */
-    .main-content { margin-left: var(--sidebar-w); padding-top: calc(var(--header-h) + 16px); min-height: 100vh; }
-    .content-inner { max-width: 960px; margin: 0 auto; padding: 1.5rem 2rem 4rem; }
-
-    /* ─── DESIGN SYSTEM CLASSES ─── */
+    /* Bauhaus */
     .bauhaus-card { border: 2px solid #1A1A1A; border-radius: 0; padding: 1.5rem; background: white; }
     .bauhaus-accent-line { width: 48px; height: 4px; background: #DC2626; margin: 0.5rem 0 1rem 0; }
-    .code-block { background: #F3F4F6; color: #1A1A1A; padding: 1.25rem; border-left: 4px solid #D1D5DB; font-family: monospace; overflow-x: auto; position: relative; border-radius: 0; font-size: 0.85rem; line-height: 1.6; white-space: pre; }
-    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #1A1A1A; color: white; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; font-family: 'Space Grotesk', sans-serif; }
-    .copy-btn:hover { background: white; }
+    .bauhaus-badge { background: #DC2626; color: white; padding: 0.2rem 0.7rem; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; display: inline-block; }
+
+    /* Code */
+    .code-block { background: #F3F4F6; color: #1A1A1A; padding: 1.25rem; border-left: 4px solid #D1D5DB; font-family: monospace; font-size: 0.85rem; overflow-x: auto; position: relative; border-radius: 0; white-space: pre; }
+    .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background: #1A1A1A; color: white; border: none; padding: 0.25rem 0.6rem; font-size: 0.75rem; font-weight: 700; cursor: pointer; border-radius: 0; }
+    .copy-btn:hover { background: #D97706; }
+
+    /* Info boxes */
     .tip-box { border-left: 4px solid #DC2626; background: #fafafa; padding: 1rem 1.25rem; margin: 1rem 0; }
     .info-box { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; margin: 1rem 0; }
     .concept-box { border-left: 4px solid #B91C1C; background: rgba(185,28,28,0.08); padding: 1rem 1.25rem; margin: 1rem 0; }
     .challenge-box { border-left: 4px solid #22c55e; background: #f0fdf4; padding: 1rem 1.25rem; margin: 1rem 0; }
-    .quiz-option { display: block; width: 100%; text-align: left; padding: 0.75rem 1rem; margin: 0.4rem 0; border: 2px solid #e5e7eb; border-radius: 0; background: white; cursor: pointer; font-size: 0.95rem; font-family: inherit; }
-    .quiz-option:hover:not(:disabled) { border-color: var(--dark); }
-    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; }
-    .quiz-option.wrong { border-color: #ef4444; background: #fef2f2; }
 
-    /* ─── SECTION SPACING ─── */
-    .section { margin-bottom: 4rem; }
-    .section-title { font-size: 1.75rem; margin-bottom: 0.25rem; }
-    .section-sub { font-size: 1.1rem; color: #4b5563; margin-bottom: 1.5rem; }
+    /* Quiz */
+    .quiz-option { display: block; width: 100%; text-align: left; padding: 0.75rem 1rem; margin: 0.4rem 0; border: 2px solid #e5e7eb; border-radius: 0; background: white; cursor: pointer; font-size: 0.95rem; transition: border-color 0.15s, background 0.15s; }
+    .quiz-option:hover:not(:disabled) { border-color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .quiz-option.correct { border-color: #22c55e; background: #f0fdf4; color: #166534; font-weight: 600; }
+    .quiz-option.wrong { border-color: #ef4444; background: #fef2f2; color: #991b1b; }
+    .quiz-option:disabled { cursor: default; }
 
-    /* ─── BADGE ─── */
+    /* Layout */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 100;
+      background: white; border-bottom: 1px solid #E5E7EB; box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+    .header-left { display: flex; align-items: center; gap: 1.5rem; }
+    .header-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1rem; color: #B91C1C; text-decoration: none; }
+    .header-back { font-size: 0.85rem; color: #555; text-decoration: none; font-weight: 500; }
+    .header-back:hover { color: #B91C1C; }
+    .lang-btn { border: 2px solid #1A1A1A; background: white; padding: 0.2rem 0.6rem; font-size: 0.78rem; font-weight: 700; cursor: pointer; border-radius: 0; letter-spacing: 0.05em; }
+    .lang-btn.active { background: #DC2626; color: white; }
+    .lang-btn:hover:not(.active) { background: #f5f5f5; }
+
+    .sidebar {
+      position: fixed; top: 56px; left: 0; width: 260px;
+      height: calc(100vh - 56px); overflow-y: auto;
+      border-right: 1px solid #E5E7EB; background: white;
+      padding: 1.5rem 0;
+    }
+    .sidebar-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #888; padding: 0 1.25rem; margin-bottom: 0.75rem; }
+    .sidebar-link {
+      display: block; padding: 0.55rem 1.25rem; font-size: 0.88rem; color: #444;
+      text-decoration: none; border-left: 3px solid transparent;
+      transition: background 0.12s, color 0.12s, border-color 0.12s;
+      font-weight: 500;
+    }
+    .sidebar-link:hover { color: #B91C1C; background: rgba(185,28,28,0.04); }
+    .sidebar-link.active { color: #B91C1C; border-left-color: #B91C1C; background: rgba(185,28,28,0.06); font-weight: 700; }
+
+    .main-content {
+      margin-left: 260px; padding-top: 72px; padding-bottom: 4rem;
+      padding-left: 3rem; padding-right: 3rem; max-width: 960px;
+    }
+
+    .section-block { margin-bottom: 4rem; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    th { background: #DC2626; color: white; padding: 0.65rem 1rem; text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.05em; }
+    td { padding: 0.6rem 1rem; border-bottom: 1px solid #e5e7eb; }
+    tr:nth-child(even) td { background: #f9fafb; }
+    tr:hover td { background: rgba(185,28,28,0.03); }
+
+    /* Grid */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .example-card { border: 2px solid #e5e7eb; padding: 1rem; text-align: center; font-weight: 600; font-size: 0.9rem; background: white; }
+    .example-card .icon { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .prop-card { border: 2px solid #1A1A1A; padding: 1.25rem; background: white; }
+    .prop-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .prop-card h4 { color: #B91C1C; margin: 0.25rem 0; }
+    .prop-card p { font-size: 0.88rem; margin: 0; color: #555; }
+
+    /* Checklist */
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid #f0f0f0; font-size: 0.95rem; }
+    .checklist li:last-child { border-bottom: none; }
+    .check-icon { color: #22c55e; font-weight: 700; font-size: 1.1rem; flex-shrink: 0; margin-top: 0.05rem; }
+
+    /* Nav bottom */
+    .nav-bottom { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; margin-top: 2rem; }
+    .nav-btn { border: 2px solid #1A1A1A; background: white; padding: 0.65rem 1.25rem; font-size: 0.9rem; font-weight: 700; cursor: pointer; text-decoration: none; color: #1A1A1A; font-family: 'Space Grotesk', sans-serif; display: inline-block; border-radius: 0; }
+    .nav-btn:hover { background: #DC2626; color: white; }
+    .nav-btn.primary { background: #B91C1C; border-color: #B91C1C; color: white; }
+    .nav-btn.primary:hover { background: #991b1b; border-color: #991b1b; }
+
+    /* Quiz section */
+    .quiz-question-block { margin-bottom: 2rem; padding: 1.5rem; border: 2px solid #e5e7eb; background: white; }
+    .quiz-question-block h4 { margin: 0 0 1rem; font-size: 1rem; line-height: 1.5; }
+    .quiz-explanation { margin-top: 0.75rem; padding: 0.75rem 1rem; background: #f0fdf4; border-left: 3px solid #22c55e; font-size: 0.88rem; color: #166534; }
+    .quiz-explanation.wrong-exp { background: #fef2f2; border-left-color: #ef4444; color: #991b1b; }
+    .score-display { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; margin: 1.5rem 0 1rem; color: #1A1A1A; }
+
+    /* Lernziele box */
+    .lernziele-box { background: #FEF2F2; border-left: 4px solid #DC2626; padding: 1.25rem 1.5rem; margin-top: 1.5rem; border-radius: 0; }
+    .lernziele-heading { color: #DC2626; margin: 0 0 0.75rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+    [data-lang="en"] .lernziele-box { border-left-color: #1A1A1A !important; }
+    [data-lang="en"] .lernziele-heading { color: #1A1A1A !important; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding-left: 1.25rem; padding-right: 1.25rem; }
+    }
+
+    /* Footer */
+    .footer { background: #1A1A1A; color: rgba(255,255,255,0.6); text-align: center; padding: 1.5rem; margin-left: 260px; font-size: 0.85rem; }
+    @media (max-width: 768px) { .footer { margin-left: 0; } }
+
+    /* ─── LAB-03 SPECIFIC ─── */
+
+    /* ─── DESIGN SYSTEM CLASSES ─── */
     .badge { display: inline-block; border-radius: 0; font-weight: 700; font-size: 0.75rem; font-family: 'Space Grotesk', sans-serif; padding: 0.25rem 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
-    .badge-dark { background: var(--primary); color: white; opacity: 0.9; }
+    .badge-dark { background: var(--primary); color: white; }
     .badge-red { background: var(--primary); color: white; }
     .badge-yellow { background: #1A1A1A; color: white; }
     .badge-green { background: #16A34A; color: white; }
@@ -151,29 +200,13 @@
     .page-title { color: #DC2626; }
     [data-lang="en"] .page-title { color: #1A1A1A !important; }
 
-    /* ─── LERNZIELE ─── */
-    .lernziele-box { background: #FEF2F2; border-left: 4px solid #DC2626; padding: 1.25rem 1.5rem; }
-    [data-lang="en"] .lernziele-box { border-left-color: #1A1A1A !important; }
-    .lernziele-heading { color: #DC2626; }
-    [data-lang="en"] .lernziele-heading { color: #1A1A1A !important; }
-
-    /* ─── BOTTOM NAV ─── */
-    .bottom-nav { border-top: 2px solid var(--dark); padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; gap: 1rem; flex-wrap: wrap; }
-    .bottom-nav-btn { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.9rem; color: var(--dark); text-decoration: none; border: 2px solid var(--dark); padding: 0.6rem 1.2rem; display: inline-block; }
-    .bottom-nav-btn:hover { background: var(--primary); color: white; opacity: 0.9; }
-    .bottom-nav-btn.primary { background: var(--primary); border-color: var(--primary); color: white; }
-    .bottom-nav-btn.primary:hover { background: #991b1b; }
-
     /* ─── MOBILE ─── */
     @media (max-width: 768px) {
-      .sidebar { display: none; }
-      .main-content { margin-left: 0; }
-      .content-inner { padding: 1rem 1rem 3rem; }
       .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
       .type-row { flex-direction: column; gap: 0.25rem; }
       .type-meta { min-width: unset; }
     }
-  
+
     /* v2.0 Modern Upgrades */
     a { color: var(--primary); }
     button { transition: all 0.2s ease; }
@@ -183,7 +216,6 @@
     .tip-box, .challenge-box, .info-box, .concept-box { border-radius: 0; }
     img { border-radius: 0; }
 
-  
     /* ═══════════════════════════════════════════
        EN MANGO MODE – vollständige Farbumschaltung
        DE = Rot (#DC2626) | EN = Mango (#F7CC00)
@@ -205,10 +237,7 @@
 
     /* Header / Navbar */
     [data-lang="en"] .header { border-bottom-color: rgba(0,0,0,0.08); }
-    [data-lang="en"] .site-header { border-bottom-color: rgba(0,0,0,0.08); }
     [data-lang="en"] .header-logo { color: #1A1A1A; }
-    [data-lang="en"] .header-brand { color: #1A1A1A !important; }
-    [data-lang="en"] .back-link { color: #1A1A1A !important; border-color: #1A1A1A !important; }
     [data-lang="en"] .lang-btn.active { background: #1A1A1A; color: #F7CC00; border-color: #1A1A1A; }
 
     /* Sidebar / Navigation */
@@ -260,8 +289,7 @@
     [data-lang="en"] *[style*="background: #B91C1C"],
     [data-lang="en"] *[style*="background:#B91C1C"] { background: #1A1A1A !important; }
 
-
-    /* ── Lab-spezifische EN-Overrides (Tabellen, Karten, Sidebar, Inline-Styles) ── */
+    /* ── Lab-spezifische EN-Overrides ── */
 
     /* Bauhaus-Badges */
     [data-lang="en"] .bauhaus-badge,
@@ -273,10 +301,8 @@
       color: white !important;
     }
 
-    /* Header-Logo / Brand */
+    /* Header-Logo */
     [data-lang="en"] .header-logo { color: #1A1A1A !important; }
-    [data-lang="en"] .header-brand { color: #1A1A1A !important; }
-    [data-lang="en"] .back-link { color: #1A1A1A !important; border-color: #1A1A1A !important; }
 
     /* Sidebar */
     [data-lang="en"] .sidebar-link.active {
@@ -289,8 +315,6 @@
     /* Nav-Buttons */
     [data-lang="en"] .nav-btn.primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
     [data-lang="en"] .nav-btn:hover   { background: #1A1A1A !important; color: white !important; }
-    [data-lang="en"] .bottom-nav-btn.primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
-    [data-lang="en"] .bottom-nav-btn:hover   { background: #1A1A1A !important; color: white !important; }
 
     /* Karten-Überschriften */
     [data-lang="en"] .prop-card h4,
@@ -302,28 +326,18 @@
     [data-lang="en"] .principle-title,
     [data-lang="en"] .screen-card h3 { color: #1A1A1A !important; }
 
-    /* Lab-02 spezifisch */
-    [data-lang="en"] .phase-num { background: #1A1A1A !important; color: #F7CC00 !important; }
-    [data-lang="en"] .figma-steps li::before { background: #DC2626 !important; color: white !important; }
-    [data-lang="en"] .method-card h3 { color: #1A1A1A !important; }
-    [data-lang="en"] .hmw-example { border-left-color: #F7CC00 !important; }
-
     /* Lab-03 spezifisch */
     [data-lang="en"] .color-chip-label { color: #1A1A1A !important; }
     [data-lang="en"] .grid-demo-item .label { color: #1A1A1A !important; }
 
-    /* Lab-04 spezifisch */
-    [data-lang="en"] .persona-stat-label { color: #1A1A1A !important; }
-    [data-lang="en"] .wireframe-label { color: #1A1A1A !important; }
+    [data-lang="en"] .bauhaus-accent-line { background: #F7CC00 !important; }
+    [data-lang="en"] .sidebar-link.active { color: #1A1A1A !important; border-left-color: #F7CC00 !important; }
+    [data-lang="en"] .concept-box { border-left-color: #F7CC00 !important; background: rgba(247,204,0,0.08) !important; }
+    [data-lang="en"] .tip-box { border-left-color: #F7CC00 !important; }
+    [data-lang="en"] .incorrect { border-color: #1A1A1A !important; }
+    [data-lang="en"] .primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
 
-    /* Lab-05/06 spezifisch */
-    [data-lang="en"] .flow-arrow { background: #1A1A1A !important; color: white !important; }
-    [data-lang="en"] .step-number { background: #1A1A1A !important; color: #F7CC00 !important; }
-    [data-lang="en"] .diff-high { background: #1A1A1A !important; }
-    [data-lang="en"] .checklist-item.done::before { color: #F7CC00 !important; }
-
-    /* Inline-Style Overrides via RGB-Matching (React rendert hex → rgb) */
-    /* rgb(185,28,28) = #B91C1C | rgb(220,38,38) = #DC2626 */
+    /* Inline-Style Overrides via RGB-Matching */
     [data-lang="en"] *[style*="color: rgb(185"] { color: #1A1A1A !important; }
     [data-lang="en"] *[style*="color: rgb(220"] { color: #1A1A1A !important; }
     [data-lang="en"] *[style*="color:rgb(185"]  { color: #1A1A1A !important; }
@@ -335,15 +349,6 @@
     [data-lang="en"] *[style*="borderLeftColor: rgb(185"] { border-left-color: #F7CC00 !important; }
     [data-lang="en"] *[style*="borderColor: rgb(185"],
     [data-lang="en"] *[style*="borderColor: rgb(220"]  { border-color: #1A1A1A !important; }
-
-  
-    [data-lang="en"] .bauhaus-accent-line { background: #F7CC00 !important; }
-
-    [data-lang="en"] .concept-box { border-left-color: #F7CC00 !important; background: rgba(247,204,0,0.08) !important; }
-    [data-lang="en"] .tip-box { border-left-color: #F7CC00 !important; }
-    [data-lang="en"] .incorrect { border-color: #1A1A1A !important; }
-    [data-lang="en"] .primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
-    [data-lang="en"] .bottom-nav-btn.primary { background: #1A1A1A !important; border-color: #1A1A1A !important; color: white !important; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
@@ -408,7 +413,7 @@ const SECTIONS = [
 function Sidebar({ lang, activeId }) {
   return (
     <nav className="sidebar">
-      <div className="sidebar-label">{lang === 'de' ? 'INHALT' : 'CONTENTS'}</div>
+      <div className="sidebar-title">{lang === 'de' ? 'INHALT' : 'CONTENTS'}</div>
       {SECTIONS.map(s => (
         <a
           key={s.id}
@@ -456,8 +461,8 @@ function SectionUeberblick({ lang }) {
   };
   const c = t[lang];
   return (
-    <section id="ueberblick" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="ueberblick" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
       <div className="bauhaus-card" style={{marginBottom: '1.5rem', background: 'var(--dark)', color: 'white', borderColor: 'var(--dark)'}}>
         <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'1.25rem',marginBottom:'0.4rem'}}>{c.motto}</div>
@@ -578,8 +583,8 @@ function SectionBauhaus({ lang }) {
   };
   const c = t[lang];
   return (
-    <section id="bauhaus" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="bauhaus" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       {/* ── Bewusste Wahl – Einrahmung ────────────────────────────── */}
@@ -737,8 +742,8 @@ function SectionFarblehre({ lang }) {
   };
   const c = t[lang];
   return (
-    <section id="farblehre" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="farblehre" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       <h3 style={{marginBottom:'0.75rem'}}>{c.harmonTitle}</h3>
@@ -851,8 +856,8 @@ function SectionTypografie({ lang }) {
   const scaleFontFamily = { H1:"'Space Grotesk',sans-serif", H2:"'Space Grotesk',sans-serif", H3:"'Space Grotesk',sans-serif", Body:'inherit', Caption:'inherit' };
 
   return (
-    <section id="typografie" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="typografie" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       <h3 style={{marginBottom:'0.75rem'}}>{c.catsTitle}</h3>
@@ -954,8 +959,8 @@ function SectionLayout({ lang }) {
   const c = t[lang];
 
   return (
-    <section id="layout" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="layout" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       <h3 style={{marginBottom:'0.5rem'}}>{c.gridTitle}</h3>
@@ -1090,8 +1095,8 @@ function SectionGestaltgesetze({ lang }) {
   };
   const c = t[lang];
   return (
-    <section id="gestaltgesetze" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="gestaltgesetze" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       <div className="grid-2" style={{marginBottom:'1.5rem'}}>
@@ -1142,8 +1147,8 @@ function SectionUsability({ lang }) {
   };
   const c = t[lang];
   return (
-    <section id="usability" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="usability" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       <h3 style={{marginBottom:'0.75rem'}}>{c.normanTitle}</h3>
@@ -1211,8 +1216,8 @@ function SectionAppDesign({ lang }) {
   };
   const c = t[lang];
   return (
-    <section id="app-design" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="app-design" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
       <p style={{fontSize:'0.95rem',color:'#4b5563',marginBottom:'1.5rem'}}>{c.subtitle}</p>
 
@@ -1377,8 +1382,8 @@ function SectionQuiz({ lang }) {
   const fbIdx = score <= 1 ? 0 : score <= 2 ? 1 : score <= 4 ? 2 : 3;
 
   return (
-    <section id="quiz" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="quiz" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       <div className="quiz-progress">
@@ -1555,8 +1560,8 @@ function SectionUebung({ lang }) {
   };
   const c = t[lang];
   return (
-    <section id="uebung" className="section">
-      <h2 className="section-title">{c.title}</h2>
+    <section id="uebung" className="section-block">
+      <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
       <div className="challenge-box" style={{marginBottom:'1.5rem'}}>
@@ -1581,11 +1586,11 @@ function SectionUebung({ lang }) {
 // ─── BOTTOM NAV ───
 function BottomNav({ lang }) {
   return (
-    <div className="bottom-nav">
-      <a href="lab-02-kreativitaet.html" className="bottom-nav-btn">
+    <div className="nav-bottom">
+      <a href={"lab-02-kreativitaet.html"+(lang==='en'?'?lang=en':'')} className="nav-btn">
         ← {lang === 'de' ? 'Lab 02: Kreativtechniken' : 'Lab 02: Creative Techniques'}
       </a>
-      <a href="lab-04-ux.html" className="bottom-nav-btn primary">
+      <a href={"lab-04-ux.html"+(lang==='en'?'?lang=en':'')} className="nav-btn primary">
         {lang === 'de' ? 'Weiter: Lab 04 – UX Research' : 'Next: Lab 04 – UX Research'} →
       </a>
     </div>
@@ -1618,84 +1623,102 @@ function App() {
 
   return (
     <div data-lang={lang}>
-      {/* HEADER */}
-      <header className="site-header">
-        <div style={{display:'flex',alignItems:'center',gap:'1rem'}}>
-          <a href="index.html" className="header-brand">INME Lab</a>
-          <a href="index.html" className="back-link">← {lang === 'de' ? 'Übersicht' : 'Overview'}</a>
+      {/* ── Header ── */}
+      <header className="header">
+        <div className="header-left">
+          <a href="index.html" className="header-logo">INME Lab</a>
+          <a href={"index.html"+(lang==='en'?'?lang=en':'')} className="header-back">
+            {lang==='de' ? '← Übersicht' : '← Overview'}
+          </a>
         </div>
-        <div className="header-right">
-          <div className="lang-toggle">
-            <button className={`lang-btn${lang === 'de' ? ' active' : ''}`} onClick={() => persistLang('de')}>DE</button>
-            <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => persistLang('en')}>EN</button>
-          </div>
+        <div style={{display:'flex',gap:'0.35rem'}}>
+          <button className={`lang-btn${lang==='de'?' active':''}`} onClick={() => persistLang('de')}>DE</button>
+          <button className={`lang-btn${lang==='en'?' active':''}`} onClick={() => persistLang('en')}>EN</button>
         </div>
       </header>
 
-      {/* SIDEBAR */}
+      {/* ── Sidebar ── */}
       <Sidebar lang={lang} activeId={activeId} />
 
-      {/* MAIN */}
+      {/* ── Main ── */}
       <main className="main-content">
-        <div className="content-inner">
-          {/* Lab header */}
-          <div style={{display:'flex',alignItems:'center',gap:'0.75rem',marginBottom:'0.5rem',flexWrap:'wrap'}}>
-            <span className="badge badge-dark">Lab 03</span>
-            <span className="badge badge-outline">{lang === 'de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}</span>
-            <span className="badge badge-outline">{lang === 'de' ? 'ca. 60 Min' : 'approx. 60 min'}</span>
+        <div style={{marginBottom:'2rem'}}>
+          <div style={{display:'flex',gap:'0.5rem',marginBottom:'0.75rem'}}>
+            <span className="bauhaus-badge">Lab 03</span>
+            <span className="bauhaus-badge" style={{background:'#B91C1C'}}>~120 Min</span>
           </div>
-          <h1 className="page-title" style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'2rem',color:'#DC2626',marginBottom:'0.25rem'}}>
-            {lang === 'de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}
+          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:900,fontSize:'2rem',margin:'0 0 0.5rem',color:'#1A1A1A'}}>
+            {lang==='de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}
           </h1>
-          <p style={{color:'#6b7280',marginBottom:'2.5rem',fontSize:'1rem'}}>
-            {lang === 'de'
-              ? 'Von Farblehre bis Gestaltgesetze – die Grundlagen visuellen Designs für digitale Produkte.'
-              : 'From color theory to Gestalt laws – the foundations of visual design for digital products.'}
-          </p>
-
-          <SectionUeberblick lang={lang} />
-          <SectionBauhaus lang={lang} />
-          <SectionFarblehre lang={lang} />
-          <SectionTypografie lang={lang} />
-          <SectionLayout lang={lang} />
-          <SectionGestaltgesetze lang={lang} />
-          <SectionUsability lang={lang} />
-          <SectionAppDesign lang={lang} />
-          <SectionQuiz lang={lang} />
-          <SectionUebung lang={lang} />
-
-          <section id="zusammenfassung" style={{marginTop:'2rem',padding:'1.5rem',background:'#F9FAFB',borderLeft:'4px solid #DC2626'}}>
-            <h3 className="lernziele-heading" style={{color:'#DC2626',marginBottom:'1rem',fontSize:'1rem',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'}}>
-              {lang === 'de' ? 'Zusammenfassung' : 'Summary'}
+          <div className="bauhaus-accent-line"></div>
+          <div className="lernziele-box">
+            <h3 className="lernziele-heading">
+              {lang==='de' ? 'Lernziele' : 'Learning Goals'}
             </h3>
-            <ul style={{listStyle:'disc',paddingLeft:'1.5rem',color:'#374151',lineHeight:'1.8'}}>
-              {lang === 'de' ? (
+            <ul style={{margin:0,paddingLeft:'1.4rem',lineHeight:2}}>
+              {lang==='de' ? (
                 <>
-                  <li>Bauhaus-Kernprinzipien: Form follows function</li>
-                  <li>Farbe und Typografie als Kommunikationsmittel</li>
-                  <li>Gestaltgesetze: Nähe, Ähnlichkeit, Fortsetzung, Geschlossenheit</li>
-                  <li>Bewusste Designentscheidungen basieren auf Prinzipien</li>
-                  <li>Kontrast und Hierarchie lenken die Aufmerksamkeit</li>
+                  <li>Bauhaus-Geschichte und Kernprinzipien verstehen</li>
+                  <li>Farblehre und Farbharmonien anwenden können</li>
+                  <li>Typografisches System für digitale Produkte aufbauen</li>
+                  <li>Gestaltgesetze der Wahrnehmungspsychologie kennen</li>
+                  <li>Norman's Design Principles auf UI anwenden</li>
                 </>
               ) : (
                 <>
-                  <li>Bauhaus core principles: Form follows function</li>
-                  <li>Color and typography as communication tools</li>
-                  <li>Gestalt laws: proximity, similarity, continuation, closure</li>
-                  <li>Conscious design decisions are based on principles</li>
-                  <li>Contrast and hierarchy direct attention</li>
+                  <li>Understand Bauhaus history and core principles</li>
+                  <li>Apply color theory and color harmonies</li>
+                  <li>Build a typographic system for digital products</li>
+                  <li>Know the Gestalt laws of perceptual psychology</li>
+                  <li>Apply Norman's Design Principles to UI</li>
                 </>
               )}
             </ul>
-          </section>
-
-          <BottomNav lang={lang} />
-
-          <footer style={{textAlign:'center',padding:'1.5rem',fontSize:'0.75rem',color:'#9ca3af',borderTop:'1px solid #e5e7eb',marginTop:'2rem'}}>
-            © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
-          </footer>
+          </div>
         </div>
+
+        <SectionUeberblick lang={lang} />
+        <SectionBauhaus lang={lang} />
+        <SectionFarblehre lang={lang} />
+        <SectionTypografie lang={lang} />
+        <SectionLayout lang={lang} />
+        <SectionGestaltgesetze lang={lang} />
+        <SectionUsability lang={lang} />
+        <SectionAppDesign lang={lang} />
+        <SectionQuiz lang={lang} />
+        <SectionUebung lang={lang} />
+
+        <section id="zusammenfassung" className="section-block" style={{padding:'1.5rem',background:'#F9FAFB',borderLeft:'4px solid #DC2626'}}>
+          <h3 className="lernziele-heading" style={{marginBottom:'1rem',fontSize:'1rem',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'}}>
+            {lang === 'de' ? 'Zusammenfassung' : 'Summary'}
+          </h3>
+          <ul style={{listStyle:'disc',paddingLeft:'1.5rem',color:'#374151',lineHeight:'1.8'}}>
+            {lang === 'de' ? (
+              <>
+                <li>Bauhaus-Kernprinzipien: Form follows function</li>
+                <li>Farbe und Typografie als Kommunikationsmittel</li>
+                <li>Gestaltgesetze: Nähe, Ähnlichkeit, Fortsetzung, Geschlossenheit</li>
+                <li>Bewusste Designentscheidungen basieren auf Prinzipien</li>
+                <li>Kontrast und Hierarchie lenken die Aufmerksamkeit</li>
+              </>
+            ) : (
+              <>
+                <li>Bauhaus core principles: Form follows function</li>
+                <li>Color and typography as communication tools</li>
+                <li>Gestalt laws: proximity, similarity, continuation, closure</li>
+                <li>Conscious design decisions are based on principles</li>
+                <li>Contrast and hierarchy direct attention</li>
+              </>
+            )}
+          </ul>
+        </section>
+
+        <BottomNav lang={lang} />
       </main>
+
+      <footer className="footer">
+        © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
+      </footer>
     </div>
   );
 }
