@@ -724,6 +724,7 @@ function SectionFarblehre({ lang }) {
         { color: '#f5f5f0', label: 'Weiß', desc: 'Reinheit, Offenheit, Minimalismus', dark: true },
         { color: '#16A34A', label: 'Grün', desc: 'Erfolg, Natur, Sicherheit, Gesundheit' },
       ],
+      culturalNote: 'Hinweis: Farbwirkung ist kulturabhängig. Weiß steht in westlichen Kulturen für Reinheit, in vielen ostasiatischen Kulturen hingegen für Trauer. Rot bedeutet in China Glück, im Westen eher Gefahr.',
       codeTitle: 'Bauhaus Color System – CSS',
     },
     en: {
@@ -743,6 +744,7 @@ function SectionFarblehre({ lang }) {
         { color: '#f5f5f0', label: 'White', desc: 'Purity, openness, minimalism', dark: true },
         { color: '#16A34A', label: 'Green', desc: 'Success, nature, safety, health' },
       ],
+      culturalNote: 'Note: Color perception is culturally dependent. White stands for purity in Western cultures, but for mourning in many East Asian cultures. Red means luck in China, but danger in the West.',
       codeTitle: 'Bauhaus Color System – CSS',
     },
   };
@@ -780,6 +782,10 @@ function SectionFarblehre({ lang }) {
             <div style={{fontSize:'0.82rem',color:'#4b5563'}}>{p.desc}</div>
           </div>
         ))}
+      </div>
+
+      <div className="info-box" style={{marginBottom:'1.5rem'}}>
+        <strong style={{fontFamily:"'Space Grotesk',sans-serif"}}>🌍 </strong>{c.culturalNote}
       </div>
 
       <h3 style={{marginBottom:'0.5rem'}}>{c.codeTitle}</h3>
@@ -1073,6 +1079,39 @@ function GestaltVisual({ type }) {
       </div>
     );
   }
+  if (type === 'praegnanz') {
+    return (
+      <div style={{padding:'12px',background:'#f9fafb',border:'1px solid #e5e7eb',display:'flex',gap:'16px',alignItems:'center'}}>
+        <div style={{display:'flex',gap:'8px'}}>
+          <div style={{width:30,height:30,borderRadius:'50%',border:'2px solid var(--dark)',background:'transparent'}} />
+          <div style={{width:30,height:30,border:'2px solid var(--dark)',background:'transparent'}} />
+          <div style={{width:0,height:0,borderLeft:'17px solid transparent',borderRight:'17px solid transparent',borderBottom:'30px solid transparent',boxSizing:'border-box',position:'relative'}}><div style={{position:'absolute',top:4,left:-14,width:0,height:0,borderLeft:'14px solid transparent',borderRight:'14px solid transparent',borderBottom:'24px solid transparent',borderBottomColor:'transparent',boxShadow:'none'}} /><div style={{position:'absolute',top:'2px',left:'-15px',fontSize:'1.2rem'}}>△</div></div>
+        </div>
+        <div style={{fontSize:'0.8rem',color:'#6b7280'}}>→ ○ □ △</div>
+      </div>
+    );
+  }
+  if (type === 'figur-grund') {
+    return (
+      <div style={{padding:'12px',background:'#1A1A1A',border:'1px solid #e5e7eb',display:'flex',justifyContent:'center',alignItems:'center',height:50}}>
+        <div style={{width:40,height:30,background:'white',borderRadius:4}} />
+      </div>
+    );
+  }
+  if (type === 'gemeinsames-schicksal') {
+    return (
+      <div style={{padding:'12px',background:'#f9fafb',border:'1px solid #e5e7eb',display:'flex',gap:'8px',alignItems:'center'}}>
+        <div style={{display:'flex',gap:'4px'}}>
+          {[0,1,2].map(i=><div key={i} style={{width:12,height:12,borderRadius:'50%',background:'var(--primary)',transform:'translateY(-4px)'}} />)}
+        </div>
+        <div style={{fontSize:'1rem',color:'#6b7280'}}>↗</div>
+        <div style={{display:'flex',gap:'4px'}}>
+          {[0,1,2].map(i=><div key={i} style={{width:12,height:12,borderRadius:'50%',background:'#1d4ed8',transform:'translateY(4px)'}} />)}
+        </div>
+        <div style={{fontSize:'1rem',color:'#6b7280'}}>↘</div>
+      </div>
+    );
+  }
   return null;
 }
 
@@ -1081,22 +1120,28 @@ function SectionGestaltgesetze({ lang }) {
     de: {
       title: 'Gestaltgesetze',
       laws: [
+        { key:'praegnanz', name:'Gesetz der Prägnanz (Grundgesetz)', desc:'Wir nehmen die einfachste, stabilste Form wahr – das Gehirn bevorzugt Ordnung.', example:'→ Grundlage aller Gestaltgesetze' },
         { key:'naehe', name:'Gesetz der Nähe', desc:'Elemente die nah beieinander sind, werden als Gruppe wahrgenommen.', example:'→ Navigationsmenü-Punkte' },
         { key:'aehnlichkeit', name:'Gesetz der Ähnlichkeit', desc:'Gleich aussehende Elemente gehören zusammen.', example:'→ Alle roten Buttons = Primäraktion' },
         { key:'kontinuität', name:'Gesetz der Kontinuität', desc:'Das Auge folgt Linien und Kurven natürlich weiter.', example:'→ Scroll-Richtung, Tabellen-Reihen' },
         { key:'geschlossenheit', name:'Gesetz der Geschlossenheit', desc:'Lücken werden automatisch vom Gehirn ergänzt.', example:'→ Logos, Icons, Rahmen' },
+        { key:'figur-grund', name:'Figur-Grund-Beziehung', desc:'Wir unterscheiden automatisch Vordergrund (Figur) von Hintergrund (Grund).', example:'→ Modale Dialoge, Overlay-Effekte' },
+        { key:'gemeinsames-schicksal', name:'Gemeinsames Schicksal', desc:'Elemente, die sich gemeinsam bewegen oder verändern, werden als zusammengehörig wahrgenommen.', example:'→ Parallax-Scrolling, Animationen' },
       ],
-      conceptText: 'Diese Gesetze sind nicht Meinungen – sie sind empirisch belegt durch Gestaltpsychologie (Wertheimer, Köhler, Koffka, ~1920).',
+      conceptText: 'Diese Gesetze sind nicht Meinungen – sie sind empirisch belegt durch Gestaltpsychologie (Wertheimer, Köhler, Koffka, ~1920). Das Gesetz der Prägnanz gilt als übergeordnetes Grundgesetz.',
     },
     en: {
       title: 'Gestalt Laws',
       laws: [
+        { key:'praegnanz', name:'Law of Prägnanz (Fundamental Law)', desc:'We perceive the simplest, most stable form – the brain prefers order.', example:'→ Foundation of all Gestalt laws' },
         { key:'naehe', name:'Law of Proximity', desc:'Elements close together are perceived as a group.', example:'→ Navigation menu items' },
         { key:'aehnlichkeit', name:'Law of Similarity', desc:'Elements that look the same are seen as belonging together.', example:'→ All red buttons = primary action' },
         { key:'kontinuität', name:'Law of Continuity', desc:'The eye naturally follows lines and curves.', example:'→ Scroll direction, table rows' },
         { key:'geschlossenheit', name:'Law of Closure', desc:'The brain automatically fills in gaps.', example:'→ Logos, icons, frames' },
+        { key:'figur-grund', name:'Figure-Ground Relationship', desc:'We automatically distinguish foreground (figure) from background (ground).', example:'→ Modal dialogs, overlay effects' },
+        { key:'gemeinsames-schicksal', name:'Common Fate', desc:'Elements that move or change together are perceived as belonging together.', example:'→ Parallax scrolling, animations' },
       ],
-      conceptText: 'These laws are not opinions – they are empirically validated by Gestalt psychology (Wertheimer, Köhler, Koffka, ~1920).',
+      conceptText: 'These laws are not opinions – they are empirically validated by Gestalt psychology (Wertheimer, Köhler, Koffka, ~1920). The Law of Prägnanz is considered the overarching fundamental law.',
     },
   };
   const c = t[lang];
@@ -1105,9 +1150,9 @@ function SectionGestaltgesetze({ lang }) {
       <h2>{c.title}</h2>
       <div className="bauhaus-accent-line" />
 
-      <div className="grid-2" style={{marginBottom:'1.5rem'}}>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(280px, 1fr))',gap:'1rem',marginBottom:'1.5rem'}}>
         {c.laws.map((law,i) => (
-          <div key={i} className="bauhaus-card">
+          <div key={i} className="bauhaus-card" style={law.key==='praegnanz'?{borderColor:'var(--primary)'}:{}}>
             <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:'var(--primary)',marginBottom:'0.4rem'}}>{law.name}</div>
             <p style={{fontSize:'0.88rem',marginBottom:'0.6rem',lineHeight:1.5}}>{law.desc}</p>
             <GestaltVisual type={law.key} />
@@ -1128,27 +1173,29 @@ function SectionUsability({ lang }) {
       title: 'Usability-Grundlagen',
       normanTitle: "Norman's Design Principles",
       normanPrinciples: [
-        { name: 'Visibility', icon: '', desc: 'Sichtbarkeit: Was kann der Nutzer tun? Mach es offensichtlich – versteckte Funktionen werden nicht genutzt.' },
+        { name: 'Signifiers', icon: '', desc: 'Hinweiszeichen (ehem. Visibility): Wo soll der Nutzer klicken? Signifiers zeigen die Möglichkeiten – z.\u00A0B. unterstrichener Link, erhabener Button.' },
         { name: 'Feedback', icon: '', desc: 'Rückmeldung: Das System zeigt, was passiert – Loading-Spinner, Success-Badge, Fehlermeldung.' },
         { name: 'Constraints', icon: '', desc: 'Einschränkungen: Verhindere Fehler durch Begrenzungen – deaktivierte Buttons, Pflichtfelder, Validierung.' },
         { name: 'Mapping', icon: '', desc: 'Zuordnung: Steuerung muss intuitiv zur Wirkung passen – Lautstärke-Regler nach oben = lauter.' },
-        { name: 'Consistency', icon: '', desc: 'Konsistenz: Gleiche Elemente = gleiche Funktion überall. Kein blaues "Löschen"-Button auf einer Seite, roter auf der nächsten.' },
         { name: 'Affordance', icon: '', desc: 'Aufforderungscharakter: Eine Schaltfläche schreit „KLICK MICH!" – das Element signalisiert seine Nutzung.' },
+        { name: 'Conceptual Models', icon: '', desc: 'Mentale Modelle: Der Nutzer braucht ein klares Bild davon, wie das System funktioniert – z.\u00A0B. Papierkorb-Metapher.' },
+        { name: 'Consistency *', icon: '', desc: 'Konsistenz (Nielsen-Heuristik): Gleiche Elemente = gleiche Funktion überall. * Consistency stammt aus Nielsens 10 Usability Heuristics, nicht direkt von Norman.' },
       ],
-      tipText: '"Don\'t Make Me Think" (Steve Krug) – die beste Benutzeroberfläche ist die, über die man nicht nachdenken muss.',
+      tipText: 'Quelle: Don Norman, "The Design of Everyday Things" (überarb. Auflage 2013). Norman ersetzte „Visibility" durch „Signifiers" und ergänzte „Conceptual Models". * Consistency stammt aus Nielsens 10 Usability Heuristics.',
     },
     en: {
       title: 'Usability Basics',
       normanTitle: "Norman's Design Principles",
       normanPrinciples: [
-        { name: 'Visibility', icon: '', desc: 'Visibility: What can the user do? Make it obvious – hidden functions are not used.' },
+        { name: 'Signifiers', icon: '', desc: 'Signifiers (formerly Visibility): Where should the user click? Signifiers reveal possibilities – e.g. underlined link, raised button.' },
         { name: 'Feedback', icon: '', desc: 'Feedback: The system shows what is happening – loading spinner, success badge, error message.' },
         { name: 'Constraints', icon: '', desc: 'Constraints: Prevent errors through limitations – disabled buttons, required fields, validation.' },
         { name: 'Mapping', icon: '', desc: 'Mapping: Controls must intuitively match their effect – volume slider up = louder.' },
-        { name: 'Consistency', icon: '', desc: 'Consistency: Same elements = same function everywhere. No blue "Delete" button on one page, red on the next.' },
         { name: 'Affordance', icon: '', desc: 'Affordance: A button shouts "CLICK ME!" – the element signals its use.' },
+        { name: 'Conceptual Models', icon: '', desc: 'Conceptual Models: The user needs a clear picture of how the system works – e.g. the trash can metaphor.' },
+        { name: 'Consistency *', icon: '', desc: 'Consistency (Nielsen heuristic): Same elements = same function everywhere. * Consistency comes from Nielsen\'s 10 Usability Heuristics, not directly from Norman.' },
       ],
-      tipText: '"Don\'t Make Me Think" (Steve Krug) – the best user interface is the one you don\'t have to think about.',
+      tipText: 'Source: Don Norman, "The Design of Everyday Things" (revised edition 2013). Norman replaced "Visibility" with "Signifiers" and added "Conceptual Models". * Consistency comes from Nielsen\'s 10 Usability Heuristics.',
     },
   };
   const c = t[lang];
@@ -1158,9 +1205,9 @@ function SectionUsability({ lang }) {
       <div className="bauhaus-accent-line" />
 
       <h3 style={{marginBottom:'0.75rem'}}>{c.normanTitle}</h3>
-      <div className="grid-3" style={{marginBottom:'1.5rem'}}>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill, minmax(250px, 1fr))',gap:'1rem',marginBottom:'1.5rem'}}>
         {c.normanPrinciples.map((p,i) => (
-          <div key={i} className="bauhaus-card">
+          <div key={i} className="bauhaus-card" style={p.name.includes('Consistency') ? {borderStyle:'dashed'} : {}}>
             <div style={{fontSize:'1.5rem',marginBottom:'0.4rem'}}>{p.icon}</div>
             <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,color:'var(--primary)',marginBottom:'0.4rem'}}>{p.name}</div>
             <div style={{fontSize:'0.82rem',color:'#4b5563',lineHeight:1.5}}>{p.desc}</div>
@@ -1666,18 +1713,18 @@ function App() {
           <ul style={{listStyle:'disc',paddingLeft:'1.5rem',color:'#374151',lineHeight:'1.8'}}>
             {lang === 'de' ? (
               <>
-                <li>Bauhaus-Kernprinzipien: Form follows function</li>
-                <li>Farbe und Typografie als Kommunikationsmittel</li>
-                <li>Gestaltgesetze: Nähe, Ähnlichkeit, Fortsetzung, Geschlossenheit</li>
-                <li>Bewusste Designentscheidungen basieren auf Prinzipien</li>
+                <li>Bauhaus-Kernprinzipien: Form follows function (1919–1933, Weimar → Dessau → Berlin)</li>
+                <li>Farbe und Typografie als Kommunikationsmittel – Farbwirkung ist kulturabhängig</li>
+                <li>7 Gestaltgesetze: Prägnanz, Nähe, Ähnlichkeit, Kontinuität, Geschlossenheit, Figur-Grund, Gemeinsames Schicksal</li>
+                <li>Norman's Design Principles (2013): Signifiers, Feedback, Constraints, Mapping, Affordance, Conceptual Models</li>
                 <li>Kontrast und Hierarchie lenken die Aufmerksamkeit</li>
               </>
             ) : (
               <>
-                <li>Bauhaus core principles: Form follows function</li>
-                <li>Color and typography as communication tools</li>
-                <li>Gestalt laws: proximity, similarity, continuation, closure</li>
-                <li>Conscious design decisions are based on principles</li>
+                <li>Bauhaus core principles: Form follows function (1919–1933, Weimar → Dessau → Berlin)</li>
+                <li>Color and typography as communication tools – color perception is culturally dependent</li>
+                <li>7 Gestalt laws: Prägnanz, proximity, similarity, continuity, closure, figure-ground, common fate</li>
+                <li>Norman's Design Principles (2013): Signifiers, Feedback, Constraints, Mapping, Affordance, Conceptual Models</li>
                 <li>Contrast and hierarchy direct attention</li>
               </>
             )}
