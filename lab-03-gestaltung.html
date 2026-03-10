@@ -193,7 +193,8 @@
     /* Texte */
     [data-lang="en"] h1,
     [data-lang="en"] h2,
-    [data-lang="en"] h3 { color: #1A1A1A; }
+    [data-lang="en"] h3,
+    [data-lang="en"] h4 { color: #1A1A1A; }
     [data-lang="en"] a  { color: #1A1A1A; }
 
     /* Bauhaus-Elemente */
@@ -204,7 +205,10 @@
 
     /* Header / Navbar */
     [data-lang="en"] .header { border-bottom-color: rgba(0,0,0,0.08); }
+    [data-lang="en"] .site-header { border-bottom-color: rgba(0,0,0,0.08); }
     [data-lang="en"] .header-logo { color: #1A1A1A; }
+    [data-lang="en"] .header-brand { color: #1A1A1A !important; }
+    [data-lang="en"] .back-link { color: #1A1A1A !important; border-color: #1A1A1A !important; }
     [data-lang="en"] .lang-btn.active { background: #1A1A1A; color: #F7CC00; border-color: #1A1A1A; }
 
     /* Sidebar / Navigation */
@@ -269,8 +273,10 @@
       color: white !important;
     }
 
-    /* Header-Logo */
+    /* Header-Logo / Brand */
     [data-lang="en"] .header-logo { color: #1A1A1A !important; }
+    [data-lang="en"] .header-brand { color: #1A1A1A !important; }
+    [data-lang="en"] .back-link { color: #1A1A1A !important; border-color: #1A1A1A !important; }
 
     /* Sidebar */
     [data-lang="en"] .sidebar-link.active {
@@ -283,6 +289,8 @@
     /* Nav-Buttons */
     [data-lang="en"] .nav-btn.primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
     [data-lang="en"] .nav-btn:hover   { background: #1A1A1A !important; color: white !important; }
+    [data-lang="en"] .bottom-nav-btn.primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
+    [data-lang="en"] .bottom-nav-btn:hover   { background: #1A1A1A !important; color: white !important; }
 
     /* Karten-Überschriften */
     [data-lang="en"] .prop-card h4,
@@ -330,9 +338,12 @@
 
   
     [data-lang="en"] .bauhaus-accent-line { background: #F7CC00 !important; }
-  
+
     [data-lang="en"] .concept-box { border-left-color: #F7CC00 !important; background: rgba(247,204,0,0.08) !important; }
+    [data-lang="en"] .tip-box { border-left-color: #F7CC00 !important; }
     [data-lang="en"] .incorrect { border-color: #1A1A1A !important; }
+    [data-lang="en"] .primary { background: #1A1A1A !important; border-color: #1A1A1A !important; }
+    [data-lang="en"] .bottom-nav-btn.primary { background: #1A1A1A !important; border-color: #1A1A1A !important; color: white !important; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#6366F1', primaryTextColor: '#1F2937', lineColor: '#6366F1', edgeLabelBackground: '#F9FAFB' }});</script>
