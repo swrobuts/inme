@@ -420,6 +420,7 @@
           { table: 'bestellpositionen', desc: 'Welche Ersatzteile in welcher Menge in einer Bestellung enthalten sind (n:m Verknüpfung).' },
         ],
         s4RlsNote: 'Row Level Security (RLS) schützt die Datenbank: Ohne explizite Policy kann niemand auf eine Tabelle zugreifen. Die Policies definieren genau, wer lesen und schreiben darf.',
+        s4SecurityNote: '⚠️ Produktions-Hinweis: In einer echten Anwendung sollten sensible Operationen (z.\u00A0B. KI-API-Aufrufe mit API-Keys) in Supabase Edge Functions ausgelagert werden. API-Schlüssel gehören in Environment Variables, niemals in Frontend-Code. Supabase Auth ermöglicht benutzerbezogene RLS-Policies statt des öffentlichen anon-Keys.',
 
         // Section 5, 6, 7
         s5Title: 'App HTML (für CodePen)',
@@ -516,14 +517,16 @@
         ],
         quizScoreLabel: (n, t) => `Ergebnis: ${n} von ${t} richtig`,
 
-        // Section 11 – Nächste Schritte
-        summaryTitle: 'Nächste Schritte',
+        // Section 11 – Zusammenfassung
+        summaryTitle: 'Zusammenfassung',
         summaryItems: [
-          'Supabase als Open-Source Backend (PostgreSQL, Auth, Storage)',
-          'CodePen als schneller Prototyping-Workflow',
-          'Realtime-Events mit on() Listener',
-          'Row Level Security für Datensicherheit',
-          'Nächste Schritte: Eigene Projekte, Edge Functions, Auth',
+          'Supabase (gegründet 2020) ist eine Open-Source Firebase-Alternative auf Basis von PostgreSQL – mit Auto-generated REST API, Auth und Realtime.',
+          'Der Tech-Stack HTML + CSS + Vanilla JS + Supabase erlaubt vollständige Web-Apps ohne Build-Tools oder eigenen Server.',
+          'Das SQL-Schema nutzt UUIDs (gen_random_uuid()), Foreign Keys für referentielle Integrität und CHECK-Constraints für Validierung.',
+          'Row Level Security (RLS) schützt die Datenbank: ohne explizite Policy ist kein Zugriff möglich – der anon-Key ist sicher im Frontend.',
+          'Die Gemini Vision API (gemini-2.0-flash) analysiert Fotos per Multimodal-Prompt und liefert strukturiertes JSON.',
+          'CodePen ermöglicht Rapid Prototyping ohne lokales Setup – ideal für Lehr- und Demo-Zwecke.',
+          'Nächste Schritte: Supabase Auth für Login, Edge Functions für serverseitige Logik, Supabase Storage für Datei-Uploads.',
         ],
 
         // Nav
@@ -611,6 +614,7 @@
           { table: 'bestellpositionen', desc: 'Which spare parts in which quantities are in an order (n:m relationship).' },
         ],
         s4RlsNote: 'Row Level Security (RLS) protects the database: without an explicit policy, nobody can access a table. The policies define exactly who can read and write.',
+        s4SecurityNote: '⚠️ Production note: In a real application, sensitive operations (e.g. AI API calls with API keys) should be moved to Supabase Edge Functions. API keys belong in environment variables, never in frontend code. Supabase Auth enables user-specific RLS policies instead of the public anon key.',
 
         // Section 5, 6, 7
         s5Title: 'App HTML (for CodePen)',
@@ -707,14 +711,16 @@
         ],
         quizScoreLabel: (n, t) => `Score: ${n} of ${t} correct`,
 
-        // Section 11 – Next Steps
-        summaryTitle: 'Next Steps',
+        // Section 11 – Summary
+        summaryTitle: 'Summary',
         summaryItems: [
-          'Supabase as open-source backend (PostgreSQL, Auth, Storage)',
-          'CodePen for rapid prototyping workflow',
-          'Realtime events with on() listener',
-          'Row Level Security for data protection',
-          'Next steps: Own projects, Edge Functions, Auth',
+          'Supabase (founded 2020) is an open-source Firebase alternative built on PostgreSQL – with auto-generated REST API, Auth and Realtime.',
+          'The tech stack HTML + CSS + Vanilla JS + Supabase allows complete web apps without build tools or your own server.',
+          'The SQL schema uses UUIDs (gen_random_uuid()), foreign keys for referential integrity and CHECK constraints for validation.',
+          'Row Level Security (RLS) protects the database: without an explicit policy, no access is possible – the anon key is safe in the frontend.',
+          'The Gemini Vision API (gemini-2.0-flash) analyses photos via multimodal prompts and returns structured JSON.',
+          'CodePen enables rapid prototyping without local setup – ideal for teaching and demos.',
+          'Next steps: Supabase Auth for login, Edge Functions for server-side logic, Supabase Storage for file uploads.',
         ],
 
         // Nav
@@ -804,6 +810,14 @@ ALTER TABLE bestellpositionen ENABLE ROW LEVEL SECURITY;
 -- Öffentlicher Lesezugriff für Ersatzteile
 CREATE POLICY "Ersatzteile öffentlich lesbar"
   ON ersatzteile FOR SELECT USING (true);
+
+-- Öffentlicher Lesezugriff für Störungen + Bestellungen
+CREATE POLICY "Störungen lesbar"
+  ON stoerungen FOR SELECT USING (true);
+CREATE POLICY "Bestellungen lesbar"
+  ON bestellungen FOR SELECT USING (true);
+CREATE POLICY "Bestellpositionen lesbar"
+  ON bestellpositionen FOR SELECT USING (true);
 
 -- Öffentlicher Schreibzugriff für Störungen + Bestellungen
 CREATE POLICY "Störungen einfügen"
@@ -1568,15 +1582,18 @@ function zeigeDiagnose(diagnose) {
 async function speichereStorung(maschinentyp, diagnose) {
   if (!db || SUPABASE_URL.includes('DEIN-PROJEKT')) return;
   try {
-    const { error } = await db.from('stoerungen').insert({
+    const { data, error } = await db.from('stoerungen').insert({
       maschinentyp,
       symptome: [diagnose.problem || diagnose.name],
       diagnose: diagnose.problem || diagnose.name,
       loesung: (diagnose.loesung || diagnose.schritte || []).join(' | '),
       status: 'offen'
-    });
+    }).select().single();
     if (error) console.warn('Speichern fehlgeschlagen:', error.message);
-    else console.log('✅ Störung gespeichert');
+    else {
+      aktuelleStorung.id = data.id;
+      console.log('✅ Störung gespeichert, ID:', data.id);
+    }
   } catch (e) {
     console.warn('Speichern übersprungen:', e.message);
   }
@@ -1667,9 +1684,9 @@ async function bestellungAbschicken() {
 
   if (db && !SUPABASE_URL.includes('DEIN-PROJEKT')) {
     try {
-      const { data, error } = await db.from('bestellungen').insert({
-        kundename: name, email: email, status: 'offen'
-      }).select().single();
+      const insertObj = { kundename: name, email: email, status: 'offen' };
+      if (aktuelleStorung?.id) insertObj.stoerung_id = aktuelleStorung.id;
+      const { data, error } = await db.from('bestellungen').insert(insertObj).select().single();
 
       if (!error && data) {
         bestellNr = data.id.slice(0, 8).toUpperCase();
@@ -1979,6 +1996,9 @@ async function kameraOeffnen() {
                 <strong>{lang === 'de' ? 'Row Level Security (RLS):' : 'Row Level Security (RLS):'} </strong>
                 {t.s4RlsNote}
               </div>
+              <div className="tip-box" style={{ marginTop: '1rem' }}>
+                {t.s4SecurityNote}
+              </div>
             </section>
 
             {/* ── Section 5: App HTML ── */}
@@ -2064,51 +2084,21 @@ async function kameraOeffnen() {
             </section>
 
             {/* ── Zusammenfassung ── */}
-            <section style={{marginTop:'2rem', padding:'1.5rem', background:'#F9FAFB', borderLeft:'4px solid #DC2626'}}>
-              <h3 style={{color:'#DC2626', marginBottom:'1rem', fontSize:'1rem', fontWeight:'700', letterSpacing:'0.05em', textTransform:'uppercase'}}>
-                {lang === 'de' ? 'Zusammenfassung' : 'Summary'}
-              </h3>
-              <ul style={{listStyle:'disc', paddingLeft:'1.5rem', color:'#374151', lineHeight:'1.8'}}>
-                {lang === 'de' ? (
-                  <>
-                    <li>Supabase als serverloser Backend-as-a-Service für Echtzeitdaten</li>
-                    <li>CodePen als schnelle Prototyping-Plattform ohne Build-Tooling</li>
-                    <li>Gemini Vision API für KI-gestützte Bildanalyse</li>
-                    <li>Frontend-Backend-Integration ohne eigenen Server</li>
-                  </>
-                ) : (
-                  <>
-                    <li>Supabase as serverless Backend-as-a-Service for real-time data</li>
-                    <li>CodePen as rapid prototyping platform without build tooling</li>
-                    <li>Gemini Vision API for AI-powered image analysis</li>
-                    <li>Frontend-backend integration without own server</li>
-                  </>
-                )}
-              </ul>
+            <section id="zusammenfassung" className="section-block">
+              <span className="bauhaus-badge">{lang === 'de' ? 'ZUSAMMENFASSUNG' : 'SUMMARY'}</span>
+              <div className="bauhaus-accent-line" />
+              <h2>{t.summaryTitle}</h2>
+              <div className="lernziele-box">
+                <ul style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: 1.85 }}>
+                  {t.summaryItems.map((item, i) => <li key={i} style={{ fontSize: '0.92rem', marginBottom: '0.3rem' }}>{item}</li>)}
+                </ul>
+              </div>
             </section>
 
             {/* ── Bottom Navigation ── */}
             <div className="nav-bottom">
               <a href="lab-05-usecase.html" className="nav-btn">{t.navPrev}</a>
             </div>
-
-            {/* ── Footer ── */}
-          {/* ── Nächste Schritte ── */}
-          <section id="zusammenfassung" className="section-block">
-            <h2>{lang === 'de' ? 'Nächste Schritte' : 'Next Steps'}</h2>
-            <div className="bauhaus-accent-line" />
-            <ul style={{ paddingLeft: '1.5rem', lineHeight: '2', fontSize: '0.95rem' }}>
-              {lang === 'de' ? (
-                <>
-                  <li>Supabase bietet Backend-as-a-Service mit PostgreSQL, Auth und Realtime-Events</li> <li>CodePen ermöglicht schnelles Prototyping ohne lokales Setup</li> <li>Die Kombination aus Supabase + CodePen ist ideal für interaktive Web-Apps</li> <li>Next Steps: Eigene Projekte umsetzen, Auth erweitern, Supabase Functions nutzen</li>
-                </>
-              ) : (
-                <>
-                  <li>Supabase provides Backend-as-a-Service with PostgreSQL, Auth, and Realtime events</li> <li>CodePen enables rapid prototyping without local setup</li> <li>The Supabase + CodePen combination is ideal for interactive web apps</li> <li>Next steps: Build your own projects, extend auth, use Supabase Functions</li>
-                </>
-              )}
-            </ul>
-          </section>
 
             <footer style={{borderTop:'1px solid #e5e7eb', marginTop:'3rem', padding:'1.5rem 0', textAlign:'center', fontSize:'0.8rem', color:'#9ca3af'}}>
               INME Lab · THWS Business School · Prof. Dr. Robert Butscher
