@@ -462,7 +462,11 @@ function SectionUeberblick({ lang }) {
   const c = t[lang];
   return (
     <section id="ueberblick" className="section-block">
-      <h2>{c.title}</h2>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.25rem' }}>
+        <span className="bauhaus-badge">Lab 03</span>
+        <span className="bauhaus-badge" style={{ background: '#B91C1C' }}>{lang === 'de' ? 'ca. 120 Min' : 'approx. 120 min'}</span>
+      </div>
+      <h2 style={{ marginTop: '0.75rem' }}>{c.title}</h2>
       <div className="bauhaus-accent-line" />
       <div className="bauhaus-card" style={{marginBottom: '1.5rem', background: 'var(--dark)', color: 'white', borderColor: 'var(--dark)'}}>
         <div style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:800,fontSize:'1.25rem',marginBottom:'0.4rem'}}>{c.motto}</div>
@@ -1716,7 +1720,7 @@ function App() {
         <BottomNav lang={lang} />
       </main>
 
-      <footer className="footer">
+      <footer style={{borderTop:'1px solid #e5e7eb', marginTop:'3rem', padding:'1.5rem 0', textAlign:'center', fontSize:'0.75rem', color:'#9ca3af'}}>
         © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
       </footer>
     </div>
