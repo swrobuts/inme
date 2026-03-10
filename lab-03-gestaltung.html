@@ -160,9 +160,9 @@
       width: 100%; max-width: 300px; height: 200px; position: relative;
       background: #f5f5f0; border: 2px solid var(--dark); overflow: hidden;
     }
-    .bh-circle { position: absolute; width: 100px; height: 100px; border-radius: 50%; background: var(--primary); top: 30px; left: 20px; }
-    .bh-square { position: absolute; width: 90px; height: 90px; background: var(--accent); bottom: 20px; right: 20px; }
-    .bh-triangle { position: absolute; width: 0; height: 0; border-left: 55px solid transparent; border-right: 55px solid transparent; border-bottom: 95px solid var(--dark); bottom: 20px; left: 50%; transform: translateX(-50%); }
+    .bh-circle { position: absolute; width: 100px; height: 100px; border-radius: 50%; background: #1D4ED8; top: 30px; left: 20px; }
+    .bh-square { position: absolute; width: 90px; height: 90px; background: #B91C1C; bottom: 20px; right: 20px; }
+    .bh-triangle { position: absolute; width: 0; height: 0; border-left: 55px solid transparent; border-right: 55px solid transparent; border-bottom: 95px solid #F59E0B; bottom: 20px; left: 50%; transform: translateX(-50%); }
 
     /* ─── COLOR SWATCHES ─── */
     .swatch { width: 100%; height: 60px; border: 1px solid #d1d5db; }
@@ -432,7 +432,7 @@ function SectionUeberblick({ lang }) {
   const t = {
     de: {
       title: 'Überblick',
-      motto: '"Form follows function" – das Bauhaus-Credo',
+      motto: '"Kunst und Technik – eine neue Einheit" (Walter Gropius, 1923)',
       mottoSub: 'Die Designphilosophie, die die moderne Welt geprägt hat.',
       badge: 'ca. 60 Min',
       goalsTitle: 'Lernziele',
@@ -446,7 +446,7 @@ function SectionUeberblick({ lang }) {
     },
     en: {
       title: 'Overview',
-      motto: '"Form follows function" – the Bauhaus credo',
+      motto: '"Art and Technology – a New Unity" (Walter Gropius, 1923)',
       mottoSub: 'The design philosophy that shaped the modern world.',
       badge: 'approx. 60 min',
       goalsTitle: 'Learning Goals',
@@ -532,11 +532,11 @@ function SectionBauhaus({ lang }) {
       principlesTitle: 'Kernprinzipien',
       principles: [
         { icon: '◯△□', label: 'Geometrisch', text: 'Kreis, Dreieck, Quadrat als Grundformen aller Gestaltung' },
-        { icon: 'RGB', label: 'Primärfarben', text: 'Rot, Gelb, Blau als Basis – rein und unmittelbar' },
-        { icon: 'Aa', label: 'Typografie', text: 'Klare, serifenlose Schriften: Futura, DIN, Herbert Bayers Universal (1925)' },
-        { icon: 'f(x)', label: 'Funktionalität', text: 'Form folgt Funktion – kein Ornament, alles hat Zweck' },
+        { icon: 'RYB', label: 'Primärfarben', text: 'Rot, Gelb, Blau als Basis – rein und unmittelbar' },
+        { icon: 'Aa', label: 'Typografie', text: 'Herbert Bayers Universal (1925) – die einzige echte Bauhaus-Schrift. Futura (Renner) und DIN entstanden zeitgleich außerhalb des Bauhauses.' },
+        { icon: 'f(x)', label: 'Funktionalität', text: 'Kein Ornament ohne Funktion (Loos, 1908) – "Form follows function" geht auf Louis Sullivan zurück, nicht auf das Bauhaus' },
       ],
-      conceptText: 'Das Bauhaus hat modernes Design geprägt: IKEA, Apple, Google – alle basieren auf Bauhaus-Prinzipien.',
+      conceptText: 'Das Bauhaus wirkt bis heute nach – mittelbar: Apple via Dieter Rams (Braun), IKEA via skandinavischen Funktionalismus, Googles Material Design via Schweizer Typografie (Müller-Brockmann).',
       compositionLabel: 'Bauhaus-Komposition (pure CSS)',
     },
     en: {
@@ -577,11 +577,11 @@ function SectionBauhaus({ lang }) {
       principlesTitle: 'Core Principles',
       principles: [
         { icon: '◯△□', label: 'Geometric', text: 'Circle, triangle, square as the basic forms of all design' },
-        { icon: 'RGB', label: 'Primary Colors', text: 'Red, yellow, blue as the basis – pure and immediate' },
-        { icon: 'Aa', label: 'Typography', text: 'Clean sans-serif typefaces: Futura, DIN, Herbert Bayer\'s Universal (1925)' },
-        { icon: 'f(x)', label: 'Functionality', text: 'Form follows function – no ornament, everything has purpose' },
+        { icon: 'RYB', label: 'Primary Colors', text: 'Red, yellow, blue as the basis – pure and immediate' },
+        { icon: 'Aa', label: 'Typography', text: 'Herbert Bayer\'s Universal (1925) – the only true Bauhaus typeface. Futura (Renner) and DIN were contemporaries, not Bauhaus products.' },
+        { icon: 'f(x)', label: 'Functionality', text: 'No ornament without function (Loos, 1908) – "Form follows function" originates from Louis Sullivan, not the Bauhaus' },
       ],
-      conceptText: 'The Bauhaus shaped modern design: IKEA, Apple, Google – all based on Bauhaus principles.',
+      conceptText: 'The Bauhaus still resonates today – indirectly: Apple via Dieter Rams (Braun), IKEA via Scandinavian functionalism, Google\'s Material Design via Swiss typography (Müller-Brockmann).',
       compositionLabel: 'Bauhaus Composition (pure CSS)',
     },
   };
@@ -808,7 +808,7 @@ function SectionTypografie({ lang }) {
         { name: 'Monospace', ex: 'Courier New', cls: 'font-mono', desc: 'Gleichbreite Zeichen – Code, technisch' },
       ],
       bauhausTitle: 'Bauhaus-Schriften',
-      bauhausText: 'Futura (Paul Renner, 1927) · DIN 1451 · Herbert Bayers Universal (1925) · heute: Space Grotesk',
+      bauhausText: 'Herbert Bayers Universal (1925) – Bauhaus-Original · Futura (Renner, 1927) und DIN 1451 – zeitgenössisch, kein Bauhaus-Bezug · heute: Space Grotesk',
       hierarchyTitle: 'Typografie-Hierarchie',
       scale: [
         { tag: 'H1', size: '2.5rem', weight: '800', font: 'Space Grotesk', use: lang === 'de' ? 'Seitentitel' : 'Page title', ex: 'Störungsmelder' },
@@ -834,7 +834,7 @@ function SectionTypografie({ lang }) {
         { name: 'Monospace', ex: 'Courier New', cls: 'font-mono', desc: 'Equal-width characters – code, technical' },
       ],
       bauhausTitle: 'Bauhaus Typefaces',
-      bauhausText: 'Futura (Paul Renner, 1927) · DIN 1451 · Herbert Bayer\'s Universal (1925) · today: Space Grotesk',
+      bauhausText: 'Herbert Bayer\'s Universal (1925) – Bauhaus original · Futura (Renner, 1927) and DIN 1451 – contemporaries, no Bauhaus connection · today: Space Grotesk',
       hierarchyTitle: 'Typographic Hierarchy',
       scale: [
         { tag: 'H1', size: '2.5rem', weight: '800', font: 'Space Grotesk', use: 'Page title', ex: 'Error Reporter' },
