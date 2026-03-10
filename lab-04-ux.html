@@ -366,6 +366,7 @@
           { href: '#wireframes',   label: 'Wireframes' },
           { href: '#figma',        label: 'Figma Quickstart' },
           { href: '#quiz',         label: 'Quiz' },
+          { href: '#zusammenfassung', label: 'Zusammenfassung' },
           { href: '#ressourcen',   label: 'Ressourcen' },
         ],
 
@@ -385,6 +386,7 @@
 
         // UX vs UI
         s2Title: 'UX vs. UI',
+        s2Origin: 'Der Begriff „User Experience" wurde von Don Norman 1993 bei Apple geprägt. Er betonte, dass UX das gesamte Erlebnis umfasst – nicht nur die Oberfläche.',
         s2Concept: 'UX is how it works. UI is how it looks.',
         s2TableCaption: 'Vergleich: UX vs. UI',
         s2TableHeaders: ['', 'UX (User Experience)', 'UI (User Interface)'],
@@ -396,15 +398,18 @@
           ['Output', 'Wireframes, Prototypen', 'Mockups, Design Systems'],
         ],
         s2Summary: 'Gutes Produkt = UX + UI zusammen. Eines ohne das andere scheitert.',
+        s2A11yTitle: 'Barrierefreiheit (Accessibility)',
+        s2A11yText: 'Ein oft übersehener Aspekt von UX: Produkte müssen für alle zugänglich sein. Die Web Content Accessibility Guidelines (WCAG 2.1) definieren Standards in drei Stufen: A (Minimum), AA (empfohlen), AAA (optimal). Beispiele: ausreichende Farbkontraste (≥ 4.5:1), Tastaturnavigation, Screenreader-Kompatibilität und Alt-Texte für Bilder.',
 
         // User Research
         s3Title: 'User Research',
         s3Intro: 'User Research legt das Fundament für jede UX-Entscheidung. Ohne Research designen wir für uns selbst – nicht für die Nutzer.',
         s3Methods: [
-          { icon: '', title: 'Interviews', desc: 'Direkte 1:1 Gespräche mit Nutzern. 5–8 Interviews reichen oft, um Muster zu erkennen.' },
+          { icon: '', title: 'Interviews', desc: 'Direkte 1:1 Gespräche mit Nutzern. Für qualitative Sättigung werden ca. 12–15 Interviews empfohlen (Guest, Bunce & Johnson, 2006).' },
           { icon: '', title: 'Umfragen', desc: 'Quantitative Daten. Google Forms, Typeform. Gut für Bestätigung von Hypothesen.' },
           { icon: '👀', title: 'Beobachtung', desc: 'Nutzer beim echten Arbeiten zusehen. Contextual Inquiry liefert echte Einblicke.' },
           { icon: '', title: 'Tagebuchstudie', desc: 'Nutzer dokumentieren selbst über Zeit. Gut für alltägliche Verhaltensweisen.' },
+          { icon: '🧪', title: 'Usability Testing', desc: 'Nutzer führen Aufgaben am Prototyp aus. Laut Nielsen (2000) decken bereits 5 Tests ~85% der Usability-Probleme auf.' },
         ],
         s3Tip: 'Was Nutzer SAGEN ≠ was sie TUN. Beobachtung ist oft aufschlussreicher als Befragung.',
         s3InfoTitle: 'Für unseren Use Case',
@@ -418,7 +423,7 @@
         // Personas
         s4Title: 'Personas',
         s4ConceptTitle: 'Was ist eine Persona?',
-        s4ConceptText: 'Fiktive Repräsentation eines realen Nutzersegments, basierend auf Research-Daten. Personas machen abstrakte Zielgruppen greifbar und fördern empathisches Design.',
+        s4ConceptText: 'Fiktive Repräsentation eines realen Nutzersegments, basierend auf Research-Daten. Das Konzept wurde von Alan Cooper in „The Inmates Are Running the Asylum" (1999) populär gemacht. Personas machen abstrakte Zielgruppen greifbar und fördern empathisches Design.',
         s4PersonaName: 'THOMAS WEBER, 34',
         s4PersonaRole: 'Wartungstechniker · Catering GmbH',
         s4ZieleTitle: 'Ziele',
@@ -482,6 +487,16 @@
         // User Stories
         s6Title: 'User Stories',
         s6Intro: 'Format: "Als [Rolle] möchte ich [Aktion], damit [Nutzen]."',
+        s6InvestTitle: 'INVEST-Kriterien',
+        s6InvestText: 'Gute User Stories erfüllen die INVEST-Kriterien (Bill Wake, 2003):',
+        s6Invest: [
+          { letter: 'I', word: 'Independent', desc: 'Unabhängig von anderen Stories' },
+          { letter: 'N', word: 'Negotiable', desc: 'Verhandelbar, nicht festgelegt' },
+          { letter: 'V', word: 'Valuable', desc: 'Liefert Nutzen für den Anwender' },
+          { letter: 'E', word: 'Estimable', desc: 'Aufwand schätzbar' },
+          { letter: 'S', word: 'Small', desc: 'Klein genug für ein Sprint' },
+          { letter: 'T', word: 'Testable', desc: 'Akzeptanzkriterien definierbar' },
+        ],
         s6Stories: [
           { num: 'US-01', text: ['Als ', 'Nutzer', ' möchte ich ein Foto direkt mit der Kamera aufnehmen, um eine KI-Diagnose zu starten.'] },
           { num: 'US-02', text: ['Als ', 'Nutzer', ' möchte ich ein Foto aus meiner Galerie hochladen, um eine KI-Diagnose zu starten.'] },
@@ -494,6 +509,12 @@
         s7Title: 'Information Architecture',
         s7Subtitle: 'Welche Screens braucht die App? (Sitemap)',
         s7Note: 'Wir halten die IA bewusst einfach – 5 Screens, 1 Flow.',
+        s7Sitemap: [
+          'Störung melden (Screen 1)',
+          'Diagnose (Screen 2)',
+          'Ersatzteilshop (Screen 3)',
+          'Bestellung bestätigen (Screen 4)',
+        ],
 
         // Wireframes
         s8Title: 'Wireframes',
@@ -617,6 +638,19 @@
           { href: 'https://developer.apple.com/design/human-interface-guidelines', label: 'Apple Human Interface Guidelines', desc: '– Apple Design System' },
         ],
 
+        // Zusammenfassung
+        s12Title: 'Zusammenfassung',
+        s12Points: [
+          'UX (User Experience) beschreibt das Gesamterlebnis – geprägt von Don Norman (1993). UI ist die visuelle Umsetzung.',
+          'User Research bildet die Basis: Interviews (12–15 für Sättigung), Umfragen, Beobachtung, Tagebuchstudien und Usability Testing (5 Tests für ~85% der Probleme, Nielsen 2000).',
+          'Personas (Cooper, 1999) machen abstrakte Zielgruppen greifbar und leiten Designentscheidungen.',
+          'User Journey Maps visualisieren die gesamte Nutzererfahrung mit Emotionskurve.',
+          'User Stories folgen dem Format „Als [Rolle] möchte ich [Aktion], damit [Nutzen]" und sollten INVEST-Kriterien erfüllen.',
+          'Information Architecture strukturiert Inhalte – dargestellt als Sitemap.',
+          'Wireframes (Lo-Fi) → Figma-Prototypen (Hi-Fi) → Usability Testing → Iteration.',
+          'Barrierefreiheit (WCAG 2.1) ist integraler Bestandteil guter UX.',
+        ],
+
         // Nav
         navPrev: '← Lab 03: Gestaltung',
         navNext: 'Weiter: Lab 05 – Use Case →',
@@ -642,6 +676,7 @@
           { href: '#wireframes',   label: 'Wireframes' },
           { href: '#figma',        label: 'Figma Quickstart' },
           { href: '#quiz',         label: 'Quiz' },
+          { href: '#zusammenfassung', label: 'Summary' },
           { href: '#ressourcen',   label: 'Resources' },
         ],
 
@@ -659,6 +694,7 @@
         ],
 
         s2Title: 'UX vs. UI',
+        s2Origin: 'The term "User Experience" was coined by Don Norman in 1993 at Apple. He emphasised that UX encompasses the entire experience – not just the interface.',
         s2Concept: 'UX is how it works. UI is how it looks.',
         s2TableCaption: 'Comparison: UX vs. UI',
         s2TableHeaders: ['', 'UX (User Experience)', 'UI (User Interface)'],
@@ -670,14 +706,17 @@
           ['Output', 'Wireframes, prototypes', 'Mockups, design systems'],
         ],
         s2Summary: 'Good product = UX + UI together. One without the other fails.',
+        s2A11yTitle: 'Accessibility',
+        s2A11yText: 'An often overlooked aspect of UX: products must be accessible to everyone. The Web Content Accessibility Guidelines (WCAG 2.1) define standards across three levels: A (minimum), AA (recommended), AAA (optimal). Examples: sufficient colour contrast (≥ 4.5:1), keyboard navigation, screen reader compatibility and alt texts for images.',
 
         s3Title: 'User Research',
         s3Intro: 'User research is the foundation of every UX decision. Without research, we design for ourselves – not for users.',
         s3Methods: [
-          { icon: '', title: 'Interviews', desc: 'Direct 1:1 conversations with users. 5–8 interviews are often enough to identify patterns.' },
+          { icon: '', title: 'Interviews', desc: 'Direct 1:1 conversations with users. Qualitative saturation typically requires ~12–15 interviews (Guest, Bunce & Johnson, 2006).' },
           { icon: '', title: 'Surveys', desc: 'Quantitative data. Google Forms, Typeform. Good for validating hypotheses.' },
           { icon: '👀', title: 'Observation', desc: 'Watch users work in their real environment. Contextual inquiry delivers genuine insights.' },
           { icon: '', title: 'Diary Study', desc: 'Users document themselves over time. Good for everyday behaviours.' },
+          { icon: '🧪', title: 'Usability Testing', desc: 'Users perform tasks on a prototype. According to Nielsen (2000), just 5 tests uncover ~85% of usability problems.' },
         ],
         s3Tip: 'What users SAY ≠ what they DO. Observation is often more revealing than asking.',
         s3InfoTitle: 'For our use case',
@@ -690,7 +729,7 @@
 
         s4Title: 'Personas',
         s4ConceptTitle: 'What is a Persona?',
-        s4ConceptText: 'A fictional representation of a real user segment, based on research data. Personas make abstract target groups tangible and promote empathic design.',
+        s4ConceptText: 'A fictional representation of a real user segment, based on research data. The concept was popularised by Alan Cooper in "The Inmates Are Running the Asylum" (1999). Personas make abstract target groups tangible and promote empathic design.',
         s4PersonaName: 'THOMAS WEBER, 34',
         s4PersonaRole: 'Maintenance Technician · Catering GmbH',
         s4ZieleTitle: 'Goals',
@@ -752,6 +791,16 @@
 
         s6Title: 'User Stories',
         s6Intro: 'Format: "As a [role] I want to [action] so that [benefit]."',
+        s6InvestTitle: 'INVEST Criteria',
+        s6InvestText: 'Good user stories meet the INVEST criteria (Bill Wake, 2003):',
+        s6Invest: [
+          { letter: 'I', word: 'Independent', desc: 'Independent of other stories' },
+          { letter: 'N', word: 'Negotiable', desc: 'Open to discussion, not fixed' },
+          { letter: 'V', word: 'Valuable', desc: 'Delivers value to the user' },
+          { letter: 'E', word: 'Estimable', desc: 'Effort can be estimated' },
+          { letter: 'S', word: 'Small', desc: 'Small enough for one sprint' },
+          { letter: 'T', word: 'Testable', desc: 'Acceptance criteria definable' },
+        ],
         s6Stories: [
           { num: 'US-01', text: ['As a ', 'user', ' I want to take a photo directly with the camera to start an AI diagnosis.'] },
           { num: 'US-02', text: ['As a ', 'user', ' I want to upload a photo from my gallery to start an AI diagnosis.'] },
@@ -763,6 +812,12 @@
         s7Title: 'Information Architecture',
         s7Subtitle: 'Which screens does the app need? (Sitemap)',
         s7Note: 'We keep the IA deliberately simple – 5 screens, 1 flow.',
+        s7Sitemap: [
+          'Report Fault (Screen 1)',
+          'Diagnosis (Screen 2)',
+          'Spare Parts Shop (Screen 3)',
+          'Confirm Order (Screen 4)',
+        ],
 
         s8Title: 'Wireframes',
         s8Intro: 'Lo-Fi Wireframe: Screen 1 – Photo Upload (5-screen app)',
@@ -879,6 +934,19 @@
           { href: 'https://www.nngroup.com', label: 'Nielsen Norman Group', desc: '– UX research & articles' },
           { href: 'https://m3.material.io', label: 'Material Design', desc: '– Google Design System' },
           { href: 'https://developer.apple.com/design/human-interface-guidelines', label: 'Apple Human Interface Guidelines', desc: '– Apple Design System' },
+        ],
+
+        // Summary
+        s12Title: 'Summary',
+        s12Points: [
+          'UX (User Experience) describes the overall experience – coined by Don Norman (1993). UI is the visual implementation.',
+          'User research forms the foundation: interviews (12–15 for saturation), surveys, observation, diary studies and usability testing (5 tests for ~85% of problems, Nielsen 2000).',
+          'Personas (Cooper, 1999) make abstract target groups tangible and guide design decisions.',
+          'User journey maps visualise the entire user experience with an emotion curve.',
+          'User stories follow the format "As a [role] I want to [action] so that [benefit]" and should meet INVEST criteria.',
+          'Information architecture structures content – represented as a sitemap.',
+          'Wireframes (lo-fi) → Figma prototypes (hi-fi) → usability testing → iteration.',
+          'Accessibility (WCAG 2.1) is an integral part of good UX.',
         ],
 
         navPrev: '← Lab 03: Design',
@@ -1216,6 +1284,9 @@
               <div className="concept-box">
                 <strong style={{ fontSize: '1.05rem', fontFamily: "'Space Grotesk', sans-serif" }}>"{tr.s2Concept}"</strong>
               </div>
+              <div className="info-box" style={{ marginBottom: '1rem' }}>
+                <p style={{ margin: 0, fontSize: '0.9rem' }}>{tr.s2Origin}</p>
+              </div>
               <table>
                 <thead>
                   <tr>{tr.s2TableHeaders.map((h, i) => <th key={i}>{h}</th>)}</tr>
@@ -1234,6 +1305,10 @@
               </table>
               <div className="tip-box">
                 <strong>{tr.s2Summary}</strong>
+              </div>
+              <div className="concept-box" style={{ marginTop: '1rem' }}>
+                <strong>♿ {tr.s2A11yTitle}</strong>
+                <p style={{ margin: '0.4rem 0 0', fontSize: '0.9rem' }}>{tr.s2A11yText}</p>
               </div>
             </section>
 
@@ -1346,6 +1421,26 @@
                   </span>
                 </div>
               ))}
+              <h3 style={{ marginTop: '2rem' }}>{tr.s6InvestTitle}</h3>
+              <p style={{ color: '#555', fontSize: '0.92rem' }}>{tr.s6InvestText}</p>
+              <table>
+                <thead>
+                  <tr>
+                    <th style={{ width: '40px' }}></th>
+                    <th>{lang === 'de' ? 'Kriterium' : 'Criterion'}</th>
+                    <th>{lang === 'de' ? 'Bedeutung' : 'Meaning'}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tr.s6Invest.map((inv, i) => (
+                    <tr key={i}>
+                      <td style={{ fontWeight: 800, color: '#B91C1C', fontFamily: "'Space Grotesk', sans-serif", fontSize: '1.1rem' }}>{inv.letter}</td>
+                      <td style={{ fontWeight: 600 }}>{inv.word}</td>
+                      <td>{inv.desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </section>
 
             {/* ── IA ── */}
@@ -1355,10 +1450,9 @@
               <p style={{ color: '#555', fontStyle: 'italic' }}>{tr.s7Subtitle}</p>
               <div className="sitemap">
                 <div className="root">HOME</div>
-                <div><span className="connector">└── </span><span className="node">Störung melden (Screen 1)</span></div>
-                <div><span className="connector">    └── </span><span className="node">Diagnose (Screen 2)</span></div>
-                <div><span className="connector">        └── </span><span className="node">Ersatzteilshop (Screen 3)</span></div>
-                <div><span className="connector">            └── </span><span className="node">Bestellung bestätigen (Screen 4)</span></div>
+                {tr.s7Sitemap.map((node, i) => (
+                  <div key={i}><span className="connector">{'    '.repeat(i)}└── </span><span className="node">{node}</span></div>
+                ))}
               </div>
               <div className="info-box" style={{ marginTop: '1rem' }}>
                 <strong>{tr.s7Note}</strong>
@@ -1402,6 +1496,17 @@
               <h2>{tr.s10Title}</h2>
               <div className="bauhaus-accent-line"></div>
               <QuizSection tr={tr} key={lang} />
+            </section>
+
+            {/* ── Zusammenfassung ── */}
+            <section id="zusammenfassung" className="section-block">
+              <h2>{tr.s12Title}</h2>
+              <div className="bauhaus-accent-line"></div>
+              <div className="lernziele-box">
+                <ul style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: 1.85 }}>
+                  {tr.s12Points.map((p, i) => <li key={i} style={{ fontSize: '0.92rem', marginBottom: '0.3rem' }}>{p}</li>)}
+                </ul>
+              </div>
             </section>
 
             {/* ── Ressourcen ── */}
