@@ -1646,41 +1646,6 @@ function App() {
 
       {/* ── Main ── */}
       <main className="main-content">
-        <div style={{marginBottom:'2rem'}}>
-          <div style={{display:'flex',gap:'0.5rem',marginBottom:'0.75rem'}}>
-            <span className="bauhaus-badge">Lab 03</span>
-            <span className="bauhaus-badge" style={{background:'#B91C1C'}}>~120 Min</span>
-          </div>
-          <h1 style={{fontFamily:"'Space Grotesk',sans-serif",fontWeight:900,fontSize:'2rem',margin:'0 0 0.5rem',color:'#1A1A1A'}}>
-            {lang==='de' ? 'Gestaltungsprinzipien & Bauhaus' : 'Design Principles & Bauhaus'}
-          </h1>
-          <div className="bauhaus-accent-line"></div>
-          <div className="lernziele-box">
-            <h3 className="lernziele-heading">
-              {lang==='de' ? 'Lernziele' : 'Learning Goals'}
-            </h3>
-            <ul style={{margin:0,paddingLeft:'1.4rem',lineHeight:2}}>
-              {lang==='de' ? (
-                <>
-                  <li>Bauhaus-Geschichte und Kernprinzipien verstehen</li>
-                  <li>Farblehre und Farbharmonien anwenden können</li>
-                  <li>Typografisches System für digitale Produkte aufbauen</li>
-                  <li>Gestaltgesetze der Wahrnehmungspsychologie kennen</li>
-                  <li>Norman's Design Principles auf UI anwenden</li>
-                </>
-              ) : (
-                <>
-                  <li>Understand Bauhaus history and core principles</li>
-                  <li>Apply color theory and color harmonies</li>
-                  <li>Build a typographic system for digital products</li>
-                  <li>Know the Gestalt laws of perceptual psychology</li>
-                  <li>Apply Norman's Design Principles to UI</li>
-                </>
-              )}
-            </ul>
-          </div>
-        </div>
-
         <SectionUeberblick lang={lang} />
         <SectionBauhaus lang={lang} />
         <SectionFarblehre lang={lang} />
