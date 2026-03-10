@@ -365,6 +365,12 @@
           { term: 'Personalisiert',desc: 'Jeder Nutzer kann eine andere Erfahrung machen' },
           { term: 'Reaktiv',       desc: 'System antwortet auf Eingaben in Echtzeit' },
         ],
+        s2LevelsTitle: 'Interaktivitätsstufen',
+        s2Levels: [
+          { level: 'Reaktiv', desc: 'System reagiert auf Nutzereingaben (z.\u00a0B. Menüklick → neue Seite)' },
+          { level: 'Proaktiv', desc: 'System schlägt aktiv Inhalte vor (z.\u00a0B. Spotify-Empfehlungen)' },
+          { level: 'Mutual', desc: 'Gleichberechtigter Dialog – System und Nutzer beeinflussen sich gegenseitig (z.\u00a0B. Chatbots, KI-Assistenten)' },
+        ],
         s2AbgrenzungTitle: 'Abgrenzung: Passive vs. Interaktive Medien',
         s2TableHeaders: ['Passive Medien', 'Interaktive Medien'],
         s2TableRows: [
@@ -372,6 +378,13 @@
           ['Einwegkommunikation', 'Bidirektionale Kommunikation'],
           ['Linearer Fluss', 'Nicht-linearer Fluss'],
           ['Gleich für alle Nutzer', 'Personalisiert pro Nutzer'],
+        ],
+        s2PioneersTitle: 'Pioniere der Interaktivität',
+        s2Pioneers: [
+          { year: '1945', name: 'Vannevar Bush', work: 'Memex – visionärer Vorläufer des Hypertext' },
+          { year: '1965', name: 'Ted Nelson', work: 'Erfindet den Begriff "Hypertext"' },
+          { year: '1968', name: 'Douglas Engelbart', work: '"Mother of All Demos" – Maus, GUI, Videokonferenz' },
+          { year: '1989', name: 'Tim Berners-Lee', work: 'Erfindet das World Wide Web (HTML, HTTP, URL)' },
         ],
         s2ExamplesTitle: 'Beispiele interaktiver Medien',
         s2Examples: [
@@ -396,7 +409,8 @@
         s3WebGen: [
           { label: 'Web 1.0', era: '1990er', items: ['Read-only', 'Statische Seiten', 'Einseitige Information', 'HTML, FTP'] },
           { label: 'Web 2.0', era: '2000er', items: ['Read-Write', 'User Generated Content', 'Social Media & Blogs', 'AJAX, APIs'] },
-          { label: 'Web 3.0', era: '2000er+', items: ['Semantic Web', 'Maschinenlesbare Daten', 'KI-Integration', 'Linked Data'] },
+          { label: 'Web 3.0', era: 'ab ~2001', items: ['Semantic Web (Berners-Lee, 2001)', 'Maschinenlesbare Daten', 'KI-Integration', 'Linked Data, RDF, OWL'] },
+          { label: 'Web3', era: 'ab ~2014', items: ['Dezentral (Blockchain)', 'Token-Ökonomie', 'Smart Contracts', 'Gavin Wood (2014)'] },
         ],
 
         // Section 4
@@ -407,6 +421,7 @@
           { icon: '', title: 'Vernetzung',        desc: 'Verbindung zu anderen Systemen, APIs und Nutzern' },
           { icon: '', title: 'Personalisierung',  desc: 'Inhalte werden individuell auf den Nutzer zugeschnitten' },
           { icon: '', title: 'Echtzeit',          desc: 'Sofortige Reaktion des Systems auf Nutzereingaben' },
+          { icon: '', title: 'Hypertextualität',  desc: 'Nicht-lineare Navigation durch Hyperlinks – der Nutzer wählt seinen eigenen Pfad (Ted Nelson, 1965)' },
         ],
 
         // Section 5
@@ -419,6 +434,8 @@
           { icon: '🏭', title: 'Industrie 4.0',         desc: 'Dashboards, Predictive Maintenance' },
           { icon: '🏠', title: 'Smart Home',            desc: 'Alexa, Google Nest' },
           { icon: '🏥', title: 'HealthTech',            desc: 'Fitness-Tracker, Telemedizin' },
+          { icon: '', title: 'Gaming & Entertainment', desc: 'Spieleindustrie (>$180 Mrd.), Streaming, interaktive Narration' },
+          { icon: '', title: 'Marketing & Social Media', desc: 'Interaktive Kampagnen, Influencer-Plattformen, Targeting' },
         ],
         s5TipTitle: 'Markt & Zukunftsaussichten',
         s5TipText: 'Der globale Markt für interaktive Medien wächst rasant. Analysten schätzen den Markt für Interactive Media & Services auf mehrere hundert Milliarden USD (Quelle: Statista, 2023). Treiber sind KI, immersive Technologien (VR/AR) und die zunehmende Vernetzung durch IoT.',
@@ -478,10 +495,12 @@
         s8Title: 'Zusammenfassung',
         s8Takeaways: [
           'Interaktive Medien ermöglichen bidirektionale Kommunikation zwischen Mensch und Medium',
-          'Sie unterscheiden sich durch Interaktivität, Multimedia, Vernetzung, Personalisierung und Echtzeit',
-          'Web 2.0 machte Nutzer zu Prosumenten – gleichzeitig Konsumenten und Produzenten',
+          'Kerneigenschaften: Interaktivität, Multimedia, Vernetzung, Personalisierung, Echtzeit, Hypertextualität',
+          'Interaktivitätsstufen: reaktiv → proaktiv → mutual',
+          'Pioniere: Bush (Memex 1945), Nelson (Hypertext 1965), Engelbart (GUI 1968), Berners-Lee (WWW 1989)',
+          'Web 2.0 machte Nutzer zu Prosumenten; Web 3.0 (Semantic Web) vs. Web3 (Blockchain) unterscheiden',
           'JavaScript ist die Kerntechnologie für Web-Interaktivität',
-          'Anwendungsfelder: Journalismus, UX-Design, E-Learning, IoT, Smart Home, HealthTech',
+          'Anwendungsfelder: Journalismus, UX, E-Learning, IoT, Gaming, Marketing, HealthTech',
         ],
         navBack: '← Zurück zur Übersicht',
         navNext: 'Weiter: Lab 02 – Kreativtechniken →',
@@ -530,6 +549,12 @@
           { term: 'Personalized',    desc: 'Each user can have a different experience' },
           { term: 'Reactive',        desc: 'System responds to input in real time' },
         ],
+        s2LevelsTitle: 'Levels of Interactivity',
+        s2Levels: [
+          { level: 'Reactive', desc: 'System responds to user input (e.g. menu click → new page)' },
+          { level: 'Proactive', desc: 'System actively suggests content (e.g. Spotify recommendations)' },
+          { level: 'Mutual', desc: 'Equal dialogue – system and user influence each other (e.g. chatbots, AI assistants)' },
+        ],
         s2AbgrenzungTitle: 'Passive vs. Interactive Media',
         s2TableHeaders: ['Passive Media', 'Interactive Media'],
         s2TableRows: [
@@ -537,6 +562,13 @@
           ['One-way communication', 'Bidirectional communication'],
           ['Linear flow', 'Non-linear flow'],
           ['Same for all users', 'Personalized per user'],
+        ],
+        s2PioneersTitle: 'Pioneers of Interactivity',
+        s2Pioneers: [
+          { year: '1945', name: 'Vannevar Bush', work: 'Memex – visionary precursor of hypertext' },
+          { year: '1965', name: 'Ted Nelson', work: 'Coins the term "hypertext"' },
+          { year: '1968', name: 'Douglas Engelbart', work: '"Mother of All Demos" – mouse, GUI, video conference' },
+          { year: '1989', name: 'Tim Berners-Lee', work: 'Invents the World Wide Web (HTML, HTTP, URL)' },
         ],
         s2ExamplesTitle: 'Examples of Interactive Media',
         s2Examples: [
@@ -561,7 +593,8 @@
         s3WebGen: [
           { label: 'Web 1.0', era: '1990s', items: ['Read-only', 'Static pages', 'One-way information', 'HTML, FTP'] },
           { label: 'Web 2.0', era: '2000s', items: ['Read-Write', 'User Generated Content', 'Social Media & Blogs', 'AJAX, APIs'] },
-          { label: 'Web 3.0', era: '2000s+', items: ['Semantic Web', 'Machine-readable data', 'AI Integration', 'Linked Data'] },
+          { label: 'Web 3.0', era: 'from ~2001', items: ['Semantic Web (Berners-Lee, 2001)', 'Machine-readable data', 'AI Integration', 'Linked Data, RDF, OWL'] },
+          { label: 'Web3', era: 'from ~2014', items: ['Decentralized (Blockchain)', 'Token economy', 'Smart Contracts', 'Gavin Wood (2014)'] },
         ],
 
         // Section 4
@@ -572,6 +605,7 @@
           { icon: '', title: 'Connectivity',      desc: 'Connection to other systems, APIs and users' },
           { icon: '', title: 'Personalization',   desc: 'Content is individually tailored to each user' },
           { icon: '', title: 'Real-Time',         desc: 'Immediate system response to user inputs' },
+          { icon: '', title: 'Hypertextuality',   desc: 'Non-linear navigation through hyperlinks – users choose their own path (Ted Nelson, 1965)' },
         ],
 
         // Section 5
@@ -584,6 +618,8 @@
           { icon: '🏭', title: 'Industry 4.0',       desc: 'Dashboards, Predictive Maintenance' },
           { icon: '🏠', title: 'Smart Home',         desc: 'Alexa, Google Nest' },
           { icon: '🏥', title: 'HealthTech',         desc: 'Fitness Trackers, Telemedicine' },
+          { icon: '', title: 'Gaming & Entertainment', desc: 'Game industry (>$180B), streaming, interactive narrative' },
+          { icon: '', title: 'Marketing & Social Media', desc: 'Interactive campaigns, influencer platforms, targeting' },
         ],
         s5TipTitle: 'Market & Future Outlook',
         s5TipText: 'The global interactive media market is growing rapidly. Analysts estimate the Interactive Media & Services market at several hundred billion USD (Source: Statista, 2023). Key drivers are AI, immersive technologies (VR/AR) and the increasing connectivity through IoT.',
@@ -643,10 +679,12 @@
         s8Title: 'Summary',
         s8Takeaways: [
           'Interactive media enable bidirectional communication between humans and the medium',
-          'They are defined by interactivity, multimedia, connectivity, personalization and real-time response',
-          'Web 2.0 turned users into prosumers — simultaneously consumers and producers',
+          'Core properties: interactivity, multimedia, connectivity, personalization, real-time, hypertextuality',
+          'Interactivity levels: reactive → proactive → mutual',
+          'Pioneers: Bush (Memex 1945), Nelson (Hypertext 1965), Engelbart (GUI 1968), Berners-Lee (WWW 1989)',
+          'Web 2.0 turned users into prosumers; distinguish Web 3.0 (Semantic Web) vs. Web3 (Blockchain)',
           'JavaScript is the core technology for web interactivity',
-          'Application fields: journalism, UX design, e-learning, IoT, smart home, health tech',
+          'Application fields: journalism, UX, e-learning, IoT, gaming, marketing, health tech',
         ],
         navBack: '← Back to Overview',
         navNext: 'Next: Lab 02 – Creative Techniques →',
@@ -864,6 +902,18 @@
                 ))}
               </div>
 
+              <h3>{t.s2LevelsTitle}</h3>
+              <table>
+                <thead>
+                  <tr><th>Stufe / Level</th><th>{lang === 'de' ? 'Beschreibung' : 'Description'}</th></tr>
+                </thead>
+                <tbody>
+                  {t.s2Levels.map((l, i) => (
+                    <tr key={i}><td style={{fontWeight:600}}>{l.level}</td><td>{l.desc}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+
               <h3>{t.s2AbgrenzungTitle}</h3>
               <table>
                 <thead>
@@ -872,6 +922,18 @@
                 <tbody>
                   {t.s2TableRows.map((row, i) => (
                     <tr key={i}>{row.map((cell, j) => <td key={j}>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+
+              <h3 style={{ marginTop: '1.5rem' }}>{t.s2PioneersTitle}</h3>
+              <table>
+                <thead>
+                  <tr><th>{lang === 'de' ? 'Jahr' : 'Year'}</th><th>{lang === 'de' ? 'Person' : 'Person'}</th><th>{lang === 'de' ? 'Beitrag' : 'Contribution'}</th></tr>
+                </thead>
+                <tbody>
+                  {t.s2Pioneers.map((p, i) => (
+                    <tr key={i}><td style={{fontWeight:700}}>{p.year}</td><td>{p.name}</td><td>{p.work}</td></tr>
                   ))}
                 </tbody>
               </table>
