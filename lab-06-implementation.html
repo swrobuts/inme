@@ -440,7 +440,7 @@
           { title: 'Speichern', desc: 'Ctrl+S (oder Save-Button) – CodePen erstellt automatisch eine teilbare URL' },
           { title: 'Testen', desc: 'Testbild wählen oder Foto hochladen → Gemini API Key eingeben → "Diagnose starten" → Ersatzteil bestellen' },
         ],
-        s8TipText: 'CodePen speichert automatisch. Du kannst den Link teilen – einfach URL kopieren!',
+        s8TipText: 'CodePen speichert automatisch, wenn du eingeloggt bist. Als Gast: Strg+S / Cmd+S nicht vergessen! Du kannst den Link teilen – einfach URL kopieren.',
         s8InfoText: 'Ohne Gemini API Key läuft die App im Mock-Modus (regelbasierte Demo-Diagnose). Ohne Supabase-Keys wird der Shop ebenfalls im Demo-Modus betrieben.',
 
         // Section 9
@@ -449,7 +449,7 @@
           { diff: 'Mittel', diffClass: 'diff-medium', title: 'Kamera-Integration', desc: 'navigator.mediaDevices.getUserMedia() für einen Live-Kamera-Feed direkt in der App verwenden' },
           { diff: 'Mittel', diffClass: 'diff-medium', title: 'Foto-Upload zu Supabase', desc: 'supabase.storage.from("fotos").upload(...) – Störungsfotos direkt in Supabase Storage speichern' },
           { diff: 'Fortgeschritten', diffClass: 'diff-advanced', title: 'Push-Notifications', desc: 'Service Worker API + Web Push: Techniker wird benachrichtigt wenn eine Bestellung bearbeitet wird' },
-          { diff: 'Fortgeschritten', diffClass: 'diff-advanced', title: 'KI-Diagnose', desc: 'OpenAI Vision API: Störungsfoto an GPT-4o senden und automatisch eine Diagnose generieren lassen' },
+          { diff: 'Fortgeschritten', diffClass: 'diff-advanced', title: 'KI-Diagnose', desc: 'Gemini 1.5 Pro für detailliertere Diagnosen und Bildbeschreibungen' },
           { diff: 'Fortgeschritten', diffClass: 'diff-advanced', title: 'Admin-Dashboard', desc: 'Alle Störungsmeldungen in einer Tabelle anzeigen, Status ändern, Supabase Realtime für Live-Updates' },
         ],
         s9CameraTitle: 'Kamera-API (Code-Snippet)',
@@ -516,8 +516,8 @@
         ],
         quizScoreLabel: (n, t) => `Ergebnis: ${n} von ${t} richtig`,
 
-        // Section 11 – Zusammenfassung
-        summaryTitle: 'Zusammenfassung',
+        // Section 11 – Nächste Schritte
+        summaryTitle: 'Nächste Schritte',
         summaryItems: [
           'Supabase als Open-Source Backend (PostgreSQL, Auth, Storage)',
           'CodePen als schneller Prototyping-Workflow',
@@ -631,7 +631,7 @@
           { title: 'Save', desc: 'Ctrl+S (or Save button) – CodePen automatically creates a shareable URL' },
           { title: 'Test', desc: 'Choose a sample image or upload a photo → enter Gemini API key → "Start diagnosis" → order spare part' },
         ],
-        s8TipText: 'CodePen saves automatically. You can share the link – just copy the URL!',
+        s8TipText: 'CodePen saves automatically when you are logged in. As a guest: don\'t forget Ctrl+S / Cmd+S! You can share the link – just copy the URL.',
         s8InfoText: 'Without a Gemini API key the app runs in mock mode (rule-based demo diagnosis). Without Supabase keys the shop also runs in demo mode.',
 
         // Section 9
@@ -640,7 +640,7 @@
           { diff: 'Medium', diffClass: 'diff-medium', title: 'Camera Integration', desc: 'Use navigator.mediaDevices.getUserMedia() for a live camera feed directly in the app' },
           { diff: 'Medium', diffClass: 'diff-medium', title: 'Photo Upload to Supabase', desc: 'supabase.storage.from("fotos").upload(...) – save fault photos directly to Supabase Storage' },
           { diff: 'Advanced', diffClass: 'diff-advanced', title: 'Push Notifications', desc: 'Service Worker API + Web Push: technician gets notified when an order is processed' },
-          { diff: 'Advanced', diffClass: 'diff-advanced', title: 'AI Diagnosis', desc: 'OpenAI Vision API: send the fault photo to GPT-4o and automatically generate a diagnosis' },
+          { diff: 'Advanced', diffClass: 'diff-advanced', title: 'AI Diagnosis', desc: 'Gemini 1.5 Pro for more detailed diagnoses and image descriptions' },
           { diff: 'Advanced', diffClass: 'diff-advanced', title: 'Admin Dashboard', desc: 'Display all fault reports in a table, change status, Supabase Realtime for live updates' },
         ],
         s9CameraTitle: 'Camera API (Code Snippet)',
@@ -707,8 +707,8 @@
         ],
         quizScoreLabel: (n, t) => `Score: ${n} of ${t} correct`,
 
-        // Section 11 – Summary
-        summaryTitle: 'Summary',
+        // Section 11 – Next Steps
+        summaryTitle: 'Next Steps',
         summaryItems: [
           'Supabase as open-source backend (PostgreSQL, Auth, Storage)',
           'CodePen for rapid prototyping workflow',
@@ -1511,7 +1511,7 @@ Antworte NUR mit gültigem JSON (kein Markdown, keine Erklärung):
 }\`;
 
   const response = await fetch(
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + apiKey,
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1663,7 +1663,7 @@ async function bestellungAbschicken() {
   const email = document.getElementById('email').value.trim();
   if (!name || !email) { alert('Bitte Name und E-Mail eingeben!'); return; }
 
-  let bestellNr = 'DEMO-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+  let bestellNr = 'DEMO-' + Math.random().toString(36).slice(2, 10).toUpperCase();
 
   if (db && !SUPABASE_URL.includes('DEIN-PROJEKT')) {
     try {
@@ -2093,9 +2093,9 @@ async function kameraOeffnen() {
             </div>
 
             {/* ── Footer ── */}
-          {/* ── Zusammenfassung ── */}
+          {/* ── Nächste Schritte ── */}
           <section id="zusammenfassung" className="section-block">
-            <h2>{lang === 'de' ? 'Zusammenfassung' : 'Summary'}</h2>
+            <h2>{lang === 'de' ? 'Nächste Schritte' : 'Next Steps'}</h2>
             <div className="bauhaus-accent-line" />
             <ul style={{ paddingLeft: '1.5rem', lineHeight: '2', fontSize: '0.95rem' }}>
               {lang === 'de' ? (

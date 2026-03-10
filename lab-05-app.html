@@ -1286,6 +1286,19 @@
       ersatzteil: 'Pumpe VibraFoam 15 Bar',
       artikelnummer: 'JU-PMP-034',
       preis: 45.00
+    },
+    display: {
+      label: 'Display-Fehler E4',
+      ursache: 'Steuerplatine oder Display meldet Fehlercode E4 – möglicher Elektronikdefekt oder Sensorfehler.',
+      loesung: [
+        'Maschine ausschalten und 5 Minuten vom Strom trennen',
+        'Neustart durchführen (Reset)',
+        'Wenn E4 weiterhin erscheint: Kundendienst kontaktieren',
+        'Seriennummer bereithalten'
+      ],
+      ersatzteil: null,
+      artikelnummer: null,
+      preis: null
     }
   };
 
@@ -1315,7 +1328,7 @@
   function goBack() {
     const cur = document.querySelector('.screen.active')?.id;
     if (cur === 'screen0') {
-      window.location.href = 'lab-05-usecase.html';
+      window.location.href = 'index.html';
     } else if (cur && backMap[cur]) {
       showScreen(backMap[cur]);
     }
