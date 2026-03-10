@@ -1672,7 +1672,7 @@ async function bestellungAbschicken() {
       }).select().single();
 
       if (!error && data) {
-        bestellNr = data.id.substr(0, 8).toUpperCase();
+        bestellNr = data.id.slice(0, 8).toUpperCase();
         for (const teil of warenkorb) {
           await db.from('bestellpositionen').insert({
             bestellung_id: data.id, ersatzteil_id: teil.id, menge: 1

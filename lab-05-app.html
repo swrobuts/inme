@@ -1328,7 +1328,7 @@
   function goBack() {
     const cur = document.querySelector('.screen.active')?.id;
     if (cur === 'screen0') {
-      window.location.href = 'index.html';
+      window.location.href = 'lab-05-usecase.html';
     } else if (cur && backMap[cur]) {
       showScreen(backMap[cur]);
     }
@@ -1637,5 +1637,8 @@ Return ONLY valid JSON, no markdown, no explanation.`;
   }
 
 </script>
+<footer style="position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:0.75rem;color:#9ca3af;padding:0.5rem;background:rgba(226,226,230,0.9);border-top:1px solid #d1d1d6;">
+  © 2026 Prof. Dr. Robert Butscher · THWS Business School · INME Lab
+</footer>
 </body>
 </html>
