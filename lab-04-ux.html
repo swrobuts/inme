@@ -99,7 +99,7 @@
     /* Research Method Cards */
     .method-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1.25rem 0; }
     .method-card { border: 2px solid #1A1A1A; padding: 1.25rem; background: white; }
-    .method-card .m-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .method-card .m-icon { font-size: 1.8rem; margin-bottom: 0.5rem; color: #B91C1C; display: flex; }
     .method-card h4 { color: #B91C1C; margin: 0.2rem 0 0.4rem; font-size: 0.95rem; }
     .method-card p { font-size: 0.85rem; color: #555; margin: 0; line-height: 1.55; }
 
@@ -407,9 +407,9 @@
         s3Methods: [
           { icon: '', title: 'Interviews', desc: 'Direkte 1:1 Gespräche mit Nutzern. Für qualitative Sättigung werden ca. 12–15 Interviews empfohlen (Guest, Bunce & Johnson, 2006).' },
           { icon: '', title: 'Umfragen', desc: 'Quantitative Daten. Google Forms, Typeform. Gut für Bestätigung von Hypothesen.' },
-          { icon: '👀', title: 'Beobachtung', desc: 'Nutzer beim echten Arbeiten zusehen. Contextual Inquiry liefert echte Einblicke.' },
+          { icon: 'eye', title: 'Beobachtung', desc: 'Nutzer beim echten Arbeiten zusehen. Contextual Inquiry liefert echte Einblicke.' },
           { icon: '', title: 'Tagebuchstudie', desc: 'Nutzer dokumentieren selbst über Zeit. Gut für alltägliche Verhaltensweisen.' },
-          { icon: '🧪', title: 'Usability Testing', desc: 'Nutzer führen Aufgaben am Prototyp aus. Laut Nielsen (2000) decken bereits 5 Tests ~85% der Usability-Probleme auf.' },
+          { icon: 'flask', title: 'Usability Testing', desc: 'Nutzer führen Aufgaben am Prototyp aus. Laut Nielsen (2000) decken bereits 5 Tests ~85% der Usability-Probleme auf.' },
         ],
         s3Tip: 'Was Nutzer SAGEN ≠ was sie TUN. Beobachtung ist oft aufschlussreicher als Befragung.',
         s3InfoTitle: 'Für unseren Use Case',
@@ -714,9 +714,9 @@
         s3Methods: [
           { icon: '', title: 'Interviews', desc: 'Direct 1:1 conversations with users. Qualitative saturation typically requires ~12–15 interviews (Guest, Bunce & Johnson, 2006).' },
           { icon: '', title: 'Surveys', desc: 'Quantitative data. Google Forms, Typeform. Good for validating hypotheses.' },
-          { icon: '👀', title: 'Observation', desc: 'Watch users work in their real environment. Contextual inquiry delivers genuine insights.' },
+          { icon: 'eye', title: 'Observation', desc: 'Watch users work in their real environment. Contextual inquiry delivers genuine insights.' },
           { icon: '', title: 'Diary Study', desc: 'Users document themselves over time. Good for everyday behaviours.' },
-          { icon: '🧪', title: 'Usability Testing', desc: 'Users perform tasks on a prototype. According to Nielsen (2000), just 5 tests uncover ~85% of usability problems.' },
+          { icon: 'flask', title: 'Usability Testing', desc: 'Users perform tasks on a prototype. According to Nielsen (2000), just 5 tests uncover ~85% of usability problems.' },
         ],
         s3Tip: 'What users SAY ≠ what they DO. Observation is often more revealing than asking.',
         s3InfoTitle: 'For our use case',
@@ -957,6 +957,23 @@
     };
 
     // ─── CodeBlock with copy button ──────────────────────────────────────────
+    // ─── Inline SVG Icons ────────────────────────────────────────────────────────
+    function Ico({ name, size = 16, style = {} }) {
+      const p = { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+        stroke: "currentColor", strokeWidth: "1.5", strokeLinecap: "round", strokeLinejoin: "round",
+        style: { display: "inline-block", verticalAlign: "middle", ...style } };
+      if (name === "zap")      return <svg {...p}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>;
+      if (name === "pen")      return <svg {...p}><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>;
+      if (name === "flask")    return <svg {...p}><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>;
+      if (name === "globe")    return <svg {...p}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+      if (name === "eye")      return <svg {...p}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>;
+      if (name === "target")   return <svg {...p}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>;
+      if (name === "monitor")  return <svg {...p}><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>;
+      if (name === "database") return <svg {...p}><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>;
+      if (name === "edit")     return <svg {...p}><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
+      return null;
+    }
+
     function CodeBlock({ code, lang }) {
       const [label, setLabel] = useState(lang === 'de' ? 'Kopieren' : 'Copy');
       function handleCopy() {
@@ -1320,7 +1337,7 @@
               <div className="method-cards">
                 {tr.s3Methods.map((m, i) => (
                   <div key={i} className="method-card">
-                    <div className="m-icon">{m.icon}</div>
+                    <div className="m-icon"><Ico name={m.icon} size={22}/></div>
                     <h4>{m.title}</h4>
                     <p>{m.desc}</p>
                   </div>
@@ -1487,7 +1504,7 @@
                 <strong>ℹ</strong>{tr.s9InfoText}
               </div>
               <div className="challenge-box" style={{ marginTop: '0.75rem' }}>
-                <strong>🎯 </strong>{tr.s9Challenge}
+                <strong style={{display:"inline-flex",alignItems:"center",gap:"0.4rem"}}><Ico name="target" size={14} style={{color:"#16a34a",flexShrink:0}}/></strong>{tr.s9Challenge}
               </div>
             </section>
 
