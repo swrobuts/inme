@@ -103,7 +103,7 @@
 
     .relevanz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin: 1rem 0; }
     .relevanz-card { border: 2px solid #e5e7eb; padding: 1rem 1.25rem; background: white; }
-    .relevanz-card .icon { font-size: 1.4rem; }
+    .relevanz-card .icon { color: #B91C1C; margin-bottom: 0.5rem; display: flex; }
     .relevanz-card h4 { margin: 0.4rem 0 0.2rem; font-size: 0.92rem; color: #1A1A1A; }
     .relevanz-card p { font-size: 0.8rem; color: #666; margin: 0; }
 
@@ -428,14 +428,14 @@
         s5Title: 'Relevanz für Medienmanagement',
         s5Intro: 'Interaktive Medien prägen nahezu alle Bereiche moderner Medienunternehmen. Für Medienmanager ist es entscheidend, die Möglichkeiten und Grenzen dieser Technologien zu verstehen.',
         s5Areas: [
-          { icon: '', title: 'Datenjournalismus',     desc: 'NYT Interaktives, Spiegel Interaktiv' },
-          { icon: '', title: 'UX Design',             desc: 'Figma, Adobe XD, Prototyping' },
-          { icon: '📚', title: 'E-Learning',            desc: 'Duolingo, Khan Academy' },
-          { icon: '🏭', title: 'Industrie 4.0',         desc: 'Dashboards, Predictive Maintenance' },
-          { icon: '🏠', title: 'Smart Home',            desc: 'Alexa, Google Nest' },
-          { icon: '🏥', title: 'HealthTech',            desc: 'Fitness-Tracker, Telemedizin' },
-          { icon: '', title: 'Gaming & Entertainment', desc: 'Spieleindustrie (>$180 Mrd.), Streaming, interaktive Narration' },
-          { icon: '', title: 'Marketing & Social Media', desc: 'Interaktive Kampagnen, Influencer-Plattformen, Targeting' },
+          { icon: 'chart',    title: 'Datenjournalismus',     desc: 'NYT Interaktives, Spiegel Interaktiv' },
+          { icon: 'layers',   title: 'UX Design',             desc: 'Figma, Adobe XD, Prototyping' },
+          { icon: 'bookOpen', title: 'E-Learning',            desc: 'Duolingo, Khan Academy' },
+          { icon: 'cpu',      title: 'Industrie 4.0',         desc: 'Dashboards, Predictive Maintenance' },
+          { icon: 'home',     title: 'Smart Home',            desc: 'Alexa, Google Nest' },
+          { icon: 'activity', title: 'HealthTech',            desc: 'Fitness-Tracker, Telemedizin' },
+          { icon: 'gamepad',  title: 'Gaming & Entertainment', desc: 'Spieleindustrie (>$180 Mrd.), Streaming, interaktive Narration' },
+          { icon: 'share',    title: 'Marketing & Social Media', desc: 'Interaktive Kampagnen, Influencer-Plattformen, Targeting' },
         ],
         s5TipTitle: 'Markt & Zukunftsaussichten',
         s5TipText: 'Der globale Markt für interaktive Medien wächst rasant. Analysten schätzen den Markt für Interactive Media & Services auf mehrere hundert Milliarden USD (Quelle: Statista, 2023). Treiber sind KI, immersive Technologien (VR/AR) und die zunehmende Vernetzung durch IoT.',
@@ -612,14 +612,14 @@
         s5Title: 'Relevance for Media Management',
         s5Intro: 'Interactive media shape nearly every area of modern media companies. For media managers, understanding the possibilities and limitations of these technologies is essential.',
         s5Areas: [
-          { icon: '', title: 'Data Journalism',    desc: 'NYT Interactive, Spiegel Interaktiv' },
-          { icon: '', title: 'UX Design',          desc: 'Figma, Adobe XD, Prototyping' },
-          { icon: '📚', title: 'E-Learning',         desc: 'Duolingo, Khan Academy' },
-          { icon: '🏭', title: 'Industry 4.0',       desc: 'Dashboards, Predictive Maintenance' },
-          { icon: '🏠', title: 'Smart Home',         desc: 'Alexa, Google Nest' },
-          { icon: '🏥', title: 'HealthTech',         desc: 'Fitness Trackers, Telemedicine' },
-          { icon: '', title: 'Gaming & Entertainment', desc: 'Game industry (>$180B), streaming, interactive narrative' },
-          { icon: '', title: 'Marketing & Social Media', desc: 'Interactive campaigns, influencer platforms, targeting' },
+          { icon: 'chart',    title: 'Data Journalism',    desc: 'NYT Interactive, Spiegel Interaktiv' },
+          { icon: 'layers',   title: 'UX Design',          desc: 'Figma, Adobe XD, Prototyping' },
+          { icon: 'bookOpen', title: 'E-Learning',         desc: 'Duolingo, Khan Academy' },
+          { icon: 'cpu',      title: 'Industry 4.0',       desc: 'Dashboards, Predictive Maintenance' },
+          { icon: 'home',     title: 'Smart Home',         desc: 'Alexa, Google Nest' },
+          { icon: 'activity', title: 'HealthTech',         desc: 'Fitness Trackers, Telemedicine' },
+          { icon: 'gamepad',  title: 'Gaming & Entertainment', desc: 'Game industry (>$180B), streaming, interactive narrative' },
+          { icon: 'share',    title: 'Marketing & Social Media', desc: 'Interactive campaigns, influencer platforms, targeting' },
         ],
         s5TipTitle: 'Market & Future Outlook',
         s5TipText: 'The global interactive media market is growing rapidly. Analysts estimate the Interactive Media & Services market at several hundred billion USD (Source: Statista, 2023). Key drivers are AI, immersive technologies (VR/AR) and the increasing connectivity through IoT.',
@@ -692,6 +692,63 @@
     };
 
     // ─── CodeBlock ───────────────────────────────────────────────────────────────
+    // ─── Area Icons (Lucide-style inline SVGs) ───────────────────────────────────
+    const ICON_SVGS = {
+      chart: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+        </svg>
+      ),
+      layers: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+          <polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+        </svg>
+      ),
+      bookOpen: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+      ),
+      cpu: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/>
+          <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+          <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+          <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>
+          <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+        </svg>
+      ),
+      home: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      ),
+      activity: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+      ),
+      gamepad: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="6" width="20" height="12" rx="2"/>
+          <line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/>
+          <line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/>
+        </svg>
+      ),
+      share: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
+      ),
+    };
+    function AreaIcon({ name }) { return ICON_SVGS[name] || null; }
+
     function CodeBlock({ code }) {
       const [copied, setCopied] = useState(false);
       const handleCopy = () => {
@@ -1008,7 +1065,7 @@
               <div className="relevanz-grid">
                 {t.s5Areas.map((a, i) => (
                   <div key={i} className="relevanz-card">
-                    <div className="icon">{a.icon}</div>
+                    <div className="icon"><AreaIcon name={a.icon} /></div>
                     <h4>{a.title}</h4>
                     <p>{a.desc}</p>
                   </div>
